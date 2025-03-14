@@ -7,7 +7,7 @@ export const meta: MetaFunction = () => {
     {
       name: "description",
       content: "Informações sobre o projeto Remix Boilerplate",
-    },
+    }
   ];
 };
 

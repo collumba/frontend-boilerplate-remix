@@ -1,7 +1,7 @@
+import { Layout } from "@components/Layout";
+import { useTodos } from "@hooks/useTodos";
 import type { MetaFunction } from "@remix-run/node";
 import { useState } from "react";
-import { Layout } from "~/components/Layout";
-import { useTodos } from "~/hooks/useTodos";
 
 export const meta: MetaFunction = () => {
   return [

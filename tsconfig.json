@@ -24,7 +24,6 @@
     "baseUrl": "./",
     "paths": {
       "@components/*": ["app/components/*"],
-      "@ds/*": ["app/components/core*"],
       "@utils/*": ["app/utils/*"],
       "@services/*": ["app/services/*"],
       "@hooks/*": ["app/hooks/*"],

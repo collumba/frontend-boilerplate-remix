@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
       name: "description",
       content:
         "Um boilerplate para aplicações web frontend com Remix.run e TypeScript",
-    }
+    },
   ];
 };
 
@@ -202,5 +202,5 @@ const resources = [
         />
       </svg>
     ),
-  }
+  },
 ];

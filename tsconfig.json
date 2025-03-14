@@ -21,9 +21,16 @@
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "~/*": ["./app/*"]
+      "@components/*": ["app/components/*"],
+      "@ds/*": ["app/components/core*"],
+      "@utils/*": ["app/utils/*"],
+      "@services/*": ["app/services/*"],
+      "@hooks/*": ["app/hooks/*"],
+      "@routes/*": ["app/routes/*"],
+      "@types/*": ["app/types/*"],
+      "@features/*": ["app/features/*"]
     },
 
     // Vite takes care of building everything, not tsc.

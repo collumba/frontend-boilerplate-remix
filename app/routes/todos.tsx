@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
     {
       name: "description",
       content: "A simple todo list application built with Remix",
-    },
+    }
   ];
 };
 

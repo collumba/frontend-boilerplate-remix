@@ -41,7 +41,7 @@ export function useTodos(initialTodos: TodoItem[] = []) {
   const toggleTodo = (id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
       )
     );
   };

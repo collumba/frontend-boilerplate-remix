@@ -12,7 +12,7 @@ module.exports = {
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,
-    },
+    }
   },
   env: {
     browser: true,
@@ -22,7 +22,7 @@ module.exports = {
   ignorePatterns: ["!**/.server", "!**/.client"],
 
   // Base config
-  extends: ["eslint:recommended"],
+  extends: ["eslint:recommended", "plugin:prettier/recommended"],
 
   overrides: [
     // React
@@ -46,8 +46,8 @@ module.exports = {
         ],
         "import/resolver": {
           typescript: {},
-        },
-      },
+        }
+      }
     },
 
     // Typescript
@@ -63,14 +63,14 @@ module.exports = {
           },
           typescript: {
             alwaysTryTypes: true,
-          },
-        },
+          }
+        }
       },
       extends: [
         "plugin:@typescript-eslint/recommended",
         "plugin:import/recommended",
         "plugin:import/typescript",
-      ],
+      ]
     },
 
     // Node
@@ -78,7 +78,10 @@ module.exports = {
       files: [".eslintrc.cjs"],
       env: {
         node: true,
-      },
-    },
+      }
+    }
   ],
+  rules: {
+    "comma-dangle": ["error", "never"],
+  }
 };

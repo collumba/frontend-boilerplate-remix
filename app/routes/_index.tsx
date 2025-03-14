@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
+import { env } from "env";
 import { Layout } from "~/components/Layout";
 
 export const meta: MetaFunction = () => {
@@ -120,6 +121,7 @@ function FeatureCard({
 }) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex flex-col">
+      {env.API_URL}
       <div className="mb-4">{icon}</div>
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
         {title}

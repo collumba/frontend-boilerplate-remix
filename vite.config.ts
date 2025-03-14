@@ -29,4 +29,14 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react", "react-dom"],
   },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./test/setup.ts"],
+    include: ["**/*.{test,spec}.{js,jsx,ts,tsx}"],
+    coverage: {
+      reporter: ["text", "json", "html"],
+      exclude: ["node_modules/", "test/setup.ts"],
+    },
+  },
 });

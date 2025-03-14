@@ -42,7 +42,7 @@ export function useTodos(initialTodos: TodoItem[] = []) {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      )
+      ),
     );
   };
 

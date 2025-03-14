@@ -31,7 +31,7 @@ export function Todo({ initialTodos = [] }: TodoProps) {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      )
+      ),
     );
   };
 

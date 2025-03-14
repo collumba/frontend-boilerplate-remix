@@ -18,7 +18,15 @@ export default defineConfig({
         v3_singleFetch: true,
         v3_lazyRouteDiscovery: true,
       },
+      ssr: true,
     }),
     tsconfigPaths(),
   ],
+  resolve: {
+    preserveSymlinks: true,
+    dedupe: ["react", "react-dom"],
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"],
+  },
 });

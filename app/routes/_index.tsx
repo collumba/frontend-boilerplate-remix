@@ -2,6 +2,8 @@ import { Layout } from "@components/Layout";
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { env } from "env";
+import { useTranslation } from "react-i18next";
+import logo from "public/logo-dark.png";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,19 +17,21 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { t, i18n } = useTranslation();
+  
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Bem-vindo ao Remix Boilerplate
+            {t("welcome")}
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Um ponto de partida para suas aplicações web frontend com Remix.run
             e TypeScript
           </p>
         </div>
-
+<img src={logo} alt="Logo" className="w-16 h-16" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full">
           <FeatureCard
             title="Lista de Tarefas"

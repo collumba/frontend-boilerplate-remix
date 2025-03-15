@@ -1,6 +1,7 @@
 import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -8,6 +9,8 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import "./tailwind.css";
 
@@ -24,11 +27,24 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+  const lng = url.searchParams.get("lng") || "pt-BR";
+  return { lng };
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { lng } = useLoaderData<typeof loader>();
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    if (lng && i18n.language !== lng) {
+      i18n.changeLanguage(lng);
+    }
+  }, [lng, i18n]);
 
   return (
-    <html lang={'en'} className="h-full" dir={'ltr'}>
+   <html lang={lng} className="h-full" dir={i18n.dir(lng)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,6 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="h-full">
         {children}
+        <LiveReload />
         <ScrollRestoration />
         <Scripts />
       </body>

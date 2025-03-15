@@ -48,7 +48,7 @@ describe("Switch", () => {
   it("applies different sizes correctly", () => {
     const { rerender } = render(<Switch size="sm" />);
     expect(screen.getByRole("checkbox").nextElementSibling).toHaveClass(
-      "h-5 w-9",
+      "h-5 w-9"
     );
 
     rerender(<Switch size="lg" />);

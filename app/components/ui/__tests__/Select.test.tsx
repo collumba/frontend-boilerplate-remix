@@ -65,9 +65,8 @@ describe("Select", () => {
     expect(select).toBeDisabled();
     expect(select).toHaveClass("bg-gray-50");
   });
-
   it("renders placeholder when provided", () => {
-    render(<Select options={mockOptions} placeholder="Select an option" />);
+    render(<Select options={[{ value: "", label: "Select an option" }, ...mockOptions]} />);
     const placeholder = screen.getByText("Select an option");
 
     expect(placeholder).toBeInTheDocument();

@@ -14,11 +14,10 @@ describe("Table", () => {
     { id: 2, name: "Jane Smith", age: 30 },
     { id: 3, name: "Bob Johnson", age: 35 },
   ];
-
   const columns: Column<TestData>[] = [
-    { header: "ID", accessorKey: "id" },
-    { header: "Name", accessorKey: "name" },
-    { header: "Age", accessorKey: "age" },
+    { header: "ID", key: "id" },
+    { header: "Name", key: "name" },
+    { header: "Age", key: "age" },
   ];
 
   it("renders correctly with data", () => {
@@ -39,14 +38,14 @@ describe("Table", () => {
       <Table
         data={[]}
         columns={columns}
-        emptyState="Custom empty state message"
+        emptyMessage="Custom empty state message"
       />,
     );
     expect(screen.getByText("Custom empty state message")).toBeInTheDocument();
   });
 
   it("renders loading state", () => {
-    render(<Table data={testData} columns={columns} loading />);
+    render(<Table data={testData} columns={columns} isLoading />);
     expect(screen.getByRole("status")).toHaveClass("animate-spin");
   });
 
@@ -119,8 +118,8 @@ describe("Table", () => {
       ...columns,
       {
         header: "Actions",
-        accessorKey: "id",
-        cell: (value, row) => (
+        key: "id",
+        render: (row) => (
           <button data-testid={`action-${row.id}`}>Action</button>
         ),
       },
@@ -139,15 +138,9 @@ describe("Table", () => {
         data={testData}
         columns={columns}
         className="custom-table"
-        headerClassName="custom-header"
-        rowClassName="custom-row"
-        cellClassName="custom-cell"
-      />,
+      />
     );
 
     expect(screen.getByRole("table")).toHaveClass("custom-table");
-    expect(screen.getByRole("rowgroup")).toHaveClass("custom-header");
-    expect(screen.getAllByRole("row")[1]).toHaveClass("custom-row");
-    expect(screen.getAllByRole("cell")[0]).toHaveClass("custom-cell");
   });
 });

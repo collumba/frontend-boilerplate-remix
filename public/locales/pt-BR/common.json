@@ -1,0 +1,19 @@
+{
+  "welcome": "Bem-vindo",
+  "hello": "Olá",
+  "loading": "Carregando...",
+  "error": "Erro",
+  "success": "Sucesso",
+  "save": "Salvar",
+  "cancel": "Cancelar",
+  "edit": "Editar",
+  "delete": "Excluir",
+  "confirm": "Confirmar",
+  "language": "Idioma",
+  "menu": {
+    "home": "Início",
+    "about": "Sobre",
+    "contact": "Contato",
+    "settings": "Configurações"
+  }
+} 

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Slider } from "../Slider";
 
 describe("Slider", () => {
@@ -47,6 +47,9 @@ describe("Slider", () => {
     render(<Slider onChange={onChange} />);
 
     const track = screen.getByRole("slider").parentElement;
+    if (!track) {
+      throw new Error("Track element not found");
+    }
     fireEvent.mouseDown(track, { clientX: 50 });
 
     expect(onChange).toHaveBeenCalledWith(50);
@@ -69,6 +72,9 @@ describe("Slider", () => {
     render(<Slider disabled onChange={onChange} />);
 
     const track = screen.getByRole("slider").parentElement;
+    if (!track) {
+      throw new Error("Track element not found");
+    }
     fireEvent.mouseDown(track, { clientX: 50 });
 
     expect(onChange).not.toHaveBeenCalled();
@@ -88,6 +94,9 @@ describe("Slider", () => {
     render(<Slider min={0} max={100} onChange={onChange} />);
 
     const track = screen.getByRole("slider").parentElement;
+    if (!track) {
+      throw new Error("Track element not found");
+    }
     fireEvent.mouseDown(track, { clientX: 150 });
 
     expect(onChange).toHaveBeenCalledWith(100);

@@ -55,7 +55,7 @@ describe("ListCard", () => {
         items={items}
         renderItem={renderItem}
         layout="grid"
-        cols={{ sm: 2, md: 3, lg: 4 }}
+        cols={4}
       >
         <div>Content</div>
       </ListCard>,

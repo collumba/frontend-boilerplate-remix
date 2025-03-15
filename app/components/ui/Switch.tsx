@@ -1,15 +1,14 @@
 import { cn } from "@utils/cn";
 import { forwardRef, InputHTMLAttributes } from "react";
 
-export interface SwitchProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+export interface SwitchProps {
   label?: string;
   error?: string;
   helperText?: string;
   size?: "sm" | "md" | "lg";
 }
 
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
+export const Switch = forwardRef<HTMLInputElement, SwitchProps & Omit<InputHTMLAttributes<HTMLInputElement>, "size">>(
   (
     { className, label, error, helperText, size = "md", disabled, ...props },
     ref,
@@ -53,7 +52,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           <div
             className={cn(
               baseStyles,
-              sizes[size],
+              sizes[size as keyof typeof sizes],
               error ? variants.error : variants.default,
               disabled && variants.disabled,
               className,
@@ -62,7 +61,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             <span
               className={cn(
                 "pointer-events-none inline-block transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
-                thumbSizes[size],
+                thumbSizes[size as keyof typeof thumbSizes],
                 "translate-x-0.5 peer-checked:translate-x-[18px]",
                 size === "sm" && "peer-checked:translate-x-[14px]",
                 size === "lg" && "peer-checked:translate-x-[22px]",

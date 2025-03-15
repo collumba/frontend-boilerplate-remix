@@ -25,6 +25,8 @@ export interface TableProps<T> {
   isLoading?: boolean;
   emptyMessage?: string;
   pageSize?: number;
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export interface ThProps extends React.ThHTMLAttributes<HTMLTableCellElement> {

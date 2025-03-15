@@ -8,7 +8,6 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { useTranslation } from "react-i18next";
 
 import "./tailwind.css";
 

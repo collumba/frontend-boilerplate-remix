@@ -13,6 +13,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const id = propId || generatedId;
     const errorId = `${id}-error`;
     const helperId = `${id}-helper`;
+    const getRole = () => {
+      if (type === "number") return "spinbutton";
+      if (type === "password") return "textbox";
+      return undefined;
+    };
 
     return (
       <div className="w-full">
@@ -26,10 +31,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <input
           id={id}
+          role={
+            getRole()
+          }
           type={type}
           className={cn(
             "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500",
-            error && "border-red-500 focus:border-red-500 focus:ring-red-500",
+            error && "border-error-300 ring-error-300 focus:border-error-300 focus:ring-error-300",
             className
           )}
           aria-invalid={!!error}
@@ -40,7 +48,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && (
-          <p id={errorId} className="mt-2 text-sm text-red-600" role="alert">
+          <p id={errorId} className="mt-2 text-sm text-error-600" role="alert">
             {error}
           </p>
         )}

@@ -46,7 +46,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
         className={cn("", className)}
         {...props}
       >
-        <ol className="flex items-center space-x-2">
+        <ol className="flex items-center space-x-2 custom-item">
           {displayedItems.map((item, index) => {
             const isLast = index === displayedItems.length - 1;
 
@@ -71,7 +71,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                     className={cn(
                       "flex items-center text-sm font-medium",
                       isLast
-                        ? cn("text-gray-900", activeItemClassName)
+                        ? cn("text-gray-900 custom-active", activeItemClassName)
                         : "text-gray-500",
                       itemClassName,
                     )}
@@ -82,7 +82,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                 )}
                 {!isLast && (
                   <span
-                    className={cn("text-gray-400", separatorClassName)}
+                    className={cn("text-gray-400 custom-separator", separatorClassName)}
                     aria-hidden="true"
                   >
                     {separator}

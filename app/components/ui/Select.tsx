@@ -1,5 +1,5 @@
 import { cn } from "@utils/cn";
-import { forwardRef, SelectHTMLAttributes } from "react";
+import { forwardRef, SelectHTMLAttributes, useId } from "react";
 
 export interface SelectOption {
   value: string;
@@ -17,26 +17,40 @@ export interface SelectProps
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, options, error, placeholder, value, disabled, ...props }, ref) => {
+  ({ 
+    className, 
+    options, 
+    error, 
+    placeholder, 
+    value = "", 
+    disabled, 
+    id,
+    onChange,
+    label,
+    helperText,
+    ...props 
+  }, ref) => {
     const errorMessage = typeof error === "string" ? error : "Please select an option";
+    const selectId = id || useId();
 
     return (
       <div className="w-full">
-        {props.label && (
+        {label && (
           <label
-            htmlFor={props.id}
+            htmlFor={selectId}
             className={cn(
               "block text-sm font-medium leading-6 mb-1",
               error ? "text-error-700" : "text-gray-900",
               disabled && "text-gray-500",
             )}
           >
-            {props.label}
+            {label}
           </label>
         )}
         <div className="relative">
           <select
             ref={ref}
+            id={selectId}
             className={cn(
               "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6",
               error
@@ -47,8 +61,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             )}
             disabled={disabled}
             aria-invalid={error ? "true" : "false"}
-            aria-describedby={error ? `${props.id}-error` : undefined}
-            value={value || ""}
+            aria-describedby={
+              error 
+                ? `${selectId}-error` 
+                : helperText 
+                ? `${selectId}-helper` 
+                : undefined
+            }
+            defaultValue={value}
+            onChange={onChange}
             {...props}
           >
             {placeholder && (
@@ -60,7 +81,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               <option
                 key={option.value}
                 value={option.value}
-                disabled={disabled || option.disabled}
+                disabled={option.disabled || false}
               >
                 {option.label}
               </option>
@@ -81,17 +102,21 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             </svg>
           </div>
         </div>
-        {(error || props.helperText) && (
+        {error ? (
           <p
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-error-600" : "text-gray-500",
-            )}
-            id={error ? `${props.id}-error` : undefined}
+            className="mt-1 text-sm text-error-600"
+            id={`${selectId}-error`}
           >
-            {error ? errorMessage : props.helperText}
+            {errorMessage}
           </p>
-        )}
+        ) : helperText ? (
+          <p
+            className="mt-1 text-sm text-gray-500"
+            id={`${selectId}-helper`}
+          >
+            {helperText}
+          </p>
+        ) : null}
       </div>
     );
   },

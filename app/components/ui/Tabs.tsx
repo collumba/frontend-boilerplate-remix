@@ -42,7 +42,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     const [selectedTab, setSelectedTab] = useState(defaultTab || "");
     const containerRef = useRef<HTMLDivElement>(null);
 
-    useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
+    useImperativeHandle(ref, () => containerRef.current!);
 
     const currentTab = value ?? selectedTab;
     const handleTabChange = (tabId: string) => {
@@ -64,6 +64,8 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
   },
 );
 
+Tabs.displayName = "Tabs";
+
 export interface TabListProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
@@ -71,7 +73,7 @@ export interface TabListProps extends HTMLAttributes<HTMLDivElement> {
 export const TabList = forwardRef<HTMLDivElement, TabListProps>(
   ({ className, children, ...props }, ref) => {
     const listRef = useRef<HTMLDivElement>(null);
-    useImperativeHandle(ref, () => listRef.current as HTMLDivElement);
+    useImperativeHandle(ref, () => listRef.current!);
 
     const baseStyles = "flex border-b border-gray-200";
     return (
@@ -86,6 +88,8 @@ export const TabList = forwardRef<HTMLDivElement, TabListProps>(
     );
   },
 );
+
+TabList.displayName = "TabList";
 
 export interface TabProps extends HTMLAttributes<HTMLButtonElement> {
   id: string;
@@ -102,7 +106,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     const { selectedTab, setSelectedTab } = context;
     const isSelected = selectedTab === id;
     const buttonRef = useRef<HTMLButtonElement>(null);
-    useImperativeHandle(ref, () => buttonRef.current as HTMLButtonElement);
+    useImperativeHandle(ref, () => buttonRef.current!);
 
     const baseStyles =
       "relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2";
@@ -139,6 +143,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
   },
 );
 
+Tab.displayName = "Tab";
+
 export interface TabPanelProps extends HTMLAttributes<HTMLDivElement> {
   id: string;
   children: ReactNode;
@@ -154,7 +160,7 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
     const { selectedTab } = context;
     const isSelected = selectedTab === id;
     const panelRef = useRef<HTMLDivElement>(null);
-    useImperativeHandle(ref, () => panelRef.current as HTMLDivElement);
+    useImperativeHandle(ref, () => panelRef.current!);
 
     if (!isSelected) return null;
 
@@ -173,3 +179,5 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
     );
   },
 );
+
+TabPanel.displayName = "TabPanel";

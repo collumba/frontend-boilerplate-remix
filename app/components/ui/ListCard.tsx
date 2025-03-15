@@ -51,7 +51,7 @@ export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
       return (
         <div
           ref={ref}
-          className={cn("flex flex-col", className)}
+          className={cn("flex flex-col w-full", className)}
           {...props}
         >
           <div className="divide-y rounded-lg border bg-white">
@@ -68,11 +68,11 @@ export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
     return (
       <div
         ref={ref}
-        className={cn("flex flex-col", className)}
+        className={cn("w-full custom-class", className)}
         {...props}
       >
         <div className={cn(
-          "grid grid-cols-3 gap-4 custom-class"
+          "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         )}>
           {items.map((item, index) => (
             <div

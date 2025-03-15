@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 
-export interface Column<T> {
+export interface Column<T extends Record<string, unknown>> {
   header: ReactNode;
   accessorKey: keyof T;
   cell?: (value: T[keyof T], row: T) => ReactNode;
@@ -18,7 +18,7 @@ export interface Column<T> {
   filterable?: boolean;
 }
 
-export interface TableProps<T> extends HTMLAttributes<HTMLTableElement> {
+export interface TableProps<T extends Record<string, unknown>> extends HTMLAttributes<HTMLTableElement> {
   data: T[];
   columns: Column<T>[];
   pageSize?: number;
@@ -267,6 +267,7 @@ export function Table<T extends Record<string, unknown>>({
                   ? "cursor-not-allowed opacity-50"
                   : "hover:bg-gray-50",
               )}
+              aria-label="Previous page"
             >
               Previous
             </button>
@@ -279,6 +280,7 @@ export function Table<T extends Record<string, unknown>>({
                   ? "cursor-not-allowed opacity-50"
                   : "hover:bg-gray-50",
               )}
+              aria-label="Next page"
             >
               Next
             </button>
@@ -321,6 +323,7 @@ export function Table<T extends Record<string, unknown>>({
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-gray-50",
                   )}
+                  aria-label="Previous page"
                 >
                   <span className="sr-only">Previous</span>
                   <svg
@@ -345,6 +348,7 @@ export function Table<T extends Record<string, unknown>>({
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-gray-50",
                   )}
+                  aria-label="Next page"
                 >
                   <span className="sr-only">Next</span>
                   <svg

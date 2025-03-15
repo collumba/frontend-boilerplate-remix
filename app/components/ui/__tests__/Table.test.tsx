@@ -96,7 +96,7 @@ describe("Table", () => {
     expect(screen.getByText("Jane Smith")).toBeInTheDocument();
     expect(screen.queryByText("Bob Johnson")).not.toBeInTheDocument();
 
-    const nextButton = screen.getByText("Next");
+    const nextButton = screen.getByRole("button", { name: "Next page" });
     fireEvent.click(nextButton);
 
     expect(onPageChange).toHaveBeenCalledWith(2);
@@ -107,8 +107,11 @@ describe("Table", () => {
       <Table data={testData} columns={columns} pageSize={2} currentPage={1} />,
     );
 
-    expect(screen.getByText("Previous")).toBeDisabled();
-    expect(screen.getByText("Next")).not.toBeDisabled();
+    const prevButton = screen.getByRole("button", { name: "Previous page" });
+    const nextButton = screen.getByRole("button", { name: "Next page" });
+    
+    expect(prevButton).toBeDisabled();
+    expect(nextButton).not.toBeDisabled();
   });
 
   it("renders custom cell content", () => {

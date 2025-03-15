@@ -1,13 +1,17 @@
 import { cn } from "@utils/cn";
-import { HTMLAttributes, forwardRef } from "react";
+import { HTMLAttributes, forwardRef, useMemo } from "react";
+
+export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type AvatarVariant = "circle" | "square";
+export type AvatarStatus = "online" | "offline" | "away" | "busy";
 
 export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   src?: string;
   alt?: string;
   fallback?: string;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
-  variant?: "circle" | "square";
-  status?: "online" | "offline" | "away" | "busy";
+  size?: AvatarSize;
+  variant?: AvatarVariant;
+  status?: AvatarStatus;
 }
 
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
@@ -15,7 +19,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     {
       className,
       src,
-      alt,
+      alt = "",
       fallback,
       size = "md",
       variant = "circle",
@@ -24,37 +28,40 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     },
     ref,
   ) => {
-    const baseStyles = "relative inline-block flex-shrink-0";
-
-    const sizes = {
-      xs: "h-6 w-6",
-      sm: "h-8 w-8",
-      md: "h-10 w-10",
-      lg: "h-12 w-12",
-      xl: "h-14 w-14",
+    const getInitials = (name: string): string => {
+      if (!name) return "";
+      
+      const parts = name.split(" ");
+      if (parts.length === 1) {
+        return name.substring(0, 2).toUpperCase();
+      }
+      
+      return (
+        (parts[0]?.[0] || "") + (parts[parts.length - 1]?.[0] || "")
+      ).toUpperCase();
     };
 
-    const textSizes = {
-      xs: "text-xs",
-      sm: "text-sm",
-      md: "text-base",
-      lg: "text-lg",
-      xl: "text-xl",
+    const sizeClasses = {
+      xs: "h-6 w-6 text-xs",
+      sm: "h-8 w-8 text-sm",
+      md: "h-10 w-10 text-base",
+      lg: "h-12 w-12 text-lg",
+      xl: "h-16 w-16 text-xl",
     };
 
-    const variants = {
+    const variantClasses = {
       circle: "rounded-full",
       square: "rounded-md",
     };
 
-    const statusColors = {
+    const statusClasses = {
       online: "bg-success-500",
-      offline: "bg-gray-500",
+      offline: "bg-gray-400",
       away: "bg-warning-500",
       busy: "bg-error-500",
     };
 
-    const statusSizes = {
+    const statusSizeClasses = {
       xs: "h-1.5 w-1.5",
       sm: "h-2 w-2",
       md: "h-2.5 w-2.5",
@@ -62,50 +69,45 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       xl: "h-3.5 w-3.5",
     };
 
-    const getFallbackText = () => {
+    const initials = useMemo(() => {
       if (fallback) return fallback;
-      if (alt) {
-        const words = alt.split(" ");
-        if (words.length === 1) {
-          return words[0].substring(0, 2).toUpperCase();
-        }
-        return (words[0][0] + words[words.length - 1][0]).toUpperCase();
-      }
-      return "";
-    };
+      return getInitials(alt);
+    }, [fallback, alt]);
 
     return (
       <div
         ref={ref}
-        className={cn(baseStyles, sizes[size], variants[variant], className)}
+        className={cn("relative inline-block", className)}
         {...props}
       >
-        {src ? (
-          <img
-            src={src}
-            alt={alt}
-            className={cn("h-full w-full object-cover", variants[variant])}
-          />
-        ) : (
-          <div
-            className={cn(
-              "flex h-full w-full items-center justify-center bg-gray-200",
-              variants[variant],
-              textSizes[size],
-            )}
-            aria-label={alt}
-          >
-            <span className="font-medium text-gray-600">
-              {getFallbackText()}
-            </span>
-          </div>
-        )}
+        <div
+          className={cn(
+            "flex items-center justify-center overflow-hidden bg-gray-200 text-gray-600",
+            sizeClasses[size],
+            variantClasses[variant],
+          )}
+          aria-label={alt}
+        >
+          {src ? (
+            <img
+              src={src}
+              alt={alt}
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          ) : (
+            <span className="font-medium">{initials}</span>
+          )}
+        </div>
+
         {status && (
           <span
             className={cn(
-              "absolute right-0 top-0 block -translate-y-1/4 translate-x-1/4 transform rounded-full ring-2 ring-white",
-              statusColors[status],
-              statusSizes[size],
+              "absolute bottom-0 right-0 block rounded-full ring-2 ring-white",
+              statusClasses[status],
+              statusSizeClasses[size],
             )}
           />
         )}
@@ -113,3 +115,5 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     );
   },
 );
+
+Avatar.displayName = "Avatar";

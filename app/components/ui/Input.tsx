@@ -1,68 +1,73 @@
 import { cn } from "@utils/cn";
-import { forwardRef, InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, forwardRef } from "react";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
   label?: string;
   helperText?: string;
+  error?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    { className, error, label, helperText, type = "text", disabled, ...props },
-    ref,
-  ) => {
-    const baseStyles =
-      "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6";
-    const variants = {
-      default: "ring-gray-300 placeholder:text-gray-400 focus:ring-primary-600",
-      error: "ring-error-300 placeholder:text-error-400 focus:ring-error-500",
-      disabled: "bg-gray-50 text-gray-500 cursor-not-allowed",
-    };
+  ({ className, label, helperText, error, id, disabled, type = "text", ...props }, ref) => {
+    const inputId = id || `input-${Math.random().toString(36).substring(2, 9)}`;
 
     return (
       <div className="w-full">
         {label && (
           <label
-            htmlFor={props.id}
+            htmlFor={inputId}
             className={cn(
-              "block text-sm font-medium leading-6 mb-1",
-              error ? "text-error-700" : "text-gray-900",
-              disabled && "text-gray-500",
+              "mb-1.5 block text-sm font-medium",
+              error ? "text-error-600" : "text-gray-700",
+              disabled && "opacity-60"
             )}
           >
             {label}
           </label>
         )}
-        <div className="relative">
-          <input
-            ref={ref}
-            type={type}
-            className={cn(
-              baseStyles,
-              error ? variants.error : variants.default,
-              disabled && variants.disabled,
-              className,
-            )}
-            disabled={disabled}
-            aria-invalid={error ? "true" : "false"}
-            aria-describedby={error ? `${props.id}-error` : undefined}
-            role="textbox"
-            {...props}
-          />
-        </div>
-        {(error || helperText) && (
+        <input
+          ref={ref}
+          id={inputId}
+          type={type}
+          className={cn(
+            "w-full rounded-md border-0 px-3 py-1.5 text-sm text-gray-900 shadow-sm",
+            "ring-1 ring-inset focus:ring-2 focus:ring-inset",
+            error
+              ? "ring-error-300 focus:ring-error-500"
+              : "ring-gray-300 focus:ring-primary-500",
+            disabled && "bg-gray-50 text-gray-500 opacity-60",
+            className
+          )}
+          disabled={disabled}
+          aria-invalid={error ? "true" : "false"}
+          aria-describedby={
+            error
+              ? `${inputId}-error`
+              : helperText
+              ? `${inputId}-helper`
+              : undefined
+          }
+          role={type === "number" ? "spinbutton" : "textbox"}
+          {...props}
+        />
+        {error ? (
           <p
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-error-600" : "text-gray-500",
-            )}
-            id={error ? `${props.id}-error` : undefined}
+            id={`${inputId}-error`}
+            className="mt-1.5 text-xs text-error-600"
           >
-            {error || helperText}
+            {error}
           </p>
-        )}
+        ) : helperText ? (
+          <p
+            id={`${inputId}-helper`}
+            className="mt-1.5 text-xs text-gray-500"
+          >
+            {helperText}
+          </p>
+        ) : null}
       </div>
     );
-  },
+  }
 );
+
+Input.displayName = "Input";

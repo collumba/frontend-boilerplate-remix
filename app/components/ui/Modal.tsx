@@ -58,7 +58,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/25" />
+            <div className="fixed inset-0 bg-black/25" role="presentation" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -149,6 +149,7 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
       <div
         ref={ref}
         className={cn("px-6 py-4", className)}
+        data-testid="modal-content"
         {...props}
       >
         {children}
@@ -168,6 +169,7 @@ export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
           "flex items-center justify-end border-t border-gray-200 px-6 py-4",
           className
         )}
+        data-testid="modal-footer"
         {...props}
       >
         {children}

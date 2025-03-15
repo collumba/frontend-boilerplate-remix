@@ -50,19 +50,19 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         {...props}
       >
         {headerContent && (
-          <div className="border-b p-4">
+          <div className="border-b p-4" data-testid="sidebar-header">
             {headerContent}
           </div>
         )}
 
         <nav className="flex-1 space-y-1 px-2 py-4">
           {children}
-          {items?.map((item) => {
+          {items.map((item) => {
             const hasSubItems = item.items && item.items.length > 0;
             const isOpen = openItems[item.label];
 
             return (
-              <div key={item.label}>
+              <div key={item.label} data-testid="sidebar-item">
                 {item.href && !hasSubItems ? (
                   <a
                     href={item.href}
@@ -75,7 +75,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                     {item.icon && (
                       <span className="mr-3 h-5 w-5">{item.icon}</span>
                     )}
-                    {!collapsed && item.label}
+                    {!collapsed && <span>{item.label}</span>}
                   </a>
                 ) : (
                   <button
@@ -132,7 +132,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         </nav>
 
         {footerContent && (
-          <div className="border-t p-4">
+          <div className="border-t p-4" data-testid="sidebar-footer">
             {footerContent}
           </div>
         )}

@@ -1,52 +1,54 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { Sidebar } from "../Sidebar";
 
 describe("Sidebar", () => {
   it("renders children correctly", () => {
     render(
       <Sidebar>
-        <div>Sidebar Content</div>
+        <div>Content</div>
       </Sidebar>,
     );
 
-    expect(screen.getByText("Sidebar Content")).toBeInTheDocument();
+    expect(screen.getByText("Content")).toBeInTheDocument();
   });
 
   it("renders navigation items", () => {
-    const navigation = [
-      { label: "Dashboard", href: "/dashboard", icon: "home" },
-      { label: "Settings", href: "/settings", icon: "settings" },
+    const items = [
+      { label: "Dashboard", href: "/dashboard" },
+      { label: "Settings", href: "/settings" },
     ];
 
-    render(
-      <Sidebar navigation={navigation}>
-        <div>Content</div>
-      </Sidebar>,
-    );
+    render(<Sidebar items={items} />);
 
-    expect(screen.getByText("Dashboard")).toHaveAttribute("href", "/dashboard");
-    expect(screen.getByText("Settings")).toHaveAttribute("href", "/settings");
-  });
-
-  it("renders footer content when provided", () => {
-    render(
-      <Sidebar footer={<div>Footer Content</div>}>
-        <div>Content</div>
-      </Sidebar>,
-    );
-
-    expect(screen.getByText("Footer Content")).toBeInTheDocument();
+    const sidebarItems = screen.getAllByTestId("sidebar-item");
+    expect(sidebarItems).toHaveLength(2);
+    expect(sidebarItems[0]).toHaveTextContent("Dashboard");
+    expect(sidebarItems[1]).toHaveTextContent("Settings");
   });
 
   it("renders header content when provided", () => {
     render(
-      <Sidebar header={<div>Header Content</div>}>
+      <Sidebar headerContent={<div>Header Content</div>}>
         <div>Content</div>
       </Sidebar>,
     );
 
-    expect(screen.getByText("Header Content")).toBeInTheDocument();
+    const headerContent = screen.getByTestId("sidebar-header");
+    expect(headerContent).toBeInTheDocument();
+    expect(headerContent).toHaveTextContent("Header Content");
+  });
+
+  it("renders footer content when provided", () => {
+    render(
+      <Sidebar footerContent={<div>Footer Content</div>}>
+        <div>Content</div>
+      </Sidebar>,
+    );
+
+    const footerContent = screen.getByTestId("sidebar-footer");
+    expect(footerContent).toBeInTheDocument();
+    expect(footerContent).toHaveTextContent("Footer Content");
   });
 
   it("combines custom className with default classes", () => {

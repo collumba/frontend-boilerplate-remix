@@ -1,70 +1,54 @@
+import { forwardRef, useId } from "react";
 import { cn } from "@utils/cn";
-import { InputHTMLAttributes, forwardRef } from "react";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  helperText?: string;
   error?: string;
+  helperText?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, helperText, error, id, disabled, type = "text", ...props }, ref) => {
-    const inputId = id || `input-${Math.random().toString(36).substring(2, 9)}`;
+  ({ className, label, error, helperText, id: propId, type = "text", ...props }, ref) => {
+    const generatedId = useId();
+    const id = propId || generatedId;
+    const errorId = `${id}-error`;
+    const helperId = `${id}-helper`;
 
     return (
       <div className="w-full">
         {label && (
           <label
-            htmlFor={inputId}
-            className={cn(
-              "mb-1.5 block text-sm font-medium",
-              error ? "text-error-600" : "text-gray-700",
-              disabled && "opacity-60"
-            )}
+            htmlFor={id}
+            className="mb-2 block text-sm font-medium text-gray-700"
           >
             {label}
           </label>
         )}
         <input
-          ref={ref}
-          id={inputId}
+          id={id}
           type={type}
           className={cn(
-            "w-full rounded-md border-0 px-3 py-1.5 text-sm text-gray-900 shadow-sm",
-            "ring-1 ring-inset focus:ring-2 focus:ring-inset",
-            error
-              ? "ring-error-300 focus:ring-error-500"
-              : "ring-gray-300 focus:ring-primary-500",
-            disabled && "bg-gray-50 text-gray-500 opacity-60",
+            "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500",
+            error && "border-red-500 focus:border-red-500 focus:ring-red-500",
             className
           )}
-          disabled={disabled}
-          aria-invalid={error ? "true" : "false"}
+          aria-invalid={!!error}
           aria-describedby={
-            error
-              ? `${inputId}-error`
-              : helperText
-              ? `${inputId}-helper`
-              : undefined
+            error ? errorId : helperText ? helperId : undefined
           }
-          role={type === "number" ? "spinbutton" : "textbox"}
+          ref={ref}
           {...props}
         />
-        {error ? (
-          <p
-            id={`${inputId}-error`}
-            className="mt-1.5 text-xs text-error-600"
-          >
+        {error && (
+          <p id={errorId} className="mt-2 text-sm text-red-600" role="alert">
             {error}
           </p>
-        ) : helperText ? (
-          <p
-            id={`${inputId}-helper`}
-            className="mt-1.5 text-xs text-gray-500"
-          >
+        )}
+        {helperText && !error && (
+          <p id={helperId} className="mt-2 text-sm text-gray-500">
             {helperText}
           </p>
-        ) : null}
+        )}
       </div>
     );
   }

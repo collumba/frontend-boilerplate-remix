@@ -65,6 +65,20 @@ export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
       );
     }
 
+    const colsClasses = {
+      1: "grid-cols-1",
+      2: "grid-cols-1 sm:grid-cols-2",
+      3: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
+      4: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+    };
+
+    const gapClasses = {
+      2: "gap-2",
+      4: "gap-4",
+      6: "gap-6",
+      8: "gap-8",
+    };
+
     return (
       <div
         ref={ref}
@@ -72,7 +86,9 @@ export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
         {...props}
       >
         <div className={cn(
-          "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          "grid",
+          colsClasses[cols as keyof typeof colsClasses],
+          gapClasses[gap as keyof typeof gapClasses] || "gap-4"
         )}>
           {items.map((item, index) => (
             <div

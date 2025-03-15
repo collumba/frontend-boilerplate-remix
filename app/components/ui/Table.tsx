@@ -9,220 +9,182 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Spinner } from "./Spinner";
 
-export interface Column<T extends Record<string, unknown>> {
-  header: ReactNode;
-  accessorKey: keyof T;
-  cell?: (value: T[keyof T], row: T) => ReactNode;
+export interface Column<T> {
+  key: string;
+  header: string;
+  render?: (item: T) => React.ReactNode;
   sortable?: boolean;
-  filterable?: boolean;
 }
 
-export interface TableProps<T extends Record<string, unknown>> extends HTMLAttributes<HTMLTableElement> {
-  data: T[];
+export interface TableProps<T> {
   columns: Column<T>[];
+  data: T[];
+  className?: string;
+  isLoading?: boolean;
+  emptyMessage?: string;
   pageSize?: number;
-  currentPage?: number;
-  onPageChange?: (page: number) => void;
-  totalItems?: number;
-  sortable?: boolean;
-  filterable?: boolean;
-  loading?: boolean;
-  emptyState?: ReactNode;
-  headerClassName?: string;
-  rowClassName?: string;
-  cellClassName?: string;
-  onSort?: (key: keyof T, direction: "asc" | "desc") => void;
 }
 
-export interface ThProps extends ThHTMLAttributes<HTMLTableCellElement> {
-  sortDirection?: "asc" | "desc" | null;
+export interface ThProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
   onSort?: () => void;
-  sortable?: boolean;
+  sortDirection?: "asc" | "desc" | undefined;
 }
 
 export const Th = forwardRef<HTMLTableCellElement, ThProps>(
-  ({ className, children, sortDirection, onSort, ...props }, ref) => {
+  ({ children, className, onSort, sortDirection, ...props }, ref) => {
     return (
       <th
         ref={ref}
         className={cn(
           "px-4 py-3 text-left text-sm font-semibold text-gray-900",
           onSort && "cursor-pointer select-none",
-          className,
+          className
         )}
         onClick={onSort}
         {...props}
       >
-        {onSort ? (
-          <div className="flex items-center gap-2">
-            {children}
-            <div className="flex flex-col">
+        <div className="flex items-center gap-1">
+          {children}
+          {sortDirection && (
+            <span className="flex flex-col">
               <span
                 className={cn(
-                  "h-0 w-0 border-x-4 border-x-transparent border-b-4",
+                  "h-0 w-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent",
                   sortDirection === "asc"
                     ? "border-b-primary-600"
-                    : "border-b-gray-300",
+                    : "border-b-gray-300"
                 )}
               />
               <span
                 className={cn(
-                  "h-0 w-0 border-x-4 border-x-transparent border-t-4",
+                  "h-0 w-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent",
                   sortDirection === "desc"
                     ? "border-t-primary-600"
-                    : "border-t-gray-300",
+                    : "border-t-gray-300"
                 )}
               />
-            </div>
-          </div>
-        ) : (
-          children
-        )}
+            </span>
+          )}
+        </div>
       </th>
     );
-  },
+  }
 );
 
-export const Td = forwardRef<
-  HTMLTableCellElement,
-  HTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => {
-  return (
-    <td
-      ref={ref}
-      className={cn("px-4 py-3 text-sm text-gray-700", className)}
-      {...props}
-    />
-  );
-});
+export interface TdProps extends React.TdHTMLAttributes<HTMLTableCellElement> {}
 
-export function Table<T extends Record<string, unknown>>({
-  className,
-  data,
+export const Td = forwardRef<HTMLTableCellElement, TdProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <td
+        ref={ref}
+        className={cn("px-4 py-3 text-sm text-gray-900", className)}
+        {...props}
+      >
+        {children}
+      </td>
+    );
+  }
+);
+
+export function Table<T>({
   columns,
+  data,
+  className,
+  isLoading = false,
+  emptyMessage = "No data available",
   pageSize = 10,
-  currentPage = 1,
-  onPageChange,
-  totalItems,
-  sortable = true,
-  filterable = true,
-  loading = false,
-  emptyState,
-  headerClassName,
-  rowClassName,
-  cellClassName,
-  onSort,
   ...props
 }: TableProps<T>) {
-  const [sortConfig, setSortConfig] = useState<{
-    key: keyof T;
-    direction: "asc" | "desc";
-  } | null>(null);
-  const [filters, setFilters] = useState<Partial<Record<keyof T, string>>>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
+  const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const handleSort = (key: keyof T) => {
-    const direction =
-      sortConfig?.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    setSortConfig({ key, direction });
-    onSort?.(key, direction);
+  const handleSort = (key: string) => {
+    if (sortColumn === key) {
+      setSortDirection(
+        sortDirection === "asc" ? "desc" : sortDirection === "desc" ? null : "asc"
+      );
+      if (sortDirection === "desc") {
+        setSortColumn(null);
+      }
+    } else {
+      setSortColumn(key);
+      setSortDirection("asc");
+    }
   };
 
-  const handleFilter = (key: keyof T, value: string) => {
+  const handleFilter = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
+    setCurrentPage(1);
   };
 
-  const filteredData = useMemo(() => {
-    return data.filter((item) => {
-      return Object.entries(filters).every(([key, value]) => {
-        if (!value) return true;
-        const itemValue = String(item[key as keyof T] || "").toLowerCase();
-        return itemValue.includes(value.toLowerCase());
-      });
+  const filteredData = data.filter((item) => {
+    return Object.entries(filters).every(([key, value]) => {
+      if (!value) return true;
+      const itemValue = (item as any)[key];
+      return itemValue
+        ?.toString()
+        .toLowerCase()
+        .includes(value.toLowerCase());
     });
-  }, [data, filters]);
+  });
 
-  const sortedData = useMemo(() => {
-    if (!sortConfig) return filteredData;
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortColumn || !sortDirection) return 0;
+    const aValue = (a as any)[sortColumn];
+    const bValue = (b as any)[sortColumn];
 
-    return [...filteredData].sort((a, b) => {
-      const aValue = String(a[sortConfig.key] || "").toLowerCase();
-      const bValue = String(b[sortConfig.key] || "").toLowerCase();
+    if (typeof aValue === "number" && typeof bValue === "number") {
+      return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+    }
 
-      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
-      return 0;
-    });
-  }, [filteredData, sortConfig]);
+    const aString = aValue?.toString() || "";
+    const bString = bValue?.toString() || "";
+    return sortDirection === "asc"
+      ? aString.localeCompare(bString)
+      : bString.localeCompare(aString);
+  });
 
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return sortedData.slice(start, start + pageSize);
-  }, [sortedData, currentPage, pageSize]);
+  const totalPages = Math.ceil(sortedData.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedData = sortedData.slice(startIndex, startIndex + pageSize);
 
-  const totalPages = Math.ceil((totalItems ?? sortedData.length) / pageSize);
-
-  if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <div
-          className="h-8 w-8 animate-spin rounded-full border-4 border-primary-600 border-t-transparent"
-          role="status"
-          aria-label="Loading"
-        />
-      </div>
-    );
-  }
-
-  if (data.length === 0) {
-    return (
-      <div className="flex h-64 items-center justify-center text-gray-500">
-        {emptyState || "No data available"}
-      </div>
-    );
-  }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="flex flex-col" {...props}>
-      {filterable && (
+      {columns.some((col) => filters[col.key]) && (
         <div className="flex flex-wrap gap-4">
-          {columns
-            .filter((column) => column.filterable !== false)
-            .map((column) => (
-              <input
-                key={String(column.accessorKey)}
-                type="text"
-                placeholder={`Filter ${String(column.header)}`}
-                className="rounded-md border border-gray-300 px-3 py-1.5 text-sm"
-                value={filters[column.accessorKey] || ""}
-                onChange={(e) =>
-                  handleFilter(column.accessorKey, e.target.value)
-                }
-                aria-label={`Filter by ${String(column.header)}`}
-              />
-            ))}
+          {columns.map((column) => (
+            <input
+              key={column.key}
+              type="text"
+              placeholder={`Filter ${column.header}`}
+              value={filters[column.key] || ""}
+              onChange={(e) => handleFilter(column.key, e.target.value)}
+              className="rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+              aria-label={`Filter by ${column.header}`}
+            />
+          ))}
         </div>
       )}
-
-      <div className="w-full custom-class">
-        <table className={cn("w-full", className)}>
-          <thead className={cn("bg-gray-50", headerClassName)}>
+      <div className={cn("w-full", className)}>
+        <table className="w-full custom-table">
+          <thead className="bg-gray-50 custom-header">
             <tr>
               {columns.map((column) => (
                 <Th
-                  key={String(column.accessorKey)}
-                  sortable={sortable && column.sortable !== false}
+                  key={column.key}
+                  onSort={column.sortable ? () => handleSort(column.key) : undefined}
                   sortDirection={
-                    sortConfig?.key === column.accessorKey
-                      ? sortConfig.direction
-                      : null
+                    sortColumn === column.key ? sortDirection || undefined : undefined
                   }
-                  onSort={
-                    sortable && column.sortable !== false
-                      ? () => handleSort(column.accessorKey)
-                      : undefined
-                  }
-                  className={headerClassName}
                 >
                   {column.header}
                 </Th>
@@ -230,143 +192,67 @@ export function Table<T extends Record<string, unknown>>({
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className={cn(
-                  "border-t border-gray-200",
-                  rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white",
-                  rowClassName
-                )}
-              >
-                {columns.map((column) => (
-                  <Td
-                    key={String(column.accessorKey)}
-                    className={cellClassName}
-                  >
-                    {column.cell
-                      ? column.cell(row[column.accessorKey], row)
-                      : String(row[column.accessorKey])}
-                  </Td>
-                ))}
+            {isLoading ? (
+              <tr>
+                <td colSpan={columns.length} className="py-4 text-center">
+                  <div className="flex justify-center">
+                    <Spinner className="h-8 w-8" />
+                  </div>
+                  <p className="mt-2 text-sm text-gray-500">Loading data...</p>
+                </td>
               </tr>
-            ))}
+            ) : paginatedData.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length} className="py-4 text-center">
+                  <p className="text-sm text-gray-500">{emptyMessage}</p>
+                </td>
+              </tr>
+            ) : (
+              paginatedData.map((item, index) => (
+                <tr
+                  key={index}
+                  className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                >
+                  {columns.map((column) => (
+                    <Td key={column.key}>
+                      {column.render
+                        ? column.render(item)
+                        : (item as any)[column.key]}
+                    </Td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-
       {totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-          <div className="flex flex-1 justify-between sm:hidden">
-            <button
-              onClick={() => onPageChange?.(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={cn(
-                "relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700",
-                currentPage === 1
-                  ? "cursor-not-allowed opacity-50"
-                  : "hover:bg-gray-50",
-              )}
-              aria-label="Previous page"
-            >
-              Previous
-            </button>
-            <button
-              onClick={() => onPageChange?.(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className={cn(
-                "relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700",
-                currentPage === totalPages
-                  ? "cursor-not-allowed opacity-50"
-                  : "hover:bg-gray-50",
-              )}
-              aria-label="Next page"
-            >
-              Next
-            </button>
-          </div>
-          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing{" "}
-                <span className="font-medium">
-                  {Math.min(
-                    (currentPage - 1) * pageSize + 1,
-                    totalItems ?? sortedData.length,
-                  )}
-                </span>{" "}
-                to{" "}
-                <span className="font-medium">
-                  {Math.min(
-                    currentPage * pageSize,
-                    totalItems ?? sortedData.length,
-                  )}
-                </span>{" "}
-                of{" "}
-                <span className="font-medium">
-                  {totalItems ?? sortedData.length}
-                </span>{" "}
-                results
-              </p>
-            </div>
-            <div>
-              <nav
-                className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-                aria-label="Pagination"
-              >
-                <button
-                  onClick={() => onPageChange?.(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className={cn(
-                    "relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500",
-                    currentPage === 1
-                      ? "cursor-not-allowed opacity-50"
-                      : "hover:bg-gray-50",
-                  )}
-                  aria-label="Previous page"
-                >
-                  <span className="sr-only">Previous</span>
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => onPageChange?.(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className={cn(
-                    "relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500",
-                    currentPage === totalPages
-                      ? "cursor-not-allowed opacity-50"
-                      : "hover:bg-gray-50",
-                  )}
-                  aria-label="Next page"
-                >
-                  <span className="sr-only">Next</span>
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </nav>
-            </div>
-          </div>
+        <div className="mt-4 flex items-center justify-between">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={cn(
+              "rounded-md border border-gray-300 px-3 py-1 text-sm",
+              currentPage === 1 && "cursor-not-allowed opacity-50"
+            )}
+            aria-label="Previous page"
+          >
+            Previous
+          </button>
+          <span className="text-sm">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={cn(
+              "rounded-md border border-gray-300 px-3 py-1 text-sm",
+              currentPage === totalPages && "cursor-not-allowed opacity-50"
+            )}
+            aria-label="Next page"
+          >
+            Next
+          </button>
         </div>
       )}
     </div>

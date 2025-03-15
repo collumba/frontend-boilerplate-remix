@@ -58,7 +58,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/25" role="presentation" />
+            <div 
+              className="fixed inset-0 bg-black/25" 
+              role="presentation" 
+              onClick={closeOnOverlayClick ? onClose : undefined}
+              aria-hidden="true"
+            />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">

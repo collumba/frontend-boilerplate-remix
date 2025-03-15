@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import "./tailwind.css";
+import { TranslationsLanguages } from "./i18n/i18n";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -29,7 +30,7 @@ export const links: LinksFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  const lng = url.searchParams.get("lng") || "pt-BR";
+  const lng = url.searchParams.get("lng") || TranslationsLanguages.PT_BR;
   return { lng };
 }
 

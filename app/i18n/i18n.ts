@@ -3,12 +3,15 @@ import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Configuração comum para servidor e cliente
+export enum TranslationsLanguages {
+  PT_BR = 'pt-BR',
+  EN = 'en',
+}
 export const i18nCommonConfig = {
-  supportedLngs: ['pt-BR', 'en'],
+  supportedLngs: [ TranslationsLanguages.PT_BR, TranslationsLanguages.EN],
   defaultNS: 'common',
   ns: ['common'],
-  fallbackLng: 'pt-BR',
+  fallbackLng: TranslationsLanguages.PT_BR,
   react: {
     useSuspense: false,
   },
@@ -18,3 +21,4 @@ export const i18nCommonConfig = {
 };
 
 export const loadPath = '/locales/{{lng}}/{{ns}}.json';
+

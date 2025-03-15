@@ -8,7 +8,6 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import i18next from "@services/i18n.server";
 import { useTranslation } from "react-i18next";
 
 import "./tailwind.css";
@@ -26,19 +25,11 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  let locale = await i18next.getLocale(request);
-  return json({ locale });
-}
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { locale } = useLoaderData<typeof loader>();
-  const { i18n } = useTranslation();
-
-  i18n.changeLanguage(locale);
 
   return (
-    <html lang={locale} className="h-full" dir={i18n.dir()}>
+    <html lang={'en'} className="h-full" dir={'ltr'}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -46,14 +46,22 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
         className={cn("flex", className)}
         {...props}
       >
-        <ol className="flex items-center space-x-2" role="list">
+        <ol
+          className="flex items-center space-x-2"
+          itemScope
+          itemType="https://schema.org/BreadcrumbList"
+        >
           {displayedItems.map((item, index) => {
             const isLast = index === displayedItems.length - 1;
+            const position = index + 1;
 
             return (
               <li
                 key={index}
                 className={cn("flex items-center", !isLast && "space-x-2")}
+                itemScope
+                itemType="https://schema.org/ListItem"
+                itemProp="itemListElement"
               >
                 {item.href ? (
                   <a
@@ -62,24 +70,25 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                       "flex items-center text-sm font-medium text-gray-500 hover:text-primary-600",
                       itemClassName
                     )}
-                    aria-current={isLast ? "page" : undefined}
+                    itemProp="item"
                   >
                     {item.icon && (
                       <span className="mr-1.5" aria-hidden="true">
                         {item.icon}
                       </span>
                     )}
-                    {item.label}
+                    <span itemProp="name">{item.label}</span>
+                    <meta itemProp="position" content={position.toString()} />
                   </a>
                 ) : (
                   <span
                     className={cn(
                       "flex items-center text-sm font-medium",
-                      isLast ? "text-gray-900" : "text-gray-500",
-                      isLast && activeItemClassName,
+                      isLast ? cn("text-gray-900", activeItemClassName) : "text-gray-500",
                       itemClassName
                     )}
                     aria-current={isLast ? "page" : undefined}
+                    itemProp="name"
                   >
                     {item.icon && (
                       <span className="mr-1.5" aria-hidden="true">
@@ -87,6 +96,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                       </span>
                     )}
                     {item.label}
+                    <meta itemProp="position" content={position.toString()} />
                   </span>
                 )}
                 {!isLast && (

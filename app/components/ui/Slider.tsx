@@ -13,6 +13,7 @@ export interface SliderProps
   showTooltip?: boolean;
   formatTooltip?: (value: number) => string;
   size?: "sm" | "md" | "lg";
+  label?: string;
 }
 
 export const Slider = forwardRef<HTMLDivElement, SliderProps>(
@@ -29,6 +30,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
       showTooltip = false,
       formatTooltip = (value) => `${value}`,
       size = "md",
+      label,
       ...props
     },
     ref,
@@ -132,6 +134,11 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
         )}
         {...props}
       >
+        {label && (
+          <label className="mb-2 block text-sm font-medium text-gray-900">
+            {label}
+          </label>
+        )}
         <div
           ref={trackRef}
           className={cn(
@@ -139,8 +146,16 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
             sizes[size].track,
           )}
           onMouseDown={handleMouseDown}
+          role="presentation"
         >
           <div
+            role="slider"
+            aria-valuemin={min}
+            aria-valuemax={max}
+            aria-valuenow={currentValue}
+            aria-disabled={disabled}
+            aria-label={label || "Slider"}
+            tabIndex={disabled ? -1 : 0}
             className={cn(
               "absolute rounded-full bg-primary-600",
               sizes[size].track,

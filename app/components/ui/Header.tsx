@@ -10,10 +10,11 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {
     href: string;
   }[];
   actions?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Header = forwardRef<HTMLElement, HeaderProps>(
-  ({ className, logo, navigation = [], actions, ...props }, ref) => {
+  ({ className, logo, navigation = [], actions, children, ...props }, ref) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
@@ -25,11 +26,14 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(
         <Container>
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center">{logo}</div>
+            <div className="flex items-center">
+              {logo}
+              {children}
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex md:items-center md:space-x-8">
-              {navigation.map((item) => (
+              {navigation?.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
@@ -63,7 +67,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(
           {isMenuOpen && (
             <div className="border-t py-4 md:hidden">
               <nav className="flex flex-col space-y-4">
-                {navigation.map((item) => (
+                {navigation?.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}

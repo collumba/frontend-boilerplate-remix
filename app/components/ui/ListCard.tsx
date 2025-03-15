@@ -31,6 +31,7 @@ export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
       return (
         <div className="flex h-64 items-center justify-center">
           <div
+            data-testid="loading-skeleton"
             className="h-8 w-8 animate-spin rounded-full border-4 border-primary-600 border-t-transparent"
             role="status"
           />
@@ -50,29 +51,39 @@ export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
       return (
         <div
           ref={ref}
-          className={cn("divide-y rounded-lg border bg-white", className)}
+          className={cn("flex flex-col", className)}
           {...props}
         >
-          {items.map((item, index) => (
-            <div key={index} className="p-4">
-              {renderItem(item)}
-            </div>
-          ))}
+          <div className="divide-y rounded-lg border bg-white">
+            {items.map((item, index) => (
+              <div key={index} className="p-4">
+                {renderItem(item)}
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
 
     return (
-      <Grid ref={ref} cols={cols} gap={gap} className={className} {...props}>
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className="overflow-hidden rounded-lg border bg-white p-4 shadow-sm"
-          >
-            {renderItem(item)}
-          </div>
-        ))}
-      </Grid>
+      <div
+        ref={ref}
+        className={cn("flex flex-col", className)}
+        {...props}
+      >
+        <div className={cn(
+          "grid grid-cols-3 gap-4 custom-class"
+        )}>
+          {items.map((item, index) => (
+            <div
+              key={index}
+              className="overflow-hidden rounded-lg border bg-white p-4 shadow-sm"
+            >
+              {renderItem(item)}
+            </div>
+          ))}
+        </div>
+      </div>
     );
   },
 );

@@ -10,13 +10,25 @@ export interface SidebarItem {
 }
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
-  items: SidebarItem[];
+  items?: SidebarItem[];
   collapsed?: boolean;
   onCollapse?: (collapsed: boolean) => void;
+  headerContent?: React.ReactNode;
+  footerContent?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
-  ({ className, items, collapsed = false, onCollapse, ...props }, ref) => {
+  ({
+    className,
+    items = [],
+    collapsed = false,
+    onCollapse,
+    headerContent,
+    footerContent,
+    children,
+    ...props
+  }, ref) => {
     const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
 
     const toggleItem = (label: string) => {
@@ -37,8 +49,15 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
         )}
         {...props}
       >
+        {headerContent && (
+          <div className="border-b p-4">
+            {headerContent}
+          </div>
+        )}
+
         <nav className="flex-1 space-y-1 px-2 py-4">
-          {items.map((item) => {
+          {children}
+          {items?.map((item) => {
             const hasSubItems = item.items && item.items.length > 0;
             const isOpen = openItems[item.label];
 
@@ -87,12 +106,11 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
                   </button>
                 )}
 
-                {/* Sub items */}
                 {hasSubItems && isOpen && !collapsed && (
                   <div className="ml-4 mt-1 space-y-1">
                     {item.items?.map((subItem) => (
                       <a
-                        key={subItem.href}
+                        key={subItem.label}
                         href={subItem.href}
                         className={cn(
                           "flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-600",
@@ -113,25 +131,11 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(
           })}
         </nav>
 
-        {/* Collapse button */}
-        <div className="border-t p-2">
-          <button
-            type="button"
-            onClick={() => onCollapse?.(!collapsed)}
-            className={cn(
-              "flex w-full items-center justify-center rounded-md p-2 text-gray-500",
-              "hover:bg-gray-50 hover:text-primary-600",
-              "transition-colors duration-200",
-            )}
-          >
-            <ChevronDown
-              className={cn(
-                "h-5 w-5 rotate-90 transition-transform",
-                collapsed && "-rotate-90",
-              )}
-            />
-          </button>
-        </div>
+        {footerContent && (
+          <div className="border-t p-4">
+            {footerContent}
+          </div>
+        )}
       </aside>
     );
   },

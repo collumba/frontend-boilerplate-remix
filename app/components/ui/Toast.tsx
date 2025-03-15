@@ -30,6 +30,42 @@ export interface ToastProps extends HTMLAttributes<HTMLDivElement> {
   showProgress?: boolean;
 }
 
+const variants = {
+  info: {
+    container: "bg-blue-50 border-blue-200",
+    title: "text-blue-900",
+    description: "text-blue-800",
+    progress: "bg-blue-200",
+  },
+  success: {
+    container: "bg-green-100 border-green-200",
+    title: "text-green-900",
+    description: "text-green-800",
+    progress: "bg-green-200",
+  },
+  warning: {
+    container: "bg-yellow-100 border-yellow-200",
+    title: "text-yellow-900",
+    description: "text-yellow-800",
+    progress: "bg-yellow-200",
+  },
+  error: {
+    container: "bg-red-100 border-red-200",
+    title: "text-red-900",
+    description: "text-red-800",
+    progress: "bg-red-200",
+  },
+};
+
+const positions = {
+  "top-left": "top-0 left-0",
+  "top-right": "top-0 right-0",
+  "top-center": "top-0 left-1/2 -translate-x-1/2",
+  "bottom-left": "bottom-0 left-0",
+  "bottom-right": "bottom-0 right-0",
+  "bottom-center": "bottom-0 left-1/2 -translate-x-1/2",
+};
+
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(
   (
     {
@@ -53,6 +89,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       setIsVisible(isOpen);
       if (isOpen && duration > 0) {
         const timer = setTimeout(() => {
+          setIsVisible(false);
           onClose?.();
         }, duration);
 
@@ -62,7 +99,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           const remaining = Math.max(0, (duration - elapsed) / duration) * 100;
           setProgress(remaining);
 
-          if (remaining > 0) {
+          if (remaining > 0 && isVisible) {
             requestAnimationFrame(updateProgress);
           }
         };
@@ -75,30 +112,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           clearTimeout(timer);
         };
       }
-    }, [isOpen, duration, onClose, showProgress]);
-
-    const variants = {
-      info: "bg-primary-50 text-primary-900 border-primary-200",
-      success: "bg-success-50 text-success-900 border-success-200",
-      warning: "bg-warning-50 text-warning-900 border-warning-200",
-      error: "bg-error-50 text-error-900 border-error-200",
-    };
-
-    const progressColors = {
-      info: "bg-primary-200",
-      success: "bg-success-200",
-      warning: "bg-warning-200",
-      error: "bg-error-200",
-    };
-
-    const positions = {
-      "top-left": "top-0 left-0",
-      "top-right": "top-0 right-0",
-      "top-center": "top-0 left-1/2 -translate-x-1/2",
-      "bottom-left": "bottom-0 left-0",
-      "bottom-right": "bottom-0 right-0",
-      "bottom-center": "bottom-0 left-1/2 -translate-x-1/2",
-    };
+    }, [isOpen, duration, onClose, showProgress, isVisible]);
 
     if (!isVisible) return null;
 
@@ -106,7 +120,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       <div
         className={cn(
           "fixed z-50 m-4 w-full max-w-sm overflow-hidden rounded-lg border shadow-lg",
-          variants[variant],
+          variants[variant].container,
           positions[position],
           "animate-slide-in",
           className,
@@ -116,15 +130,27 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         {...props}
       >
         <div className="p-4">
-          {title && <h4 className="mb-1 font-medium">{title}</h4>}
-          {description && <p className="text-sm opacity-90">{description}</p>}
+          {title && (
+            <h4 className={cn("mb-1 font-medium", variants[variant].title)}>
+              {title}
+            </h4>
+          )}
+          {description && (
+            <p className={cn("text-sm", variants[variant].description)}>
+              {description}
+            </p>
+          )}
         </div>
         {showProgress && (
-          <div className="h-1 w-full bg-black/10">
+          <div className="h-1 w-full bg-black/5">
             <div
+              role="progressbar"
+              aria-valuenow={progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
               className={cn(
                 "h-full transition-all duration-100",
-                progressColors[variant],
+                variants[variant].progress
               )}
               style={{ width: `${progress}%` }}
             />
@@ -176,3 +202,5 @@ export const useToast = () => {
   }
   return context;
 };
+
+Toast.displayName = "Toast";

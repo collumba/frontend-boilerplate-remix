@@ -23,7 +23,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
   ) => {
     const baseStyles = "rounded-lg bg-white";
     const variants = {
-      default: "border border-gray-200",
+      default: "border border-gray-200 p-4",
       bordered: "border-2 border-gray-300",
       elevated: "shadow-lg",
     };
@@ -34,8 +34,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       lg: "p-6",
     };
     const interactionStyles = cn(
-      isHoverable && "transition-shadow duration-200 hover:shadow-md",
-      isClickable && "cursor-pointer active:scale-[0.98] transition-transform",
+      isHoverable && "hover:shadow-md",
+      isClickable && "cursor-pointer",
     );
 
     return (
@@ -103,10 +103,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex items-center justify-end space-x-2 border-t border-gray-200 pt-4 mt-4",
-          className,
-        )}
+        className={cn("border-t pt-4 mt-4", className)}
         {...props}
       >
         {children}

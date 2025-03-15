@@ -11,7 +11,7 @@ export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   (
     { className, variant = "info", title, icon, children, onClose, ...props },
-    ref
+    ref,
   ) => {
     const baseStyles = "relative rounded-lg p-4";
 
@@ -51,7 +51,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
               type="button"
               className={cn(
                 "ml-3 inline-flex flex-shrink-0 items-center justify-center rounded-md p-1.5 hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-offset-2",
-                `focus:ring-${variant}-500`
+                `focus:ring-${variant}-500`,
               )}
               onClick={onClose}
             >
@@ -74,7 +74,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 Alert.displayName = "Alert";

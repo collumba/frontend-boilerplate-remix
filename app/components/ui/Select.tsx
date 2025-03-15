@@ -10,37 +10,19 @@ export interface SelectOption {
 export interface SelectProps
   extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
   options: SelectOption[];
-  error?: string;
+  error?: string | boolean;
   label?: string;
   helperText?: string;
   placeholder?: string;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  (
-    {
-      className,
-      error,
-      label,
-      helperText,
-      options,
-      placeholder,
-      disabled,
-      ...props
-    },
-    ref,
-  ) => {
-    const baseStyles =
-      "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6";
-    const variants = {
-      default: "ring-gray-300 focus:ring-primary-600",
-      error: "ring-error-300 focus:ring-error-500",
-      disabled: "bg-gray-50 text-gray-500 cursor-not-allowed",
-    };
+  ({ className, options, error, placeholder, value, disabled, ...props }, ref) => {
+    const errorMessage = typeof error === "string" ? error : "Please select an option";
 
     return (
       <div className="w-full">
-        {label && (
+        {props.label && (
           <label
             htmlFor={props.id}
             className={cn(
@@ -49,21 +31,24 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               disabled && "text-gray-500",
             )}
           >
-            {label}
+            {props.label}
           </label>
         )}
         <div className="relative">
           <select
             ref={ref}
             className={cn(
-              baseStyles,
-              error ? variants.error : variants.default,
-              disabled && variants.disabled,
+              "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6",
+              error
+                ? "ring-error-300 focus:ring-error-600"
+                : "ring-gray-300 focus:ring-primary-600",
+              disabled && "bg-gray-50 text-gray-500 cursor-not-allowed",
               className,
             )}
             disabled={disabled}
             aria-invalid={error ? "true" : "false"}
             aria-describedby={error ? `${props.id}-error` : undefined}
+            value={value || ""}
             {...props}
           >
             {placeholder && (
@@ -75,7 +60,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               <option
                 key={option.value}
                 value={option.value}
-                disabled={option.disabled}
+                disabled={disabled || option.disabled}
               >
                 {option.label}
               </option>
@@ -96,7 +81,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             </svg>
           </div>
         </div>
-        {(error || helperText) && (
+        {(error || props.helperText) && (
           <p
             className={cn(
               "mt-1 text-sm",
@@ -104,10 +89,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             )}
             id={error ? `${props.id}-error` : undefined}
           >
-            {error || helperText}
+            {error ? errorMessage : props.helperText}
           </p>
         )}
       </div>
     );
   },
 );
+
+Select.displayName = "Select";

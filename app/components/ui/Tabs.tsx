@@ -5,6 +5,8 @@ import {
   createContext,
   forwardRef,
   useContext,
+  useImperativeHandle,
+  useRef,
   useState,
 } from "react";
 
@@ -38,6 +40,9 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     ref,
   ) => {
     const [selectedTab, setSelectedTab] = useState(defaultTab || "");
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
 
     const currentTab = value ?? selectedTab;
     const handleTabChange = (tabId: string) => {
@@ -51,7 +56,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
       <TabsContext.Provider
         value={{ selectedTab: currentTab, setSelectedTab: handleTabChange }}
       >
-        <div ref={ref} className={cn("w-full", className)} {...props}>
+        <div ref={containerRef} className={cn("w-full", className)} {...props}>
           {children}
         </div>
       </TabsContext.Provider>
@@ -65,10 +70,13 @@ export interface TabListProps extends HTMLAttributes<HTMLDivElement> {
 
 export const TabList = forwardRef<HTMLDivElement, TabListProps>(
   ({ className, children, ...props }, ref) => {
+    const listRef = useRef<HTMLDivElement>(null);
+    useImperativeHandle(ref, () => listRef.current as HTMLDivElement);
+
     const baseStyles = "flex border-b border-gray-200";
     return (
       <div
-        ref={ref}
+        ref={listRef}
         role="tablist"
         className={cn(baseStyles, className)}
         {...props}
@@ -93,6 +101,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
 
     const { selectedTab, setSelectedTab } = context;
     const isSelected = selectedTab === id;
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    useImperativeHandle(ref, () => buttonRef.current as HTMLButtonElement);
 
     const baseStyles =
       "relative inline-flex items-center justify-center px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2";
@@ -106,7 +116,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
 
     return (
       <button
-        ref={ref}
+        ref={buttonRef}
         role="tab"
         aria-selected={isSelected}
         aria-controls={`panel-${id}`}
@@ -143,12 +153,14 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
 
     const { selectedTab } = context;
     const isSelected = selectedTab === id;
+    const panelRef = useRef<HTMLDivElement>(null);
+    useImperativeHandle(ref, () => panelRef.current as HTMLDivElement);
 
     if (!isSelected) return null;
 
     return (
       <div
-        ref={ref}
+        ref={panelRef}
         role="tabpanel"
         id={`panel-${id}`}
         aria-labelledby={`tab-${id}`}

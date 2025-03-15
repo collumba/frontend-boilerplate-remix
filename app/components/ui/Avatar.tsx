@@ -27,11 +27,19 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     const baseStyles = "relative inline-block flex-shrink-0";
 
     const sizes = {
-      xs: "h-6 w-6 text-xs",
-      sm: "h-8 w-8 text-sm",
-      md: "h-10 w-10 text-base",
-      lg: "h-12 w-12 text-lg",
-      xl: "h-14 w-14 text-xl",
+      xs: "h-6 w-6",
+      sm: "h-8 w-8",
+      md: "h-10 w-10",
+      lg: "h-12 w-12",
+      xl: "h-14 w-14",
+    };
+
+    const textSizes = {
+      xs: "text-xs",
+      sm: "text-sm",
+      md: "text-base",
+      lg: "text-lg",
+      xl: "text-xl",
     };
 
     const variants = {
@@ -83,6 +91,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
             className={cn(
               "flex h-full w-full items-center justify-center bg-gray-200",
               variants[variant],
+              textSizes[size],
             )}
             aria-label={alt}
           >

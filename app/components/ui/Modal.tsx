@@ -1,5 +1,6 @@
+import { Dialog, Transition } from "@headlessui/react";
 import { cn } from "@utils/cn";
-import { HTMLAttributes, forwardRef, useEffect } from "react";
+import { Fragment, HTMLAttributes, forwardRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
@@ -11,19 +12,7 @@ export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
-  (
-    {
-      className,
-      children,
-      isOpen,
-      onClose,
-      size = "md",
-      closeOnOverlayClick = true,
-      closeOnEsc = true,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ isOpen, onClose, children, className, closeOnEsc = true, closeOnOverlayClick = true, size = "md" }, ref) => {
     useEffect(() => {
       const handleEsc = (event: KeyboardEvent) => {
         if (closeOnEsc && event.key === "Escape") {
@@ -53,30 +42,53 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     };
 
     return createPortal(
-      <div className="fixed inset-0 z-50 overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <div
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-            onClick={closeOnOverlayClick ? onClose : undefined}
-            aria-hidden="true"
-          />
-
-          <div
-            ref={ref}
-            className={cn(
-              "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full",
-              sizes[size],
-              className,
-            )}
-            {...props}
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={closeOnOverlayClick ? onClose : () => {}}
+          ref={ref}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
-            {children}
+            <div className="fixed inset-0 bg-black/25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel
+                  className={cn(
+                    "w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all",
+                    sizes[size],
+                    className
+                  )}
+                >
+                  {children}
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-        </div>
-      </div>,
-      document.body,
+        </Dialog>
+      </Transition>,
+      document.body
     );
-  },
+  }
 );
 
 export interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
@@ -126,36 +138,45 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
 export interface ModalContentProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
-      <div ref={ref} className={cn("px-6 py-4", className)} {...props}>
+      <div
+        ref={ref}
+        className={cn("px-6 py-4", className)}
+        {...props}
+      >
         {children}
       </div>
     );
-  },
+  }
 );
 
 export interface ModalFooterProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          "flex items-center justify-end space-x-2 px-6 py-4 border-t border-gray-200",
-          className,
+          "flex items-center justify-end border-t border-gray-200 px-6 py-4",
+          className
         )}
         {...props}
       >
         {children}
       </div>
     );
-  },
+  }
 );
+
+Modal.displayName = "Modal";
+ModalHeader.displayName = "ModalHeader";
+ModalContent.displayName = "ModalContent";
+ModalFooter.displayName = "ModalFooter";

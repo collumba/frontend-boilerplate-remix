@@ -47,6 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             aria-invalid={error ? "true" : "false"}
             aria-describedby={error ? `${props.id}-error` : undefined}
+            role="textbox"
             {...props}
           />
         </div>

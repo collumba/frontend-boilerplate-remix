@@ -32,6 +32,7 @@ export interface TableProps<T> extends HTMLAttributes<HTMLTableElement> {
   headerClassName?: string;
   rowClassName?: string;
   cellClassName?: string;
+  onSort?: (key: keyof T, direction: "asc" | "desc") => void;
 }
 
 export interface ThProps extends ThHTMLAttributes<HTMLTableCellElement> {
@@ -41,27 +42,27 @@ export interface ThProps extends ThHTMLAttributes<HTMLTableCellElement> {
 }
 
 export const Th = forwardRef<HTMLTableCellElement, ThProps>(
-  ({ className, children, sortDirection, onSort, sortable, ...props }, ref) => {
+  ({ className, children, sortDirection, onSort, ...props }, ref) => {
     return (
       <th
         ref={ref}
         className={cn(
           "px-4 py-3 text-left text-sm font-semibold text-gray-900",
-          sortable && "cursor-pointer select-none",
+          onSort && "cursor-pointer select-none",
           className,
         )}
-        onClick={sortable ? onSort : undefined}
+        onClick={onSort}
         {...props}
       >
-        <div className="flex items-center gap-2">
-          {children}
-          {sortable && (
+        {onSort ? (
+          <div className="flex items-center gap-2">
+            {children}
             <div className="flex flex-col">
               <span
                 className={cn(
                   "h-0 w-0 border-x-4 border-x-transparent border-b-4",
                   sortDirection === "asc"
-                    ? "border-b-gray-900"
+                    ? "border-b-primary-600"
                     : "border-b-gray-300",
                 )}
               />
@@ -69,13 +70,15 @@ export const Th = forwardRef<HTMLTableCellElement, ThProps>(
                 className={cn(
                   "h-0 w-0 border-x-4 border-x-transparent border-t-4",
                   sortDirection === "desc"
-                    ? "border-t-gray-900"
+                    ? "border-t-primary-600"
                     : "border-t-gray-300",
                 )}
               />
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          children
+        )}
       </th>
     );
   },
@@ -83,16 +86,18 @@ export const Th = forwardRef<HTMLTableCellElement, ThProps>(
 
 export const Td = forwardRef<
   HTMLTableCellElement,
-  TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <td
-    ref={ref}
-    className={cn("px-4 py-3 text-sm text-gray-700", className)}
-    {...props}
-  />
-));
+  HTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <td
+      ref={ref}
+      className={cn("px-4 py-3 text-sm text-gray-700", className)}
+      {...props}
+    />
+  );
+});
 
-export function Table<T>({
+export function Table<T extends Record<string, unknown>>({
   className,
   data,
   columns,
@@ -107,43 +112,42 @@ export function Table<T>({
   headerClassName,
   rowClassName,
   cellClassName,
+  onSort,
   ...props
 }: TableProps<T>) {
   const [sortConfig, setSortConfig] = useState<{
-    key: keyof T | null;
+    key: keyof T;
     direction: "asc" | "desc";
-  }>({ key: null, direction: "asc" });
+  } | null>(null);
   const [filters, setFilters] = useState<Partial<Record<keyof T, string>>>({});
 
-  const handleSort = useCallback((key: keyof T) => {
-    setSortConfig((current) => ({
-      key,
-      direction:
-        current.key === key && current.direction === "asc" ? "desc" : "asc",
-    }));
-  }, []);
+  const handleSort = (key: keyof T) => {
+    const direction =
+      sortConfig?.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
+    setSortConfig({ key, direction });
+    onSort?.(key, direction);
+  };
 
-  const handleFilter = useCallback((key: keyof T, value: string) => {
-    setFilters((current) => ({ ...current, [key]: value }));
-  }, []);
+  const handleFilter = (key: keyof T, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
 
   const filteredData = useMemo(() => {
     return data.filter((item) => {
       return Object.entries(filters).every(([key, value]) => {
         if (!value) return true;
-        const itemValue = String(item[key as keyof T]);
-        const filterValue = String(value);
-        return itemValue.toLowerCase().includes(filterValue.toLowerCase());
+        const itemValue = String(item[key as keyof T] || "").toLowerCase();
+        return itemValue.includes(value.toLowerCase());
       });
     });
   }, [data, filters]);
 
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return filteredData;
+    if (!sortConfig) return filteredData;
 
     return [...filteredData].sort((a, b) => {
-      const aValue = a[sortConfig.key as keyof T];
-      const bValue = b[sortConfig.key as keyof T];
+      const aValue = String(a[sortConfig.key] || "").toLowerCase();
+      const bValue = String(b[sortConfig.key] || "").toLowerCase();
 
       if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
@@ -164,6 +168,7 @@ export function Table<T>({
         <div
           className="h-8 w-8 animate-spin rounded-full border-4 border-primary-600 border-t-transparent"
           role="status"
+          aria-label="Loading"
         />
       </div>
     );
@@ -178,7 +183,7 @@ export function Table<T>({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col" {...props}>
       {filterable && (
         <div className="flex flex-wrap gap-4">
           {columns
@@ -193,13 +198,14 @@ export function Table<T>({
                 onChange={(e) =>
                   handleFilter(column.accessorKey, e.target.value)
                 }
+                aria-label={`Filter by ${String(column.header)}`}
               />
             ))}
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className={cn("w-full", className)} {...props}>
+      <div className="w-full custom-class">
+        <table className={cn("w-full", className)}>
           <thead className={cn("bg-gray-50", headerClassName)}>
             <tr>
               {columns.map((column) => (
@@ -207,11 +213,16 @@ export function Table<T>({
                   key={String(column.accessorKey)}
                   sortable={sortable && column.sortable !== false}
                   sortDirection={
-                    sortConfig.key === column.accessorKey
+                    sortConfig?.key === column.accessorKey
                       ? sortConfig.direction
                       : null
                   }
-                  onSort={() => handleSort(column.accessorKey)}
+                  onSort={
+                    sortable && column.sortable !== false
+                      ? () => handleSort(column.accessorKey)
+                      : undefined
+                  }
+                  className={headerClassName}
                 >
                   {column.header}
                 </Th>
@@ -223,9 +234,9 @@ export function Table<T>({
               <tr
                 key={rowIndex}
                 className={cn(
-                  "border-t border-gray-200 bg-white",
-                  rowIndex % 2 === 0 && "bg-gray-50",
-                  rowClassName,
+                  "border-t border-gray-200",
+                  rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white",
+                  rowClassName
                 )}
               >
                 {columns.map((column) => (
@@ -245,36 +256,119 @@ export function Table<T>({
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-700">
-            Showing {(currentPage - 1) * pageSize + 1} to{" "}
-            {Math.min(currentPage * pageSize, totalItems ?? sortedData.length)}{" "}
-            of {totalItems ?? sortedData.length} results
-          </div>
-          <div className="flex gap-2">
+        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+          <div className="flex flex-1 justify-between sm:hidden">
             <button
-              className={cn(
-                "rounded-md border border-gray-300 px-3 py-1.5 text-sm",
-                currentPage === 1 && "cursor-not-allowed opacity-50",
-              )}
               onClick={() => onPageChange?.(currentPage - 1)}
               disabled={currentPage === 1}
+              className={cn(
+                "relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700",
+                currentPage === 1
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-gray-50",
+              )}
             >
               Previous
             </button>
             <button
-              className={cn(
-                "rounded-md border border-gray-300 px-3 py-1.5 text-sm",
-                currentPage === totalPages && "cursor-not-allowed opacity-50",
-              )}
               onClick={() => onPageChange?.(currentPage + 1)}
               disabled={currentPage === totalPages}
+              className={cn(
+                "relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700",
+                currentPage === totalPages
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-gray-50",
+              )}
             >
               Next
             </button>
+          </div>
+          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm text-gray-700">
+                Showing{" "}
+                <span className="font-medium">
+                  {Math.min(
+                    (currentPage - 1) * pageSize + 1,
+                    totalItems ?? sortedData.length,
+                  )}
+                </span>{" "}
+                to{" "}
+                <span className="font-medium">
+                  {Math.min(
+                    currentPage * pageSize,
+                    totalItems ?? sortedData.length,
+                  )}
+                </span>{" "}
+                of{" "}
+                <span className="font-medium">
+                  {totalItems ?? sortedData.length}
+                </span>{" "}
+                results
+              </p>
+            </div>
+            <div>
+              <nav
+                className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+                aria-label="Pagination"
+              >
+                <button
+                  onClick={() => onPageChange?.(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={cn(
+                    "relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500",
+                    currentPage === 1
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-gray-50",
+                  )}
+                >
+                  <span className="sr-only">Previous</span>
+                  <svg
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => onPageChange?.(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={cn(
+                    "relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500",
+                    currentPage === totalPages
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-gray-50",
+                  )}
+                >
+                  <span className="sr-only">Next</span>
+                  <svg
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </nav>
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
+
+Table.displayName = "Table";
+Th.displayName = "Th";
+Td.displayName = "Td";

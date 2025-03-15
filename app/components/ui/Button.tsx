@@ -54,6 +54,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className,
         )}
         disabled={disabled || isLoading}
+        title={isLoading ? "Loading" : undefined}
         {...props}
       >
         {isLoading && (

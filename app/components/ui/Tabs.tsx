@@ -1,3 +1,4 @@
+import { cn } from "@utils/cn";
 import {
   HTMLAttributes,
   ReactNode,
@@ -6,7 +7,6 @@ import {
   useContext,
   useState,
 } from "react";
-import { cn } from "~/utils/cn";
 
 interface TabsContextValue {
   selectedTab: string;

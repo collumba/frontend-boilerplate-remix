@@ -1,3 +1,4 @@
+import { cn } from "@utils/cn";
 import {
   HTMLAttributes,
   ReactNode,
@@ -9,7 +10,6 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "~/utils/cn";
 
 export type TooltipPosition = "top" | "right" | "bottom" | "left";
 

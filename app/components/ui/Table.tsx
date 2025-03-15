@@ -1,3 +1,4 @@
+import { cn } from "@utils/cn";
 import {
   HTMLAttributes,
   ReactNode,
@@ -8,7 +9,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import { cn } from "~/utils/cn";
 
 export interface Column<T> {
   header: ReactNode;

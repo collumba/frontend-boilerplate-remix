@@ -1,6 +1,6 @@
+import { cn } from "@utils/cn";
 import { HTMLAttributes, forwardRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "~/utils/cn";
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;

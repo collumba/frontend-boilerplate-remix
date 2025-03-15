@@ -1,5 +1,5 @@
+import { cn } from "@utils/cn";
 import { forwardRef, InputHTMLAttributes } from "react";
-import { cn } from "~/utils/cn";
 
 export interface SwitchProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {

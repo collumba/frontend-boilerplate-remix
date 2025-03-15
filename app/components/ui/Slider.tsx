@@ -1,5 +1,5 @@
+import { cn } from "@utils/cn";
 import { HTMLAttributes, forwardRef, useEffect, useRef, useState } from "react";
-import { cn } from "~/utils/cn";
 
 export interface SliderProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {

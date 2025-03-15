@@ -39,7 +39,6 @@ export async function initI18nServer(request: Request) {
     .use(initReactI18next)
     .init({
       ...i18nCommonConfig,
-      debug: true,
       lng,
       backend: {
         loadPath: path.join(process.cwd(), 'public', 'locales', '{{lng}}', '{{ns}}.json'),

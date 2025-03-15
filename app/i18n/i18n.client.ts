@@ -10,7 +10,6 @@ export async function initI18nClient() {
     .use(initReactI18next)
     .init({
       ...i18nCommonConfig,
-      debug: true,
       detection: {
         order: ['cookie', 'localStorage', 'navigator', 'htmlTag'],
         caches: ['cookie', 'localStorage'],

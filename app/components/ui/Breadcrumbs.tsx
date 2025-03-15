@@ -1,5 +1,5 @@
 import { cn } from "@utils/cn";
-import { HTMLAttributes, forwardRef } from "react";
+import { forwardRef } from "react";
 
 export interface BreadcrumbItem {
   label: string;
@@ -7,7 +7,7 @@ export interface BreadcrumbItem {
   icon?: React.ReactNode;
 }
 
-export interface BreadcrumbsProps extends HTMLAttributes<HTMLElement> {
+export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLElement> {
   items: BreadcrumbItem[];
   separator?: React.ReactNode;
   maxItems?: number;
@@ -42,11 +42,11 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
     return (
       <nav
         ref={ref}
-        aria-label="Breadcrumbs"
-        className={cn("", className)}
+        aria-label="Breadcrumb"
+        className={cn("flex", className)}
         {...props}
       >
-        <ol className="flex items-center space-x-2">
+        <ol className="flex items-center space-x-2" role="list">
           {displayedItems.map((item, index) => {
             const isLast = index === displayedItems.length - 1;
 
@@ -59,31 +59,39 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                   <a
                     href={item.href}
                     className={cn(
-                      "flex items-center hover:text-primary-600 text-sm font-medium text-gray-500",
-                      itemClassName,
+                      "flex items-center text-sm font-medium text-gray-500 hover:text-primary-600",
+                      itemClassName
                     )}
+                    aria-current={isLast ? "page" : undefined}
                   >
-                    {item.icon && <span className="mr-1.5">{item.icon}</span>}
+                    {item.icon && (
+                      <span className="mr-1.5" aria-hidden="true">
+                        {item.icon}
+                      </span>
+                    )}
                     {item.label}
                   </a>
                 ) : (
                   <span
                     className={cn(
                       "flex items-center text-sm font-medium",
-                      isLast
-                        ? cn("text-gray-900", activeItemClassName, "custom-active")
-                        : "text-gray-500",
-                      itemClassName,
-                      "custom-item"
+                      isLast ? "text-gray-900" : "text-gray-500",
+                      isLast && activeItemClassName,
+                      itemClassName
                     )}
+                    aria-current={isLast ? "page" : undefined}
                   >
-                    {item.icon && <span className="mr-1.5">{item.icon}</span>}
+                    {item.icon && (
+                      <span className="mr-1.5" aria-hidden="true">
+                        {item.icon}
+                      </span>
+                    )}
                     {item.label}
                   </span>
                 )}
                 {!isLast && (
                   <span
-                    className={cn("text-gray-400 custom-separator", separatorClassName)}
+                    className={cn("text-gray-400", separatorClassName)}
                     aria-hidden="true"
                   >
                     {separator}
@@ -95,7 +103,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
         </ol>
       </nav>
     );
-  },
+  }
 );
 
 Breadcrumbs.displayName = "Breadcrumbs";

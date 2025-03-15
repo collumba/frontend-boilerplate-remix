@@ -82,7 +82,7 @@ export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
     return (
       <div
         ref={ref}
-        className={cn("w-full custom-class", className)}
+        className={cn("w-full", className)}
         {...props}
       >
         <div className={cn(

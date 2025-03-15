@@ -175,8 +175,8 @@ export function Table<T>({
         </div>
       )}
       <div className={cn("w-full", className)}>
-        <table className="w-full custom-table">
-          <thead className="bg-gray-50 custom-header">
+        <table className="w-full">
+          <thead className="bg-gray-50">
             <tr>
               {columns.map((column) => (
                 <Th

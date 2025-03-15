@@ -8,7 +8,7 @@ describe("Input", () => {
     render(<Input placeholder="Enter text" />);
     const input = screen.getByPlaceholderText("Enter text");
     expect(input).toBeInTheDocument();
-    expect(input).toHaveClass("ring-gray-300");
+    expect(input).toHaveClass("border-gray-300");
   });
 
   it("renders with a label", () => {

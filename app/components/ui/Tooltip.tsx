@@ -73,33 +73,29 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       const tooltip = tooltipRef.current.getBoundingClientRect();
       const spacing = 8;
 
-      let top = 0;
-      let left = 0;
+      let x = trigger.x;
+      let y = trigger.y;
 
       switch (position) {
         case "top":
-          top = trigger.top - tooltip.height - spacing;
-          left = trigger.left + (trigger.width - tooltip.width) / 2;
+          x = trigger.x + trigger.width / 2 - tooltip.width / 2;
+          y = trigger.y - tooltip.height - spacing;
           break;
         case "right":
-          top = trigger.top + (trigger.height - tooltip.height) / 2;
-          left = trigger.right + spacing;
+          x = trigger.x + trigger.width + spacing;
+          y = trigger.y + trigger.height / 2 - tooltip.height / 2;
           break;
         case "bottom":
-          top = trigger.bottom + spacing;
-          left = trigger.left + (trigger.width - tooltip.width) / 2;
+          x = trigger.x + trigger.width / 2 - tooltip.width / 2;
+          y = trigger.y + trigger.height + spacing;
           break;
         case "left":
-          top = trigger.top + (trigger.height - tooltip.height) / 2;
-          left = trigger.left - tooltip.width - spacing;
+          x = trigger.x - tooltip.width - spacing;
+          y = trigger.y + trigger.height / 2 - tooltip.height / 2;
           break;
       }
 
-      // Adjust for scroll position
-      top += window.scrollY;
-      left += window.scrollX;
-
-      setTooltipPosition({ top, left });
+      setTooltipPosition({ top: y, left: x });
     }, [isVisible, position]);
 
     const positions = {

@@ -28,6 +28,7 @@ import { Switch } from "@components/ui/Switch";
 import { Table } from "@components/ui/Table";
 import { Tabs } from "@components/ui/Tabs";
 import { Toast, useToast } from "@components/ui/Toast";
+import { Tooltip } from "@components/ui/Tooltip";
 import { Typography } from "@components/ui/Typography";
 import { Bell } from "lucide-react";
 import { useState } from "react";
@@ -397,7 +398,7 @@ export default function ComponentsShowcase() {
                 variant: "error",
                 title: "Toast Title",
                 description: "Toast Description",
-                  position: "bottom-right",
+                position: "bottom-right",
                 action: <Button variant="primary">Action</Button>,
               });
             }}
@@ -410,7 +411,7 @@ export default function ComponentsShowcase() {
                 variant: "warning",
                 title: "Toast Title",
                 description: "Toast Description",
-                  position: "bottom-right",
+                position: "bottom-right",
                 action: <Button variant="primary">Action</Button>,
               });
             }}
@@ -429,6 +430,22 @@ export default function ComponentsShowcase() {
           >
             Show Toast Info
           </Button>
+        </div>
+      </ComponentSection>
+      <ComponentSection title="Tooltip">
+        <div className="flex flex-wrap gap-4 items-end">
+          <Tooltip content="Tooltip Content" position="top">
+            <Button variant="primary">Hover me top</Button>
+          </Tooltip>
+          <Tooltip content="Tooltip Content" position="left">
+            <Button variant="primary">Hover me left</Button>
+          </Tooltip>
+          <Tooltip content="Tooltip Content" position="right">
+            <Button variant="primary">Hover me right</Button>
+          </Tooltip>
+          <Tooltip content="Tooltip Content" position="bottom">
+            <Button variant="primary">Hover me bottom</Button>
+          </Tooltip>
         </div>
       </ComponentSection>
       <ComponentSection title="Typography">

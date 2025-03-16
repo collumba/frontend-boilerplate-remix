@@ -453,7 +453,6 @@ export default function ComponentsShowcase() {
           <Skeleton variant="text" />
           <Skeleton variant="rectangular" height={40} width={40} />
           <Skeleton variant="circular" height={40} width={40} />
-          <Skeleton.Card />
           <Skeleton.Rectangle height={80} width={80} />
         </div>
       </ComponentSection>

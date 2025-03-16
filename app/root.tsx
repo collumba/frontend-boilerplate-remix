@@ -1,19 +1,16 @@
 import type { LinksFunction } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "@remix-run/node";
 import {
-  Links,
-  LiveReload,
-  Meta,
+  Links, Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
+  useLoaderData
 } from "@remix-run/react";
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-
-import "./tailwind.css";
 import { TranslationsLanguages } from "./i18n/i18n";
+import "./tailwind.css";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -54,7 +51,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="h-full">
         {children}
-        <LiveReload />
         <ScrollRestoration />
         <Scripts />
       </body>

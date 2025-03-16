@@ -32,11 +32,11 @@ function ComponentSection({
   children: React.ReactNode;
 }) {
   return (
-    <section>
+    <section className="mb-6 bg-secondary-900 rounded-lg p-4">
       <Typography variant="h4" className="mb-6">
         {title}
       </Typography>
-      {children}
+      <div className="bg-secondary-900 rounded-lg p-4">{children}</div>
     </section>
   );
 }

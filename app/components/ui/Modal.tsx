@@ -1,4 +1,9 @@
-import { Dialog, Transition } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import { cn } from "@utils/cn";
 import { X } from "lucide-react";
 import {
@@ -90,7 +95,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           onClose={closeOnOverlayClick ? onClose : () => {}}
           ref={ref}
         >
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0"
@@ -105,11 +110,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               onClick={closeOnOverlayClick ? onClose : undefined}
               aria-hidden="true"
             />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4">
-              <Transition.Child
+              <TransitionChild
                 as={Fragment}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 scale-95"
@@ -118,17 +123,17 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel
+                <DialogPanel
                   className={cn(
-                    "w-full transform overflow-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all",
+                    "relative w-full transform overflow-hidden rounded-lg bg-secondary-900 text-popover-foreground text-left align-middle shadow-lg transition-all",
                     sizes[size],
                     positions[position],
                     className
                   )}
                 >
                   {children}
-                </Dialog.Panel>
-              </Transition.Child>
+                </DialogPanel>
+              </TransitionChild>
             </div>
           </div>
         </Dialog>
@@ -150,22 +155,24 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn("px-6 py-4 border-b border-border", className)}
+        className={cn("px-4 py-4 border-border bg-popover", className)}
         {...props}
       >
         <div className="flex items-start justify-between">
           <div>
-            <Typography variant="h6" color="primary">
-              {title}
-            </Typography>
+            <Typography variant="h6">{title}</Typography>
             {subtitle && (
-              <Typography variant="body2" color="secondary">
+              <Typography variant="body2" className="text-muted-foreground">
                 {subtitle}
               </Typography>
             )}
           </div>
           {onClose && (
-            <Button size="sm" onClick={onClose} aria-label="Close">
+            <Button
+              onClick={onClose}
+              className="h-8 w-8 p-0"
+              aria-label="Close"
+            >
               <X className="h-4 w-4" />
             </Button>
           )}
@@ -182,7 +189,7 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
     return (
       <div
         ref={ref}
-        className={cn("px-6 py-4", className)}
+        className={cn("px-4 py-4 text-popover-foreground", className)}
         data-testid="modal-content"
         {...props}
       >
@@ -200,7 +207,7 @@ export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
       <div
         ref={ref}
         className={cn(
-          "flex items-center justify-end border-t border-border px-6 py-4",
+          "flex items-center justify-end gap-2 border-border bg-popover px-4 py-4",
           className
         )}
         data-testid="modal-footer"

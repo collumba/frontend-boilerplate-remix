@@ -7,9 +7,9 @@ import {
     Plus,
     Search,
     Settings,
-    User
 } from "lucide-react";
 import { useState } from "react";
+import { Avatar } from "./ui/Avatar";
 import { Button } from "./ui/Button";
 import { Container } from "./ui/Container";
 import { Footer } from "./ui/Footer";
@@ -24,12 +24,6 @@ interface RootLayoutProps {
 
 export function RootLayout({ children }: RootLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  const navigationItems = [
-    { label: "Dashboard", href: "/dashboard" },
-    { label: "Produtos", href: "/products" },
-    { label: "Relatórios", href: "/reports" },
-  ];
 
   const sidebarItems = [
     {
@@ -71,7 +65,7 @@ export function RootLayout({ children }: RootLayoutProps) {
             </Typography>
           </div>
         }
-        navigation={navigationItems}
+        navigation={[]}
         actions={
           <div className="flex items-center gap-2">
             <div className="relative hidden md:block">
@@ -94,9 +88,11 @@ export function RootLayout({ children }: RootLayoutProps) {
             >
               <Bell className="h-5 w-5" />
             </Button>
-            <div className="h-9 w-9 rounded-full bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
-              <User className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-            </div>
+            <Avatar
+              size="md"
+              alt="John Doe"
+              status="online"
+            />
           </div>
         }
         className="fixed left-0 right-0 top-0 z-50 h-16 border-b border-gray-100 dark:border-gray-900 bg-white/80 backdrop-blur-xl dark:bg-gray-950/80"
@@ -117,9 +113,12 @@ export function RootLayout({ children }: RootLayoutProps) {
           }
           footerContent={
             <div className="flex items-center gap-3 px-4 py-3 border-t border-gray-100 dark:border-gray-900">
-              <div className="h-9 w-9 shrink-0 rounded-full bg-gray-100 dark:bg-gray-900 ring-2 ring-white dark:ring-gray-950 flex items-center justify-center">
-                <User className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-              </div>
+              <Avatar
+                size="md"
+                alt="John Doe"
+                status="online"
+                className="ring-2 ring-white dark:ring-gray-950"
+              />
               <div className="min-w-0">
                 <Typography variant="subtitle2" className="truncate">John Doe</Typography>
                 <Typography variant="caption" color="secondary" className="truncate">

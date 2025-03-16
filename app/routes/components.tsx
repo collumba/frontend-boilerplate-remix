@@ -269,7 +269,7 @@ export default function ComponentsShowcase() {
       </ComponentSection>
       <ComponentSection title="Checkbox">
         <div className="flex flex-wrap gap-4 items-end">
-          <Checkbox id="checkbox-1" label="Checkbox" />
+          <Checkbox id="checkbox-1" label="Checkbox" onChange={() => {}} />
           <Checkbox id="checkbox-2" checked onChange={() => {}} />
           <Checkbox id="checkbox-3" disabled onChange={() => {}} />
           <Checkbox id="checkbox-4" checked disabled onChange={() => {}} />

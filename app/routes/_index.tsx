@@ -1,7 +1,7 @@
-import { RootLayout } from "@components/Layout";
+import { Button } from "@/components/ui/button";
+import { AppLayout } from "@components/layouts/AppLayout";
 import type { MetaFunction } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
-
 export const meta: MetaFunction = () => {
   return [
     { title: "Remix Boilerplate" },
@@ -17,8 +17,10 @@ export default function Index() {
   const { t, i18n } = useTranslation();
 
   return (
-    <RootLayout>
-      <h1>Hello World</h1>
-    </RootLayout>
+    <AppLayout>
+      <h1>
+        <Button variant="default">Click me</Button>
+      </h1>
+    </AppLayout>
   );
 }

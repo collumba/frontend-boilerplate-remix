@@ -11,11 +11,11 @@ import {
 } from "@remix-run/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-
 import { TranslationsLanguages } from "./i18n/i18n";
-import "./tailwind.css";
+import "./styles/globals.css";
 
 export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: "./styles/globals.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

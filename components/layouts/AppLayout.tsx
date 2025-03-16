@@ -1,3 +1,7 @@
+import { Footer } from "@components/ui/Footer";
+import { Header } from "@components/ui/Header";
+import { Sidebar } from "@components/ui/Sidebar";
+import { Typography } from "@components/ui/Typography";
 import { Button, Input } from "@headlessui/react";
 import {
   Bell,
@@ -10,16 +14,12 @@ import {
   Settings,
 } from "lucide-react";
 import { useState } from "react";
-import { Footer } from "./ui/Footer";
-import { Header } from "./ui/Header";
-import { Sidebar } from "./ui/Sidebar";
-import { Typography } from "./ui/Typography";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export function RootLayout({ children }: RootLayoutProps) {
+export function AppLayout({ children }: RootLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const sidebarItems = [

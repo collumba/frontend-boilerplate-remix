@@ -1,107 +1,67 @@
 import { cn } from "@utils/cn";
-import { HTMLAttributes, forwardRef } from "react";
-import { Grid } from "./Grid";
+import { forwardRef } from "react";
+import { Typography } from "./Typography";
 
-export interface ListCardProps<T> extends HTMLAttributes<HTMLDivElement> {
-  items: T[];
-  renderItem: (item: T) => React.ReactNode;
-  cols?: 1 | 2 | 3 | 4;
-  gap?: number;
-  layout?: "grid" | "list";
-  loading?: boolean;
-  emptyState?: React.ReactNode;
+export interface ListCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  title?: string;
+  subtitle?: string;
+  icon?: React.ReactNode;
+  action?: React.ReactNode;
+  footer?: React.ReactNode;
+  divider?: boolean;
 }
 
-export const ListCard = forwardRef<HTMLDivElement, ListCardProps<any>>(
+export const ListCard = forwardRef<HTMLDivElement, ListCardProps>(
   (
-    {
-      className,
-      items,
-      renderItem,
-      cols = 3,
-      gap = 4,
-      layout = "grid",
-      loading = false,
-      emptyState,
-      ...props
-    },
+    { className, title, subtitle, icon, action, footer, divider, children, ...props },
     ref,
   ) => {
-    if (loading) {
-      return (
-        <div className="flex h-64 items-center justify-center">
-          <div
-            data-testid="loading-skeleton"
-            className="h-8 w-8 animate-spin rounded-full border-4 border-primary-600 border-t-transparent"
-            role="status"
-          />
-        </div>
-      );
-    }
-
-    if (items.length === 0) {
-      return (
-        <div className="flex h-64 items-center justify-center text-gray-500">
-          {emptyState || "No items to display"}
-        </div>
-      );
-    }
-
-    if (layout === "list") {
-      return (
-        <div
-          ref={ref}
-          className={cn("flex flex-col w-full", className)}
-          {...props}
-        >
-          <div className="divide-y rounded-lg border bg-white">
-            {items.map((item, index) => (
-              <div key={index} className="p-4">
-                {renderItem(item)}
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    const colsClasses = {
-      1: "grid-cols-1",
-      2: "grid-cols-1 sm:grid-cols-2",
-      3: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
-      4: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-    };
-
-    const gapClasses = {
-      2: "gap-2",
-      4: "gap-4",
-      6: "gap-6",
-      8: "gap-8",
-    };
-
     return (
       <div
         ref={ref}
-        className={cn("w-full", className)}
+        className={cn(
+          "rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900",
+          className
+        )}
         {...props}
       >
-        <div className={cn(
-          "grid",
-          colsClasses[cols as keyof typeof colsClasses],
-          gapClasses[gap as keyof typeof gapClasses] || "gap-4"
-        )}>
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className="overflow-hidden rounded-lg border bg-white p-4 shadow-sm"
-            >
-              {renderItem(item)}
+        <div className="p-4">
+          {(title || subtitle || icon || action) && (
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                {icon && (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-gray-500 dark:bg-gray-800">
+                    {icon}
+                  </div>
+                )}
+                <div>
+                  {title && (
+                    <Typography variant="subtitle1" color="primary">
+                      {title}
+                    </Typography>
+                  )}
+                  {subtitle && (
+                    <Typography variant="body2" color="secondary">
+                      {subtitle}
+                    </Typography>
+                  )}
+                </div>
+              </div>
+              {action && <div>{action}</div>}
             </div>
-          ))}
+          )}
+          <div className={cn("space-y-4", divider && "divide-y divide-gray-200 dark:divide-gray-800")}>
+            {children}
+          </div>
         </div>
+        {footer && (
+          <div className="border-t border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-800/50">
+            {footer}
+          </div>
+        )}
       </div>
     );
-  },
+  }
 );
 
 ListCard.displayName = "ListCard";

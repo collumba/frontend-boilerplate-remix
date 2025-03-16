@@ -1,13 +1,19 @@
 import { cn } from '@utils/cn'
-import React from 'react'
+import React, { AnchorHTMLAttributes, HTMLAttributes, LabelHTMLAttributes } from 'react'
 
-type TypographyProps = {
+type BaseTypographyProps = {
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'overline'
   component?: React.ElementType
   className?: string
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'info'
   children: React.ReactNode
 }
+
+type TypographyProps = BaseTypographyProps & (
+  | ({ component: 'label' } & LabelHTMLAttributes<HTMLLabelElement>)
+  | ({ component: 'a' } & AnchorHTMLAttributes<HTMLAnchorElement>)
+  | ({ component?: Exclude<React.ElementType, 'label' | 'a'> } & HTMLAttributes<HTMLElement>)
+)
 
 const variantStyles = {
   h1: 'text-5xl font-bold tracking-tight',
@@ -55,7 +61,7 @@ export function Typography({
   color = 'primary',
   children,
   ...props
-}: TypographyProps & React.HTMLAttributes<HTMLElement>) {
+}: TypographyProps) {
   const Component = component || defaultElements[variant]
 
   return (

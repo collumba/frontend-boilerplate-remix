@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import { Typography } from "./Typography";
 
 export type ToastVariant = "success" | "error" | "warning" | "info";
 export type ToastPosition =
@@ -28,33 +29,15 @@ export interface ToastProps extends HTMLAttributes<HTMLDivElement> {
   duration?: number;
   position?: ToastPosition;
   showProgress?: boolean;
+  icon?: React.ReactNode;
+  action?: React.ReactNode;
 }
 
 const variants = {
-  info: {
-    container: "bg-blue-50 border-blue-200",
-    title: "text-blue-900",
-    description: "text-blue-800",
-    progress: "bg-blue-200",
-  },
-  success: {
-    container: "bg-green-100 border-green-200",
-    title: "text-green-900",
-    description: "text-green-800",
-    progress: "bg-green-200",
-  },
-  warning: {
-    container: "bg-yellow-100 border-yellow-200",
-    title: "text-yellow-900",
-    description: "text-yellow-800",
-    progress: "bg-yellow-200",
-  },
-  error: {
-    container: "bg-red-100 border-red-200",
-    title: "text-red-900",
-    description: "text-red-800",
-    progress: "bg-red-200",
-  },
+  info: "bg-blue-50 text-blue-800 dark:bg-blue-900/50 dark:text-blue-400",
+  success: "bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-400",
+  warning: "bg-yellow-50 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-400",
+  error: "bg-red-50 text-red-800 dark:bg-red-900/50 dark:text-red-400",
 };
 
 const positions = {
@@ -78,6 +61,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       duration = 5000,
       position = "bottom-right",
       showProgress = true,
+      icon,
+      action,
       ...props
     },
     ref,
@@ -120,7 +105,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       <div
         className={cn(
           "fixed z-50 m-4 w-full max-w-sm overflow-hidden rounded-lg border shadow-lg",
-          variants[variant].container,
+          variants[variant],
           positions[position],
           "animate-slide-in",
           className,
@@ -130,16 +115,53 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         {...props}
       >
         <div className="p-4">
-          {title && (
-            <h4 className={cn("mb-1 font-medium", variants[variant].title)}>
-              {title}
-            </h4>
-          )}
-          {description && (
-            <p className={cn("text-sm", variants[variant].description)}>
-              {description}
-            </p>
-          )}
+          <div className="flex items-start">
+            {icon && (
+              <div className="flex-shrink-0">
+                {icon}
+              </div>
+            )}
+            <div className={cn("flex-1", icon && "ml-3")}>
+              {title && (
+                <Typography variant="subtitle2" color={variant}>
+                  {title}
+                </Typography>
+              )}
+              {description && (
+                <Typography variant="body2" color={variant} className="mt-1">
+                  {description}
+                </Typography>
+              )}
+              {action && (
+                <div className="mt-3 flex space-x-4">
+                  {action}
+                </div>
+              )}
+            </div>
+            {onClose && (
+              <div className="ml-4 flex flex-shrink-0">
+                <button
+                  type="button"
+                  className="inline-flex rounded-md hover:opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                  onClick={onClose}
+                >
+                  <span className="sr-only">Close</span>
+                  <svg
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         {showProgress && (
           <div className="h-1 w-full bg-black/5">
@@ -150,7 +172,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
               aria-valuemax={100}
               className={cn(
                 "h-full transition-all duration-100",
-                variants[variant].progress
+                variants[variant]
               )}
               style={{ width: `${progress}%` }}
             />

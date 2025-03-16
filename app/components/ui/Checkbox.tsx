@@ -1,5 +1,6 @@
 import { cn } from "@utils/cn";
 import { forwardRef, InputHTMLAttributes } from "react";
+import { Typography } from "./Typography";
 
 export interface CheckboxProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
@@ -61,27 +62,27 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {(label || error || helperText) && (
           <div className="ml-2">
             {label && (
-              <label
+              <Typography
+                component="label"
                 htmlFor={props.id}
+                variant="body2"
                 className={cn(
-                  "text-sm font-medium",
+                  "font-medium",
                   error ? "text-error-900" : "text-gray-900",
-                  disabled && "text-gray-500",
+                  disabled && "text-gray-500"
                 )}
               >
                 {label}
-              </label>
+              </Typography>
             )}
             {(error || helperText) && (
-              <p
-                className={cn(
-                  "text-sm",
-                  error ? "text-error-600" : "text-gray-500",
-                )}
+              <Typography
+                variant="body2"
+                color={error ? "error" : "secondary"}
                 id={error ? `${props.id}-error` : `${props.id}-description`}
               >
                 {error || helperText}
-              </p>
+              </Typography>
             )}
           </div>
         )}

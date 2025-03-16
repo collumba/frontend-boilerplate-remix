@@ -138,7 +138,7 @@ export function Layout({ children }: LayoutProps) {
                 className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src="https://www.shareicon.net/data/32x32/2016/07/26/802033_user_512x512.png"
                   alt="User avatar"
                   className="h-8 w-8 rounded-full"
                 />

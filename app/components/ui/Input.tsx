@@ -1,5 +1,6 @@
-import { forwardRef, useId } from "react";
 import { cn } from "@utils/cn";
+import { forwardRef, useId } from "react";
+import { Typography } from "./Typography";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -22,18 +23,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label
+          <Typography
+            component="label"
             htmlFor={id}
-            className="mb-2 block text-sm font-medium text-gray-700"
+            variant="body2"
+            className="mb-2 block font-medium"
           >
             {label}
-          </label>
+          </Typography>
         )}
         <input
           id={id}
-          role={
-            getRole()
-          }
+          role={getRole()}
           type={type}
           className={cn(
             "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500",
@@ -48,14 +49,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && (
-          <p id={errorId} className="mt-2 text-sm text-error-600" role="alert">
+          <Typography
+            id={errorId}
+            variant="body2"
+            color="error"
+            className="mt-2"
+            role="alert"
+          >
             {error}
-          </p>
+          </Typography>
         )}
         {helperText && !error && (
-          <p id={helperId} className="mt-2 text-sm text-gray-500">
+          <Typography
+            id={helperId}
+            variant="body2"
+            color="secondary"
+            className="mt-2"
+          >
             {helperText}
-          </p>
+          </Typography>
         )}
       </div>
     );

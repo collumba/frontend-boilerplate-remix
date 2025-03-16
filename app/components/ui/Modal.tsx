@@ -1,7 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { cn } from "@utils/cn";
-import { Fragment, HTMLAttributes, forwardRef, useEffect } from "react";
+import { Fragment, HTMLAttributes, forwardRef, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { Typography } from "./Typography";
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
@@ -9,10 +10,13 @@ export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg" | "xl" | "full";
   closeOnOverlayClick?: boolean;
   closeOnEsc?: boolean;
+  position?: "center" | "top";
 }
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
-  ({ isOpen, onClose, children, className, closeOnEsc = true, closeOnOverlayClick = true, size = "md" }, ref) => {
+  ({ isOpen, onClose, children, className, closeOnEsc = true, closeOnOverlayClick = true, size = "md", position = "center" }, ref) => {
+    const modalRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
       const handleEsc = (event: KeyboardEvent) => {
         if (closeOnEsc && event.key === "Escape") {
@@ -39,6 +43,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       lg: "max-w-lg",
       xl: "max-w-xl",
       full: "max-w-full mx-4",
+    };
+
+    const positions = {
+      center: "items-center",
+      top: "items-start pt-16",
     };
 
     return createPortal(
@@ -81,6 +90,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   className={cn(
                     "w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all",
                     sizes[size],
+                    positions[position],
                     className
                   )}
                 >
@@ -112,7 +122,9 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
       >
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-medium text-gray-900">{title}</h3>
+            <Typography variant="h6" color="primary">
+              {title}
+            </Typography>
             {subtitle && (
               <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
             )}
@@ -157,7 +169,9 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
         data-testid="modal-content"
         {...props}
       >
-        {children}
+        <Typography variant="body1" color="secondary">
+          {children}
+        </Typography>
       </div>
     );
   }

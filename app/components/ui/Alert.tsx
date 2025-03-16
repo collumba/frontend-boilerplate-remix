@@ -9,79 +9,63 @@ export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   onClose?: () => void;
 }
 
+const variants = {
+  info: "bg-blue-50 text-blue-800 dark:bg-blue-900/50 dark:text-blue-400",
+  success: "bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-400",
+  warning: "bg-yellow-50 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-400",
+  error: "bg-red-50 text-red-800 dark:bg-red-900/50 dark:text-red-400",
+};
+
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
-  (
-    { className, variant = "info", title, icon, children, onClose, ...props },
-    ref,
-  ) => {
-    const baseStyles = "relative rounded-lg p-4";
-
-    const variants = {
-      info: "bg-primary-50 text-primary-800 border border-primary-200",
-      success: "bg-success-50 text-success-800 border border-success-200",
-      warning: "bg-warning-50 text-warning-800 border border-warning-200",
-      error: "bg-error-50 text-error-800 border border-error-200",
-    };
-
-    const iconColors = {
-      info: "text-primary-500",
-      success: "text-success-500",
-      warning: "text-warning-500",
-      error: "text-error-500",
-    };
-
+  ({ className, variant = "info", title, icon, onClose, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn(baseStyles, variants[variant], className)}
         role="alert"
+        className={cn(
+          "relative flex w-full rounded-lg p-4",
+          variants[variant],
+          className
+        )}
         {...props}
       >
-        <div className="flex">
-          {icon && (
-            <div className={cn("mr-3 flex-shrink-0", iconColors[variant])}>
-              {icon}
-            </div>
+        {icon && <span className="mr-3 inline-flex">{icon}</span>}
+        <div className="flex-1">
+          {title && (
+            <Typography variant="subtitle2" color={variant}>
+              {title}
+            </Typography>
           )}
-          <div className="w-full">
-            {title && (
-              <Typography variant="subtitle1" className="mb-1">
-                {title}
-              </Typography>
-            )}
-            <Typography variant="body2" className="opacity-90">
+          {children && (
+            <Typography variant="body2" color={variant} className="mt-1">
               {children}
             </Typography>
-          </div>
-          {onClose && (
-            <button
-              type="button"
-              className={cn(
-                "ml-3 inline-flex flex-shrink-0 items-center justify-center rounded-md p-1.5 hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-offset-2",
-                `focus:ring-${variant}-500`,
-              )}
-              onClick={onClose}
-            >
-              <span className="sr-only">Close</span>
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
           )}
         </div>
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="ml-3 inline-flex items-center rounded-lg p-1.5 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
+          >
+            <span className="sr-only">Close</span>
+            <svg
+              className="h-5 w-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        )}
       </div>
     );
-  },
+  }
 );
 
 Alert.displayName = "Alert";

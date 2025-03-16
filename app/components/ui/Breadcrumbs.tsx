@@ -1,5 +1,6 @@
 import { cn } from "@utils/cn";
 import { forwardRef } from "react";
+import { Typography } from "./Typography";
 
 export interface BreadcrumbItem {
   label: string;
@@ -35,19 +36,19 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
         ? [
             ...items.slice(0, Math.max(0, maxItems - 2)),
             { label: "..." },
-            items[items.length - 1],
+            ...items.slice(-1),
           ]
         : items;
 
     return (
       <nav
         ref={ref}
-        aria-label="Breadcrumb"
         className={cn("flex", className)}
+        aria-label="Breadcrumb"
         {...props}
       >
         <ol
-          className="flex items-center space-x-2"
+          className="flex flex-wrap items-center space-x-2"
           itemScope
           itemType="https://schema.org/BreadcrumbList"
         >
@@ -64,10 +65,13 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                 itemProp="itemListElement"
               >
                 {item.href ? (
-                  <a
+                  <Typography
+                    component="a"
                     href={item.href}
+                    variant="body2"
+                    color="secondary"
                     className={cn(
-                      "flex items-center text-sm font-medium text-gray-500 hover:text-primary-600",
+                      "flex items-center hover:text-primary-600",
                       itemClassName
                     )}
                     itemProp="item"
@@ -79,12 +83,14 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                     )}
                     <span itemProp="name">{item.label}</span>
                     <meta itemProp="position" content={position.toString()} />
-                  </a>
+                  </Typography>
                 ) : (
-                  <span
+                  <Typography
+                    variant="body2"
+                    color={isLast ? "primary" : "secondary"}
                     className={cn(
-                      "flex items-center text-sm font-medium",
-                      isLast ? cn("text-gray-900", activeItemClassName) : "text-gray-500",
+                      "flex items-center",
+                      isLast && activeItemClassName,
                       itemClassName
                     )}
                     aria-current={isLast ? "page" : undefined}
@@ -97,15 +103,17 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                     )}
                     {item.label}
                     <meta itemProp="position" content={position.toString()} />
-                  </span>
+                  </Typography>
                 )}
                 {!isLast && (
-                  <span
-                    className={cn("text-gray-400", separatorClassName)}
+                  <Typography
+                    variant="body2"
+                    color="secondary"
+                    className={cn("mx-2", separatorClassName)}
                     aria-hidden="true"
                   >
                     {separator}
-                  </span>
+                  </Typography>
                 )}
               </li>
             );

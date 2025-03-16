@@ -1,5 +1,6 @@
 import { cn } from "@utils/cn";
 import { forwardRef, InputHTMLAttributes } from "react";
+import { Typography } from "./Typography";
 
 export interface SwitchProps {
   label?: string;
@@ -14,21 +15,21 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps & Omit<InputHTMLA
     ref,
   ) => {
     const baseStyles =
-      "relative inline-flex flex-shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2";
+      "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70";
+    const variants = {
+      default: "bg-gray-200 peer-checked:bg-primary-600",
+      error: "bg-error-100 peer-checked:bg-error-600",
+      disabled: "bg-gray-100 peer-checked:bg-gray-400",
+    };
     const sizes = {
       sm: "h-5 w-9",
       md: "h-6 w-11",
-      lg: "h-7 w-14",
+      lg: "h-7 w-[3.25rem]",
     };
     const thumbSizes = {
       sm: "h-4 w-4",
       md: "h-5 w-5",
       lg: "h-6 w-6",
-    };
-    const variants = {
-      default: "bg-gray-200 peer-checked:bg-primary-600",
-      error: "bg-error-100 peer-checked:bg-error-600",
-      disabled: "bg-gray-100 cursor-not-allowed peer-checked:bg-gray-400",
     };
 
     return (
@@ -72,27 +73,27 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps & Omit<InputHTMLA
         {(label || error || helperText) && (
           <div className="ml-3">
             {label && (
-              <label
+              <Typography
+                component="label"
                 htmlFor={props.id}
+                variant="body2"
                 className={cn(
-                  "text-sm font-medium",
+                  "font-medium",
                   error ? "text-error-900" : "text-gray-900",
-                  disabled && "text-gray-500",
+                  disabled && "text-gray-500"
                 )}
               >
                 {label}
-              </label>
+              </Typography>
             )}
             {(error || helperText) && (
-              <p
-                className={cn(
-                  "text-sm",
-                  error ? "text-error-600" : "text-gray-500",
-                )}
+              <Typography
+                variant="body2"
+                color={error ? "error" : "secondary"}
                 id={error ? `${props.id}-error` : `${props.id}-description`}
               >
                 {error || helperText}
-              </p>
+              </Typography>
             )}
           </div>
         )}

@@ -1,5 +1,6 @@
-import { forwardRef, useId } from "react";
 import { cn } from "@utils/cn";
+import { forwardRef, useId } from "react";
+import { Typography } from "./Typography";
 
 export interface SelectOption {
   value: string;
@@ -24,12 +25,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="w-full">
         {label && (
-          <label
+          <Typography
+            component="label"
             htmlFor={id}
-            className="mb-2 block text-sm font-medium text-gray-700"
+            variant="body2"
+            className="mb-2 block font-medium"
           >
             {label}
-          </label>
+          </Typography>
         )}
         <select
           id={id}
@@ -56,14 +59,24 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           ))}
         </select>
         {error && (
-          <p id={errorId} className="mt-2 text-sm text-red-600">
+          <Typography
+            id={errorId}
+            variant="body2"
+            color="error"
+            className="mt-2"
+          >
             {error}
-          </p>
+          </Typography>
         )}
         {helperText && !error && (
-          <p id={helperId} className="mt-2 text-sm text-gray-500">
+          <Typography
+            id={helperId}
+            variant="body2"
+            color="secondary"
+            className="mt-2"
+          >
             {helperText}
-          </p>
+          </Typography>
         )}
       </div>
     );

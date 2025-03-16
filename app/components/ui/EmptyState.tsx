@@ -10,8 +10,8 @@ interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function EmptyState({
-  title = "Nenhum conteúdo",
-  description = "Não há itens para exibir no momento.",
+  title,
+  description,
   icon,
   action,
   className,
@@ -20,25 +20,27 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex min-h-[400px] flex-col items-center justify-center space-y-4 rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-800 dark:bg-gray-900",
+        "flex flex-col items-center justify-center space-y-4 p-8 text-center",
         className
       )}
       {...props}
     >
       {icon && (
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-600">
           {icon}
         </div>
       )}
-      <div className="max-w-md space-y-2">
-        <Typography variant="h3">
+      {title && (
+        <Typography variant="h6" color="primary">
           {title}
         </Typography>
-        <Typography variant="body2" color="secondary">
+      )}
+      {description && (
+        <Typography variant="body2" color="secondary" className="max-w-sm">
           {description}
         </Typography>
-      </div>
-      {action && <div className="mt-6">{action}</div>}
+      )}
+      {action && <div className="pt-2">{action}</div>}
     </div>
   );
 }

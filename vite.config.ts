@@ -30,12 +30,18 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react", "react-dom"],
   },
+  server: {
+    hmr: true,
+    watch: {
+      usePolling: true,
+    },
+  },
   test: {
     globals: true,
     environment: "jsdom",
     setupFiles: ["./test/setup.ts"],
-    include: ['./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
+    include: ["./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    exclude: ["node_modules", "dist", ".idea", ".git", ".cache"],
     coverage: {
       reporter: ["text", "json", "html"],
       exclude: ["node_modules/", "test/setup.ts"],

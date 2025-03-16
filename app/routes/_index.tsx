@@ -1,4 +1,4 @@
-import { Layout } from "@components/Layout";
+import { RootLayout } from "@components/RootLayout";
 import type { MetaFunction } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
 
@@ -14,13 +14,13 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   
   return (
-    <Layout>
+    <RootLayout>
       <span>
         {t("hello")}
       </span>
-    </Layout>
+    </RootLayout>
   );
 }

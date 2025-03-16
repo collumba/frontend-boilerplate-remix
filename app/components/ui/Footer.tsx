@@ -49,9 +49,8 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
         {...props}
       >
         <Container>
-          <div className="flex flex-col py-8 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="mb-6 md:mb-0">{children}</div>
-
             <div className="flex flex-col space-y-6 md:flex-row md:space-x-8 md:space-y-0">
               {navigation && navigation.length > 0 && (
                 <nav className="flex flex-wrap gap-x-6 gap-y-2">

@@ -11,7 +11,6 @@ import {
 import { useState } from "react";
 import { Avatar } from "./ui/Avatar";
 import { Button } from "./ui/Button";
-import { Container } from "./ui/Container";
 import { Footer } from "./ui/Footer";
 import { Header } from "./ui/Header";
 import { Input } from "./ui/Input";
@@ -129,15 +128,15 @@ export function RootLayout({ children }: RootLayoutProps) {
           }
         />
 
-        <main
-          className={`flex-1 transition-all duration-300 pb-16 ${
-            isSidebarOpen ? "ml-64" : "ml-0"
-          }`}
-        >
-          <Container className="py-8">
-            {children}
-          </Container>
-        </main>
+        <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : ''}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <main className="pb-16">
+              <div className="py-8">
+                {children}
+              </div>
+            </main>
+          </div>
+        </div>
       </div>
 
       <Footer

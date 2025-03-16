@@ -67,7 +67,6 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           )}
           {children}
         </div>
-
         {footerContent && (
           <div className="border-t p-4" data-testid="sidebar-footer">
             {footerContent}

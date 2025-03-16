@@ -3,5 +3,8 @@
     "source.removeUnusedImports": "always",
     "source.organizeImports": "always"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,  
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false
 } 

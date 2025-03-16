@@ -22,7 +22,12 @@ import {
 } from "@components/ui/Modal";
 import { Select } from "@components/ui/Select";
 import { Skeleton } from "@components/ui/Skeleton";
+import { Slider } from "@components/ui/Slider";
 import { Spinner } from "@components/ui/Spinner";
+import { Switch } from "@components/ui/Switch";
+import { Table } from "@components/ui/Table";
+import { Tabs } from "@components/ui/Tabs";
+import { Toast, useToast } from "@components/ui/Toast";
 import { Typography } from "@components/ui/Typography";
 import { Bell } from "lucide-react";
 import { useState } from "react";
@@ -46,6 +51,7 @@ function ComponentSection({
 
 export default function ComponentsShowcase() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { show } = useToast();
 
   return (
     <RootLayout>
@@ -290,11 +296,101 @@ export default function ComponentsShowcase() {
           <Skeleton variant="circular" height={40} width={40} />
         </div>
       </ComponentSection>
+      <ComponentSection title="Slider">
+        <Slider />
+      </ComponentSection>
       <ComponentSection title="Spinner">
         <div className="flex flex-wrap gap-4 items-end">
           <Spinner size="sm" />
           <Spinner size="md" />
           <Spinner size="lg" />
+        </div>
+      </ComponentSection>
+      <ComponentSection title="Switch">
+        <div className="flex flex-wrap gap-4 items-end">
+          <Switch checked />
+          <Switch disabled />
+          <Switch checked disabled />
+        </div>
+      </ComponentSection>
+      <ComponentSection title="Table">
+        <Table
+          columns={[
+            { header: "Name", key: "name", sortable: true },
+            { header: "Email", key: "email", sortable: true },
+            { header: "Phone", key: "phone", sortable: true },
+          ]}
+          data={[
+            {
+              name: "John Doe",
+              email: "john.doe@example.com",
+              phone: "1234567890",
+              status: "active",
+            },
+            {
+              name: "Jane Smith",
+              email: "jane.smith@example.com",
+              phone: "1234567890",
+              status: "inactive",
+            },
+            {
+              name: "Jim Beam",
+              email: "jim.beam@example.com",
+              phone: "1234567890",
+            },
+          ]}
+          emptyMessage="No data found"
+          pageSize={2}
+          currentPage={1}
+          onPageChange={(page) => {
+            console.log(page);
+          }}
+        />
+      </ComponentSection>
+      <ComponentSection title="Tabs">
+        <Tabs
+          tabs={[
+            {
+              id: "tab-1",
+              label: "Tab 1",
+              icon: <Bell />,
+              disabled: false,
+            },
+            {
+              id: "tab-2",
+              label: "Tab 2",
+              icon: <Bell />,
+              disabled: false,
+            },
+          ]}
+          activeTab="Tab 1"
+          onTabChange={(tab) => {
+            console.log(tab);
+          }}
+        />
+      </ComponentSection>
+      <ComponentSection title="Toast">
+        <Toast
+          variant="success"
+          title="Toast Title"
+          description="Toast Description"
+          position="top-right"
+          action={<Button variant="primary">Action</Button>}
+        />
+        <div className="flex flex-wrap gap-4 items-end">
+          <Button
+            onClick={() => {
+              show({
+                variant: "success",
+                title: "Toast Title",
+                description: "Toast Description",
+                position: "top-right",
+                action: <Button variant="primary">Action</Button>,
+              });
+            }}
+          >
+            Show Toast
+          </Button>
         </div>
       </ComponentSection>
       <ComponentSection title="Typography">

@@ -31,12 +31,15 @@ export interface ToastProps extends HTMLAttributes<HTMLDivElement> {
   showProgress?: boolean;
   icon?: React.ReactNode;
   action?: React.ReactNode;
+  index?: number;
 }
 
 const variants = {
   info: "bg-blue-50 text-blue-800 dark:bg-blue-900/50 dark:text-blue-400",
-  success: "bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-400",
-  warning: "bg-yellow-50 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-400",
+  success:
+    "bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-400",
+  warning:
+    "bg-yellow-50 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-400",
   error: "bg-red-50 text-red-800 dark:bg-red-900/50 dark:text-red-400",
 };
 
@@ -47,6 +50,19 @@ const positions = {
   "bottom-left": "bottom-0 left-0",
   "bottom-right": "bottom-0 right-0",
   "bottom-center": "bottom-0 left-1/2 -translate-x-1/2",
+};
+
+const getStackPosition = (position: ToastPosition, index: number) => {
+  const base = positions[position];
+  const isTop = position.startsWith("top");
+  const translateY = isTop
+    ? `translateY(${index * 100}%)`
+    : `translateY(-${index * 100}%)`;
+
+  return {
+    [base]: "transform-style: preserve-3d",
+    transform: `${base.includes("translate") ? positions[position].split(" ")[1] : ""} ${translateY}`,
+  };
 };
 
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(
@@ -63,9 +79,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       showProgress = true,
       icon,
       action,
+      index = 0,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [progress, setProgress] = useState(100);
     const [isVisible, setIsVisible] = useState(isOpen);
@@ -107,20 +124,17 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           "fixed z-50 m-4 w-full max-w-sm overflow-hidden rounded-lg border shadow-lg",
           variants[variant],
           positions[position],
-          "animate-slide-in",
-          className,
+          "animate-slide-in transition-all duration-200",
+          className
         )}
+        style={getStackPosition(position, index)}
         ref={ref}
         role="alert"
         {...props}
       >
         <div className="p-4">
           <div className="flex items-start">
-            {icon && (
-              <div className="flex-shrink-0">
-                {icon}
-              </div>
-            )}
+            {icon && <div className="flex-shrink-0">{icon}</div>}
             <div className={cn("flex-1", icon && "ml-3")}>
               {title && (
                 <Typography variant="subtitle2" color={variant}>
@@ -132,11 +146,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                   {description}
                 </Typography>
               )}
-              {action && (
-                <div className="mt-3 flex space-x-4">
-                  {action}
-                </div>
-              )}
+              {action && <div className="mt-3 flex space-x-4">{action}</div>}
             </div>
             {onClose && (
               <div className="ml-4 flex flex-shrink-0">
@@ -179,9 +189,9 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           </div>
         )}
       </div>,
-      document.body,
+      document.body
     );
-  },
+  }
 );
 
 export interface ToastProviderProps {
@@ -190,7 +200,7 @@ export interface ToastProviderProps {
 
 export interface ToastContextValue {
   show: (props: Omit<ToastProps, "isOpen">) => void;
-  close: () => void;
+  close: (id: string) => void;
 }
 
 export const ToastContext = createContext<ToastContextValue>({
@@ -199,20 +209,46 @@ export const ToastContext = createContext<ToastContextValue>({
 });
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
-  const [toast, setToast] = useState<ToastProps | null>(null);
+  const [toasts, setToasts] = useState<(ToastProps & { id: string })[]>([]);
 
   const show = (props: Omit<ToastProps, "isOpen">) => {
-    setToast({ ...props, isOpen: true });
+    const id = Math.random().toString(36).substr(2, 9);
+    setToasts((currentToasts) => [
+      ...currentToasts,
+      { ...props, isOpen: true, id },
+    ]);
   };
 
-  const close = () => {
-    setToast(null);
+  const close = (id: string) => {
+    setToasts((currentToasts) =>
+      currentToasts.filter((toast) => toast.id !== id)
+    );
   };
+
+  const groupedToasts = toasts.reduce(
+    (acc, toast) => {
+      const position = toast.position || "bottom-right";
+      if (!acc[position]) acc[position] = [];
+      acc[position].push(toast);
+      return acc;
+    },
+    {} as Record<ToastPosition, typeof toasts>
+  );
 
   return (
     <ToastContext.Provider value={{ show, close }}>
       {children}
-      {toast && <Toast {...toast} onClose={close} />}
+      {Object.entries(groupedToasts).map(([position, positionToasts]) =>
+        positionToasts.map((toast, index) => (
+          <Toast
+            key={toast.id}
+            {...toast}
+            position={position as ToastPosition}
+            index={index}
+            onClose={() => close(toast.id)}
+          />
+        ))
+      )}
     </ToastContext.Provider>
   );
 };

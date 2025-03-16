@@ -1,3 +1,4 @@
+import { ToastProvider } from "@components/ui/Toast";
 import type { LinksFunction } from "@remix-run/node";
 import { type LoaderFunctionArgs } from "@remix-run/node";
 import {
@@ -62,5 +63,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <ToastProvider>
+      <Outlet />
+    </ToastProvider>
+  );
 }

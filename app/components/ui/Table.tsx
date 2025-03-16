@@ -1,14 +1,5 @@
 import { cn } from "@utils/cn";
-import {
-  HTMLAttributes,
-  ReactNode,
-  TdHTMLAttributes,
-  ThHTMLAttributes,
-  forwardRef,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import { forwardRef, useState } from "react";
 import { Spinner } from "./Spinner";
 
 export interface Column<T> {

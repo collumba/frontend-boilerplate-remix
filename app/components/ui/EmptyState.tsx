@@ -1,4 +1,5 @@
 import { cn } from "@utils/cn";
+import { Typography } from "./Typography";
 
 interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
@@ -30,10 +31,12 @@ export function EmptyState({
         </div>
       )}
       <div className="max-w-md space-y-2">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <Typography variant="h3">
           {title}
-        </h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400">{description}</p>
+        </Typography>
+        <Typography variant="body2" color="secondary">
+          {description}
+        </Typography>
       </div>
       {action && <div className="mt-6">{action}</div>}
     </div>

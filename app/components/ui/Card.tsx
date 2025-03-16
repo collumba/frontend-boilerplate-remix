@@ -1,5 +1,6 @@
 import { cn } from "@utils/cn";
 import { HTMLAttributes, forwardRef } from "react";
+import { Typography } from "./Typography";
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "bordered" | "elevated";
@@ -71,8 +72,14 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
         {...props}
       >
         <div>
-          <h3 className="text-lg font-medium text-gray-900">{title}</h3>
-          {subtitle && <p className="mt-1 text-sm text-gray-500">{subtitle}</p>}
+          <Typography variant="h4" color="primary">
+            {title}
+          </Typography>
+          {subtitle && (
+            <Typography variant="body2" color="secondary" className="mt-1">
+              {subtitle}
+            </Typography>
+          )}
         </div>
         {action && <div className="ml-4">{action}</div>}
       </div>
@@ -87,10 +94,12 @@ export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
     return (
       <div
         ref={ref}
-        className={cn("text-sm text-gray-500", className)}
+        className={cn(className)}
         {...props}
       >
-        {children}
+        <Typography variant="body1" color="secondary">
+          {children}
+        </Typography>
       </div>
     );
   },

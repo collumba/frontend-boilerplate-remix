@@ -1,5 +1,6 @@
 import { cn } from "@utils/cn";
 import { HTMLAttributes, forwardRef } from "react";
+import { Typography } from "./Typography";
 
 export interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   variant?: "info" | "success" | "warning" | "error";
@@ -43,8 +44,14 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
             </div>
           )}
           <div className="w-full">
-            {title && <h3 className="mb-1 font-medium leading-5">{title}</h3>}
-            <div className="text-sm opacity-90">{children}</div>
+            {title && (
+              <Typography variant="subtitle1" className="mb-1">
+                {title}
+              </Typography>
+            )}
+            <Typography variant="body2" className="opacity-90">
+              {children}
+            </Typography>
           </div>
           {onClose && (
             <button

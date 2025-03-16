@@ -1,3 +1,5 @@
+import type { LinkProps as RemixLinkProps } from '@remix-run/react'
+import { Link as RemixLink } from '@remix-run/react'
 import { cn } from '@utils/cn'
 import React, { AnchorHTMLAttributes, HTMLAttributes, LabelHTMLAttributes } from 'react'
 
@@ -12,7 +14,8 @@ type BaseTypographyProps = {
 type TypographyProps = BaseTypographyProps & (
   | ({ component: 'label' } & LabelHTMLAttributes<HTMLLabelElement>)
   | ({ component: 'a' } & AnchorHTMLAttributes<HTMLAnchorElement>)
-  | ({ component?: Exclude<React.ElementType, 'label' | 'a'> } & HTMLAttributes<HTMLElement>)
+  | ({ component: typeof RemixLink } & RemixLinkProps)
+  | ({ component?: Exclude<React.ElementType, 'label' | 'a' | typeof RemixLink> } & HTMLAttributes<HTMLElement>)
 )
 
 const variantStyles = {

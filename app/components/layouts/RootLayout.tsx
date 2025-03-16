@@ -1,21 +1,21 @@
 import {
-    Bell,
-    LayoutDashboard,
-    LineChart,
-    Menu,
-    Package,
-    Plus,
-    Search,
-    Settings,
+  Bell,
+  LayoutDashboard,
+  LineChart,
+  Menu,
+  Package,
+  Plus,
+  Search,
+  Settings,
 } from "lucide-react";
 import { useState } from "react";
-import { Avatar } from "./ui/Avatar";
-import { Button } from "./ui/Button";
-import { Footer } from "./ui/Footer";
-import { Header } from "./ui/Header";
-import { Input } from "./ui/Input";
-import { Sidebar } from "./ui/Sidebar";
-import { Typography } from "./ui/Typography";
+import { Avatar } from "../ui/Avatar";
+import { Button } from "../ui/Button";
+import { Footer } from "../ui/Footer";
+import { Header } from "../ui/Header";
+import { Input } from "../ui/Input";
+import { Sidebar } from "../ui/Sidebar";
+import { Typography } from "../ui/Typography";
 
 interface RootLayoutProps {
   children: React.ReactNode;

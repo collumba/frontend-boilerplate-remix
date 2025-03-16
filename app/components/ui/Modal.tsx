@@ -1,7 +1,15 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { cn } from "@utils/cn";
-import { Fragment, HTMLAttributes, forwardRef, useEffect, useRef } from "react";
+import { X } from "lucide-react";
+import {
+  Fragment,
+  HTMLAttributes,
+  forwardRef,
+  useEffect,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
+import { Button } from "./Button";
 import { Typography } from "./Typography";
 
 export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
@@ -13,9 +21,31 @@ export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   position?: "center" | "top";
 }
 
+function useHasMounted() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  return hasMounted;
+}
+
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
-  ({ isOpen, onClose, children, className, closeOnEsc = true, closeOnOverlayClick = true, size = "md", position = "center" }, ref) => {
-    const modalRef = useRef<HTMLDivElement>(null);
+  (
+    {
+      isOpen,
+      onClose,
+      children,
+      className,
+      closeOnEsc = true,
+      closeOnOverlayClick = true,
+      size = "md",
+      position = "center",
+    },
+    ref
+  ) => {
+    const hasMounted = useHasMounted();
 
     useEffect(() => {
       const handleEsc = (event: KeyboardEvent) => {
@@ -24,18 +54,20 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         }
       };
 
-      if (isOpen) {
+      if (isOpen && hasMounted) {
         document.addEventListener("keydown", handleEsc);
         document.body.style.overflow = "hidden";
       }
 
       return () => {
-        document.removeEventListener("keydown", handleEsc);
-        document.body.style.overflow = "unset";
+        if (hasMounted) {
+          document.removeEventListener("keydown", handleEsc);
+          document.body.style.overflow = "unset";
+        }
       };
-    }, [isOpen, onClose, closeOnEsc]);
+    }, [isOpen, onClose, closeOnEsc, hasMounted]);
 
-    if (!isOpen) return null;
+    if (!isOpen || !hasMounted) return null;
 
     const sizes = {
       sm: "max-w-sm",
@@ -50,7 +82,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       top: "items-start pt-16",
     };
 
-    return createPortal(
+    const modalContent = (
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -67,9 +99,9 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div 
-              className="fixed inset-0 bg-black/25" 
-              role="presentation" 
+            <div
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+              role="presentation"
               onClick={closeOnOverlayClick ? onClose : undefined}
               aria-hidden="true"
             />
@@ -88,7 +120,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               >
                 <Dialog.Panel
                   className={cn(
-                    "w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all",
+                    "w-full transform overflow-hidden rounded-2xl bg-background p-6 text-left align-middle shadow-xl transition-all",
                     sizes[size],
                     positions[position],
                     className
@@ -100,9 +132,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             </div>
           </div>
         </Dialog>
-      </Transition>,
-      document.body
+      </Transition>
     );
+
+    return hasMounted ? createPortal(modalContent, document.body) : null;
   }
 );
 
@@ -117,7 +150,7 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn("px-6 py-4 border-b border-gray-200", className)}
+        className={cn("px-6 py-4 border-b border-border", className)}
         {...props}
       >
         <div className="flex items-start justify-between">
@@ -126,31 +159,15 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
               {title}
             </Typography>
             {subtitle && (
-              <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
+              <Typography variant="body2" color="secondary">
+                {subtitle}
+              </Typography>
             )}
           </div>
           {onClose && (
-            <button
-              type="button"
-              className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-              onClick={onClose}
-            >
-              <span className="sr-only">Close</span>
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+            <Button size="sm" onClick={onClose} aria-label="Close">
+              <X className="h-4 w-4" />
+            </Button>
           )}
         </div>
       </div>
@@ -169,9 +186,7 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
         data-testid="modal-content"
         {...props}
       >
-        <Typography variant="body1" color="secondary">
-          {children}
-        </Typography>
+        {children}
       </div>
     );
   }
@@ -185,7 +200,7 @@ export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
       <div
         ref={ref}
         className={cn(
-          "flex items-center justify-end border-t border-gray-200 px-6 py-4",
+          "flex items-center justify-end border-t border-border px-6 py-4",
           className
         )}
         data-testid="modal-footer"

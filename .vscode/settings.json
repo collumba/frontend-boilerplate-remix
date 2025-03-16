@@ -3,8 +3,15 @@
     "source.removeUnusedImports": "always",
     "source.organizeImports": "always"
   },
-  "editor.formatOnSave": true,  
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false
+    "editor.formatOnSave": true,  
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSaveMode": "modifications",
+    "editor.formatOnSaveOptions": {
+      "tabSize": 2,
+      "insertSpaces": true,
+      "detectIndentation": false
+    }
 } 

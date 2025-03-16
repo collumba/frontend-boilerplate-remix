@@ -1,19 +1,20 @@
 import type { LinksFunction } from "@remix-run/node";
 import { type LoaderFunctionArgs } from "@remix-run/node";
 import {
-  Links, Meta,
+  Links,
+  LiveReload,
+  Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData
+  useLoaderData,
 } from "@remix-run/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { TranslationsLanguages } from "./i18n/i18n";
-import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
+  { rel: "stylesheet", href: "app/tailwind.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -43,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [lng, i18n]);
 
   return (
-   <html lang={lng} className="h-full" dir={i18n.dir(lng)}>
+    <html lang={lng} className="h-full" dir={i18n.dir(lng)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,6 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );

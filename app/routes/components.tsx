@@ -20,6 +20,9 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@components/ui/Modal";
+import { Select } from "@components/ui/Select";
+import { Skeleton } from "@components/ui/Skeleton";
+import { Spinner } from "@components/ui/Spinner";
 import { Typography } from "@components/ui/Typography";
 import { Bell } from "lucide-react";
 import { useState } from "react";
@@ -269,6 +272,29 @@ export default function ComponentsShowcase() {
               </Button>
             </ModalFooter>
           </Modal>
+        </div>
+      </ComponentSection>
+      <ComponentSection title="Select">
+        <Select
+          options={[
+            { label: "Apple", value: "apple" },
+            { label: "Banana", value: "banana" },
+            { label: "Cherry", value: "cherry" },
+          ]}
+        />
+      </ComponentSection>
+      <ComponentSection title="Skeleton">
+        <div className="flex flex-wrap gap-4 items-end">
+          <Skeleton variant="text" />
+          <Skeleton variant="rectangular" height={40} width={40} />
+          <Skeleton variant="circular" height={40} width={40} />
+        </div>
+      </ComponentSection>
+      <ComponentSection title="Spinner">
+        <div className="flex flex-wrap gap-4 items-end">
+          <Spinner size="sm" />
+          <Spinner size="md" />
+          <Spinner size="lg" />
         </div>
       </ComponentSection>
       <ComponentSection title="Typography">

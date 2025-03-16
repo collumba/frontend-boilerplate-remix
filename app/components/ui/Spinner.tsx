@@ -2,12 +2,17 @@ import { cn } from "@utils/cn";
 
 interface SpinnerProps {
   className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export function Spinner({ className }: SpinnerProps) {
+export function Spinner({ className, size = "md" }: SpinnerProps) {
   return (
     <svg
-      className={cn("animate-spin", className)}
+      className={cn("animate-spin", className, {
+        "h-4 w-4": size === "sm",
+        "h-6 w-6": size === "md",
+        "h-8 w-8": size === "lg",
+      })}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

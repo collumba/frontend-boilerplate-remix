@@ -1,6 +1,5 @@
-import { cn } from "@utils/cn";
+import { cn } from "app/lib/utils";
 import { HTMLAttributes, ReactNode, forwardRef } from "react";
-import { Container } from "./Container";
 
 export interface HeaderNavItem {
   label: string;
@@ -21,11 +20,11 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(
         className={cn("border-b bg-white", className)}
         {...props}
       >
-        <Container>
+        <div>
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
               {logo && <div className="mr-4">{logo}</div>}
-              
+
               {navigation && navigation.length > 0 && (
                 <nav className="hidden space-x-8 md:flex">
                   {navigation.map((item) => (
@@ -40,16 +39,16 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(
                 </nav>
               )}
             </div>
-            
+
             <div className="flex items-center space-x-4">
               {actions}
               {children}
             </div>
           </div>
-        </Container>
+        </div>
       </header>
     );
-  },
+  }
 );
 
 Header.displayName = "Header";

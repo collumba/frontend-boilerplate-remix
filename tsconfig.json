@@ -29,7 +29,8 @@
       "@hooks/*": ["app/hooks/*"],
       "@routes/*": ["app/routes/*"],
       "@types/*": ["app/types/*"],
-      "@features/*": ["app/features/*"]
+      "@features/*": ["app/features/*"],
+      "@lib/*": ["app/lib/*"]
     },
 
     // Vite takes care of building everything, not tsc.

@@ -1,4 +1,4 @@
-import { cn } from "@utils/cn";
+import { cn } from "app/lib/utils";
 import { forwardRef } from "react";
 
 export interface SidebarItem {
@@ -15,14 +15,14 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
-  ({ className, children, items, headerContent, footerContent, ...props }, ref) => {
+  (
+    { className, children, items, headerContent, footerContent, ...props },
+    ref
+  ) => {
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex h-screen flex-col border-r bg-white",
-          className
-        )}
+        className={cn("flex h-screen flex-col border-r bg-white", className)}
         {...props}
       >
         {headerContent && (
@@ -30,7 +30,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             {headerContent}
           </div>
         )}
-        
+
         <div className="flex-1 overflow-y-auto p-4">
           {items && items.length > 0 && (
             <nav className="space-y-1">

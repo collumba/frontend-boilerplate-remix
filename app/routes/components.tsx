@@ -384,12 +384,50 @@ export default function ComponentsShowcase() {
                 variant: "success",
                 title: "Toast Title",
                 description: "Toast Description",
-                position: "top-right",
+                position: "bottom-right",
                 action: <Button variant="primary">Action</Button>,
               });
             }}
           >
-            Show Toast
+            Show Toast Success
+          </Button>
+          <Button
+            onClick={() => {
+              show({
+                variant: "error",
+                title: "Toast Title",
+                description: "Toast Description",
+                  position: "bottom-right",
+                action: <Button variant="primary">Action</Button>,
+              });
+            }}
+          >
+            Show Toast Error
+          </Button>
+          <Button
+            onClick={() => {
+              show({
+                variant: "warning",
+                title: "Toast Title",
+                description: "Toast Description",
+                  position: "bottom-right",
+                action: <Button variant="primary">Action</Button>,
+              });
+            }}
+          >
+            Show Toast Warning
+          </Button>
+          <Button
+            onClick={() => {
+              show({
+                variant: "info",
+                title: "Toast Title",
+                position: "bottom-right",
+                action: <Button variant="primary">Action</Button>,
+              });
+            }}
+          >
+            Show Toast Info
           </Button>
         </div>
       </ComponentSection>

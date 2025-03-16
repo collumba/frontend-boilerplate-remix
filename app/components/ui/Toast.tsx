@@ -55,9 +55,12 @@ const positions = {
 const getStackPosition = (position: ToastPosition, index: number) => {
   const base = positions[position];
   const isTop = position.startsWith("top");
+  const spacing = 16; // 16px de espaçamento entre os toasts
+  const toastHeight = 140;
+
   const translateY = isTop
-    ? `translateY(${index * 100}%)`
-    : `translateY(-${index * 100}%)`;
+    ? `translateY(${index * ((toastHeight ?? 0) + spacing)}px)`
+    : `translateY(-${index * ((toastHeight ?? 0) + spacing)}px)`;
 
   return {
     [base]: "transform-style: preserve-3d",

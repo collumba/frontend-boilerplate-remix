@@ -1,5 +1,6 @@
 import { cn } from "@utils/cn";
 import { HTMLAttributes, forwardRef, useEffect, useRef, useState } from "react";
+import { Typography } from "./Typography";
 
 export interface SliderProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -33,10 +34,10 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
       label,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [currentValue, setCurrentValue] = useState(
-      value ?? defaultValue ?? min,
+      value ?? defaultValue ?? min
     );
     const [isDragging, setIsDragging] = useState(false);
     const [showTooltipValue, setShowTooltipValue] = useState(false);
@@ -130,20 +131,16 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
         className={cn(
           "relative py-4",
           disabled && "opacity-50 cursor-not-allowed",
-          className,
+          className
         )}
         {...props}
       >
-        {label && (
-          <label className="mb-2 block text-sm font-medium text-gray-900">
-            {label}
-          </label>
-        )}
+        {label && <Typography variant="body2">{label}</Typography>}
         <div
           ref={trackRef}
           className={cn(
             "relative w-full rounded-full bg-gray-200",
-            sizes[size].track,
+            sizes[size].track
           )}
           onMouseDown={handleMouseDown}
           role="presentation"
@@ -158,7 +155,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
             tabIndex={disabled ? -1 : 0}
             className={cn(
               "absolute rounded-full bg-primary-600",
-              sizes[size].track,
+              sizes[size].track
             )}
             style={{ width: `${getPercentage(currentValue)}%` }}
           />
@@ -169,7 +166,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
                 ? "cursor-not-allowed"
                 : "cursor-grab active:cursor-grabbing",
               sizes[size].thumb,
-              sizes[size].thumbOffset,
+              sizes[size].thumbOffset
             )}
             style={{
               left: `${getPercentage(currentValue)}%`,
@@ -188,5 +185,5 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
         </div>
       </div>
     );
-  },
+  }
 );

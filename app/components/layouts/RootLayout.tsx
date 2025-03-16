@@ -57,9 +57,14 @@ export function RootLayout({ children }: RootLayoutProps) {
         logo={
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-primary-500 flex items-center justify-center">
-              <Typography variant="h6" className="text-white">L</Typography>
+              <Typography variant="h6" className="text-white">
+                L
+              </Typography>
             </div>
-            <Typography variant="subtitle1" className="font-medium tracking-tight">
+            <Typography
+              variant="subtitle1"
+              className="font-medium tracking-tight"
+            >
               Logo
             </Typography>
           </div>
@@ -69,19 +74,19 @@ export function RootLayout({ children }: RootLayoutProps) {
           <div className="flex items-center gap-2">
             <div className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <Input 
-                className="w-64 pl-10 py-1.5 bg-gray-50 dark:bg-gray-900 border-0 ring-1 ring-gray-200 dark:ring-gray-800" 
+              <Input
+                className="w-64 pl-10 py-1.5 bg-gray-50 dark:bg-gray-900 border-0 ring-1 ring-gray-200 dark:ring-gray-800"
                 placeholder="Buscar..."
               />
             </div>
-            <Button 
-              variant="secondary" 
+            <Button
+              variant="secondary"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900"
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <Button 
+            <Button
               variant="secondary"
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900"
             >
@@ -89,8 +94,9 @@ export function RootLayout({ children }: RootLayoutProps) {
             </Button>
             <Avatar
               size="md"
-              alt="John Doe"
+              alt="Morty Smith"
               status="online"
+              src="https://github.com/shadcn.png"
             />
           </div>
         }
@@ -105,7 +111,11 @@ export function RootLayout({ children }: RootLayoutProps) {
           items={sidebarItems}
           headerContent={
             <div className="px-4 py-1.5">
-              <Typography variant="overline" color="secondary" className="font-medium">
+              <Typography
+                variant="overline"
+                color="secondary"
+                className="font-medium"
+              >
                 Workspace
               </Typography>
             </div>
@@ -119,8 +129,14 @@ export function RootLayout({ children }: RootLayoutProps) {
                 className="ring-2 ring-white dark:ring-gray-950"
               />
               <div className="min-w-0">
-                <Typography variant="subtitle2" className="truncate">John Doe</Typography>
-                <Typography variant="caption" color="secondary" className="truncate">
+                <Typography variant="subtitle2" className="truncate">
+                  John Doe
+                </Typography>
+                <Typography
+                  variant="caption"
+                  color="secondary"
+                  className="truncate"
+                >
                   john.doe@company.com
                 </Typography>
               </div>
@@ -128,12 +144,12 @@ export function RootLayout({ children }: RootLayoutProps) {
           }
         />
 
-        <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : ''}`}>
+        <div
+          className={`flex-1 transition-all duration-300 ${isSidebarOpen ? "ml-64" : ""}`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <main className="pb-16">
-              <div className="py-8">
-                {children}
-              </div>
+              <div className="py-8">{children}</div>
             </main>
           </div>
         </div>
@@ -148,7 +164,8 @@ export function RootLayout({ children }: RootLayoutProps) {
         ]}
       >
         <Typography variant="caption" color="secondary">
-          © {new Date().getFullYear()} Sua Empresa. Todos os direitos reservados.
+          © {new Date().getFullYear()} Sua Empresa. Todos os direitos
+          reservados.
         </Typography>
       </Footer>
     </div>

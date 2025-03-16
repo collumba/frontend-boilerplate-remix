@@ -16,11 +16,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     ref,
   ) => {
     const baseStyles =
-      "h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-600";
+      "h-5 w-5 rounded border-2 text-primary-600 focus:ring-2 focus:ring-primary-200 focus:ring-offset-2 transition-colors duration-200";
     const variants = {
-      default: "border-gray-300",
-      error: "border-error-300",
-      disabled: "bg-gray-100 border-gray-200",
+      default: "border-border-300 hover:border-primary-400",
+      error: "border-error-300 hover:border-error-400",
+      disabled: "bg-background-100 border-border-200 cursor-not-allowed",
     };
 
     // Handle indeterminate state
@@ -36,7 +36,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     };
 
     return (
-      <div className="relative flex items-start">
+      <div className="relative flex items-start gap-3">
         <div className="flex h-5 items-center">
           <input
             type="checkbox"
@@ -45,7 +45,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               baseStyles,
               error ? variants.error : variants.default,
               disabled && variants.disabled,
-              className,
+              className
             )}
             disabled={disabled}
             aria-invalid={error ? "true" : "false"}
@@ -60,16 +60,16 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           />
         </div>
         {(label || error || helperText) && (
-          <div className="ml-2">
+          <div className="flex flex-col gap-0.5">
             {label && (
               <Typography
                 component="label"
                 htmlFor={props.id}
                 variant="body2"
                 className={cn(
-                  "font-medium",
-                  error ? "text-error-900" : "text-gray-900",
-                  disabled && "text-gray-500"
+                  "font-medium cursor-pointer",
+                  error ? "text-error-700" : "text-secondary-700",
+                  disabled && "text-secondary-400 cursor-not-allowed"
                 )}
               >
                 {label}
@@ -80,6 +80,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 variant="body2"
                 color={error ? "error" : "secondary"}
                 id={error ? `${props.id}-error` : `${props.id}-description`}
+                className={cn(
+                  error ? "text-error-600" : "text-secondary-500",
+                  disabled && "text-secondary-400"
+                )}
               >
                 {error || helperText}
               </Typography>

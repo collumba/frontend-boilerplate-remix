@@ -2,14 +2,30 @@ import { cn } from "@utils/cn";
 import { forwardRef, useId } from "react";
 import { Typography } from "./Typography";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   helperText?: string;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, helperText, id: propId, type = "text", ...props }, ref) => {
+  (
+    {
+      className,
+      label,
+      error,
+      helperText,
+      id: propId,
+      type = "text",
+      startIcon,
+      endIcon,
+      ...props
+    },
+    ref
+  ) => {
     const generatedId = useId();
     const id = propId || generatedId;
     const errorId = `${id}-error`;
@@ -32,22 +48,37 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </Typography>
         )}
-        <input
-          id={id}
-          role={getRole()}
-          type={type}
-          className={cn(
-            "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500",
-            error && "border-error-300 ring-error-300 focus:border-error-300 focus:ring-error-300",
-            className
+        <div className="relative">
+          {startIcon && (
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              {startIcon}
+            </div>
           )}
-          aria-invalid={!!error}
-          aria-describedby={
-            error ? errorId : helperText ? helperId : undefined
-          }
-          ref={ref}
-          {...props}
-        />
+          <input
+            id={id}
+            role={getRole()}
+            type={type}
+            className={cn(
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500",
+              error &&
+                "border-error-300 ring-error-300 focus:border-error-300 focus:ring-error-300",
+              startIcon && "pl-10",
+              endIcon && "pr-10",
+              className
+            )}
+            aria-invalid={!!error}
+            aria-describedby={
+              error ? errorId : helperText ? helperId : undefined
+            }
+            ref={ref}
+            {...props}
+          />
+          {endIcon && (
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+              {endIcon}
+            </div>
+          )}
+        </div>
         {error && (
           <Typography
             id={errorId}

@@ -13,12 +13,12 @@ import { Grid } from "@components/ui/Grid";
 import { Header } from "@components/ui/Header";
 import { Input } from "@components/ui/Input";
 import { Link } from "@components/ui/Link";
-import { ListCard } from "@components/ui/ListCard";
 import {
   Modal,
   ModalContent,
   ModalFooter,
   ModalHeader,
+  ModalProps,
 } from "@components/ui/Modal";
 import { Select } from "@components/ui/Select";
 import { Skeleton } from "@components/ui/Skeleton";
@@ -52,6 +52,7 @@ function ComponentSection({
 
 export default function ComponentsShowcase() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalSize, setModalSize] = useState<ModalProps["size"]>("md");
   const { show } = useToast();
 
   return (
@@ -76,28 +77,111 @@ export default function ComponentsShowcase() {
         </div>
       </ComponentSection>
       <ComponentSection title="Avatar">
-        <div className="flex flex-wrap gap-4 items-end">
-          <Avatar size="xs" alt="User" />
-          <Avatar size="sm" alt="User" />
-          <Avatar size="md" alt="User" />
-          <Avatar size="lg" alt="User" />
-          <Avatar size="xl" alt="User" />
-          <Avatar size="md" alt="User with status" status="online" />
-          <Avatar
-            size="md"
-            alt="User with image"
-            src="https://github.com/shadcn.png"
-          />
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap gap-4 items-end">
+            <Avatar size="xs" alt="User" status="online" />
+            <Avatar size="sm" alt="User" status="offline" />
+            <Avatar size="md" alt="User" status="away" />
+            <Avatar size="lg" alt="User" status="busy" />
+            <Avatar size="xl" alt="User" status="online" />
+            <Avatar size="md" alt="User with status" status="online" />
+            <Avatar
+              size="md"
+              alt="User with image"
+              src="https://github.com/shadcn.png"
+            />
+          </div>
+          <div className="flex flex-wrap gap-4 items-end">
+            <Avatar size="xs" alt="User" variant="square" />
+            <Avatar size="sm" alt="User" variant="square" />
+            <Avatar size="md" alt="User" variant="square" />
+            <Avatar size="lg" alt="User" variant="square" />
+            <Avatar size="xl" alt="User" variant="square" />
+            <Avatar
+              size="md"
+              alt="User with status"
+              status="online"
+              variant="square"
+            />
+            <Avatar
+              size="md"
+              alt="User with image"
+              src="https://github.com/shadcn.png"
+              variant="square"
+            />
+            <Avatar
+              size="md"
+              alt="User with status"
+              status="online"
+              variant="square"
+              fallback="FB"
+            />
+          </div>
         </div>
       </ComponentSection>
       <ComponentSection title="Badge">
-        <div className="flex flex-wrap gap-4 items-end">
-          <Badge variant="primary">Primary Badge</Badge>
-          <Badge variant="secondary">Secondary Badge</Badge>
-          <Badge variant="success">Success Badge</Badge>
-          <Badge variant="error">Error Badge</Badge>
-          <Badge variant="warning">Warning Badge</Badge>
-          <Badge variant="info">Info Badge</Badge>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap gap-4 items-end">
+            <Badge variant="primary" size="sm">
+              Primary Badge
+            </Badge>
+            <Badge variant="secondary" size="sm" isOutline>
+              Secondary Badge
+            </Badge>
+            <Badge variant="success" size="sm">
+              Success Badge
+            </Badge>
+            <Badge variant="error" size="sm">
+              Error Badge
+            </Badge>
+            <Badge variant="warning" size="sm">
+              Warning Badge
+            </Badge>
+            <Badge variant="info" size="sm">
+              Info Badge
+            </Badge>
+          </div>
+
+          <div className="flex flex-wrap gap-4 items-end">
+            <Badge variant="primary" size="md" isOutline>
+              Primary Badge
+            </Badge>
+            <Badge variant="secondary" size="md">
+              Secondary Badge
+            </Badge>
+            <Badge variant="success" size="md">
+              Success Badge
+            </Badge>
+            <Badge variant="error" size="md">
+              Error Badge
+            </Badge>
+            <Badge variant="warning" size="md">
+              Warning Badge
+            </Badge>
+            <Badge variant="info" size="md">
+              Info Badge
+            </Badge>
+          </div>
+          <div className="flex flex-wrap gap-4 items-end">
+            <Badge variant="primary" size="lg">
+              Primary Badge
+            </Badge>
+            <Badge variant="secondary" size="lg">
+              Secondary Badge
+            </Badge>
+            <Badge variant="success" size="lg" isOutline>
+              Success Badge
+            </Badge>
+            <Badge variant="error" size="lg">
+              Error Badge
+            </Badge>
+            <Badge variant="warning" size="lg">
+              Warning Badge
+            </Badge>
+            <Badge variant="info" size="lg">
+              Info Badge
+            </Badge>
+          </div>
         </div>
       </ComponentSection>
       <ComponentSection title="Breadcrumbs">
@@ -136,32 +220,59 @@ export default function ComponentsShowcase() {
             <Bell className="mr-2 h-4 w-4" />
             With Icon
           </Button>
+          <Button variant="primary" isLoading>
+            Loading
+          </Button>
         </div>
       </ComponentSection>
       <ComponentSection title="Card">
         <div className="flex flex-wrap gap-4 items-end">
-          <Card>
+          <Card variant="default">
+            <CardHeader title="Card Title" subtitle="Card Subtitle" />
+            <CardContent>
+              <Typography>Card Content</Typography>
+              <Badge variant="primary" size="sm">
+                Badge
+              </Badge>
+            </CardContent>
+            <CardFooter>
+              <Typography>Card Footer</Typography>
+            </CardFooter>
+          </Card>
+          <Card variant="bordered">
             <CardHeader
               title="Card Title"
               subtitle="Card Subtitle"
               action={<Button variant="primary">Action</Button>}
-            >
-              <CardContent>
-                <Typography>Card Content</Typography>
-              </CardContent>
-              <CardFooter>
-                <Typography>Card Footer</Typography>
-              </CardFooter>
-            </CardHeader>
+            ></CardHeader>
+            <CardContent>
+              <Typography>Card Content</Typography>
+            </CardContent>
+            <CardFooter>
+              <Typography>Card Footer</Typography>
+            </CardFooter>
+          </Card>
+          <Card variant="elevated">
+            <CardHeader
+              title="Card Title"
+              subtitle="Card Subtitle"
+              action={<Button variant="primary">Action</Button>}
+            ></CardHeader>
+            <CardContent>
+              <Typography>Card Content</Typography>
+            </CardContent>
+            <CardFooter>
+              <Typography>Card Footer</Typography>
+            </CardFooter>
           </Card>
         </div>
       </ComponentSection>
       <ComponentSection title="Checkbox">
         <div className="flex flex-wrap gap-4 items-end">
-          <Checkbox />
-          <Checkbox checked onChange={() => {}} />
-          <Checkbox disabled onChange={() => {}} />
-          <Checkbox checked disabled onChange={() => {}} />
+          <Checkbox id="checkbox-1" label="Checkbox" />
+          <Checkbox id="checkbox-2" checked onChange={() => {}} />
+          <Checkbox id="checkbox-3" disabled onChange={() => {}} />
+          <Checkbox id="checkbox-4" checked disabled onChange={() => {}} />
         </div>
       </ComponentSection>
       <ComponentSection title="Container">
@@ -180,6 +291,25 @@ export default function ComponentsShowcase() {
             description="No data found in the database"
             action={<Button variant="primary">Add Data</Button>}
           />
+          <EmptyState
+            title="No data found"
+            description="No data found in the database"
+            icon={<Bell />}
+            action={<Button variant="primary">Add Data</Button>}
+          />
+          <EmptyState
+            title="No data found"
+            description="No data found in the database"
+            action={
+              <div className="flex flex-wrap gap-2">
+                <Button variant="primary">Add Data</Button>
+                <Button variant="secondary">Add Data</Button>
+              </div>
+            }
+          />
+          <EmptyState.Search query="Search query" />
+          <EmptyState.NoData />
+          <EmptyState.Error error="Error message" />
         </div>
       </ComponentSection>
       <ComponentSection title="Footer">
@@ -228,16 +358,21 @@ export default function ComponentsShowcase() {
       </ComponentSection>
       <ComponentSection title="Inputs">
         <div className="space-y-4 max-w-md">
-          <Input placeholder="Default input" />
+          <Input label="Default input" placeholder="Default input" />
           <Input placeholder="Disabled input" disabled />
           <Input placeholder="With error" error="This field is required" />
           <Input placeholder="With label" label="Email address" />
           <Input type="password" placeholder="Password input" />
+          <Input
+            startIcon={<Bell />}
+            endIcon={<Bell />}
+            placeholder="With start and end icon"
+            helperText="Helper text"
+          />
         </div>
       </ComponentSection>
       <ComponentSection title="Link">
         <div className="flex flex-wrap gap-4 items-end">
-          <Link to={"/components"}>Default Link</Link>
           <Link to={"/components"} variant="default">
             default
           </Link>
@@ -248,21 +383,32 @@ export default function ComponentsShowcase() {
             button
           </Link>
           <Link to={"/components"} disabled>
-            Disabled Link
+            disabled
           </Link>
-        </div>
-      </ComponentSection>
-      <ComponentSection title="ListCard">
-        <div className="flex flex-wrap gap-4 items-end">
-          <ListCard
-            title="List Card Title"
-            subtitle="List Card Description"
-            action={<Button variant="primary">Action</Button>}
-          />
+          <Link to={"/components"} icon={<Bell />}>
+            with icon
+          </Link>
+          <Link to={"/components"} icon={<Bell />} iconPosition="left">
+            with icon left
+          </Link>
+          <Link to={"/components"} icon={<Bell />} iconPosition="right">
+            with icon right
+          </Link>
         </div>
       </ComponentSection>
       <ComponentSection title="Modal">
         <div className="flex flex-wrap gap-4 items-end">
+          <Select
+            options={[
+              { label: "small", value: "sm" },
+              { label: "medium", value: "md" },
+              { label: "large", value: "lg" },
+              { label: "full", value: "full" },
+            ]}
+            onChange={(value) => {
+              setModalSize((value.target.value as ModalProps["size"]) || "md");
+            }}
+          />
           <Button
             variant="primary"
             onClick={() => {
@@ -271,7 +417,11 @@ export default function ComponentsShowcase() {
           >
             Open Modal
           </Button>
-          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Modal
+            size={modalSize}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
             <ModalHeader
               title="Modal Title"
               subtitle="Modal Subtitle"
@@ -303,10 +453,25 @@ export default function ComponentsShowcase() {
           <Skeleton variant="text" />
           <Skeleton variant="rectangular" height={40} width={40} />
           <Skeleton variant="circular" height={40} width={40} />
+          <Skeleton.Card />
+          <Skeleton.Rectangle height={80} width={80} />
         </div>
       </ComponentSection>
       <ComponentSection title="Slider">
         <Slider />
+        <Slider min={0} max={100} step={1} value={50} />
+        <Slider min={0} max={100} step={1} value={50} showTooltip />
+        <Slider
+          min={0}
+          max={100}
+          step={5}
+          value={50}
+          showTooltip
+          formatTooltip={(value) => `${value}%`}
+        />
+        <Slider label="Slider" size="sm" disabled />
+        <Slider label="Slider" size="md" />
+        <Slider label="Slider" size="lg" />
       </ComponentSection>
       <ComponentSection title="Spinner">
         <div className="flex flex-wrap gap-4 items-end">
@@ -320,6 +485,9 @@ export default function ComponentsShowcase() {
           <Switch checked />
           <Switch disabled />
           <Switch checked disabled />
+          <Switch label="Switch" checked />
+          <Switch helperText="Switch" disabled />
+          <Switch error="Switch" checked disabled />
         </div>
       </ComponentSection>
       <ComponentSection title="Table">
@@ -357,26 +525,91 @@ export default function ComponentsShowcase() {
         />
       </ComponentSection>
       <ComponentSection title="Tabs">
-        <Tabs
-          tabs={[
-            {
-              id: "tab-1",
-              label: "Tab 1",
-              icon: <Bell />,
-              disabled: false,
-            },
-            {
-              id: "tab-2",
-              label: "Tab 2",
-              icon: <Bell />,
-              disabled: false,
-            },
-          ]}
-          activeTab="Tab 1"
-          onTabChange={(tab) => {
-            console.log(tab);
-          }}
-        />
+        <div className="flex flex-wrap gap-4 items-end">
+          <Tabs
+            tabs={[
+              {
+                id: "tab-1",
+                label: "Tab 1",
+                icon: <Bell />,
+                disabled: false,
+              },
+              {
+                id: "tab-2",
+                label: "Tab 2",
+                icon: <Bell />,
+                disabled: false,
+              },
+            ]}
+            activeTab="Tab 1"
+            onTabChange={(tab) => {
+              console.log(tab);
+            }}
+          />
+          <Tabs
+            variant="pills"
+            tabs={[
+              {
+                id: "tab-1",
+                label: "Tab 1",
+                icon: <Bell />,
+                disabled: false,
+              },
+              {
+                id: "tab-2",
+                label: "Tab 2",
+                icon: <Bell />,
+                disabled: false,
+              },
+            ]}
+            activeTab="Tab 1"
+            onTabChange={(tab) => {
+              console.log(tab);
+            }}
+          />
+          <Tabs
+            variant="underline"
+            tabs={[
+              {
+                id: "tab-1",
+                label: "Tab 1",
+                icon: <Bell />,
+                disabled: false,
+              },
+              {
+                id: "tab-2",
+                label: "Tab 2",
+                icon: <Bell />,
+                disabled: false,
+              },
+            ]}
+            activeTab="Tab 1"
+            onTabChange={(tab) => {
+              console.log(tab);
+            }}
+          />
+          <Tabs
+            tabs={[
+              {
+                id: "tab-1",
+                label: "Tab 1",
+                icon: <Bell />,
+                disabled: false,
+              },
+              {
+                id: "tab-2",
+                label: "Tab 2",
+                icon: <Bell />,
+                disabled: false,
+              },
+            ]}
+            activeTab="Tab 1"
+            onTabChange={(tab) => {
+              console.log(tab);
+            }}
+            vertical
+          />
+        </div>
       </ComponentSection>
       <ComponentSection title="Toast">
         <Toast

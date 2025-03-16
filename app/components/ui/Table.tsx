@@ -1,6 +1,8 @@
 import { cn } from "@utils/cn";
 import { forwardRef, useState } from "react";
+import { Button } from "./Button";
 import { Spinner } from "./Spinner";
+import { Typography } from "./Typography";
 
 export interface Column<T> {
   key: string;
@@ -93,13 +95,19 @@ export function Table<T>({
 }: TableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(
+    null
+  );
   const [filters, setFilters] = useState<Record<string, string>>({});
 
   const handleSort = (key: string) => {
     if (sortColumn === key) {
       setSortDirection(
-        sortDirection === "asc" ? "desc" : sortDirection === "desc" ? null : "asc"
+        sortDirection === "asc"
+          ? "desc"
+          : sortDirection === "desc"
+            ? null
+            : "asc"
       );
       if (sortDirection === "desc") {
         setSortColumn(null);
@@ -119,10 +127,7 @@ export function Table<T>({
     return Object.entries(filters).every(([key, value]) => {
       if (!value) return true;
       const itemValue = (item as any)[key];
-      return itemValue
-        ?.toString()
-        .toLowerCase()
-        .includes(value.toLowerCase());
+      return itemValue?.toString().toLowerCase().includes(value.toLowerCase());
     });
   });
 
@@ -174,9 +179,13 @@ export function Table<T>({
               {columns.map((column) => (
                 <Th
                   key={column.key}
-                  onSort={column.sortable ? () => handleSort(column.key) : undefined}
+                  onSort={
+                    column.sortable ? () => handleSort(column.key) : undefined
+                  }
                   sortDirection={
-                    sortColumn === column.key ? sortDirection || undefined : undefined
+                    sortColumn === column.key
+                      ? sortDirection || undefined
+                      : undefined
                   }
                 >
                   {column.header}
@@ -221,31 +230,23 @@ export function Table<T>({
       </div>
       {totalPages > 1 && (
         <div className="mt-4 flex items-center justify-between">
-          <button
+          <Button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={cn(
-              "rounded-md border border-gray-300 px-3 py-1 text-sm",
-              currentPage === 1 && "cursor-not-allowed opacity-50"
-            )}
             aria-label="Previous page"
           >
             Previous
-          </button>
-          <span className="text-sm">
+          </Button>
+          <Typography>
             Page {currentPage} of {totalPages}
-          </span>
-          <button
+          </Typography>
+          <Button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={cn(
-              "rounded-md border border-gray-300 px-3 py-1 text-sm",
-              currentPage === totalPages && "cursor-not-allowed opacity-50"
-            )}
             aria-label="Next page"
           >
             Next
-          </button>
+          </Button>
         </div>
       )}
     </div>

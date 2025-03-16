@@ -22,10 +22,10 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     },
     ref,
   ) => {
-    const baseStyles = "rounded-lg bg-white";
+    const baseStyles = "rounded-lg bg-background-800";
     const variants = {
-      default: "border border-gray-200 p-4",
-      bordered: "border-2 border-gray-300",
+      default: "border border-border-200 p-4",
+      bordered: "border-2 border-border-300",
       elevated: "shadow-lg",
     };
     const paddings = {

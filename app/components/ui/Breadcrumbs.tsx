@@ -81,7 +81,13 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                         {item.icon}
                       </span>
                     )}
-                    <span itemProp="name">{item.label}</span>
+                    <Typography
+                      variant="body2"
+                      color="secondary"
+                      aria-hidden="true"
+                    >
+                      {item.label}
+                    </Typography>
                     <meta itemProp="position" content={position.toString()} />
                   </Typography>
                 ) : (

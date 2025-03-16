@@ -58,11 +58,19 @@ export default function ComponentsShowcase() {
     <RootLayout>
       <ComponentSection title="Alert">
         <div className="flex flex-wrap gap-4 items-end">
-          <Alert variant="info">Alert</Alert>
-          <Alert variant="success">Alert</Alert>
-          <Alert variant="warning">Alert</Alert>
-          <Alert variant="error">Alert</Alert>
-          <Alert variant="info" title="Alert Title">
+          <Alert icon={<Bell />} variant="info" onClose={() => {}}>
+            Alert
+          </Alert>
+          <Alert icon={<Bell />} variant="success" onClose={() => {}}>
+            Alert
+          </Alert>
+          <Alert variant="warning" onClose={() => {}}>
+            Alert
+          </Alert>
+          <Alert variant="error" onClose={() => {}}>
+            Alert
+          </Alert>
+          <Alert variant="info" title="Alert Title" onClose={() => {}}>
             Alert
           </Alert>
         </div>

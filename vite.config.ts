@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -30,18 +29,11 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react", "react-dom"],
   },
-  server: {
-    hmr: true,
-    watch: {
-      usePolling: true,
-    },
-  },
   test: {
     globals: true,
     environment: "jsdom",
     setupFiles: ["./test/setup.ts"],
-    include: ["./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-    exclude: ["node_modules", "dist", ".idea", ".git", ".cache"],
+    include: ["**/*.{test,spec}.{js,jsx,ts,tsx}"],
     coverage: {
       reporter: ["text", "json", "html"],
       exclude: ["node_modules/", "test/setup.ts"],

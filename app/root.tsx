@@ -1,21 +1,20 @@
 import type { LinksFunction } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-
-import "./tailwind.css";
+// import styles from "../app/styles/globals.css";
 import { TranslationsLanguages } from "./i18n/i18n";
 
 export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: "../app/styles/globals.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -45,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [lng, i18n]);
 
   return (
-   <html lang={lng} className="h-full" dir={i18n.dir(lng)}>
+    <html lang={lng} className="h-full" dir={i18n.dir(lng)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,7 +53,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="h-full">
         {children}
-        <LiveReload />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -64,4 +62,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+export function ErrorBoundary() {
+  const { i18n } = useTranslation();
+  const lang = i18n.language || TranslationsLanguages.PT_BR;
+
+  return (
+    <Layout>
+      <div className="flex min-h-full flex-col items-center justify-center">
+        <h1 className="text-3xl font-bold">Oops! Something went wrong</h1>
+        <p>We're sorry, but an error occurred while processing your request.</p>
+      </div>
+    </Layout>
+  );
 }

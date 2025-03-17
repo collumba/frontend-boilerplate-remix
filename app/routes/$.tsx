@@ -1,7 +1,5 @@
-import { NotFoundLayout } from "@components/layouts/NotFound";
+import { NotFoundLayout } from "@/components/layouts/NotFound";
 
 export default function NotFoundRoute() {
-  return (
-    <NotFoundLayout />
-  );
-} 
+  return <NotFoundLayout />;
+}

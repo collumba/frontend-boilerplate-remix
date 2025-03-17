@@ -50,12 +50,15 @@ Este boilerplate inclui:
 2. Instale as dependências:
 
    ```bash
+   rm -rf .vite .cache node_modules build
    npm install
    ```
 
 3. Inicie o servidor de desenvolvimento:
 
    ```bash
+   rm -rf .vite .cache node_modules build
+   npm install
    npm run dev
    ```
 

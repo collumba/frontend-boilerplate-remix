@@ -58,21 +58,13 @@ export function App() {
     }
   }, [lng, i18n]);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   return (
-    <html
-      lang={lng}
-      className={clsx(isClient ? theme : "")}
-      dir={i18n.dir(lng)}
-    >
+    <html lang={lng} className={clsx(theme)} dir={i18n.dir(lng)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
-        {isClient && <PreventFlashOnWrongTheme ssrTheme={Boolean(themeData)} />}
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(themeData)} />
         <Links />
       </head>
       <body>

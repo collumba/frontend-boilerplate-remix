@@ -25,6 +25,66 @@ export default function Index() {
         <Button variant="default">Click me</Button>
         <Button variant="default">Click me</Button>
       </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
+      <h1>
+        <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+        <Button variant="default">Click me</Button>
+      </h1>
     </AppLayout>
   );
 }

@@ -1,10 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { Button } from "@components/ui/button";
 import { Footer } from "@components/ui/footer";
 import { Header } from "@components/ui/header";
+import { Input } from "@components/ui/input";
 import { Sidebar } from "@components/ui/sidebar";
 import { ThemeToggle } from "@components/ui/theme-toggle";
 import { Typography } from "@components/ui/typography";
-import { Button, Input } from "@headlessui/react";
 import {
   Bell,
   LayoutDashboard,
@@ -60,7 +61,7 @@ export function AppLayout({ children }: RootLayoutProps) {
       <Header
         logo={
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+            <div className="h-8 w-8 rounded-lg bg-primary/70 flex items-center justify-center">
               <Typography variant="h6" className="text-primary-foreground">
                 L
               </Typography>
@@ -73,13 +74,12 @@ export function AppLayout({ children }: RootLayoutProps) {
             </Typography>
           </div>
         }
-        navigation={[]}
         actions={
           <div className="flex items-center gap-2 mr-2">
             <div className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                className="w-64 pl-10 py-1.5 bg-muted border-0 ring-1 ring-border"
+                className="w-64 pl-10 py-1.5 bg-muted/70 border-0 ring-1 ring-border"
                 placeholder="Buscar..."
               />
             </div>

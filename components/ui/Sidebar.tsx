@@ -1,5 +1,6 @@
 import { cn } from "app/lib/utils";
 import { forwardRef } from "react";
+import { Typography } from "./typography";
 
 export interface SidebarItem {
   label: string;
@@ -22,7 +23,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
     return (
       <div
         ref={ref}
-        className={cn("flex h-screen flex-col border-r bg-white", className)}
+        className={cn("flex h-screen flex-col border-r", className)}
         {...props}
       >
         {headerContent && (
@@ -30,7 +31,6 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             {headerContent}
           </div>
         )}
-
         <div className="flex-1 overflow-y-auto p-4">
           {items && items.length > 0 && (
             <nav className="space-y-1">
@@ -38,12 +38,10 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                 <div key={index} data-testid="sidebar-item">
                   <a
                     href={item.href}
-                    className="flex items-center rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    className="flex items-center rounded-lg px-4 py-2 text-sm font-medium hover:hover:bg-primary/90"
                   >
-                    {item.icon && (
-                      <span className="mr-3 h-5 w-5">{item.icon}</span>
-                    )}
-                    {item.label}
+                    <span className="mr-3">{item.icon}</span>
+                    <Typography variant="body2">{item.label}</Typography>
                   </a>
                   {item.subItems && (
                     <div className="ml-4 mt-1 space-y-1">
@@ -51,12 +49,10 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                         <a
                           key={subIndex}
                           href={subItem.href}
-                          className="flex items-center rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                          className="flex items-center rounded-lg px-4 py-2 text-sm font-medium hover:hover:bg-primary/90"
                         >
-                          {subItem.icon && (
-                            <span className="mr-3 h-5 w-5">{subItem.icon}</span>
-                          )}
-                          {subItem.label}
+                          <span className="mr-3">{item.icon}</span>
+                          <Typography variant="body2">{item.label}</Typography>
                         </a>
                       ))}
                     </div>

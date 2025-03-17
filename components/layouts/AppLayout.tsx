@@ -1,9 +1,16 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { Button } from "@components/ui/button";
 import { Footer } from "@components/ui/footer";
 import { Header } from "@components/ui/header";
+import { Input } from "@components/ui/input";
 import { Sidebar } from "@components/ui/sidebar";
+import { ThemeToggle } from "@components/ui/theme-toggle";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@components/ui/tooltip";
 import { Typography } from "@components/ui/typography";
-import { Button, Input } from "@headlessui/react";
 import {
   Bell,
   LayoutDashboard,
@@ -55,12 +62,12 @@ export function AppLayout({ children }: RootLayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-950">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header
         logo={
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary-500 flex items-center justify-center">
-              <Typography variant="h6" className="text-white">
+            <div className="h-8 w-8 rounded-lg bg-primary/70 flex items-center justify-center">
+              <Typography variant="h6" className="text-primary-foreground">
                 L
               </Typography>
             </div>
@@ -72,37 +79,54 @@ export function AppLayout({ children }: RootLayoutProps) {
             </Typography>
           </div>
         }
-        navigation={[]}
         actions={
           <div className="flex items-center gap-2 mr-2">
             <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                className="w-64 pl-10 py-1.5 bg-gray-50 dark:bg-gray-900 border-0 ring-1 ring-gray-200 dark:ring-gray-800"
+                className="w-64 pl-10 py-1.5 bg-muted/70 border-0 ring-1 ring-border"
                 placeholder="Buscar..."
               />
             </div>
             <Button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900"
+              className="p-2 hover:bg-accent"
             >
               <Menu className="h-5 w-5" />
             </Button>
-            <Button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900">
+            <Button className="p-2 hover:bg-accent">
               <Bell className="h-5 w-5" />
             </Button>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+            <ThemeToggle />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center gap-2">
+                  <Avatar>
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="@shadcn"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <Typography colorVariant="muted">Morty Smith</Typography>
+                  </div>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <Typography variant="caption" color="secondary">
+                  Morty Smith
+                </Typography>
+              </TooltipContent>
+            </Tooltip>
           </div>
         }
-        className="fixed left-0 right-0 top-0 z-50 h-16 border-b border-gray-100 dark:border-gray-900 bg-white/80 backdrop-blur-xl dark:bg-gray-950/80"
+        className="fixed left-0 right-0 top-0 z-50 h-16 border-b border-border bg-background/80 backdrop-blur-xl"
       />
 
       <div className="flex pt-16 min-h-screen">
         <Sidebar
-          className={`fixed bottom-16 top-16 w-64 transform transition-all duration-300 ease-in-out border-r border-gray-100 dark:border-gray-900 bg-white dark:bg-gray-950 ${
+          className={`fixed bottom-16 top-16 w-64 transform transition-all duration-300 ease-in-out border-r border-border bg-background ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           items={sidebarItems}
@@ -153,7 +177,7 @@ export function AppLayout({ children }: RootLayoutProps) {
         </div>
       </div>
       <Footer
-        className="fixed bottom-0 left-0 right-0 z-40 h-16 border-t border-gray-100 dark:border-gray-900 bg-white/80 backdrop-blur-xl dark:bg-gray-950/80 flex justify-center items-center"
+        className="fixed bottom-0 left-0 right-0 z-40 h-16 border-t border-border bg-background/80 backdrop-blur-xl flex justify-center items-center"
         navigation={[
           { label: "Sobre", href: "/about" },
           { label: "Termos", href: "/terms" },

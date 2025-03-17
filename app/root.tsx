@@ -8,11 +8,18 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-// import styles from "../app/styles/globals.css";
+import {
+  PreventFlashOnWrongTheme,
+  ThemeProvider,
+  useTheme,
+} from "remix-themes";
 import { TranslationsLanguages } from "./i18n/i18n";
 
+import { TooltipProvider } from "@components/ui/tooltip";
+import clsx from "clsx";
+import { themeSessionResolver } from "./services/theme/sessions.server";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "../app/styles/globals.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,13 +37,24 @@ export const links: LinksFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const lng = url.searchParams.get("lng") || TranslationsLanguages.PT_BR;
-  return { lng };
+  const { getTheme } = await themeSessionResolver(request);
+  return { lng, themeData: getTheme() };
 }
-
-export function Layout({ children }: { children: React.ReactNode }) {
-  const { lng } = useLoaderData<typeof loader>();
+export default function AppWithProviders() {
+  const { themeData } = useLoaderData<typeof loader>();
+  return (
+    <ThemeProvider specifiedTheme={themeData} themeAction="globals/set-theme">
+      <TooltipProvider>
+        <App />
+      </TooltipProvider>
+    </ThemeProvider>
+  );
+}
+export function App() {
+  const { lng, themeData } = useLoaderData<typeof loader>();
   const { i18n } = useTranslation();
-
+  const [theme] = useTheme();
+  const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     if (lng && i18n.language !== lng) {
       i18n.changeLanguage(lng);
@@ -44,15 +62,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [lng, i18n]);
 
   return (
-    <html lang={lng} className="h-full" dir={i18n.dir(lng)}>
+    <html lang={lng} className={clsx(theme)} dir={i18n.dir(lng)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(themeData)} />
         <Links />
       </head>
-      <body className="h-full">
-        {children}
+      <body>
+        <Outlet />;
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -60,20 +79,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
-  return <Outlet />;
-}
+// export default function App() {
+//   return <Outlet />;
+// }
 
 export function ErrorBoundary() {
   const { i18n } = useTranslation();
   const lang = i18n.language || TranslationsLanguages.PT_BR;
 
   return (
-    <Layout>
-      <div className="flex min-h-full flex-col items-center justify-center">
-        <h1 className="text-3xl font-bold">Oops! Something went wrong</h1>
-        <p>We're sorry, but an error occurred while processing your request.</p>
-      </div>
-    </Layout>
+    // <Layout>
+    <div className="flex min-h-full flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold">Oops! Something went wrong</h1>
+      <p>We're sorry, but an error occurred while processing your request.</p>
+    </div>
+    // </Layout>
   );
 }

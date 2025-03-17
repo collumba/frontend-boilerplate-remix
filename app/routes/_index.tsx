@@ -1,6 +1,6 @@
 import { AppLayout } from "@components/layouts/AppLayout";
 import { Button } from "@components/ui/button";
-import { Typography } from "@components/ui/Typography";
+import { Typography } from "@components/ui/typography";
 import type { MetaFunction } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
 export const meta: MetaFunction = () => {
@@ -21,6 +21,7 @@ export default function Index() {
     <AppLayout>
       <h1>
         <Typography variant="h1">Hello World</Typography>
+        <Button variant="default">Click me</Button>
         <Button variant="default">Click me</Button>
         <Button variant="default">Click me</Button>
       </h1>

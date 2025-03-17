@@ -1,7 +1,8 @@
-import { Footer } from "@components/ui/Footer";
-import { Header } from "@components/ui/Header";
-import { Sidebar } from "@components/ui/Sidebar";
-import { Typography } from "@components/ui/Typography";
+import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { Footer } from "@components/ui/footer";
+import { Header } from "@components/ui/header";
+import { Sidebar } from "@components/ui/sidebar";
+import { Typography } from "@components/ui/typography";
 import { Button, Input } from "@headlessui/react";
 import {
   Bell,
@@ -73,7 +74,7 @@ export function AppLayout({ children }: RootLayoutProps) {
         }
         navigation={[]}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mr-2">
             <div className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <Input
@@ -90,10 +91,10 @@ export function AppLayout({ children }: RootLayoutProps) {
             <Button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900">
               <Bell className="h-5 w-5" />
             </Button>
-            {/* <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
-            </Avatar> */}
+            </Avatar>
           </div>
         }
         className="fixed left-0 right-0 top-0 z-50 h-16 border-b border-gray-100 dark:border-gray-900 bg-white/80 backdrop-blur-xl dark:bg-gray-950/80"
@@ -118,13 +119,13 @@ export function AppLayout({ children }: RootLayoutProps) {
           }
           footerContent={
             <div className="flex items-center gap-3 px-4 py-3 ">
-              {/* <Avatar>
+              <Avatar>
                 <AvatarImage
                   src="https://github.com/shadcn.png"
                   alt="@shadcn"
                 />
                 <AvatarFallback>CN</AvatarFallback>
-              </Avatar> */}
+              </Avatar>
               <div className="min-w-0">
                 <Typography variant="subtitle2" className="truncate">
                   Morty Smithd

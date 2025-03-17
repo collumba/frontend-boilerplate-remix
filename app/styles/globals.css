@@ -68,6 +68,19 @@
       max-width: 1400px;
     }
   }
+  body {
+    margin-right: 0px !important;
+    overflow: auto !important;
+  }
+  body::-webkit-scrollbar {
+    width: 4px;
+  }
+  body::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+  body::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+  }
 }
 
 /*

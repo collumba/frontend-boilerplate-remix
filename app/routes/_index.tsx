@@ -1,5 +1,4 @@
-import { AppLayout } from "@components/layouts/AppLayout";
-import { Button } from "@components/ui/button";
+import { AppLayout } from "@components/layouts/app-layout";
 import { Typography } from "@components/ui/Typography";
 import type { MetaFunction } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
@@ -27,9 +26,6 @@ export default function Index() {
           Este é um boilerplate para aplicações web frontend com Remix.run e
           TypeScript.
         </Typography>
-        <Button onClick={() => alert(t("buttonClicked"))}>
-          {t("clickMe")}
-        </Button>
       </div>
     </AppLayout>
   );

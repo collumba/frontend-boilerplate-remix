@@ -1,5 +1,4 @@
-import { NotFoundLayout } from "@components/layouts/NotFound";
-
+import ShowError from "@components/ui/show-error";
 export default function NotFoundRoute() {
-  return <NotFoundLayout />;
+  return <ShowError code={404} />;
 }

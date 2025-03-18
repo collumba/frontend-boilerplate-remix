@@ -1,5 +1,6 @@
 import i18next, { localeCookie } from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
+import ShowError from "@components/ui/show-error";
 import { TooltipProvider } from "@components/ui/tooltip";
 import type { LinksFunction } from "@remix-run/node";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
@@ -90,8 +91,10 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
+  const { locale, theme } = useLoaderData<typeof loader>();
+  useChangeLanguage(locale);
   const error = useRouteError();
-  let errorMessage = "Erro desconhecido";
+  let errorMessage = "";
   let errorCode = 500;
 
   if (error instanceof Error) {
@@ -103,13 +106,8 @@ export function ErrorBoundary() {
   }
 
   return (
-    <Layout locale="pt-BR" theme={null}>
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">{errorCode}</h1>
-          <p className="text-lg text-muted-foreground">{errorMessage}</p>
-        </div>
-      </div>
+    <Layout locale={locale} theme={theme}>
+      <ShowError code={errorCode} message={errorMessage} />
     </Layout>
   );
 }

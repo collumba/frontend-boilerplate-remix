@@ -1,6 +1,6 @@
-import { cn } from "app/lib/utils";
+import { cn } from "@app/lib/utils";
+import { Typography } from "@components/ui/Typography";
 import { forwardRef } from "react";
-import { Typography } from "./typography";
 
 export interface SidebarItem {
   label: string;

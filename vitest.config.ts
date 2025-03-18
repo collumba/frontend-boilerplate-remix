@@ -1,18 +1,19 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from "vite";
+import { envOnlyMacros } from "vite-env-only";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],
+  plugins: [tsconfigPaths(), envOnlyMacros()],
   resolve: {
     preserveSymlinks: true,
-    dedupe: ['react', 'react-dom'],
+    dedupe: ["react", "react-dom"],
   },
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./test/setup.ts'],
-    include: ['./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache']
+    environment: "jsdom",
+    setupFiles: ["./test/setup.ts"],
+    include: ["./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    exclude: ["node_modules", "dist", ".idea", ".git", ".cache"],
   },
-}); 
+});

@@ -1,7 +1,6 @@
-import { cn } from "@lib/utils";
+import { cn } from "@app/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
 import { forwardRef } from "react";
-
 const typographyVariants = cva("", {
   variants: {
     variant: {

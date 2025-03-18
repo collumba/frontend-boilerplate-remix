@@ -71,6 +71,7 @@
   body {
     margin-right: 0px !important;
     overflow: auto !important;
+    background-color: var(--color-background);
   }
   body::-webkit-scrollbar {
     width: 4px;

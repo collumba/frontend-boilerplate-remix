@@ -1,6 +1,6 @@
 import { AppLayout } from "@components/layouts/AppLayout";
 import { Button } from "@components/ui/button";
-import { Typography } from "@components/ui/typography";
+import { Typography } from "@components/ui/Typography";
 import type { MetaFunction } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
 export const meta: MetaFunction = () => {
@@ -15,13 +15,13 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <AppLayout>
       <div className="flex flex-col items-center justify-center h-full">
         <Typography variant="h1" className="mb-4">
-          Bem-vindo ao Remix Boilerplate
+          {t("title")}
         </Typography>
         <Typography variant="body1" className="mb-2">
           Este é um boilerplate para aplicações web frontend com Remix.run e

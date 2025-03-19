@@ -31,7 +31,7 @@ async function main() {
       backend: {
         // We will configure the backend to fetch the translations from the
         // resource route /api/locales and pass the lng and ns as search params
-        loadPath: "/api/locales?lng={{lng}}&ns={{ns}}",
+        loadPath: "/api/globals/locales?lng={{lng}}&ns={{ns}}",
       },
     });
 

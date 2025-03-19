@@ -18,6 +18,7 @@ import {
   ThemeProvider,
   useTheme,
 } from "remix-themes";
+import ErrorBoundaryParserError from "./utils/ErrorBoundary";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "/app/styles/globals.css" },
@@ -74,14 +75,6 @@ export function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  let errorMessage = "";
-  let errorCode = 500;
-  if (error instanceof Error) {
-    errorMessage = error.message;
-  } else if (typeof error === "object" && error !== null) {
-    const errorObj = error as { status?: number; statusText?: string };
-    if (errorObj.status) errorCode = errorObj.status;
-    if (errorObj.statusText) errorMessage = errorObj.statusText;
-  }
+  const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
   return <ShowError code={errorCode} message={errorMessage} />;
 }

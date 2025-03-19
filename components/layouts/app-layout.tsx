@@ -3,6 +3,7 @@ import { Button } from "@components/ui/button";
 import { Footer } from "@components/ui/Footer";
 import { Header } from "@components/ui/header";
 import { Input } from "@components/ui/input";
+import { LocaleToggle } from "@components/ui/locale-toggle";
 import { Sidebar } from "@components/ui/sidebar";
 import { ThemeToggle } from "@components/ui/theme-toggle";
 import {
@@ -98,9 +99,10 @@ export function AppLayout({ children }: RootLayoutProps) {
               <Bell className="h-5 w-5" />
             </Button>
             <ThemeToggle />
+            <LocaleToggle />
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3 px-4 py-3 ">
                   <Avatar>
                     <AvatarImage
                       src="https://github.com/shadcn.png"
@@ -108,8 +110,17 @@ export function AppLayout({ children }: RootLayoutProps) {
                     />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
-                  <div className="flex flex-col">
-                    <Typography colorVariant="muted">Morty Smith</Typography>
+                  <div className="min-w-0">
+                    <Typography variant="subtitle2" className="truncate">
+                      Morty Smithd
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="secondary"
+                      className="truncate"
+                    >
+                      john.doe@company.com
+                    </Typography>
                   </div>
                 </div>
               </TooltipTrigger>
@@ -141,31 +152,7 @@ export function AppLayout({ children }: RootLayoutProps) {
               </Typography>
             </div>
           }
-          footerContent={
-            <div className="flex items-center gap-3 px-4 py-3 ">
-              <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className="min-w-0">
-                <Typography variant="subtitle2" className="truncate">
-                  Morty Smithd
-                </Typography>
-                <Typography
-                  variant="caption"
-                  color="secondary"
-                  className="truncate"
-                >
-                  john.doe@company.com
-                </Typography>
-              </div>
-            </div>
-          }
         />
-
         <div
           className={`flex-1 transition-all duration-300 ${isSidebarOpen ? "ml-64" : ""}`}
         >

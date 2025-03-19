@@ -29,6 +29,11 @@ export default {
       },
     },
   },
+  locale: {
+    en: "English",
+    es: "Spanish",
+    "pt-BR": "Portuguese (Brazil)",
+  },
   common: {
     action: {
       goToHome: "Go to home",

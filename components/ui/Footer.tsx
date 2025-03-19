@@ -1,4 +1,5 @@
 import { cn } from "@app/lib/utils";
+import { Link } from "@remix-run/react";
 
 interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   navigation?: Array<{
@@ -26,13 +27,13 @@ export function Footer({
       {navigation && navigation.length > 0 && (
         <nav className="flex gap-6">
           {navigation.map((item) => (
-            <a
+            <Link
               key={item.href}
-              href={item.href}
+              to={item.href}
               className="text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       )}

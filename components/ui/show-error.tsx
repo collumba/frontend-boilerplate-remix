@@ -1,3 +1,4 @@
+import { ROUTES } from "@app/config/routes";
 import {
   Card,
   CardContent,
@@ -69,7 +70,7 @@ const ShowError: React.FC<ShowErrorProps> = ({ message, code }) => {
         </CardContent>
         <CardFooter className="flex justify-center">
           <Button asChild>
-            <Link to="/">{t("common.action.goToHome")}</Link>
+            <Link to={ROUTES.home}>{t("common.action.goToHome")}</Link>
           </Button>
         </CardFooter>
       </Card>

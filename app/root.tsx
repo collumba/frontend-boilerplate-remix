@@ -1,5 +1,7 @@
-import type { LinksFunction } from "@remix-run/node";
-import { type LoaderFunctionArgs } from "@remix-run/node";
+import i18next from "@app/modules/i18n.server";
+import { themeSessionResolver } from "@app/modules/theme/sessions.server";
+import ShowError from "@components/ui/show-error";
+import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -7,21 +9,18 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import clsx from "clsx";
+import { useChangeLanguage } from "remix-i18next/react";
 import {
   PreventFlashOnWrongTheme,
   ThemeProvider,
   useTheme,
 } from "remix-themes";
-import { TranslationsLanguages } from "./i18n/i18n";
 
-import { TooltipProvider } from "@components/ui/tooltip";
-import clsx from "clsx";
-import { themeSessionResolver } from "./services/theme/sessions.server";
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: "../app/styles/globals.css" },
+  { rel: "stylesheet", href: "/app/styles/globals.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -33,45 +32,39 @@ export const links: LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
-
 export async function loader({ request }: LoaderFunctionArgs) {
-  const url = new URL(request.url);
-  const lng = url.searchParams.get("lng") || TranslationsLanguages.PT_BR;
   const { getTheme } = await themeSessionResolver(request);
-  return { lng, themeData: getTheme() };
+  const locale = await i18next.getLocale(request);
+  return {
+    theme: getTheme(),
+    locale,
+  };
 }
+
 export default function AppWithProviders() {
-  const { themeData } = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
   return (
-    <ThemeProvider specifiedTheme={themeData} themeAction="globals/set-theme">
-      <TooltipProvider>
-        <App />
-      </TooltipProvider>
+    <ThemeProvider specifiedTheme={data.theme} themeAction="/globals/set-theme">
+      <App />
     </ThemeProvider>
   );
 }
-export function App() {
-  const { lng, themeData } = useLoaderData<typeof loader>();
-  const { i18n } = useTranslation();
-  const [theme] = useTheme();
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    if (lng && i18n.language !== lng) {
-      i18n.changeLanguage(lng);
-    }
-  }, [lng, i18n]);
 
+export function App() {
+  const data = useLoaderData<typeof loader>();
+  const [theme] = useTheme();
+  useChangeLanguage(data.locale);
   return (
-    <html lang={lng} className={clsx(theme)} dir={i18n.dir(lng)}>
+    <html lang={data.locale} className={clsx(theme)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
-        <PreventFlashOnWrongTheme ssrTheme={Boolean(themeData)} />
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />
       </head>
       <body>
-        <Outlet />;
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -79,20 +72,16 @@ export function App() {
   );
 }
 
-// export default function App() {
-//   return <Outlet />;
-// }
-
 export function ErrorBoundary() {
-  const { i18n } = useTranslation();
-  const lang = i18n.language || TranslationsLanguages.PT_BR;
-
-  return (
-    // <Layout>
-    <div className="flex min-h-full flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold">Oops! Something went wrong</h1>
-      <p>We're sorry, but an error occurred while processing your request.</p>
-    </div>
-    // </Layout>
-  );
+  const error = useRouteError();
+  let errorMessage = "";
+  let errorCode = 500;
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  } else if (typeof error === "object" && error !== null) {
+    const errorObj = error as { status?: number; statusText?: string };
+    if (errorObj.status) errorCode = errorObj.status;
+    if (errorObj.statusText) errorMessage = errorObj.statusText;
+  }
+  return <ShowError code={errorCode} message={errorMessage} />;
 }

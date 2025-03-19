@@ -2,8 +2,6 @@
 
 @plugin 'tailwindcss-animate';
 
-@custom-variant dark (&:is(.dark *));
-
 @theme {
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -71,6 +69,7 @@
   body {
     margin-right: 0px !important;
     overflow: auto !important;
+    background-color: var(--color-background);
   }
   body::-webkit-scrollbar {
     width: 4px;

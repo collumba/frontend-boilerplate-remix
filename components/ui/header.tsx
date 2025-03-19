@@ -1,4 +1,4 @@
-import { cn } from "app/lib/utils";
+import { cn } from "@app/lib/utils";
 import { HTMLAttributes, ReactNode, forwardRef } from "react";
 export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   logo?: ReactNode;

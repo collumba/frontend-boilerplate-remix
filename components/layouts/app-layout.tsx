@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { Button } from "@components/ui/button";
-import { Footer } from "@components/ui/footer";
+import { Footer } from "@components/ui/Footer";
 import { Header } from "@components/ui/header";
 import { Input } from "@components/ui/input";
 import { Sidebar } from "@components/ui/sidebar";
@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@components/ui/tooltip";
-import { Typography } from "@components/ui/typography";
+import { Typography } from "@components/ui/Typography";
 import {
   Bell,
   LayoutDashboard,

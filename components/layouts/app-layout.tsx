@@ -110,7 +110,7 @@ export function AppLayout({ children }: RootLayoutProps) {
                     />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
-                  <div className="min-w-0">
+                  <div className="min-w-0 relative hidden md:block">
                     <Typography variant="subtitle2" className="truncate">
                       Morty Smithd
                     </Typography>

@@ -1,7 +1,6 @@
 import { ROUTES } from "@app/config/routes";
 import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
-import ShowError from "@components/ui/show-error";
 import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
@@ -23,6 +22,7 @@ import ErrorBoundaryParserError from "./utils/ErrorBoundary";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "/app/styles/globals.css" },
+  { rel: "preload", href: "/app/styles/globals.css", as: "style" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

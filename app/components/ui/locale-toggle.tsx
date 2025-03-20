@@ -1,17 +1,17 @@
-import { supportedLngsConfig } from "@app/config/i18n";
-import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
+} from "@app/components/ui/dropdown-menu";
+import { supportedLngsConfig } from "@app/config/i18n";
 import { env } from "env";
-import { Globe2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { SidebarMenuButton, useSidebar } from "./sidebar";
 
 export function LocaleToggle() {
   const { i18n, t } = useTranslation(); // Use o hook do i18n
+  const { isMobile } = useSidebar();
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -29,32 +29,31 @@ export function LocaleToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="ghost">
-          {currentLocale ? (
+        <SidebarMenuButton tooltip={t("locale.toggle")}>
+          <div className="flex items-center gap-2">
             <img
-              src={`${env.LOCALE_RESOURCES}/${currentLocale.flag}.svg`}
-              alt={currentLocale.label}
+              src={`${env.LOCALE_RESOURCES}/${currentLocale?.flag}.svg`}
+              alt={currentLocale?.label}
               className="w-4 h-4"
             />
-          ) : (
-            <Globe2 className="w-4 h-4 mr-2" />
-          )}
-          <span className="sr-only">Toggle locale</span>
-        </Button>
+            <span>{t("locale.toggle")}</span>
+            <span className="sr-only">{t("locale.toggle")}</span>
+          </div>
+        </SidebarMenuButton>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        className="w-48 rounded-lg"
+        side={isMobile ? "bottom" : "right"}
+        align={isMobile ? "end" : "start"}
+      >
         {getLocales().map((locale) => (
-          <DropdownMenuItem
-            key={locale.label}
-            onClick={() => changeLanguage(locale.label)}
-          >
+          <DropdownMenuItem key={locale.label}>
             <img
               src={`${env.LOCALE_RESOURCES}/${locale.flag}.svg`}
               alt={locale.label}
-              className="w-4 h-4 mr-2"
+              className="w-4 h-4"
             />
-
-            {t(`locale.${locale.label}`)}
+            <span>{t(`locale.languages.${locale.label}`)}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

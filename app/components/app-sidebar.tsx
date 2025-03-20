@@ -1,6 +1,5 @@
-"use client"
+"use client";
 
-import * as React from "react"
 import {
   AudioWaveform,
   BookOpen,
@@ -12,26 +11,29 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
+} from "lucide-react";
+import * as React from "react";
 
-import { NavMain } from "@app/components/nav-main"
-import { NavProjects } from "@app/components/nav-projects"
-import { NavUser } from "@app/components/nav-user"
-import { TeamSwitcher } from "@app/components/team-switcher"
+import { NavMain } from "@app/components/nav-main";
+import { NavProjects } from "@app/components/nav-projects";
+import { NavUser } from "@app/components/nav-user";
+import { TeamSwitcher } from "@app/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@app/components/ui/sidebar"
+} from "@app/components/ui/sidebar";
+import { LocaleToggle } from "./ui/locale-toggle";
+import { ThemeToggle } from "./ui/theme-toggle";
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "Morty Smith",
+    email: "morty@example.com",
+    avatar: "https://github.com/shadcn.png",
   },
   teams: [
     {
@@ -154,7 +156,7 @@ const data = {
       icon: Map,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -167,9 +169,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
+        <LocaleToggle />
+        <ThemeToggle />
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

@@ -29,10 +29,18 @@ export default {
       },
     },
   },
+  theme: {
+    toggle: "Toggle theme",
+    light: "Light",
+    dark: "Dark",
+  },
   locale: {
-    en: "English",
-    es: "Spanish",
-    "pt-BR": "Portuguese (Brazil)",
+    toggle: "Toggle locale",
+    languages: {
+      en: "English",
+      es: "Spanish",
+      "pt-BR": "Portuguese (Brazil)",
+    },
   },
   common: {
     action: {

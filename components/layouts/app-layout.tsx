@@ -1,3 +1,4 @@
+import { ROUTES } from "@app/config/routes";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { Button } from "@components/ui/button";
 import { Footer } from "@components/ui/Footer";
@@ -26,19 +27,21 @@ export function AppLayout({ children }: RootLayoutProps) {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header
         logo={
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary/70 flex items-center justify-center">
-              <Typography variant="h6" className="text-primary-foreground">
-                L
+          <a href={ROUTES.app.root} className="cursor-pointer">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-primary/70 flex items-center justify-center">
+                <Typography variant="h6" className="text-primary-foreground">
+                  L
+                </Typography>
+              </div>
+              <Typography
+                variant="subtitle1"
+                className="font-medium tracking-tight"
+              >
+                Logo
               </Typography>
             </div>
-            <Typography
-              variant="subtitle1"
-              className="font-medium tracking-tight"
-            >
-              Logo
-            </Typography>
-          </div>
+          </a>
         }
         actions={
           <div className="flex items-center gap-2 mr-2">
@@ -97,7 +100,7 @@ export function AppLayout({ children }: RootLayoutProps) {
 
       <div className="flex pt-16 min-h-screen">
         <Sidebar
-          className={`fixed bottom-16 top-16 w-64 transform transition-all duration-300 ease-in-out border-r border-border bg-background ${
+          className={`fixed bottom-16 top-16 w-64 transform transition-transform duration-300 ease-in-out border-r border-border bg-background ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           items={[]}

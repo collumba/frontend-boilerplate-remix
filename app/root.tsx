@@ -9,7 +9,6 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useRouteError,
 } from "@remix-run/react";
 import clsx from "clsx";
 import { useChangeLanguage } from "remix-i18next/react";
@@ -18,7 +17,6 @@ import {
   ThemeProvider,
   useTheme,
 } from "remix-themes";
-import ErrorBoundaryParserError from "./utils/ErrorBoundary";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "/app/styles/globals.css" },
@@ -77,8 +75,8 @@ export function App() {
   );
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
-  const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
-  return <ShowError code={errorCode} message={errorMessage} />;
-}
+// export function ErrorBoundary() {
+//   const error = useRouteError();
+//   const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
+//   return <ShowError code={errorCode} message={errorMessage} />;
+// }

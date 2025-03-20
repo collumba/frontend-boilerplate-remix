@@ -1,4 +1,5 @@
 import { defaultNS, fallbackLng, supportedLngs } from "@app/config/i18n";
+import { ROUTES } from "@app/config/routes";
 import { RemixBrowser } from "@remix-run/react";
 import i18next from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
@@ -20,18 +21,11 @@ async function main() {
       supportedLngs,
       ns: getInitialNamespaces(),
       detection: {
-        // Here only enable htmlTag detection, we'll detect the language only
-        // server-side with remix-i18next, by using the `<html lang>` attribute
-        // we can communicate to the client the language detected server-side
         order: ["htmlTag"],
-        // Because we only use htmlTag, there's no reason to cache the language
-        // on the browser, so we disable it
         caches: [],
       },
       backend: {
-        // We will configure the backend to fetch the translations from the
-        // resource route /api/locales and pass the lng and ns as search params
-        loadPath: "/api/globals/locales?lng={{lng}}&ns={{ns}}",
+        loadPath: `${ROUTES.api.global.locales}?lng={{lng}}&ns={{ns}}`,
       },
     });
 

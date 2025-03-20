@@ -1,3 +1,4 @@
+import { ROUTES } from "@app/config/routes";
 import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
 import ShowError from "@components/ui/show-error";
@@ -45,7 +46,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function AppWithProviders() {
   const data = useLoaderData<typeof loader>();
   return (
-    <ThemeProvider specifiedTheme={data.theme} themeAction="/globals/set-theme">
+    <ThemeProvider
+      specifiedTheme={data.theme}
+      themeAction={ROUTES.api.global.setTheme}
+    >
       <App />
     </ThemeProvider>
   );

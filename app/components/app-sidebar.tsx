@@ -169,8 +169,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <LocaleToggle />
-        <ThemeToggle />
+        <div className="flex items-center justify-between gap-2">
+          <LocaleToggle />
+          <ThemeToggle />
+        </div>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />

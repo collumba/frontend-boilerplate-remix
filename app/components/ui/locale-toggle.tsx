@@ -29,7 +29,7 @@ export function LocaleToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" size="icon">
           <div className="flex items-center gap-2">
             <img
               src={`${env.LOCALE_RESOURCES}/${currentLocale?.flag}.svg`}

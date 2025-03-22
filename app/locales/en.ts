@@ -1,9 +1,7 @@
 export default {
-  title: "remix-i18next (en)",
-  description: "A Remix + Vite + remix-i18next example",
   app: {
+    applicationName: "Acme Inc.",
     message: {
-      title: "Th",
       error: {
         404: {
           title: "Page not found",
@@ -29,10 +27,32 @@ export default {
       },
     },
   },
+  auth: {
+    login: {
+      title: "Login to your account",
+      description: "Enter your email below to login to your account",
+      email: "Email",
+      password: "Password",
+      forgotPassword: "Forgot your password?",
+      button: "Login",
+      orContinueWith: "Or continue with",
+      dontHaveAccount: "Don't have an account?",
+      signUp: "Sign up",
+      loginWithGitHub: "Login with GitHub",
+    },
+  },
+  theme: {
+    toggle: "Toggle theme",
+    light: "Light",
+    dark: "Dark",
+  },
   locale: {
-    en: "English",
-    es: "Spanish",
-    "pt-BR": "Portuguese (Brazil)",
+    toggle: "Toggle locale",
+    languages: {
+      en: "English",
+      es: "Spanish",
+      "pt-BR": "Portuguese (Brazil)",
+    },
   },
   common: {
     action: {

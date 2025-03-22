@@ -1,7 +1,6 @@
 import { ROUTES } from "@app/config/routes";
 import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
-import ShowError from "@components/ui/show-error";
 import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
@@ -10,18 +9,18 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useRouteError,
 } from "@remix-run/react";
 import clsx from "clsx";
 import { useChangeLanguage } from "remix-i18next/react";
 import {
   PreventFlashOnWrongTheme,
+  Theme,
   ThemeProvider,
   useTheme,
 } from "remix-themes";
-import ErrorBoundaryParserError from "./utils/ErrorBoundary";
 
 export const links: LinksFunction = () => [
+  { rel: "preload", href: "/app/styles/globals.css", as: "style" },
   { rel: "stylesheet", href: "/app/styles/globals.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -38,7 +37,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
   const locale = await i18next.getLocale(request);
   return {
-    theme: getTheme(),
+    theme: getTheme() || Theme.LIGHT,
     locale,
   };
 }
@@ -77,8 +76,8 @@ export function App() {
   );
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
-  const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
-  return <ShowError code={errorCode} message={errorMessage} />;
-}
+// export function ErrorBoundary() {
+//   const error = useRouteError();
+//   const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
+//   return <ShowError code={errorCode} message={errorMessage} />;
+// }

@@ -1,7 +1,5 @@
 @import "tailwindcss";
-
-@plugin 'tailwindcss-animate';
-
+@custom-variant dark (&:is(.dark *));
 @theme {
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -54,7 +52,7 @@
     }
   }
 }
-
+/* 
 @layer utilities {
   .container {
     margin-inline: auto;
@@ -80,7 +78,7 @@
   body::-webkit-scrollbar-thumb {
     background: var(--color-primary);
   }
-}
+} */
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
@@ -90,7 +88,7 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-@layer base {
+/* @layer base {
   *,
   ::after,
   ::before,
@@ -98,7 +96,7 @@
   ::file-selector-button {
     border-color: hsl(var(--border));
   }
-}
+} */
 
 @layer base {
   :root {
@@ -153,5 +151,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

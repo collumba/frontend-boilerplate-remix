@@ -7,9 +7,6 @@ export const ROUTES = {
   app: {
     root: "/app",
     dashboard: "/app/dashboard",
-    profile: "/app/profile",
-    settings: "/app/settings",
-    users: "/app/users",
     userProfile: (userId: string) => `/app/users/${userId}`,
   },
   api: {

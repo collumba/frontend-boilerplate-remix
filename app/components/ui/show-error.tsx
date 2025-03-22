@@ -1,4 +1,3 @@
-import { ROUTES } from "@app/config/routes";
 import {
   Card,
   CardContent,
@@ -6,13 +5,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@components/ui/card";
+} from "@app/components/ui/card";
+import { ROUTES } from "@app/config/routes";
 import { Link } from "@remix-run/react";
 import { CloudOff } from "lucide-react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "./button";
-import { Typography } from "./Typography";
 
 interface ShowErrorProps {
   message?: string;
@@ -64,9 +63,7 @@ const ShowError: React.FC<ShowErrorProps> = ({ message, code }) => {
         </CardHeader>
         <CardContent className="flex justify-center items-center flex-col gap-4">
           <CloudOff className="w-30 h-30" />
-          <Typography variant="h3" className="text-center">
-            {code}
-          </Typography>
+          <span>{code}</span>
         </CardContent>
         <CardFooter className="flex justify-center">
           <Button asChild>

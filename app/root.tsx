@@ -36,7 +36,6 @@ export const links: LinksFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
   const locale = await i18next.getLocale(request);
-  console.log(locale);
   return {
     theme: getTheme() || Theme.LIGHT,
     locale,

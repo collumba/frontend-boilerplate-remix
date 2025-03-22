@@ -47,7 +47,10 @@ export function LocaleToggle() {
         align={"end"}
       >
         {getLocales().map((locale) => (
-          <DropdownMenuItem key={locale.label}>
+          <DropdownMenuItem
+            key={locale.label}
+            onClick={() => changeLanguage(locale.label)}
+          >
             <img
               src={`${env.LOCALE_RESOURCES}/${locale.flag}.svg`}
               alt={locale.label}

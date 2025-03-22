@@ -23,8 +23,19 @@ export const Typography = React.forwardRef<
   HTMLHeadingElement | HTMLParagraphElement,
   TypographyProps
 >(({ className, variant = "p", as, ...props }, ref) => {
-  const Component = as || variant || "p";
-
+  const Component =
+    as ||
+    (variant === "blockquote"
+      ? "span"
+      : variant === "lead"
+        ? "span"
+        : variant === "large"
+          ? "span"
+          : variant === "small"
+            ? "span"
+            : variant === "muted"
+              ? "span"
+              : "p");
   return React.createElement(Component, {
     ref,
     className: cn(

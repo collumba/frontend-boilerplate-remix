@@ -1,7 +1,7 @@
-import { LoginForm } from "@app/components/login-form";
 import { Link } from "@app/components/ui/link";
 import { LocaleToggle } from "@app/components/ui/locale-toggle";
 import { ROUTES } from "@app/config/routes";
+import { Outlet } from "@remix-run/react";
 import { GalleryVerticalEnd } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -21,7 +21,7 @@ export default function IndexPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <Outlet />
           </div>
         </div>
       </div>

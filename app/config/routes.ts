@@ -6,6 +6,7 @@ export const ROUTES = {
   resetPassword: "/reset-password",
   app: {
     root: "/app",
+    dashboard: "/app/dashboard",
     userProfile: (userId: string) => `/app/users/${userId}`,
   },
   api: {

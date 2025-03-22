@@ -1,43 +1,62 @@
 export default {
-  title: "remix-i18next (pt-BR)",
-  description: "Um exemplo de Remix + Vite + remix-i18next",
   app: {
+    applicationName: "Acme Inc.",
     message: {
-      title: "Oi",
       error: {
         404: {
-          title: "Página não encontrada",
-          message: "A página que você está procurando não existe.",
+          title: "Page not found",
+          message: "The page you are looking for does not exist.",
         },
         500: {
-          title: "Erro interno do servidor",
-          message: "Ocorreu um erro ao processar sua solicitação.",
+          title: "Internal server error",
+          message: "An error occurred while processing your request.",
         },
         503: {
-          title: "Serviço não disponível",
+          title: "Service unavailable",
           message:
-            "O serviço está temporariamente indisponível. Por favor, tente novamente mais tarde.",
+            "The service is currently unavailable. Please try again later.",
         },
         401: {
-          title: "Não autorizado",
-          message: "Você não tem permissão para acessar este recurso.",
+          title: "Unauthorized",
+          message: "You are not authorized to access this resource.",
         },
         unknown: {
-          title: "Erro desconhecido",
-          message:
-            "Ocorreu um erro desconhecido. Por favor, tente novamente mais tarde.",
+          title: "Unknown error",
+          message: "An unknown error occurred. Please try again later.",
         },
       },
     },
   },
+  auth: {
+    login: {
+      title: "Login to your account",
+      description: "Enter your email below to login to your account",
+      email: "Email",
+      password: "Password",
+      forgotPassword: "Forgot your password?",
+      button: "Login",
+      orContinueWith: "Or continue with",
+      dontHaveAccount: "Don't have an account?",
+      signUp: "Sign up",
+      loginWithGitHub: "Login with GitHub",
+    },
+  },
+  theme: {
+    toggle: "Toggle theme",
+    light: "Light",
+    dark: "Dark",
+  },
   locale: {
-    en: "Inglês",
-    es: "Espanhol",
-    "pt-BR": "Português (Brasil)",
+    toggle: "Toggle locale",
+    languages: {
+      en: "English",
+      es: "Spanish",
+      "pt-BR": "Portuguese (Brazil)",
+    },
   },
   common: {
     action: {
-      goToHome: "Ir para a home",
+      goToHome: "Go to home",
     },
   },
 };

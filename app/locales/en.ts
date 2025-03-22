@@ -1,9 +1,6 @@
 export default {
-  title: "remix-i18next (en)",
-  description: "A Remix + Vite + remix-i18next example",
   app: {
     message: {
-      title: "Th",
       error: {
         404: {
           title: "Page not found",
@@ -27,6 +24,17 @@ export default {
           message: "An unknown error occurred. Please try again later.",
         },
       },
+    },
+  },
+  auth: {
+    login: {
+      title: "Login to your account",
+      description: "Enter your email below to login to your account",
+      email: "Email",
+      password: "Password",
+      forgotPassword: "Forgot your password?",
+      button: "Login",
+      orContinueWith: "Or continue with",
     },
   },
   theme: {

@@ -1,6 +1,4 @@
 export default {
-  title: "remix-i18next (pt-BR)",
-  description: "Um exemplo de Remix + Vite + remix-i18next",
   app: {
     message: {
       title: "Oi",

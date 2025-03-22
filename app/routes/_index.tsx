@@ -29,7 +29,7 @@ export default function IndexPage() {
         "Framework web fullstack baseado em React para criar aplicações modernas e eficientes.",
       icon: <Rocket className="size-6 text-primary" />,
       url: "https://remix.run/",
-      imageUrl: "https://remix.run/img/og.1.jpg",
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREQaxnD9QlBXnZ7i7wV6EhBiuwO7S95PPXo0RiHAYPG73wQ7Pi7lSk-jU&usqp=CAE&s",
       version: "2.5.0",
     },
     {

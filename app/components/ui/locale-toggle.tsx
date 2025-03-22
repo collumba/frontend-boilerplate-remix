@@ -1,17 +1,17 @@
+import { Button } from "@app/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@app/components/ui/dropdown-menu";
+import { Typography } from "@app/components/ui/typography";
 import { supportedLngsConfig } from "@app/config/i18n";
 import { env } from "env";
 import { useTranslation } from "react-i18next";
-import { SidebarMenuButton, useSidebar } from "./sidebar";
 
 export function LocaleToggle() {
-  const { i18n, t } = useTranslation(); // Use o hook do i18n
-  const { isMobile } = useSidebar();
+  const { i18n, t } = useTranslation();
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -29,22 +29,22 @@ export function LocaleToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <SidebarMenuButton tooltip={t("locale.toggle")}>
+        <Button variant="ghost">
           <div className="flex items-center gap-2">
             <img
               src={`${env.LOCALE_RESOURCES}/${currentLocale?.flag}.svg`}
               alt={currentLocale?.label}
               className="w-4 h-4"
             />
-            <span>{t("locale.toggle")}</span>
+
             <span className="sr-only">{t("locale.toggle")}</span>
           </div>
-        </SidebarMenuButton>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-48 rounded-lg"
-        side={isMobile ? "bottom" : "right"}
-        align={isMobile ? "end" : "start"}
+        side={"bottom"}
+        align={"end"}
       >
         {getLocales().map((locale) => (
           <DropdownMenuItem key={locale.label}>
@@ -53,7 +53,9 @@ export function LocaleToggle() {
               alt={locale.label}
               className="w-4 h-4"
             />
-            <span>{t(`locale.languages.${locale.label}`)}</span>
+            <Typography variant="muted">
+              {t(`locale.languages.${locale.label}`)}
+            </Typography>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

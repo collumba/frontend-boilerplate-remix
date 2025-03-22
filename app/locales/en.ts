@@ -1,5 +1,6 @@
 export default {
   app: {
+    applicationName: "Acme Inc.",
     message: {
       error: {
         404: {
@@ -35,6 +36,9 @@ export default {
       forgotPassword: "Forgot your password?",
       button: "Login",
       orContinueWith: "Or continue with",
+      dontHaveAccount: "Don't have an account?",
+      signUp: "Sign up",
+      loginWithGitHub: "Login with GitHub",
     },
   },
   theme: {

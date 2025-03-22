@@ -2,7 +2,10 @@ import { cn } from "@app/components/lib/utils";
 import { Button } from "@app/components/ui/button";
 import { Input } from "@app/components/ui/input";
 import { Label } from "@app/components/ui/label";
+import { Link } from "@app/components/ui/link";
+import { Muted, Typography } from "@app/components/ui/typography";
 import { useTranslation } from "react-i18next";
+
 export function LoginForm({
   className,
   ...props
@@ -11,35 +14,43 @@ export function LoginForm({
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">{t("auth.login.title")}</h1>
-        <p className="text-muted-foreground text-sm text-balance">
+        <Typography variant="h1">{t("auth.login.title")}</Typography>
+        <Muted className="text-sm text-balance">
           {t("auth.login.description")}
-        </p>
+        </Muted>
       </div>
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">{t("auth.login.email")}</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+            autoComplete="email"
+          />
         </div>
         <div className="grid gap-3">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
             <Label htmlFor="password">{t("auth.login.password")}</Label>
-            <a
-              href="#"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              {t("auth.login.forgotPassword")}
-            </a>
           </div>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            required
+            autoComplete="current-password"
+          />
         </div>
+        <Link href="#" variant="underline" className="text-right">
+          {t("auth.login.forgotPassword")}
+        </Link>
         <Button type="submit" className="w-full">
           {t("auth.login.button")}
         </Button>
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-          <span className="bg-background text-muted-foreground relative z-10 px-2">
+          {/* <Muted className="relative z-10 px-2">
             {t("auth.login.orContinueWith")}
-          </span>
+          </Muted> */}
         </div>
         <Button variant="outline" className="w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -51,11 +62,11 @@ export function LoginForm({
           {t("auth.login.loginWithGitHub")}
         </Button>
       </div>
-      <div className="text-center text-sm">
+      <div className="text-center text-sm flex items-center justify-center gap-2">
         {t("auth.login.dontHaveAccount")}
-        <a href="#" className="underline underline-offset-4">
+        <Link href="#" variant="underline">
           {t("auth.login.signUp")}
-        </a>
+        </Link>
       </div>
     </form>
   );

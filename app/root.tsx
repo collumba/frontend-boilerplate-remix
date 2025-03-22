@@ -14,13 +14,14 @@ import clsx from "clsx";
 import { useChangeLanguage } from "remix-i18next/react";
 import {
   PreventFlashOnWrongTheme,
+  Theme,
   ThemeProvider,
   useTheme,
 } from "remix-themes";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: "/app/styles/globals.css" },
   { rel: "preload", href: "/app/styles/globals.css", as: "style" },
+  { rel: "stylesheet", href: "/app/styles/globals.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -36,7 +37,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
   const locale = await i18next.getLocale(request);
   return {
-    theme: getTheme(),
+    theme: getTheme() || Theme.LIGHT,
     locale,
   };
 }

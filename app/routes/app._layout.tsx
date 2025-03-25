@@ -14,7 +14,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@app/components/ui/sidebar";
-import ErrorBoundaryParserError from "@app/utils/ErrorBoundary";
+import ErrorBoundaryParserError from "@app/utils/error-bondary";
 import { Outlet, useRouteError } from "@remix-run/react";
 
 export default function AppPage() {

@@ -59,4 +59,22 @@ export default {
       goToHome: "Go to home",
     },
   },
+  component: {
+    dataTable: {
+      inputSearch: {
+        placeholder: "Filter...",
+      },
+      showColumnsText: "Columns",
+      noResultsText: "No results.",
+      pagination: {
+        previous: "Previous",
+        next: "Next",
+      },
+      error: {
+        title: "Error",
+        description: "Error fetching characters",
+        button: "Try again",
+      },
+    },
+  },
 };

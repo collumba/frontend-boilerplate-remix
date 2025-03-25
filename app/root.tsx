@@ -10,7 +10,10 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import clsx from "clsx";
+import { useState } from "react";
 import { useChangeLanguage } from "remix-i18next/react";
 import {
   PreventFlashOnWrongTheme,
@@ -18,7 +21,6 @@ import {
   ThemeProvider,
   useTheme,
 } from "remix-themes";
-
 export const links: LinksFunction = () => [
   { rel: "preload", href: "/app/styles/globals.css", as: "style" },
   { rel: "stylesheet", href: "/app/styles/globals.css" },
@@ -43,18 +45,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function AppWithProviders() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();  
+  const [queryClient] = useState(() => new QueryClient());
   return (
-    <ThemeProvider
-      specifiedTheme={data.theme}
-      themeAction={ROUTES.api.global.setTheme}
-    >
-      <App />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}> 
+      <ThemeProvider
+        specifiedTheme={data.theme}
+        themeAction={ROUTES.api.global.setTheme}
+        >
+        <App queryClient={queryClient} />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
-export function App() {
+export function App({ queryClient }: { queryClient: QueryClient }) {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
   useChangeLanguage(data.locale);
@@ -71,6 +76,7 @@ export function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        <ReactQueryDevtools initialIsOpen={false} />
       </body>
     </html>
   );

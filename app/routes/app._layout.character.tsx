@@ -9,7 +9,6 @@ import { fetchCharacters } from "@app/services/character";
 import { useQuery } from "@tanstack/react-query";
 import {
   ColumnDef,
-  ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -120,7 +119,6 @@ export default function CharactersListPage() {
       desc: false,
     },
   ]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
@@ -138,7 +136,6 @@ export default function CharactersListPage() {
   >({
     queryKey: ["characters", pageIndex, pageSize],
     queryFn: () => fetchCharacters({ pageIndex, pageSize }),
-
     initialData: {
       results: [],
       info: {
@@ -154,7 +151,6 @@ export default function CharactersListPage() {
     data: data?.results || [],
     columns,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -163,11 +159,10 @@ export default function CharactersListPage() {
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
     manualPagination: true,
-    rowCount: data?.info.count || 0,
     enableSorting: true,
+    pageCount: data?.info.pages || 0,
     state: {
       sorting,
-      columnFilters,
       columnVisibility,
       rowSelection,
       pagination: {

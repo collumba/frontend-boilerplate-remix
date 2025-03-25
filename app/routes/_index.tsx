@@ -7,6 +7,7 @@ import {
 } from "@app/components/ui/card";
 import {
   BookOpen,
+  Calendar,
   Code2,
   Component,
   FileSpreadsheet,
@@ -32,7 +33,8 @@ export default function IndexPage() {
         "Framework web fullstack baseado em React para criar aplicações modernas e eficientes.",
       icon: <Rocket className="size-6 text-primary" />,
       url: "https://remix.run/",
-      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREQaxnD9QlBXnZ7i7wV6EhBiuwO7S95PPXo0RiHAYPG73wQ7Pi7lSk-jU&usqp=CAE&s",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREQaxnD9QlBXnZ7i7wV6EhBiuwO7S95PPXo0RiHAYPG73wQ7Pi7lSk-jU&usqp=CAE&s",
       version: "2.5.0",
     },
     {
@@ -123,7 +125,8 @@ export default function IndexPage() {
       description: "Biblioteca de roteamento para React.",
       icon: <Route className="size-6 text-primary" />,
       url: "https://reactrouter.com/",
-      imageUrl: "https://images.seeklogo.com/logo-png/29/2/react-router-logo-png_seeklogo-294311.png",
+      imageUrl:
+        "https://images.seeklogo.com/logo-png/29/2/react-router-logo-png_seeklogo-294311.png",
       version: "6.26.0",
     },
     {
@@ -137,10 +140,17 @@ export default function IndexPage() {
     {
       name: "Zod",
       description: "Biblioteca de validação de esquemas para TypeScript.",
-      icon: <FileText  className="size-6 text-primary" />,
+      icon: <FileText className="size-6 text-primary" />,
       url: "https://zod.dev/",
       imageUrl: "https://zod.dev/logo.svg",
       version: "3.23.8",
+    },
+    {
+      name: "date-fns",
+      description: "Biblioteca de manipulação de datas para TypeScript.",
+      icon: <Calendar className="size-6 text-primary" />,
+      url: "https://date-fns.org/",
+      imageUrl: "https://date-fns.org/logo.svg",
     },
   ];
 

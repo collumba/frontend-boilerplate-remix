@@ -4,10 +4,23 @@ import {
   DataTableError,
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
+import { useFormattedDate } from "@app/hooks/useFormattedDate";
 import { fetchCharacters } from "@app/services/character";
 import { useQuery } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  PaginationState,
+  SortingState,
+  useReactTable,
+  VisibilityState,
+} from "@tanstack/react-table";
 import { AxiosError } from "axios";
+import { useState } from "react";
 
 export type Character = {
   id: number;
@@ -51,10 +64,12 @@ export const columns: ColumnDef<Character>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    enableSorting: true,
   },
   {
     accessorKey: "status",
     header: "Status",
+    enableSorting: false,
   },
   {
     accessorKey: "species",
@@ -89,26 +104,79 @@ export const columns: ColumnDef<Character>[] = [
     accessorKey: "created",
     header: "Created",
     cell: ({ row }) => {
-      return <div>{row.original.created}</div>;
+      return <div>{useFormattedDate(row.original.created)}</div>;
     },
   },
 ];
 
 export default function CharactersListPage() {
-  const { data, isLoading, error, refetch } = useQuery<
+  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+    pageIndex: 1,
+    pageSize: 10,
+  });
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: "name",
+      desc: false,
+    },
+  ]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+
+  const { data, isLoading, isFetching, error, refetch } = useQuery<
     {
       results: Character[];
       info: {
         count: number;
         pages: number;
+        next: string | null;
+        prev: string | null;
       };
     },
     AxiosError
   >({
-    queryKey: ["characters"],
-    queryFn: fetchCharacters,
+    queryKey: ["characters", pageIndex, pageSize],
+    queryFn: () => fetchCharacters({ pageIndex, pageSize }),
+
+    initialData: {
+      results: [],
+      info: {
+        count: 0,
+        pages: 0,
+        next: null,
+        prev: null,
+      },
+    },
   });
-  if (isLoading) return <DataTableSkeleton />;
+
+  const table = useReactTable({
+    data: data?.results || [],
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    onPaginationChange: setPagination,
+    manualPagination: true,
+    rowCount: data?.info.count || 0,
+    enableSorting: true,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
+    },
+  });
+  if (isLoading || isFetching) return <DataTableSkeleton />;
   if (error)
     return (
       <DataTableError
@@ -117,5 +185,5 @@ export default function CharactersListPage() {
         reload={refetch}
       />
     );
-  return <DataTable columns={columns} data={data?.results || []} />;
+  return <DataTable table={table} />;
 }

@@ -1,19 +1,7 @@
 "use client";
 
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { AlertCircle, ChevronDown } from "lucide-react";
-import * as React from "react";
+import { Table, flexRender } from "@tanstack/react-table";
+import { AlertCircle, ArrowDown, ArrowUp, ChevronDown } from "lucide-react";
 
 import { Button } from "@app/components/ui/button";
 import {
@@ -24,9 +12,9 @@ import {
 } from "@app/components/ui/dropdown-menu";
 import { Input } from "@app/components/ui/input";
 import {
-  Table,
   TableBody,
   TableCell,
+  Table as TableComponent,
   TableHead,
   TableHeader,
   TableRow,
@@ -36,8 +24,7 @@ import { EmptyState } from "./empty-state";
 import { Skeleton } from "./skeleton";
 
 type DataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  table: Table<TData>;
   inputSearch?: {
     placeholder: string;
     onChange: (value: string) => void;
@@ -48,39 +35,12 @@ type DataTableProps<TData, TValue> = {
 };
 
 export function DataTable<TData, TValue>({
-  columns,
-  data,
+  table,
   inputSearch,
   showColumnsText,
   noResultsText,
 }: DataTableProps<TData, TValue>) {
   const { t } = useTranslation();
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-
-  const table = useReactTable({
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  });
 
   return (
     <div className="w-full">
@@ -97,8 +57,8 @@ export function DataTable<TData, TValue>({
           }
           onChange={(event) => {
             table
-              .getColumn(inputSearch?.searchByAccessor ?? "")
-              ?.setFilterValue(event.target.value);
+              .getColumn(inputSearch?.searchByAccessor ?? "name")
+              ?.setFilterValue(event.target.value ?? "");
             inputSearch?.onChange(event.target.value);
           }}
           className="max-w-sm"
@@ -132,19 +92,39 @@ export function DataTable<TData, TValue>({
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <TableComponent>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                      <div className="flex items-center">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                        {header.column.getCanSort() && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => header.column.toggleSorting()}
+                            className="ml-2"
+                          >
+                            {header.column.getIsSorted() ? (
+                              header.column.getIsSorted() === "asc" ? (
+                                <ArrowUp className="w-4 h-4" />
+                              ) : (
+                                <ArrowDown className="w-4 h-4" />
+                              )
+                            ) : (
+                              <ChevronDown className="w-4 h-4" />
+                            )}
+                          </Button>
+                        )}
+                      </div>
                     </TableHead>
                   );
                 })}
@@ -171,7 +151,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getAllColumns().length}
                   className="h-24 text-center"
                 >
                   {noResultsText ?? t("component.dataTable.noResultsText")}
@@ -179,12 +159,14 @@ export function DataTable<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
-        </Table>
+        </TableComponent>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {t("component.dataTable.selectedRows.of", {
+            count: table.getFilteredSelectedRowModel().rows.length,
+            total: table.getFilteredRowModel().rows.length,
+          })}
         </div>
         <div className="space-x-2">
           <Button
@@ -210,7 +192,43 @@ export function DataTable<TData, TValue>({
 }
 
 export function DataTableSkeleton() {
-  return <Skeleton className="h-[500px] w-full" />;
+  return (
+    <div className="w-full">
+      <div className="flex items-center justify-between py-4">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-8 w-32" />
+      </div>
+      <div className="rounded-md border">
+        <TableComponent>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <Skeleton className="h-8 w-full" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 20 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell key={index}>
+                  <Skeleton className="h-8 w-full" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableComponent>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          <Skeleton className="h-8 w-8" />
+        </div>
+        <div className="space-x-2 flex items-center">
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-8" />
+        </div>
+      </div>
+    </div>
+  );
 }
 type DataTableErrorType = {
   title?: string;

@@ -70,6 +70,9 @@ export default {
         previous: "Previous",
         next: "Next",
       },
+      selectedRows: {
+        of: "{{count}} of {{total}} rows selected.",
+      },
       error: {
         title: "Error",
         description: "Error fetching characters",

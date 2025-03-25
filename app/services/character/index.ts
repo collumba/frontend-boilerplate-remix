@@ -1,7 +1,16 @@
 import { apiClient } from "@app/utils/axios-api/apiClient";
+import { PaginationState } from "@tanstack/react-table";
 
-export async function fetchCharacters() {
-  const { data } = await apiClient.get("/character");
+export async function fetchCharacters({
+  pageIndex,
+  pageSize,
+}: PaginationState) {
+  const { data } = await apiClient.get("/character", {
+    params: {
+      page: pageIndex,
+      count: pageSize,
+    },
+  });
   return data;
 }
 

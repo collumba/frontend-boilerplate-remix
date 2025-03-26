@@ -1,6 +1,8 @@
 import { useCharacterColumns } from "@app/features/mdm/character/useCharacterColumns";
+import { useEpisodeColumns } from "@app/features/mdm/episode/useEpisodeColumns";
 import { useLocationColumns } from "@app/features/mdm/location/useLocationColumns";
 import { Character } from "@app/types/mdm/character";
+import { Episode } from "@app/types/mdm/episode";
 import { Location } from "@app/types/mdm/location";
 
 // Interface base para configuração de entidade
@@ -16,6 +18,9 @@ export const ENTITY_CONFIG = {
   location: {
     endpoint: "location",
   },
+  episode: {
+    endpoint: "episode",
+  },
 } as const;
 
 // Tipos gerados automaticamente a partir da configuração
@@ -25,6 +30,8 @@ export type EntityMap = {
     ? Character
     : K extends "location"
     ? Location
+    : K extends "episode"
+    ? Episode
     : never;
 };
 
@@ -35,6 +42,7 @@ export function useEntityColumns<T extends EntityType>(entity: T) {
     const columnsMap = {
       character: useCharacterColumns,
       location: useLocationColumns,
+      episode: useEpisodeColumns,
     };
 
     // Obtenha a função de colunas do mapa

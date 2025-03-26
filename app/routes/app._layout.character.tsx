@@ -5,7 +5,8 @@ import {
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
 import { useFormattedDate } from "@app/hooks/useFormattedDate";
-import { fetchCharacters } from "@app/services/character";
+import { Character, CharacterService } from "@app/services/character";
+import { ApiResponse } from "@app/types/api";
 import { useQuery } from "@tanstack/react-query";
 import {
   ColumnDef,
@@ -20,25 +21,6 @@ import {
 } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { useState } from "react";
-
-export type Character = {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
-  image: string;
-  episode: string[];
-  created: string;
-};
 
 export const columns: ColumnDef<Character>[] = [
   {
@@ -121,21 +103,14 @@ export default function CharactersListPage() {
   ]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const characterService = new CharacterService();
 
   const { data, isLoading, isFetching, error, refetch } = useQuery<
-    {
-      results: Character[];
-      info: {
-        count: number;
-        pages: number;
-        next: string | null;
-        prev: string | null;
-      };
-    },
+    ApiResponse<Character>,
     AxiosError
   >({
     queryKey: ["characters", pageIndex, pageSize],
-    queryFn: () => fetchCharacters({ pageIndex, pageSize }),
+    queryFn: () => characterService.fetchCharacters({ pageIndex, pageSize }),
     initialData: {
       results: [],
       info: {

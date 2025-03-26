@@ -1,20 +1,45 @@
 import { apiClient } from "@app/utils/axios-api/apiClient";
 import { PaginationState } from "@tanstack/react-table";
 
-export async function fetchCharacters({
-  pageIndex,
-  pageSize,
-}: PaginationState) {
-  const { data } = await apiClient.get("/character", {
-    params: {
-      page: pageIndex,
-      count: pageSize,
-    },
-  });
-  return data;
-}
+export type Character = {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  created: string;
+};
 
-export async function createPost(newPost: { title: string; body: string }) {
-  const { data } = await apiClient.post("/posts", newPost);
-  return data;
+export type CharacterServiceResponse = {
+  info: {
+    count: number;
+    pages: number;
+    next: string;
+    prev: string;
+  };
+  results: Character[];
+};
+export class CharacterService {
+  async fetchCharacters({
+    pageIndex,
+    pageSize,
+  }: PaginationState): Promise<CharacterServiceResponse> {
+    const { data } = await apiClient.get("/character", {
+      params: {
+        page: pageIndex,
+        count: pageSize,
+      },
+    });
+    return data;
+  }
 }

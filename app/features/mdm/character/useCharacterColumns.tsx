@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@app/components/ui/avatar";
 import { useFormattedDate } from "@app/hooks/useFormattedDate";
-import { Character } from "@app/services/character";
+import { Character } from "@app/types/mdm/character";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 
-const useCharacterColumns = () => {
+export const useCharacterColumns = () => {
   const { t } = useTranslation();
 
   const columns: ColumnDef<Character>[] = [
@@ -77,5 +77,3 @@ const useCharacterColumns = () => {
 
   return columns;
 };
-
-export { useCharacterColumns };

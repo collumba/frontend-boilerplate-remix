@@ -3,11 +3,11 @@ import {
   DataTableError,
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
+import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
-import { useCharacterColumns } from "@app/features/characters/list/useCharacterColumns";
 import { useDataTable } from "@app/hooks/useDataTable";
-import { ENTITY_CONFIG, EntityType } from "@app/services/base";
-import { ServiceFactory } from "@app/services/factory";
+import { MdmService } from "@app/services/mdm";
+import { EntityMap, EntityType } from "@app/types/mdm";
 import { useParams } from "@remix-run/react";
 
 export const handle = {
@@ -20,17 +20,20 @@ export const handle = {
 
 export default function MassDataManagementList() {
   const { entity } = useParams();
-  const columns = useCharacterColumns();
 
-  // Validar se o entity é um tipo válido
   if (!entity || !Object.keys(ENTITY_CONFIG).includes(entity)) {
     throw new Error(`Invalid entity type: ${entity}`);
   }
 
-  const service = ServiceFactory.getService(entity as EntityType);
+  const entityType = entity as EntityType;
 
-  const { table, isLoading, isFetching, error, refetch } = useDataTable({
-    queryKey: `${entity}`,
+  const columns = ENTITY_CONFIG[entityType].useColumns();
+  const service = new MdmService(entityType);
+
+  const { table, isLoading, isFetching, error, refetch } = useDataTable<
+    EntityMap[typeof entityType]
+  >({
+    queryKey: entityType,
     fetchData: (params) => service.fetch(params),
     columns,
     initialPageSize: 20,

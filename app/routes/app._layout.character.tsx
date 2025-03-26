@@ -33,14 +33,17 @@ export default function CharactersListPage() {
   const table = useReactTable({
     data: data?.results || [],
     columns,
-    onSortingChange: setSorting,
+    onSortingChange: (updater) =>
+      setSorting((prev) => ({ ...prev, ...updater })),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
+    onColumnVisibilityChange: (updater) =>
+      setColumnVisibility((prev) => ({ ...prev, ...updater })),
     onRowSelectionChange: setRowSelection,
-    onPaginationChange: setPagination,
+    onPaginationChange: (updater) =>
+      setPagination((prev) => ({ ...prev, ...updater })),
     manualPagination: true,
     enableSorting: true,
     pageCount: data?.info.pages || 0,

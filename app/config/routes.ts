@@ -10,14 +10,9 @@ export const ROUTES = {
     root: "/app",
     mdm: {
       root: "/app/mdm",
+      create: (entity: string) => `/app/mdm/${entity}/create`,
+      edit: (entity: string, id: string) => `/app/mdm/${entity}/${id}/edit`,
     },
-    characters: {
-      root: "/app/characters",
-      create: "/app/characters/create",
-      detail: (id: string) => `/app/characters/${id}`,
-      edit: (id: string) => `/app/characters/${id}/edit`,
-    },
-    userProfile: (userId: string) => `/app/users/${userId}`,
   },
   api: {
     root: "/api",

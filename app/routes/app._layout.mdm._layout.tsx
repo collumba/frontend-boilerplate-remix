@@ -3,11 +3,11 @@ import { Outlet } from "@remix-run/react";
 
 export const handle = {
   breadcrumb: {
-    label: `app.massDataManagement.name`,
+    label: "route.app.mdm.root",
     href: ROUTES.app.mdm.root,
   },
 };
 
-export default function MassDataManagement() {
+export default function MassDataManagementLayout() {
   return <Outlet />;
 }

@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 
 export const handle = {
   breadcrumb: {
-    label: "App",
+    label: "route.app.root",
     href: ROUTES.app.root,
   },
 };

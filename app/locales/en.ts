@@ -1,9 +1,6 @@
 export default {
   app: {
     applicationName: "Acme Inc.",
-    massDataManagement: {
-      name: "MDM",
-    },
     message: {
       error: {
         404: {
@@ -98,6 +95,16 @@ export default {
         episode: "Episode",
         created: "Created",
         gender: "Gender",
+      },
+    },
+  },
+  route: {
+    app: {
+      root: "App",
+      dashboard: "Dashboard",
+      mdm: {
+        root: "MDM",
+        create: "Create",
       },
     },
   },

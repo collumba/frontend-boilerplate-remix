@@ -10,12 +10,12 @@ const useCharactersColumns = () => {
   const columns: ColumnDef<Character>[] = [
     {
       accessorKey: "id",
-      header: t("characters.columns.id"),
+      header: t("entities.characters.columns.id"),
       enableHiding: false,
     },
     {
       accessorKey: "image",
-      header: t("characters.columns.image"),
+      header: t("entities.characters.columns.image"),
       cell: ({ row }) => {
         return (
           <Avatar className="h-8 w-8 rounded-lg">
@@ -29,46 +29,46 @@ const useCharactersColumns = () => {
     },
     {
       accessorKey: "name",
-      header: t("characters.columns.name"),
+      header: t("entities.characters.columns.name"),
       enableSorting: true,
     },
     {
       accessorKey: "status",
-      header: t("characters.columns.status"),
+      header: t("entities.characters.columns.status"),
       enableSorting: false,
     },
     {
       accessorKey: "species",
-      header: t("characters.columns.species"),
+      header: t("entities.characters.columns.species"),
     },
     {
       accessorKey: "gender",
-      header: t("characters.columns.gender"),
+      header: t("entities.characters.columns.gender"),
     },
     {
       accessorKey: "origin",
-      header: t("characters.columns.origin"),
+      header: t("entities.characters.columns.origin"),
       cell: ({ row }) => {
         return <div>{row.original.origin.name}</div>;
       },
     },
     {
       accessorKey: "location",
-      header: t("characters.columns.location"),
+      header: t("entities.characters.columns.location"),
       cell: ({ row }) => {
         return <div>{row.original.location.name}</div>;
       },
     },
     {
       accessorKey: "episode",
-      header: t("characters.columns.episode"),
+      header: t("entities.characters.columns.episode"),
       cell: ({ row }) => {
         return <div>{row.original.episode.length}</div>;
       },
     },
     {
       accessorKey: "created",
-      header: t("characters.columns.created"),
+      header: t("entities.characters.columns.created"),
       cell: ({ row }) => {
         return <div>{useFormattedDate(row.original.created)}</div>;
       },

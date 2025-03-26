@@ -94,6 +94,7 @@ export default {
         location: "Location",
         episode: "Episode",
         created: "Created",
+        gender: "Gender",
       },
     },
   },

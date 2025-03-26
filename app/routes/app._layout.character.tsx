@@ -3,8 +3,8 @@ import {
   DataTableError,
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
-import { useCharactersColumns } from "@app/features/characters/list/useCharactersColumns";
-import { useCharacterTable } from "@app/features/characters/list/useCharactersTable";
+import { useCharacterColumns } from "@app/features/characters/list/useCharacterColumns";
+import { useCharacterTable } from "@app/features/characters/list/useCharacterTable";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -29,7 +29,8 @@ export default function CharactersListPage() {
     rowSelection,
     setRowSelection,
   } = useCharacterTable();
-  const columns = useCharactersColumns();
+  const columns = useCharacterColumns();
+
   const table = useReactTable({
     data: data?.results || [],
     columns,

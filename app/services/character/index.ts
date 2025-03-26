@@ -1,45 +1,34 @@
-import { apiClient } from "@app/utils/axios-api/apiClient";
-import { PaginationState } from "@tanstack/react-table";
+import { ApiService } from "@app/services/api";
+import { ApiResponse, FetchParams } from "@app/types/api";
 
-export type Character = {
+export interface Character {
   id: number;
   name: string;
   status: string;
   species: string;
+  type: string;
   gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
+  origin: { name: string; url: string };
+  location: { name: string; url: string };
   image: string;
   episode: string[];
+  url: string;
   created: string;
-};
-
-export type CharacterServiceResponse = {
-  info: {
-    count: number;
-    pages: number;
-    next: string;
-    prev: string;
-  };
-  results: Character[];
-};
+}
 export class CharacterService {
-  async fetchCharacters({
+  private api: ApiService;
+
+  constructor() {
+    this.api = new ApiService();
+  }
+
+  fetchCharacters({
     pageIndex,
     pageSize,
-  }: PaginationState): Promise<CharacterServiceResponse> {
-    const { data } = await apiClient.get("/character", {
-      params: {
-        page: pageIndex,
-        count: pageSize,
-      },
-    });
-    return data;
+    sortField,
+    sortDirection,
+  }: FetchParams) {
+    let url = `character/?page=${pageIndex}`;
+    return this.api.get<ApiResponse<Character>>(url);
   }
 }

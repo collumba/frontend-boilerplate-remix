@@ -4,7 +4,7 @@ import { Character } from "@app/services/character";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 
-const useCharactersColumns = () => {
+const useCharacterColumns = () => {
   const { t } = useTranslation();
 
   const columns: ColumnDef<Character>[] = [
@@ -78,4 +78,4 @@ const useCharactersColumns = () => {
   return columns;
 };
 
-export { useCharactersColumns };
+export { useCharacterColumns };

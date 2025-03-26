@@ -2,12 +2,11 @@ import axios, { AxiosInstance } from "axios";
 
 export class ApiService {
   private client: AxiosInstance;
-
   constructor() {
-    const baseURL = "https://rickandmortyapi.com/api";
-
+    const baseURL = import.meta.env.VITE_API_URL;
     this.client = axios.create({
       baseURL,
+      timeout: 5000,
       headers: {
         "Content-Type": "application/json",
       },

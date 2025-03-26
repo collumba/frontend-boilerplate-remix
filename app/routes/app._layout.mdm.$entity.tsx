@@ -3,7 +3,6 @@ import {
   DataTableError,
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
-import { ROUTES } from "@app/config/routes";
 import { useCharacterColumns } from "@app/features/characters/list/useCharacterColumns";
 import { useDataTable } from "@app/hooks/useDataTable";
 import { Character, CharacterService } from "@app/services/character";
@@ -11,11 +10,13 @@ import { Character, CharacterService } from "@app/services/character";
 const ENTITY = "character";
 
 export const handle = {
-  breadcrumb: {
-    label: `entities.${ENTITY}.name`,
-    href: ROUTES.app + "/" + ENTITY,
-  },
+  breadcrumb: (params: { entity: string }) => ({
+    label: `entities.${params.entity}.name`,
+    labelParams: { value: params.entity },
+    href: `/app/${params.entity}`,
+  }),
 };
+
 export default function MassDataManagementList() {
   const columns = useCharacterColumns();
   const characterService = new CharacterService();

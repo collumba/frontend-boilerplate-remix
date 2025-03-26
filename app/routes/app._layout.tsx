@@ -15,21 +15,11 @@ import {
   SidebarTrigger,
 } from "@app/components/ui/sidebar";
 import { ROUTES } from "@app/config/routes";
+import { AppMatch } from "@app/types/breadcrumb";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
 import { Outlet, useMatches, useRouteError } from "@remix-run/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-
-interface Handle {
-  breadcrumb: {
-    label: string;
-    href: string;
-  };
-}
-
-interface AppMatch {
-  handle: Handle;
-}
 
 export const handle = {
   breadcrumb: {
@@ -42,7 +32,13 @@ export default function AppPage() {
   const matches = useMatches() as AppMatch[];
   const breadcrumbs = matches
     .filter((match) => match.handle?.breadcrumb)
-    .map((match) => match.handle.breadcrumb);
+    .map((match) => {
+      const breadcrumb =
+        typeof match.handle.breadcrumb === "function"
+          ? match.handle.breadcrumb(match.params)
+          : match.handle.breadcrumb;
+      return breadcrumb;
+    });
   const { t } = useTranslation();
 
   return (
@@ -59,10 +55,12 @@ export default function AppPage() {
                   <React.Fragment key={index}>
                     <BreadcrumbItem className="hidden md:block">
                       {index === breadcrumbs.length - 1 ? (
-                        <BreadcrumbPage>{t(crumb.label)}</BreadcrumbPage>
+                        <BreadcrumbPage>
+                          {t(crumb.label, crumb.labelParams)}
+                        </BreadcrumbPage>
                       ) : (
                         <BreadcrumbLink href={crumb.href}>
-                          {t(crumb.label)}
+                          {t(crumb.label, crumb.labelParams)}
                         </BreadcrumbLink>
                       )}
                     </BreadcrumbItem>

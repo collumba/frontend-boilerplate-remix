@@ -5,11 +5,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@app/components/ui/card";
+import { Link } from "@app/components/ui/link";
+import { ROUTES } from "@app/config/routes";
 import {
   BookOpen,
   Calendar,
   Code2,
   Component,
+  Database,
   FileSpreadsheet,
   FileText,
   Globe,
@@ -18,14 +21,12 @@ import {
   Rocket,
   Route,
   Shield,
+  Table,
   TestTube,
   Zap,
 } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export default function IndexPage() {
-  const { t } = useTranslation();
-
   const technologies = [
     {
       name: "Remix.run",
@@ -150,7 +151,26 @@ export default function IndexPage() {
       description: "Biblioteca de manipulação de datas para TypeScript.",
       icon: <Calendar className="size-6 text-primary" />,
       url: "https://date-fns.org/",
-      imageUrl: "https://date-fns.org/logo.svg",
+      imageUrl: "https://avatars.githubusercontent.com/u/14921202?s=200&v=4",
+      version: "4.1.0",
+    },
+    {
+      name: "Tanstack Query",
+      description: "Biblioteca de gerenciamento de dados para React.",
+      icon: <Database className="size-6 text-primary" />,
+      url: "https://tanstack.com/query/latest/docs/framework/react/react-native/overview.html",
+      imageUrl:
+        "https://tanstack.com/_build/assets/logo-color-600w-Er4SOkq1.png",
+      version: "5.59.1",
+    },
+    {
+      name: "React Table",
+      description: "Biblioteca de tabelas para React.",
+      icon: <Table className="size-6 text-primary" />,
+      url: "https://tanstack.com/table/latest/docs/framework/react/react-native/overview.html",
+      imageUrl:
+        "https://tanstack.com/_build/assets/logo-color-600w-Er4SOkq1.png",
+      version: "8.10.0",
     },
   ];
 
@@ -165,6 +185,7 @@ export default function IndexPage() {
           Remix.run e TypeScript, com foco em produtividade, desempenho e
           experiência do desenvolvedor.
         </p>
+        <Link to={ROUTES.app.root}>Go App</Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

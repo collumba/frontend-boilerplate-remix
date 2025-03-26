@@ -1,12 +1,20 @@
 export const ROUTES = {
   home: "/",
-  login: "/login",
-  register: "/register",
-  forgotPassword: "/forgot-password",
-  resetPassword: "/reset-password",
+  auth: {
+    login: "/login",
+    register: "/register",
+    forgotPassword: "/forgot-password",
+    resetPassword: "/reset-password",
+  },
   app: {
     root: "/app",
     dashboard: "/app/dashboard",
+    characters: {
+      root: "/app/characters",
+      create: "/app/characters/create",
+      detail: (id: string) => `/app/characters/${id}`,
+      edit: (id: string) => `/app/characters/${id}/edit`,
+    },
     userProfile: (userId: string) => `/app/users/${userId}`,
   },
   api: {

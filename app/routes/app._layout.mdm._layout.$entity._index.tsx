@@ -3,7 +3,7 @@ import {
   DataTableError,
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
-import { ENTITY_CONFIG } from "@app/config/mdm";
+import { ENTITY_CONFIG, useEntityColumns } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
 import { useDataTable } from "@app/hooks/useDataTable";
 import { MdmService } from "@app/services/mdm";
@@ -27,7 +27,7 @@ export default function MassDataManagementList() {
 
   const entityType = entity as EntityType;
 
-  const columns = ENTITY_CONFIG[entityType].useColumns();
+  const columns = useEntityColumns(entityType);
   const service = new MdmService(entityType);
 
   const { table, isLoading, isFetching, error, refetch } = useDataTable<

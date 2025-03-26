@@ -1,22 +1,38 @@
-import { Character } from "@app/types/mdm/character";
+import { Location } from "@app/types/mdm/location";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 
-export const useLocationColumns = () => {
+const useLocationColumns = () => {
   const { t } = useTranslation();
 
-  const columns: ColumnDef<Character>[] = [
+  const columns: ColumnDef<Location>[] = [
     {
       accessorKey: "id",
-      header: t("entities.character.columns.id"),
+      header: t("entities.location.columns.id"),
       enableHiding: false,
     },
     {
       accessorKey: "name",
-      header: t("entities.character.columns.name"),
+      header: t("entities.location.columns.name"),
       enableSorting: true,
+    },
+    {
+      accessorKey: "type",
+      header: t("entities.location.columns.type"),
+    },
+    {
+      accessorKey: "dimension",
+      header: t("entities.location.columns.dimension"),
+    },
+    {
+      accessorKey: "created",
+      header: t("entities.location.columns.created"),
     },
   ];
 
   return columns;
 };
+
+// Exportação padrão e nomeada
+export default useLocationColumns;
+export { useLocationColumns };

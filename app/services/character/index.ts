@@ -1,4 +1,5 @@
 import { ApiService } from "@app/services/api";
+import { BaseService } from "@app/services/base";
 import { ApiResponse, FetchParams } from "@app/types/api";
 
 export interface Character {
@@ -15,19 +16,20 @@ export interface Character {
   url: string;
   created: string;
 }
-export class CharacterService {
+
+export class CharacterService implements BaseService<Character> {
   private api: ApiService;
 
   constructor() {
     this.api = new ApiService();
   }
 
-  fetchCharacters({
+  fetch({
     pageIndex,
     pageSize,
     sortField,
     sortDirection,
-  }: FetchParams) {
+  }: FetchParams): Promise<ApiResponse<Character>> {
     let url = `character/?page=${pageIndex}`;
     return this.api.get<ApiResponse<Character>>(url);
   }

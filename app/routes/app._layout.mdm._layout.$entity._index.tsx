@@ -6,9 +6,9 @@ import {
 import { ROUTES } from "@app/config/routes";
 import { useCharacterColumns } from "@app/features/characters/list/useCharacterColumns";
 import { useDataTable } from "@app/hooks/useDataTable";
-import { Character, CharacterService } from "@app/services/character";
-
-const ENTITY = "character";
+import { ENTITY_CONFIG, EntityType } from "@app/services/base";
+import { ServiceFactory } from "@app/services/factory";
+import { useParams } from "@remix-run/react";
 
 export const handle = {
   breadcrumb: (params: { entity: string }) => ({
@@ -19,17 +19,23 @@ export const handle = {
 };
 
 export default function MassDataManagementList() {
+  const { entity } = useParams();
   const columns = useCharacterColumns();
-  const characterService = new CharacterService();
 
-  const { table, isLoading, isFetching, error, refetch } =
-    useDataTable<Character>({
-      queryKey: `${ENTITY}`,
-      fetchData: (params) => characterService.fetchCharacters(params),
-      columns,
-      initialPageSize: 20,
-      defaultSort: { id: "name", desc: false },
-    });
+  // Validar se o entity é um tipo válido
+  if (!entity || !Object.keys(ENTITY_CONFIG).includes(entity)) {
+    throw new Error(`Invalid entity type: ${entity}`);
+  }
+
+  const service = ServiceFactory.getService(entity as EntityType);
+
+  const { table, isLoading, isFetching, error, refetch } = useDataTable({
+    queryKey: `${entity}`,
+    fetchData: (params) => service.fetch(params),
+    columns,
+    initialPageSize: 20,
+    defaultSort: { id: "name", desc: false },
+  });
 
   if (isLoading || isFetching) return <DataTableSkeleton />;
   if (error)

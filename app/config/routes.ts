@@ -8,7 +8,9 @@ export const ROUTES = {
   },
   app: {
     root: "/app",
-    dashboard: "/app/dashboard",
+    mdm: {
+      root: "/app/mdm",
+    },
     characters: {
       root: "/app/characters",
       create: "/app/characters/create",

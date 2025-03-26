@@ -1,6 +1,9 @@
 export default {
   app: {
     applicationName: "Acme Inc.",
+    massDataManagement: {
+      name: "MDM",
+    },
     message: {
       error: {
         404: {

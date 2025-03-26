@@ -40,7 +40,6 @@ export default function AppPage() {
       return breadcrumb;
     });
   const { t } = useTranslation();
-
   return (
     <SidebarProvider>
       <AppSidebar />

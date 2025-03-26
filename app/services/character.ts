@@ -16,6 +16,13 @@ export interface Character {
   created: string;
 }
 
+export interface CharacterFetchParams {
+  pageIndex: number;
+  pageSize: number;
+  sortField?: string;
+  sortDirection?: "asc" | "desc";
+}
+
 export class CharacterService {
   private api: ApiService;
 
@@ -28,16 +35,13 @@ export class CharacterService {
     pageSize,
     sortField,
     sortDirection,
-  }: {
-    pageIndex: number;
-    pageSize: number;
-    sortField?: string;
-    sortDirection?: "asc" | "desc";
-  }) {
-    let url = `character/?page=${pageIndex}&limit=${pageSize}`;
-    if (sortField && sortDirection) {
-      url += `&sort=${sortField}&order=${sortDirection}`;
-    }
+  }: CharacterFetchParams) {
+    // A API Rick and Morty não suporta ordenação, apenas paginação
+    let url = `character/?page=${pageIndex}`;
+
+    // Nota: o parâmetro 'limit' também não é suportado pela API
+    // A API Rick and Morty retorna um número fixo de personagens por página
+
     return this.api.get<ApiResponse<Character>>(url);
   }
 }

@@ -34,16 +34,22 @@ export default function CharactersListPage() {
     data: data?.results || [],
     columns,
     onSortingChange: (updater) =>
-      setSorting((prev) => ({ ...prev, ...updater })),
+      setSorting((prev) =>
+        typeof updater === "function" ? updater(prev) : updater
+      ),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: (updater) =>
-      setColumnVisibility((prev) => ({ ...prev, ...updater })),
+      setColumnVisibility((prev) =>
+        typeof updater === "function" ? updater(prev) : updater
+      ),
     onRowSelectionChange: setRowSelection,
     onPaginationChange: (updater) =>
-      setPagination((prev) => ({ ...prev, ...updater })),
+      setPagination((prev) =>
+        typeof updater === "function" ? updater(prev) : updater
+      ),
     manualPagination: true,
     enableSorting: true,
     pageCount: data?.info.pages || 0,

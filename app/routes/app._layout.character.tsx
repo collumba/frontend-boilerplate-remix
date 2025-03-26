@@ -4,7 +4,8 @@ import {
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
 import { useCharacterColumns } from "@app/features/characters/list/useCharacterColumns";
-import { useCharacterTable } from "@app/features/characters/list/useCharacterTable";
+import { useTable } from "@app/hooks/useTable";
+import { Character, CharacterService } from "@app/services/character";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -14,6 +15,9 @@ import {
 } from "@tanstack/react-table";
 
 export default function CharactersListPage() {
+  const columns = useCharacterColumns();
+  const characterService = new CharacterService();
+
   const {
     data,
     isLoading,
@@ -28,8 +32,12 @@ export default function CharactersListPage() {
     setColumnVisibility,
     rowSelection,
     setRowSelection,
-  } = useCharacterTable();
-  const columns = useCharacterColumns();
+  } = useTable<Character>({
+    queryKey: "characters",
+    fetchData: (params) => characterService.fetchCharacters(params),
+    initialPageSize: 20,
+    defaultSort: { id: "name", desc: false },
+  });
 
   const table = useReactTable({
     data: data?.results || [],

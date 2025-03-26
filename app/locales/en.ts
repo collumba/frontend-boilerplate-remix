@@ -80,4 +80,21 @@ export default {
       },
     },
   },
+  entities: {
+    characters: {
+      name: "Character",
+      namePlural: "Characters",
+      columns: {
+        id: "ID",
+        image: "Image",
+        name: "Name",
+        status: "Status",
+        species: "Species",
+        origin: "Origin",
+        location: "Location",
+        episode: "Episode",
+        created: "Created",
+      },
+    },
+  },
 };

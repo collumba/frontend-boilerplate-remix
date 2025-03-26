@@ -3,17 +3,26 @@ import {
   DataTableError,
   DataTableSkeleton,
 } from "@app/components/ui/data-table";
+import { ROUTES } from "@app/config/routes";
 import { useCharacterColumns } from "@app/features/characters/list/useCharacterColumns";
 import { useDataTable } from "@app/hooks/useDataTable";
 import { Character, CharacterService } from "@app/services/character";
 
-export default function CharactersListPage() {
+const ENTITY = "character";
+
+export const handle = {
+  breadcrumb: {
+    label: `entities.${ENTITY}.name`,
+    href: ROUTES.app + "/" + ENTITY,
+  },
+};
+export default function MassDataManagementList() {
   const columns = useCharacterColumns();
   const characterService = new CharacterService();
 
   const { table, isLoading, isFetching, error, refetch } =
     useDataTable<Character>({
-      queryKey: "characters",
+      queryKey: `${ENTITY}`,
       fetchData: (params) => characterService.fetchCharacters(params),
       columns,
       initialPageSize: 20,

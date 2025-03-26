@@ -81,7 +81,7 @@ export default {
     },
   },
   entities: {
-    characters: {
+    character: {
       name: "Character",
       namePlural: "Characters",
       columns: {

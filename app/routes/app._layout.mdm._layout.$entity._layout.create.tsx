@@ -2,9 +2,9 @@ import { ROUTES } from "@app/config/routes";
 
 export const handle = {
   breadcrumb: (params: { entity: string }) => ({
-    label: `route.mdm.create`,
+    label: `common.action.create`,
     labelParams: { value: params.entity },
-    href: `${ROUTES.app.root}/${params.entity}`,
+    href: `${ROUTES.app.mdm.create(params.entity)}`,
   }),
 };
 export default function MassDataManagementCreate() {

@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 
 export const handle = {
   breadcrumb: (params: { entity: string }) => ({
-    label: `entities.${params.entity}.namePlural`,
+    label: `common.action.list`,
     labelParams: { value: params.entity },
     href: `${ROUTES.app.root}/${params.entity}`,
   }),

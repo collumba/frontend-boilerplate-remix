@@ -81,6 +81,7 @@ export default {
       zoomReset: "Zoom reset",
       zoomFit: "Zoom fit",
       back: "Back",
+      list: "List",
     },
   },
   component: {

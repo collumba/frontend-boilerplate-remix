@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@app/components/ui/card";
 import { Link } from "@app/components/ui/link";
+import { Typography } from "@app/components/ui/typography";
 import { ROUTES } from "@app/config/routes";
 import {
   BookOpen,
@@ -159,8 +160,7 @@ export default function IndexPage() {
       description: "Biblioteca de gerenciamento de dados para React.",
       icon: <Database className="size-6 text-primary" />,
       url: "https://tanstack.com/query/latest/docs/framework/react/react-native/overview.html",
-      imageUrl:
-        "https://tanstack.com/_build/assets/logo-color-600w-Er4SOkq1.png",
+      imageUrl: "https://discord.do/wp-content/uploads/2023/08/TanStack.jpg",
       version: "5.59.1",
     },
     {
@@ -168,8 +168,7 @@ export default function IndexPage() {
       description: "Biblioteca de tabelas para React.",
       icon: <Table className="size-6 text-primary" />,
       url: "https://tanstack.com/table/latest/docs/framework/react/react-native/overview.html",
-      imageUrl:
-        "https://tanstack.com/_build/assets/logo-color-600w-Er4SOkq1.png",
+      imageUrl: "https://discord.do/wp-content/uploads/2023/08/TanStack.jpg",
       version: "8.10.0",
     },
   ];
@@ -177,14 +176,17 @@ export default function IndexPage() {
   return (
     <div className="container py-8 mx-auto">
       <div className="space-y-4 text-center mb-8">
-        <h1 className="text-3xl font-bold tracking-tight animate-fade-in">
+        <Typography variant="h1" className="animate-fade-in">
           Remix Boilerplate
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
+        </Typography>
+        <Typography
+          variant="p"
+          className="max-w-3xl mx-auto animate-fade-in-up"
+        >
           Um projeto boilerplate para aplicações web frontend utilizando
           Remix.run e TypeScript, com foco em produtividade, desempenho e
           experiência do desenvolvedor.
-        </p>
+        </Typography>
         <Link to={ROUTES.app.root}>Go App</Link>
       </div>
 

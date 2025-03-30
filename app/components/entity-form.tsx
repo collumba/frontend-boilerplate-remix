@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@app/components/ui/form";
 import { Input } from "@app/components/ui/input";
+import { MaskedInput } from "@app/components/ui/masked-input";
 import { MultiSelect } from "@app/components/ui/multi-select";
 import {
   Popover,
@@ -237,20 +238,52 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                     </FormLabel>
                     <FormControl>
                       {field.type === "text" || field.type === "number" ? (
-                        <Input
-                          id={key}
-                          type={field.type === "number" ? "number" : "text"}
-                          {...formField}
-                        />
+                        field.mask ? (
+                          <MaskedInput
+                            id={key}
+                            mask={field.mask}
+                            placeholder={
+                              field.placeholder
+                                ? t(field.placeholder)
+                                : undefined
+                            }
+                            disabled={field.disabled}
+                            {...formField}
+                          />
+                        ) : (
+                          <Input
+                            id={key}
+                            type={field.type === "number" ? "number" : "text"}
+                            placeholder={
+                              field.placeholder
+                                ? t(field.placeholder)
+                                : undefined
+                            }
+                            min={field.min}
+                            max={field.max}
+                            pattern={field.pattern}
+                            disabled={field.disabled}
+                            readOnly={field.readonly}
+                            {...formField}
+                          />
+                        )
                       ) : field.type === "textarea" ? (
                         <Textarea
                           id={key}
-                          placeholder={t(
-                            `entities.${entity}.fields.${key}Placeholder`,
-                            {
-                              defaultValue: t("common.action.enterText"),
-                            }
-                          )}
+                          placeholder={
+                            field.placeholder
+                              ? t(field.placeholder)
+                              : t(
+                                  `entities.${entity}.fields.${key}Placeholder`,
+                                  {
+                                    defaultValue: t("common.action.enterText"),
+                                  }
+                                )
+                          }
+                          minLength={field.min}
+                          maxLength={field.max}
+                          disabled={field.disabled}
+                          readOnly={field.readonly}
                           className="min-h-[120px]"
                           {...formField}
                         />
@@ -258,10 +291,15 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                         <Select
                           onValueChange={formField.onChange}
                           defaultValue={formField.value}
+                          disabled={field.disabled}
                         >
                           <SelectTrigger id={key} className="w-full">
                             <SelectValue
-                              placeholder={t("common.action.select")}
+                              placeholder={
+                                field.placeholder
+                                  ? t(field.placeholder)
+                                  : t("common.action.select")
+                              }
                             />
                           </SelectTrigger>
                           <SelectContent>
@@ -282,6 +320,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           id={key}
                           checked={formField.value}
                           onCheckedChange={formField.onChange}
+                          disabled={field.disabled}
                         />
                       ) : field.type === "date" ? (
                         <DatePickerField
@@ -296,6 +335,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           onValueChange={formField.onChange}
                           defaultValue={formField.value}
                           className="flex flex-col space-y-2"
+                          disabled={field.disabled}
                         >
                           {field.options?.map(
                             (option: { label: string; value: string }) => (
@@ -306,6 +346,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                                 <RadioGroupItem
                                   value={option.value}
                                   id={`${key}-${option.value}`}
+                                  disabled={field.disabled}
                                 />
                                 <label
                                   htmlFor={`${key}-${option.value}`}
@@ -322,11 +363,21 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           options={field.options || []}
                           selected={formField.value || []}
                           onChange={formField.onChange}
-                          placeholder={t("common.action.selectOptions")}
+                          placeholder={
+                            field.placeholder
+                              ? t(field.placeholder)
+                              : t("common.action.selectOptions")
+                          }
+                          disabled={field.disabled}
                           t={t}
                         />
                       ) : null}
                     </FormControl>
+                    {field.helperText && (
+                      <p className="text-sm text-muted-foreground">
+                        {t(field.helperText)}
+                      </p>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -371,11 +422,16 @@ function DatePickerField({
             !formField.value && "text-muted-foreground",
             isOpen && "border-ring"
           )}
+          disabled={field.disabled}
         >
           {formField.value ? (
             format(new Date(formField.value), "PPP", { locale: dateLocale })
           ) : (
-            <span>{t("common.action.pickDate")}</span>
+            <span>
+              {field.placeholder
+                ? t(field.placeholder)
+                : t("common.action.pickDate")}
+            </span>
           )}
         </ButtonInput>
       </PopoverTrigger>
@@ -386,6 +442,11 @@ function DatePickerField({
           onSelect={(date) => {
             formField.onChange(date);
             setIsOpen(false);
+          }}
+          disabled={(date) => {
+            if (field.min && date < new Date(field.min)) return true;
+            if (field.max && date > new Date(field.max)) return true;
+            return false;
           }}
           initialFocus
         />

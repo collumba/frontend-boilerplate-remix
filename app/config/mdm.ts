@@ -18,6 +18,14 @@ export interface EntityFieldConfig {
     | "multiselect";
   required?: boolean;
   options?: Array<{ label: string; value: string }>;
+  placeholder?: string;
+  min?: number;
+  max?: number;
+  mask?: string;
+  pattern?: string;
+  helperText?: string;
+  disabled?: boolean;
+  readonly?: boolean;
 }
 
 // Interface base para configuração de entidade
@@ -31,11 +39,19 @@ export const ENTITY_CONFIG = {
   character: {
     endpoint: "character",
     fields: {
-      name: { name: "name", type: "text", required: true },
+      name: {
+        name: "name",
+        type: "text",
+        required: true,
+        placeholder: "entities.character.fields.namePlaceholder",
+        min: 3,
+        max: 100,
+      },
       status: {
         name: "status",
         type: "select",
         required: true,
+        placeholder: "entities.character.fields.statusPlaceholder",
         options: [
           { label: "entities.character.status.alive", value: "alive" },
           { label: "entities.character.status.dead", value: "dead" },
@@ -46,6 +62,7 @@ export const ENTITY_CONFIG = {
         name: "gender",
         type: "radio",
         required: true,
+        helperText: "entities.character.fields.genderHelperText",
         options: [
           { label: "entities.character.gender.male", value: "male" },
           { label: "entities.character.gender.female", value: "female" },
@@ -56,10 +73,27 @@ export const ENTITY_CONFIG = {
           { label: "entities.character.gender.unknown", value: "unknown" },
         ],
       },
+      phoneNumber: {
+        name: "phoneNumber",
+        type: "text",
+        required: false,
+        mask: "+00 (00) 00000-0000",
+        placeholder: "entities.character.fields.phoneNumberPlaceholder",
+        helperText: "entities.character.fields.phoneNumberHelperText",
+      },
+      age: {
+        name: "age",
+        type: "number",
+        required: false,
+        min: 0,
+        max: 1000,
+        placeholder: "entities.character.fields.agePlaceholder",
+      },
       traits: {
         name: "traits",
         type: "multiselect",
         required: false,
+        placeholder: "entities.character.fields.traitsPlaceholder",
         options: [
           {
             label: "entities.character.traits.intelligent",
@@ -74,10 +108,37 @@ export const ENTITY_CONFIG = {
           },
         ],
       },
-      species: { name: "species", type: "text", required: true },
-      description: { name: "description", type: "textarea", required: false },
-      in_active: { name: "in_active", type: "checkbox", required: false },
-      birthDate: { name: "birthDate", type: "date", required: true },
+      species: {
+        name: "species",
+        type: "text",
+        required: true,
+        pattern: "^[A-Za-z ]+$",
+        placeholder: "entities.character.fields.speciesPlaceholder",
+      },
+      description: {
+        name: "description",
+        type: "textarea",
+        required: false,
+        placeholder: "entities.character.fields.descriptionPlaceholder",
+        min: 10,
+        max: 500,
+        helperText: "entities.character.fields.descriptionHelperText",
+      },
+      in_active: {
+        name: "in_active",
+        type: "checkbox",
+        required: false,
+        helperText: "entities.character.fields.inActiveHelperText",
+      },
+      birthDate: {
+        name: "birthDate",
+        type: "date",
+        required: true,
+        min: "1900-01-01",
+        max: "2023-12-31",
+        placeholder: "entities.character.fields.birthDatePlaceholder",
+        helperText: "entities.character.fields.birthDateHelperText",
+      },
     },
   },
   location: {

@@ -1,7 +1,6 @@
 import { Button } from "@app/components/ui/button";
-import { ButtonInput } from "@app/components/ui/button-input";
-import { Calendar } from "@app/components/ui/calendar";
 import { Checkbox } from "@app/components/ui/checkbox";
+import { DatePickerField } from "@app/components/ui/date-picker";
 import {
   Form,
   FormControl,
@@ -13,11 +12,6 @@ import {
 import { Input } from "@app/components/ui/input";
 import { MaskedInput } from "@app/components/ui/masked-input";
 import { MultiSelect } from "@app/components/ui/multi-select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@app/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@app/components/ui/radio-group";
 import {
   Select,
@@ -32,15 +26,11 @@ import { ROUTES } from "@app/config/routes";
 import { MdmService } from "@app/services/mdm";
 import { EntityType } from "@app/types/mdm";
 import { ClientOnly } from "@app/utils/client-only";
-import { cn } from "@app/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { enUS, es, ptBR } from "date-fns/locale";
-import { CalendarIcon, Eraser, Save } from "lucide-react";
+import { Eraser, Save } from "lucide-react";
 import * as React from "react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
@@ -387,71 +377,6 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
         </form>
       </Form>
     </div>
-  );
-}
-
-function DatePickerField({
-  fieldId,
-  field,
-  formField,
-  t,
-}: {
-  fieldId: string;
-  field: any;
-  formField: any;
-  t: any;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { i18n } = useTranslation();
-  const langLocales = {
-    en: enUS,
-    "pt-BR": ptBR,
-    es: es,
-  };
-
-  const dateLocale =
-    langLocales[i18n.language as keyof typeof langLocales] || enUS;
-
-  return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <ButtonInput
-          id={fieldId}
-          leadingIcon={<CalendarIcon className="h-4 w-4" />}
-          className={cn(
-            !formField.value && "text-muted-foreground",
-            isOpen && "border-ring"
-          )}
-          disabled={field.disabled}
-        >
-          {formField.value ? (
-            format(new Date(formField.value), "PPP", { locale: dateLocale })
-          ) : (
-            <span>
-              {field.placeholder
-                ? t(field.placeholder)
-                : t("common.action.pickDate")}
-            </span>
-          )}
-        </ButtonInput>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          mode="single"
-          selected={formField.value}
-          onSelect={(date) => {
-            formField.onChange(date);
-            setIsOpen(false);
-          }}
-          disabled={(date) => {
-            if (field.min && date < new Date(field.min)) return true;
-            if (field.max && date > new Date(field.max)) return true;
-            return false;
-          }}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
   );
 }
 

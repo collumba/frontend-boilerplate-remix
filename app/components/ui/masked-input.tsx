@@ -7,17 +7,34 @@ import { useEffect } from "react";
 
 // Criar um componente que emula uma entrada mascarada usando um input nativo
 export interface MaskedInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "max" | "min"> {
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "max" | "min" | "value" | "defaultValue" | "onChange"
+  > {
   mask: string;
   definitions?: Record<string, RegExp>;
   min?: string | number;
   max?: string | number;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onAccept?: (value: string) => void;
 }
 
 const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(
   (
-    { className, mask, definitions, min, max, onAccept, onChange, ...props },
+    {
+      className,
+      mask,
+      definitions,
+      min,
+      max,
+      onAccept,
+      onChange,
+      value,
+      defaultValue,
+      ...props
+    },
     ref
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -33,6 +50,11 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(
         definitions,
       });
 
+      // Se temos um valor inicial, defina-o
+      if (value !== undefined && element.value !== value) {
+        maskInstance.value = value;
+      }
+
       // Manipulador para o evento de aceitação da máscara
       if (onAccept) {
         maskInstance.on("accept", () => {
@@ -44,7 +66,11 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(
       if (onChange) {
         maskInstance.on("accept", () => {
           const event = {
-            target: inputRef.current,
+            target: {
+              ...inputRef.current,
+              name: props.name,
+              value: maskInstance.value,
+            },
           } as React.ChangeEvent<HTMLInputElement>;
           onChange(event);
         });
@@ -54,7 +80,13 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(
       return () => {
         maskInstance.destroy();
       };
-    }, [mask, definitions, onAccept, onChange]);
+    }, [mask, definitions, onAccept, onChange, value, props.name]);
+
+    // Usamos defaultValue para o input subjacente para evitar warning
+    const inputProps = {
+      ...props,
+      defaultValue: value || defaultValue,
+    };
 
     // Renderiza um input básico sobre o qual o IMask atuará
     return (
@@ -68,9 +100,7 @@ const MaskedInput = React.forwardRef<HTMLInputElement, MaskedInputProps>(
         )}
         min={min}
         max={max}
-        {...props}
-        // O IMaskInput será aplicado a este elemento após a montagem
-        // usando o padrão de hook ou useEffect
+        {...inputProps}
       />
     );
   }

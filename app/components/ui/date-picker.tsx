@@ -21,12 +21,7 @@ interface DatePickerFieldProps {
   t: any;
 }
 
-function DatePickerField({
-  fieldId,
-  field,
-  formField,
-  t,
-}: DatePickerFieldProps) {
+function DatePicker({ fieldId, field, formField, t }: DatePickerFieldProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { i18n } = useTranslation();
   const langLocales = {
@@ -81,4 +76,4 @@ function DatePickerField({
   );
 }
 
-export { DatePickerField };
+export { DatePicker as DatePickerField };

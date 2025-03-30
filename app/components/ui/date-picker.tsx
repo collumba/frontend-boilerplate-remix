@@ -19,9 +19,16 @@ interface DatePickerFieldProps {
   field: any;
   formField: any;
   t: any;
+  hasError?: boolean;
 }
 
-function DatePicker({ fieldId, field, formField, t }: DatePickerFieldProps) {
+function DatePicker({
+  fieldId,
+  field,
+  formField,
+  t,
+  hasError,
+}: DatePickerFieldProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { i18n } = useTranslation();
   const langLocales = {
@@ -41,9 +48,11 @@ function DatePicker({ fieldId, field, formField, t }: DatePickerFieldProps) {
           leadingIcon={<CalendarIcon className="h-4 w-4" />}
           className={cn(
             !formField.value && "text-muted-foreground",
-            isOpen && "border-ring"
+            isOpen && "border-ring",
+            hasError && "border-destructive"
           )}
           disabled={field.disabled}
+          aria-invalid={hasError}
         >
           {formField.value ? (
             format(new Date(formField.value), "PPP", { locale: dateLocale })

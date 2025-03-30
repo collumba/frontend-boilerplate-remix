@@ -26,6 +26,7 @@ import { ROUTES } from "@app/config/routes";
 import { MdmService } from "@app/services/mdm";
 import { EntityType } from "@app/types/mdm";
 import { ClientOnly } from "@app/utils/client-only";
+import { cn } from "@app/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -209,21 +210,29 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
             <Eraser className="mr-2 h-4 w-4" />
             {t("common.action.clear")}
           </Button>
-          <Button type="submit" disabled={mutation.isPending}>
+          <Button
+            type="submit"
+            disabled={mutation.isPending}
+            form="entity-form"
+          >
             <Save className="mr-2 h-4 w-4" />
             {t("common.action.save")}
           </Button>
         </div>
       </PageHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          id="entity-form"
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(entityConfig.fields || {}).map(([key, field]) => (
               <FormField
                 key={key}
                 control={form.control}
                 name={key as any}
-                render={({ field: formField }) => (
+                render={({ field: formField, formState }) => (
                   <FormItem>
                     <FormLabel htmlFor={`field-${key}`} id={`label-${key}`}>
                       {t(`entities.${entity}.fields.${key}`)}
@@ -285,7 +294,14 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           value={formField.value}
                           disabled={field.disabled}
                         >
-                          <SelectTrigger id={`field-${key}`} className="w-full">
+                          <SelectTrigger
+                            id={`field-${key}`}
+                            className={cn(
+                              "w-full",
+                              !!formState.errors[key] && "border-destructive"
+                            )}
+                            aria-invalid={!!formState.errors[key]}
+                          >
                             <SelectValue
                               placeholder={
                                 field.placeholder
@@ -321,13 +337,20 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           field={field}
                           formField={formField}
                           t={t}
+                          hasError={!!formState.errors[key]}
                         />
                       ) : field.type === "radio" ? (
-                        <div className="radio-group-wrapper">
+                        <div
+                          className="radio-group-wrapper"
+                          aria-invalid={!!formState.errors[key]}
+                        >
                           <RadioGroup
                             onValueChange={formField.onChange}
                             value={formField.value}
-                            className="flex flex-col space-y-2"
+                            className={cn(
+                              "flex flex-col space-y-2",
+                              !!formState.errors[key] && "border-destructive"
+                            )}
                             disabled={field.disabled}
                             aria-labelledby={`label-${key}`}
                           >
@@ -341,6 +364,11 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                                     value={option.value}
                                     id={`field-${key}-${option.value}`}
                                     disabled={field.disabled}
+                                    className={
+                                      !!formState.errors[key]
+                                        ? "border-destructive"
+                                        : ""
+                                    }
                                   />
                                   <label
                                     htmlFor={`field-${key}-${option.value}`}
@@ -367,6 +395,9 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                             disabled={field.disabled}
                             t={t}
                             id={`field-${key}`}
+                            className={
+                              formState.errors[key] ? "border-destructive" : ""
+                            }
                           />
                         </div>
                       ) : null}

@@ -76,7 +76,7 @@ export const ENTITY_CONFIG = {
       phoneNumber: {
         name: "phoneNumber",
         type: "text",
-        required: false,
+        required: true,
         mask: "+00 (00) 00000-0000",
         placeholder: "entities.character.fields.phoneNumberPlaceholder",
         helperText: "entities.character.fields.phoneNumberHelperText",
@@ -84,7 +84,7 @@ export const ENTITY_CONFIG = {
       age: {
         name: "age",
         type: "number",
-        required: false,
+        required: true,
         min: 0,
         max: 1000,
         placeholder: "entities.character.fields.agePlaceholder",
@@ -92,7 +92,7 @@ export const ENTITY_CONFIG = {
       traits: {
         name: "traits",
         type: "multiselect",
-        required: false,
+        required: true,
         placeholder: "entities.character.fields.traitsPlaceholder",
         options: [
           {
@@ -118,7 +118,7 @@ export const ENTITY_CONFIG = {
       description: {
         name: "description",
         type: "textarea",
-        required: false,
+        required: true,
         placeholder: "entities.character.fields.descriptionPlaceholder",
         min: 10,
         max: 500,
@@ -127,7 +127,7 @@ export const ENTITY_CONFIG = {
       in_active: {
         name: "in_active",
         type: "checkbox",
-        required: false,
+        required: true,
         helperText: "entities.character.fields.inActiveHelperText",
       },
       birthDate: {

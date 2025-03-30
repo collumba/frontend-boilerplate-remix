@@ -195,13 +195,18 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
   return (
     <div className="space-y-6">
       <PageHeader
+        hasBackButton={true}
         title={
           isCreate
             ? `${t(`entities.${entity}.name`)} - ${t("common.action.create")}`
             : `${t(`entities.${entity}.name`)} - ${t("common.action.edit")}`
         }
       >
-        <div className="flex gap-2 flex-wrap w-full justify-end">
+        <div
+          className={`flex gap-2 flex-wrap ${
+            isMobile ? "w-full" : "w-auto"
+          } justify-end`}
+        >
           <Button
             type="button"
             variant="outline"
@@ -214,6 +219,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
             <Eraser className="mr-2 h-4 w-4" />
             {t("common.action.clear")}
           </Button>
+
           <Button
             type="submit"
             disabled={mutation.isPending}

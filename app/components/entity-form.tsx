@@ -202,7 +202,9 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
             type="button"
             variant="outline"
             disabled={mutation.isPending}
-            onClick={() => form.reset()}
+            onClick={() => {
+              form.reset(defaultValues);
+            }}
           >
             <Eraser className="mr-2 h-4 w-4" />
             {t("common.action.clear")}
@@ -280,7 +282,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                       ) : field.type === "select" ? (
                         <Select
                           onValueChange={formField.onChange}
-                          defaultValue={formField.value}
+                          value={formField.value}
                           disabled={field.disabled}
                         >
                           <SelectTrigger id={`field-${key}`} className="w-full">
@@ -324,7 +326,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                         <div className="radio-group-wrapper">
                           <RadioGroup
                             onValueChange={formField.onChange}
-                            defaultValue={formField.value}
+                            value={formField.value}
                             className="flex flex-col space-y-2"
                             disabled={field.disabled}
                             aria-labelledby={`label-${key}`}

@@ -3,11 +3,15 @@ import { LocaleToggle } from "@app/components/ui/locale-toggle";
 import { ROUTES } from "@app/config/routes";
 import { requireGuest } from "@app/utils/auth-server";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { MetaFunction, Outlet } from "@remix-run/react";
 import { GalleryVerticalEnd } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-// Verificação de autenticação no servidor
+export const meta: MetaFunction = () => {
+  return [{ title: "Auth" }, { name: "description", content: "Auth" }];
+};
+
+// Server authentication verification
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireGuest(request);
   return {};

@@ -44,10 +44,10 @@ export class AuthService {
     this.api = new ApiService();
   }
 
-  // Autenticar usuário
+  // Authenticate user
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      // Garantir que estamos enviando exatamente o que o Strapi espera
+      // Ensure we are sending exactly what Strapi expects
       const payload = {
         identifier: credentials.identifier,
         password: credentials.password,
@@ -65,7 +65,7 @@ export class AuthService {
     }
   }
 
-  // Registrar novo usuário
+  // Register new user
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
       const response = await this.api.post<AuthResponse>(
@@ -80,7 +80,7 @@ export class AuthService {
     }
   }
 
-  // Buscar informações do usuário atual
+  // Fetch current user information
   async me(): Promise<MeResponse> {
     try {
       const token = this.getToken();
@@ -95,24 +95,24 @@ export class AuthService {
     }
   }
 
-  // Fazer logout
+  // Logout
   logout(): void {
     this.removeToken();
   }
 
-  // Salvar token como cookie
+  // Save token as cookie
   private setToken(token: string, rememberMe = false): void {
     const expiresIn = rememberMe
       ? AUTH_CONFIG.EXPIRATION.REMEMBER_ME
       : AUTH_CONFIG.EXPIRATION.DEFAULT;
     const expires = new Date(Date.now() + expiresIn * 1000);
 
-    // Salvar o token como cookie
+    // Save token as cookie
     document.cookie = `${
       this.TOKEN_KEY
     }=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax;`;
 
-    // Manter retrocompatibilidade
+    // Maintain backward compatibility
     if (rememberMe) {
       localStorage.setItem(this.TOKEN_KEY, token);
     } else {
@@ -120,9 +120,9 @@ export class AuthService {
     }
   }
 
-  // Obter token de autenticação
+  // Get authentication token
   getToken(): string | null {
-    // Verificar primeiro nos cookies
+    // Check first in cookies
     const cookies = document.cookie.split(";");
     for (const cookie of cookies) {
       const [name, value] = cookie.trim().split("=");
@@ -131,24 +131,24 @@ export class AuthService {
       }
     }
 
-    // Retrocompatibilidade: verificar em localStorage/sessionStorage
+    // Backward compatibility: check in localStorage/sessionStorage
     return (
       localStorage.getItem(this.TOKEN_KEY) ||
       sessionStorage.getItem(this.TOKEN_KEY)
     );
   }
 
-  // Remover token
+  // Remove token
   private removeToken(): void {
-    // Remover cookie
+    // Remove cookie
     document.cookie = `${this.TOKEN_KEY}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
-    // Remover também do localStorage/sessionStorage
+    // Remove also from localStorage/sessionStorage
     localStorage.removeItem(this.TOKEN_KEY);
     sessionStorage.removeItem(this.TOKEN_KEY);
   }
 
-  // Verificar se o usuário está autenticado
+  // Check if user is authenticated
   isAuthenticated(): boolean {
     return !!this.getToken();
   }

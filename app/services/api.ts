@@ -15,9 +15,9 @@ export class ApiService {
       withCredentials: true,
     });
 
-    // Interceptor para adicionar token de autenticação
+    // Interceptor to add authentication token
     this.client.interceptors.request.use((config) => {
-      // Não adicionar token em rotas de autenticação
+      // Do not add token to authentication routes
       const isAuthRoute =
         config.url?.includes("/api/auth/local") ||
         config.url?.includes("/api/auth/local/register");

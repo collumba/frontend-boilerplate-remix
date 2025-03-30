@@ -6,7 +6,4 @@ export const columnFactories: Record<EntityType, ColumnFactory<any>> = {
   character: {
     useColumns: useCharacterColumns,
   },
-  location: {
-    useColumns: useCharacterColumns,
-  },
 };

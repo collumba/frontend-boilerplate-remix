@@ -55,17 +55,17 @@ export class MdmService<T extends EntityType> {
   }
 
   /**
-   * Busca opções de um endpoint específico da API
-   * @param endpoint - Endpoint da API para buscar as opções
-   * @param params - Parâmetros da requisição (opcional)
-   * @returns Um array de objetos com label e value
+   * Search options from a specific API endpoint
+   * @param endpoint - API endpoint to search options
+   * @param params - Request parameters (optional)
+   * @returns An array of objects with label and value
    */
   async getOptions(
     endpoint: string,
     params?: Record<string, any>
   ): Promise<Option[]> {
     try {
-      // Constrói a URL com parâmetros, se houver
+      // Build the URL with parameters, if any
       let url = `${endpoint}`;
       if (params) {
         const queryParams = new URLSearchParams();
@@ -75,7 +75,7 @@ export class MdmService<T extends EntityType> {
         url += `?${queryParams.toString()}`;
       }
 
-      // Usa o mesmo padrão dos outros métodos, utilizando a ApiService
+      // Use the same pattern as other methods, using the ApiService
       const data = await this.api.get<ApiOptionsResponse>(url);
 
       return data.options || [];

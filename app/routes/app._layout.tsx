@@ -20,9 +20,18 @@ import { AppMatch } from "@app/types/breadcrumb";
 import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet, useMatches, useRouteError } from "@remix-run/react";
+import {
+  MetaFunction,
+  Outlet,
+  useMatches,
+  useRouteError,
+} from "@remix-run/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "App" }, { name: "description", content: "App" }];
+};
 
 export const handle = {
   breadcrumb: {

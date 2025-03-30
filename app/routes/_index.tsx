@@ -8,6 +8,7 @@ import {
 import { Link } from "@app/components/ui/link";
 import { Typography } from "@app/components/ui/typography";
 import { ROUTES } from "@app/config/routes";
+import { MetaFunction } from "@remix-run/react";
 import {
   BookOpen,
   Calendar,
@@ -26,7 +27,12 @@ import {
   TestTube,
   Zap,
 } from "lucide-react";
-
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Boilerplate" },
+    { name: "description", content: "Boilerplate" },
+  ];
+};
 export default function IndexPage() {
   const technologies = [
     {

@@ -1,20 +1,20 @@
 /**
- * Configurações relacionadas à autenticação
+ * Authentication related configurations
  */
 
 export const AUTH_CONFIG = {
   /**
-   * Nome do token usado em cookies, localStorage e sessionStorage
+   * Token name used in cookies, localStorage and sessionStorage
    */
   TOKEN_KEY: "strapi_token",
 
   /**
-   * Tempo de expiração do token (em segundos)
+   * Token expiration time (in seconds)
    */
   EXPIRATION: {
-    /** 1 dia */
+    /** 1 day */
     DEFAULT: 24 * 60 * 60,
-    /** 30 dias */
+    /** 30 days */
     REMEMBER_ME: 30 * 24 * 60 * 60,
   },
 };

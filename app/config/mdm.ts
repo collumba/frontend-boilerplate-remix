@@ -9,7 +9,7 @@ export interface EntityFieldConfig {
   name: string;
   type: "text" | "number" | "checkbox" | "select" | "date" | "textarea";
   required?: boolean;
-  options?: { label: string; value: string }[];
+  options?: Array<{ label: string; value: string }>;
 }
 
 // Interface base para configuração de entidade
@@ -24,7 +24,16 @@ export const ENTITY_CONFIG = {
     endpoint: "character",
     fields: {
       name: { name: "name", type: "text", required: true },
-      status: { name: "status", type: "text", required: true },
+      status: {
+        name: "status",
+        type: "select",
+        required: true,
+        options: [
+          { label: "entities.character.status.alive", value: "alive" },
+          { label: "entities.character.status.dead", value: "dead" },
+          { label: "entities.character.status.unknown", value: "unknown" },
+        ],
+      },
       species: { name: "species", type: "text", required: true },
       gender: { name: "gender", type: "text", required: true },
       description: { name: "description", type: "textarea", required: false },

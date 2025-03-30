@@ -16,6 +16,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@app/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@app/components/ui/select";
 import { Textarea } from "@app/components/ui/textarea";
 import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
@@ -30,6 +37,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarIcon, Eraser, Save } from "lucide-react";
 import * as React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
@@ -54,6 +62,8 @@ export function generateZodSchema(entity: EntityType) {
     } else if (field.type === "date") {
       fieldSchema = z.date().optional();
     } else if (field.type === "textarea") {
+      fieldSchema = z.string();
+    } else if (field.type === "select") {
       fieldSchema = z.string();
     }
 
@@ -106,7 +116,11 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
           values[key] = 0;
         } else if (field.type === "date") {
           values[key] = undefined;
-        } else if (field.type === "textarea" || field.type === "text") {
+        } else if (
+          field.type === "textarea" ||
+          field.type === "text" ||
+          field.type === "select"
+        ) {
           values[key] = "";
         } else {
           values[key] = "";
@@ -231,6 +245,29 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           className="min-h-[120px]"
                           {...formField}
                         />
+                      ) : field.type === "select" ? (
+                        <Select
+                          onValueChange={formField.onChange}
+                          defaultValue={formField.value}
+                        >
+                          <SelectTrigger id={key} className="w-full">
+                            <SelectValue
+                              placeholder={t("common.action.select")}
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {field.options?.map(
+                              (option: { label: string; value: string }) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {t(option.label)}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectContent>
+                        </Select>
                       ) : field.type === "checkbox" ? (
                         <Checkbox
                           id={key}
@@ -238,31 +275,13 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           onCheckedChange={formField.onChange}
                         />
                       ) : field.type === "date" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <ButtonInput
-                              id={key}
-                              leadingIcon={<CalendarIcon className="h-4 w-4" />}
-                              className={cn(
-                                !formField.value && "text-muted-foreground"
-                              )}
-                            >
-                              {formField.value ? (
-                                format(formField.value, "PPP", { locale: ptBR })
-                              ) : (
-                                <span>{t("common.action.pickDate")}</span>
-                              )}
-                            </ButtonInput>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={formField.value}
-                              onSelect={formField.onChange}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
+                        <DatePickerField
+                          key={key}
+                          fieldId={key}
+                          field={field}
+                          formField={formField}
+                          t={t}
+                        />
                       ) : null}
                     </FormControl>
                     <FormMessage />
@@ -274,6 +293,52 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
         </form>
       </Form>
     </div>
+  );
+}
+
+function DatePickerField({
+  fieldId,
+  field,
+  formField,
+  t,
+}: {
+  fieldId: string;
+  field: any;
+  formField: any;
+  t: any;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <ButtonInput
+          id={fieldId}
+          leadingIcon={<CalendarIcon className="h-4 w-4" />}
+          className={cn(
+            !formField.value && "text-muted-foreground",
+            isOpen && "border-purple-500"
+          )}
+        >
+          {formField.value ? (
+            format(formField.value, "PPP", { locale: ptBR })
+          ) : (
+            <span>{t("common.action.pickDate")}</span>
+          )}
+        </ButtonInput>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar
+          mode="single"
+          selected={formField.value}
+          onSelect={(date) => {
+            formField.onChange(date);
+            setIsOpen(false);
+          }}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
   );
 }
 

@@ -317,7 +317,7 @@ function DatePickerField({
           leadingIcon={<CalendarIcon className="h-4 w-4" />}
           className={cn(
             !formField.value && "text-muted-foreground",
-            isOpen && "border-purple-500"
+            isOpen && "border-ring"
           )}
         >
           {formField.value ? (

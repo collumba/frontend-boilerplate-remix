@@ -2,8 +2,13 @@
 
 import { MultiSelect } from "@app/components/ui/multi-select";
 import { MdmService } from "@app/services/mdm";
+import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+
+interface Option {
+  label: string;
+  value: string;
+}
 
 interface MultiSelectFieldProps {
   fieldId: string;
@@ -22,51 +27,29 @@ export function MultiSelectFromApi({
   fieldKey,
   t,
 }: MultiSelectFieldProps) {
-  const [options, setOptions] = useState<
-    Array<{ label: string; value: string }>
-  >(field.options || []);
-  const [isLoading, setIsLoading] = useState(field.optionsSource === "api");
-  const [error, setError] = useState<string | null>(null);
+  const entity = field.entity || "common";
+  const service = new MdmService(entity);
 
-  useEffect(() => {
-    // Se as opções vêm da API, busca-as ao montar o componente
-    if (field.optionsSource === "api" && field.optionsEndpoint) {
-      const fetchOptions = async () => {
-        setIsLoading(true);
-        setError(null);
-        try {
-          // Usa o entity da configuração do campo ou 'common' como padrão
-          const entity = field.entity || "common";
-          const service = new MdmService(entity);
+  const {
+    data: options = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: [
+      "multiSelectOptions",
+      field.optionsEndpoint,
+      field.optionsParams,
+      entity,
+    ],
+    queryFn: async () => {
+      if (!(field.optionsSource === "api") || !field.optionsEndpoint) {
+        return field.options || [];
+      }
 
-          const apiOptions = await service.getOptions(
-            field.optionsEndpoint,
-            field.optionsParams
-          );
-
-          setOptions(apiOptions);
-        } catch (err) {
-          console.error("Erro ao carregar opções:", err);
-          setError(
-            t("common.errors.loadingOptions", "Erro ao carregar opções")
-          );
-          // Usa opções de fallback se disponíveis
-          setOptions([]);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchOptions();
-    }
-  }, [
-    field.optionsSource,
-    field.optionsEndpoint,
-    field.optionsParams,
-    field.entity,
-    fieldKey,
-    t,
-  ]);
+      return service.getOptions(field.optionsEndpoint, field.optionsParams);
+    },
+    enabled: field.optionsSource === "api" && !!field.optionsEndpoint,
+  });
 
   if (isLoading) {
     return (
@@ -80,7 +63,7 @@ export function MultiSelectFromApi({
   if (error) {
     return (
       <div className="flex items-center h-9 px-3 border border-destructive rounded-md text-sm text-destructive">
-        {error}
+        {t("common.errors.loadingOptions", "Erro ao carregar opções")}
       </div>
     );
   }

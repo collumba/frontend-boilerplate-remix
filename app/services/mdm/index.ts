@@ -2,7 +2,6 @@ import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ApiService } from "@app/services/api";
 import { ApiResponse, FetchParams } from "@app/types/api";
 import { EntityMap, EntityType } from "@app/types/mdm";
-import axios from "axios";
 
 export interface Option {
   label: string;
@@ -66,14 +65,20 @@ export class MdmService<T extends EntityType> {
     params?: Record<string, any>
   ): Promise<Option[]> {
     try {
-      const response = await axios.get<ApiOptionsResponse>(
-        `${endpoint}/options`,
-        {
-          params,
-        }
-      );
+      // Constrói a URL com parâmetros, se houver
+      let url = `${endpoint}`;
+      if (params) {
+        const queryParams = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+          queryParams.append(key, String(value));
+        });
+        url += `?${queryParams.toString()}`;
+      }
 
-      return response.data.options || [];
+      // Usa o mesmo padrão dos outros métodos, utilizando a ApiService
+      const data = await this.api.get<ApiOptionsResponse>(url);
+
+      return data.options || [];
     } catch (error) {
       console.error("Error fetching options from API:", error);
       return [];

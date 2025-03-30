@@ -9,8 +9,13 @@ import {
 } from "@app/components/ui/select";
 import { MdmService } from "@app/services/mdm";
 import { cn } from "@app/utils/cn";
+import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+
+interface Option {
+  label: string;
+  value: string;
+}
 
 interface SelectFieldProps {
   fieldId: string;
@@ -29,51 +34,29 @@ export function SelectFromApi({
   fieldKey,
   t,
 }: SelectFieldProps) {
-  const [options, setOptions] = useState<
-    Array<{ label: string; value: string }>
-  >(field.options || []);
-  const [isLoading, setIsLoading] = useState(field.optionsSource === "api");
-  const [error, setError] = useState<string | null>(null);
+  const entity = field.entity || "common";
+  const service = new MdmService(entity);
 
-  useEffect(() => {
-    // Se as opções vêm da API, busca-as ao montar o componente
-    if (field.optionsSource === "api" && field.optionsEndpoint) {
-      const fetchOptions = async () => {
-        setIsLoading(true);
-        setError(null);
-        try {
-          // Usa o entity da configuração do campo ou 'common' como padrão
-          const entity = field.entity || "common";
-          const service = new MdmService(entity);
+  const {
+    data: options = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: [
+      "selectOptions",
+      field.optionsEndpoint,
+      field.optionsParams,
+      entity,
+    ],
+    queryFn: async () => {
+      if (!(field.optionsSource === "api") || !field.optionsEndpoint) {
+        return field.options || [];
+      }
 
-          const apiOptions = await service.getOptions(
-            field.optionsEndpoint,
-            field.optionsParams
-          );
-
-          setOptions(apiOptions);
-        } catch (err) {
-          console.error("Erro ao carregar opções:", err);
-          setError(
-            t("common.errors.loadingOptions", "Erro ao carregar opções")
-          );
-          // Usa opções de fallback se disponíveis
-          setOptions([]);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchOptions();
-    }
-  }, [
-    field.optionsSource,
-    field.optionsEndpoint,
-    field.optionsParams,
-    field.entity,
-    fieldKey,
-    t,
-  ]);
+      return service.getOptions(field.optionsEndpoint, field.optionsParams);
+    },
+    enabled: field.optionsSource === "api" && !!field.optionsEndpoint,
+  });
 
   return (
     <Select
@@ -106,13 +89,15 @@ export function SelectFromApi({
       </SelectTrigger>
       <SelectContent>
         {error ? (
-          <div className="px-2 py-1 text-sm text-destructive">{error}</div>
+          <div className="px-2 py-1 text-sm text-destructive">
+            {t("common.errors.loadingOptions", "Erro ao carregar opções")}
+          </div>
         ) : options.length === 0 ? (
           <div className="px-2 py-1 text-sm text-muted-foreground">
             {t("common.status.noOptions", "Sem opções disponíveis")}
           </div>
         ) : (
-          options.map((option) => (
+          options.map((option: Option) => (
             <SelectItem key={option.value} value={option.value}>
               {t(option.label)}
             </SelectItem>

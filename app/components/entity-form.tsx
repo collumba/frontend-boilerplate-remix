@@ -9,10 +9,11 @@ import {
   FormMessage,
 } from "@app/components/ui/form";
 import { Input } from "@app/components/ui/input";
-import { useEntityForm } from "@app/config/mdm";
+import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
 import { MdmService } from "@app/services/mdm";
 import { EntityType } from "@app/types/mdm";
+import { ClientOnly } from "@app/utils/client-only";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -22,21 +23,15 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import PageHeader from "./ui/page-header";
+import { Skeleton } from "./ui/skeleton";
 
-interface EntityFieldConfig {
-  name: string;
-  type: "text" | "number" | "checkbox" | "select";
-  required?: boolean;
-  options?: { label: string; value: string }[];
-}
-
-export interface EntityFormConfig {
-  fields: Record<string, EntityFieldConfig>;
-}
-
-export function generateZodSchema(entity: string) {
-  const config = useEntityForm(entity as EntityType);
+export function generateZodSchema(entity: EntityType) {
+  const config = ENTITY_CONFIG[entity];
   const schemaObj: Record<string, any> = {};
+
+  if (!config.fields) {
+    return z.object({});
+  }
 
   Object.entries(config.fields).forEach(([key, field]) => {
     let fieldSchema: any = z.string();
@@ -64,27 +59,24 @@ export function generateZodSchema(entity: string) {
 }
 
 interface EntityFormProps {
-  entity: string;
+  entity: EntityType;
   id?: string;
   isCreate?: boolean;
 }
 
-export default function EntityForm({
-  entity,
-  id,
-  isCreate = true,
-}: EntityFormProps) {
+// Client-only component to handle the form functionality
+function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const service = new MdmService(entity as EntityType);
-  const entityFormConfig = useEntityForm(entity as EntityType);
+  const service = new MdmService(entity);
+  const entityConfig = ENTITY_CONFIG[entity];
 
   // Define form schema based on entity
   const formSchema = generateZodSchema(entity);
   type FormValues = z.infer<typeof formSchema>;
 
-  // Initialize the form
-  const form = useForm<FormValues>({
+  // Initialize the form with explicit type
+  const form = useForm<Record<string, any>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
   });
@@ -123,28 +115,37 @@ export default function EntityForm({
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  const pageHeaderTitle = isCreate
-    ? `${t("common.action.create")} - ${t(`entities.${entity}.name`)}`
-    : `${t("common.action.edit")} - ${t(`entities.${entity}.name`)}`;
+
+  if (!entityConfig.fields || Object.keys(entityConfig.fields).length === 0) {
+    return (
+      <div className="p-4 bg-yellow-50 text-yellow-800 rounded-md">
+        {t("common.errors.noFieldsConfigured")}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      <PageHeader title={pageHeaderTitle} hasBackButton={true}>
-        <div className="flex justify-end">
-          <Button type="submit" disabled={mutation.isPending}>
-            <Save className="mr-2 h-4 w-4" />
-            {t("common.actions.save")}
-          </Button>
-        </div>
+      <PageHeader
+        title={
+          isCreate
+            ? `${t(`entities.${entity}.name`)} - ${t("common.action.create")}`
+            : `${t(`entities.${entity}.name`)} - ${t("common.action.edit")}`
+        }
+      >
+        <Button type="submit" disabled={mutation.isPending}>
+          <Save className="mr-2 h-4 w-4" />
+          {t("common.action.save")}
+        </Button>
       </PageHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {Object.entries(entityFormConfig.fields).map(([key, field]) => (
+            {Object.entries(entityConfig.fields || {}).map(([key, field]) => (
               <FormField
                 key={key}
                 control={form.control}
-                name={key}
+                name={key as any}
                 render={({ field: formField }) => (
                   <FormItem>
                     <FormLabel>
@@ -172,5 +173,14 @@ export default function EntityForm({
         </form>
       </Form>
     </div>
+  );
+}
+
+// Wrapper component to handle client-only rendering
+export default function EntityForm(props: EntityFormProps) {
+  return (
+    <ClientOnly fallback={<Skeleton className="h-[500px] w-full" />}>
+      {() => <EntityFormClient {...props} />}
+    </ClientOnly>
   );
 }

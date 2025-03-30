@@ -14,7 +14,8 @@ export interface EntityFieldConfig {
     | "select"
     | "date"
     | "textarea"
-    | "radio";
+    | "radio"
+    | "multiselect";
   required?: boolean;
   options?: Array<{ label: string; value: string }>;
 }
@@ -53,6 +54,24 @@ export const ENTITY_CONFIG = {
             value: "genderless",
           },
           { label: "entities.character.gender.unknown", value: "unknown" },
+        ],
+      },
+      traits: {
+        name: "traits",
+        type: "multiselect",
+        required: false,
+        options: [
+          {
+            label: "entities.character.traits.intelligent",
+            value: "intelligent",
+          },
+          { label: "entities.character.traits.brave", value: "brave" },
+          { label: "entities.character.traits.loyal", value: "loyal" },
+          { label: "entities.character.traits.curious", value: "curious" },
+          {
+            label: "entities.character.traits.aggressive",
+            value: "aggressive",
+          },
         ],
       },
       species: { name: "species", type: "text", required: true },

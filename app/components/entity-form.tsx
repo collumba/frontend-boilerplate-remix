@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@app/components/ui/form";
 import { Input } from "@app/components/ui/input";
+import { MultiSelect } from "@app/components/ui/multi-select";
 import {
   Popover,
   PopoverContent,
@@ -68,6 +69,8 @@ export function generateZodSchema(entity: EntityType) {
       fieldSchema = z.string();
     } else if (field.type === "radio") {
       fieldSchema = z.string();
+    } else if (field.type === "multiselect") {
+      fieldSchema = z.array(z.string());
     }
 
     if (field.required) {
@@ -119,10 +122,13 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
           values[key] = 0;
         } else if (field.type === "date") {
           values[key] = undefined;
+        } else if (field.type === "multiselect") {
+          values[key] = [];
         } else if (
           field.type === "textarea" ||
           field.type === "text" ||
-          field.type === "select"
+          field.type === "select" ||
+          field.type === "radio"
         ) {
           values[key] = "";
         } else {
@@ -311,6 +317,14 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                             )
                           )}
                         </RadioGroup>
+                      ) : field.type === "multiselect" ? (
+                        <MultiSelect
+                          options={field.options || []}
+                          selected={formField.value || []}
+                          onChange={formField.onChange}
+                          placeholder={t("common.action.select")}
+                          t={t}
+                        />
                       ) : null}
                     </FormControl>
                     <FormMessage />

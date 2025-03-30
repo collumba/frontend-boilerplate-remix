@@ -35,6 +35,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
+import { useIsMobile } from "./hooks/use-mobile";
 import PageHeader from "./ui/page-header";
 import { Skeleton } from "./ui/skeleton";
 const REQUIRED_FIELD_MARKER = "*";
@@ -188,6 +189,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
       </div>
     );
   }
+  const isMobile = useIsMobile();
 
   return (
     <div className="space-y-6">
@@ -198,7 +200,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
             : `${t(`entities.${entity}.name`)} - ${t("common.action.edit")}`
         }
       >
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap w-full justify-end">
           <Button
             type="button"
             variant="outline"
@@ -206,6 +208,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
             onClick={() => {
               form.reset(defaultValues);
             }}
+            fullWidth={isMobile}
           >
             <Eraser className="mr-2 h-4 w-4" />
             {t("common.action.clear")}
@@ -214,6 +217,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
             type="submit"
             disabled={mutation.isPending}
             form="entity-form"
+            fullWidth={isMobile}
           >
             <Save className="mr-2 h-4 w-4" />
             {t("common.action.save")}

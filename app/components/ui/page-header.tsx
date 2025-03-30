@@ -28,7 +28,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   const navigate = useNavigate();
   return (
     <header className={`flex flex-col ${className}`}>
-      <div className="flex flex-row items-center justify-between">
+      <div className="flex flex-row items-center justify-between flex-wrap gap-1">
         <div className="flex flex-row items-center gap-2">
           {hasBackButton && (
             <Tooltip>

@@ -16,6 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@app/components/ui/popover";
+import { Textarea } from "@app/components/ui/textarea";
 import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
 import { MdmService } from "@app/services/mdm";
@@ -52,6 +53,8 @@ export function generateZodSchema(entity: EntityType) {
       fieldSchema = z.boolean();
     } else if (field.type === "date") {
       fieldSchema = z.date().optional();
+    } else if (field.type === "textarea") {
+      fieldSchema = z.string();
     }
 
     if (field.required) {
@@ -103,6 +106,8 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
           values[key] = 0;
         } else if (field.type === "date") {
           values[key] = undefined;
+        } else if (field.type === "textarea" || field.type === "text") {
+          values[key] = "";
         } else {
           values[key] = "";
         }
@@ -201,6 +206,18 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                         <Input
                           id={key}
                           type={field.type === "number" ? "number" : "text"}
+                          {...formField}
+                        />
+                      ) : field.type === "textarea" ? (
+                        <Textarea
+                          id={key}
+                          placeholder={t(
+                            `entities.${entity}.fields.${key}Placeholder`,
+                            {
+                              defaultValue: t("common.action.enterText"),
+                            }
+                          )}
+                          className="min-h-[120px]"
                           {...formField}
                         />
                       ) : field.type === "checkbox" ? (

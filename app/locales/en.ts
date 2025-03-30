@@ -82,6 +82,8 @@ export default {
       zoomFit: "Zoom fit",
       back: "Back",
       list: "List",
+      pickDate: "Pick date",
+      enterText: "Enter text",
     },
   },
   component: {
@@ -127,6 +129,8 @@ export default {
         species: "Species",
         gender: "Gender",
         in_active: "In Active",
+        birthDate: "Birth Date",
+        description: "Description",
       },
     },
   },

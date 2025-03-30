@@ -7,7 +7,7 @@ import { Location } from "@app/types/mdm/location";
 
 export interface EntityFieldConfig {
   name: string;
-  type: "text" | "number" | "checkbox" | "select";
+  type: "text" | "number" | "checkbox" | "select" | "date" | "textarea";
   required?: boolean;
   options?: { label: string; value: string }[];
 }
@@ -27,6 +27,7 @@ export const ENTITY_CONFIG = {
       status: { name: "status", type: "text", required: true },
       species: { name: "species", type: "text", required: true },
       gender: { name: "gender", type: "text", required: true },
+      description: { name: "description", type: "textarea", required: false },
       in_active: { name: "in_active", type: "checkbox", required: false },
       birthDate: { name: "birthDate", type: "date", required: true },
     },

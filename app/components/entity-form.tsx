@@ -1,4 +1,6 @@
+import { cn } from "@app/components/lib/utils";
 import { Button } from "@app/components/ui/button";
+import { Calendar } from "@app/components/ui/calendar";
 import { Checkbox } from "@app/components/ui/checkbox";
 import {
   Form,
@@ -9,6 +11,11 @@ import {
   FormMessage,
 } from "@app/components/ui/form";
 import { Input } from "@app/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@app/components/ui/popover";
 import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
 import { MdmService } from "@app/services/mdm";
@@ -17,7 +24,9 @@ import { ClientOnly } from "@app/utils/client-only";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Save } from "lucide-react";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { CalendarIcon, Save } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -40,11 +49,17 @@ export function generateZodSchema(entity: EntityType) {
       fieldSchema = z.coerce.number();
     } else if (field.type === "checkbox") {
       fieldSchema = z.boolean();
+    } else if (field.type === "date") {
+      fieldSchema = z.date().optional();
     }
 
     if (field.required) {
       if (field.type === "checkbox") {
         // For checkboxes, just use the boolean schema
+      } else if (field.type === "date") {
+        fieldSchema = z.date({
+          required_error: `${key} is required`,
+        });
       } else {
         fieldSchema = fieldSchema.min(1, { message: `${key} is required` });
       }
@@ -85,6 +100,8 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
           values[key] = false;
         } else if (field.type === "number") {
           values[key] = 0;
+        } else if (field.type === "date") {
+          values[key] = undefined;
         } else {
           values[key] = "";
         }
@@ -112,9 +129,18 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
   // Set form values when entity data is loaded
   React.useEffect(() => {
     if (entityData && !isCreate) {
-      form.reset(entityData);
+      // Convert date strings to Date objects
+      const processedData: Record<string, any> = { ...entityData };
+      if (entityConfig.fields) {
+        Object.entries(entityConfig.fields).forEach(([key, field]) => {
+          if (field.type === "date" && typeof processedData[key] === "string") {
+            processedData[key] = new Date(processedData[key]);
+          }
+        });
+      }
+      form.reset(processedData);
     }
-  }, [entityData, form, isCreate]);
+  }, [entityData, form, isCreate, entityConfig.fields]);
 
   // Handle form submission
   const mutation = useMutation({
@@ -166,20 +192,50 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                 name={key as any}
                 render={({ field: formField }) => (
                   <FormItem>
-                    <FormLabel>
+                    <FormLabel htmlFor={key}>
                       {t(`entities.${entity}.fields.${key}`)}
                     </FormLabel>
                     <FormControl>
                       {field.type === "text" || field.type === "number" ? (
                         <Input
+                          id={key}
                           type={field.type === "number" ? "number" : "text"}
                           {...formField}
                         />
                       ) : field.type === "checkbox" ? (
                         <Checkbox
+                          id={key}
                           checked={formField.value}
                           onCheckedChange={formField.onChange}
                         />
+                      ) : field.type === "date" ? (
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              id={key}
+                              variant="outline"
+                              className={cn(
+                                "w-full justify-start text-left font-normal",
+                                !formField.value && "text-muted-foreground"
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {formField.value ? (
+                                format(formField.value, "PPP", { locale: ptBR })
+                              ) : (
+                                <span>{t("common.action.pickDate")}</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={formField.value}
+                              onSelect={formField.onChange}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
                       ) : null}
                     </FormControl>
                     <FormMessage />

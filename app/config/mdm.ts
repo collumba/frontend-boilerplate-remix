@@ -28,6 +28,7 @@ export const ENTITY_CONFIG = {
       species: { name: "species", type: "text", required: true },
       gender: { name: "gender", type: "text", required: true },
       in_active: { name: "in_active", type: "checkbox", required: false },
+      birthDate: { name: "birthDate", type: "date", required: true },
     },
   },
   location: {

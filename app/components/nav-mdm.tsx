@@ -71,7 +71,9 @@ export function NavMdm() {
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                  <span className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                    {item.title}
+                  </span>
                   <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
@@ -80,8 +82,10 @@ export function NavMdm() {
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
+                        <a href={subItem.url} className="text-sm">
+                          <span className="text-sm font-medium text-muted-foreground hover:text-foreground ">
+                            {subItem.title}
+                          </span>
                         </a>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>

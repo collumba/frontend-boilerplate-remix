@@ -35,7 +35,7 @@ export function LoginForm({
     onError: (err: any) => {
       setError(
         err.response?.data?.error?.message ||
-          "Falha na autenticação. Verifique suas credenciais."
+          t("auth.login.error.authenticationFailed")
       );
     },
   });

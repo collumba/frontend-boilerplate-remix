@@ -15,12 +15,19 @@ interface User {
 }
 
 export function useAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  // Inicializar o estado com base no token existente
+  const hasToken =
+    typeof window !== "undefined" ? !!authService.getToken() : false;
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
-  // Verificar se o usuário está autenticado
-  const { data: authData, refetch: checkAuth } = useQuery({
+  // Verificar se o usuário está autenticado - usando staleTime para evitar consultas frequentes
+  const {
+    data: authData,
+    refetch: checkAuth,
+    isLoading,
+  } = useQuery({
     queryKey: ["auth"],
     queryFn: async () => {
       try {
@@ -28,29 +35,41 @@ export function useAuth() {
 
         if (isAuthValid) {
           const userData = await authService.me();
-          setIsAuthenticated(true);
-          setUser(userData);
           return {
             isAuthenticated: true,
             user: userData,
           };
         }
 
-        setIsAuthenticated(false);
-        setUser(null);
         return {
           isAuthenticated: false,
           user: null,
         };
       } catch (error) {
-        setIsAuthenticated(false);
-        setUser(null);
-        throw error;
+        console.error("Auth check failed:", error);
+        return {
+          isAuthenticated: false,
+          user: null,
+        };
       }
     },
+    // Evita consultas excessivas
+    staleTime: 5 * 60 * 1000, // 5 minutos
+    refetchOnWindowFocus: false,
+    // Desativar execução automática para controlá-la manualmente
+    enabled: false,
   });
 
-  const { mutate: login } = useMutation({
+  // Atualizar estado apenas quando dados mudarem
+  useEffect(() => {
+    if (authData) {
+      setIsAuthenticated(authData.isAuthenticated);
+      setUser(authData.user);
+    }
+  }, [authData]);
+
+  const { mutate: login, isPending: isLoginPending } = useMutation({
+    mutationKey: ["login"],
     mutationFn: async ({
       identifier,
       password,
@@ -66,11 +85,11 @@ export function useAuth() {
       setIsAuthenticated(true);
       setUser(response.user);
       navigate(ROUTES.app.root);
-      return response;
     },
   });
 
-  const { mutate: logout } = useMutation({
+  const { mutate: logout, isPending: isLogoutPending } = useMutation({
+    mutationKey: ["logout"],
     mutationFn: () => {
       authService.logout();
       return Promise.resolve();
@@ -84,10 +103,13 @@ export function useAuth() {
 
   // Verificar autenticação ao carregar o componente
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    if (hasToken) {
+      checkAuth();
+    }
+  }, []); // Execute apenas uma vez
 
   return {
+    isLoading: isLoginPending || isLogoutPending || isLoading,
     isAuthenticated,
     user,
     login,

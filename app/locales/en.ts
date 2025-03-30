@@ -39,6 +39,10 @@ export default {
       dontHaveAccount: "Don't have an account?",
       signUp: "Sign up",
       loginWithGitHub: "Login with GitHub",
+      error: {
+        authenticationFailed:
+          "Authentication failed. Please check your credentials.",
+      },
     },
     register: {
       title: "Create an account",

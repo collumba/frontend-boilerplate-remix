@@ -46,9 +46,15 @@ export class AuthService {
   // Autenticar usuário
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
+      // Garantir que estamos enviando exatamente o que o Strapi espera
+      const payload = {
+        identifier: credentials.identifier,
+        password: credentials.password,
+      };
+
       const response = await this.api.post<AuthResponse>(
-        "/auth/local",
-        credentials
+        "/api/auth/local",
+        payload
       );
       this.setToken(response.jwt);
       return response;
@@ -62,7 +68,7 @@ export class AuthService {
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
       const response = await this.api.post<AuthResponse>(
-        "/auth/local/register",
+        "/api/auth/local/register",
         data
       );
       this.setToken(response.jwt);
@@ -81,7 +87,7 @@ export class AuthService {
         throw new Error("No authentication token found");
       }
 
-      return await this.api.get<MeResponse>("/users/me");
+      return await this.api.get<MeResponse>("/api/users/me");
     } catch (error) {
       console.error("Failed to fetch user data:", error);
       throw error;

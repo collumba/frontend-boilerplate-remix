@@ -3,11 +3,11 @@ import { useAuthContext } from "@app/contexts/auth-context";
 import { Navigate, useLocation } from "@remix-run/react";
 import { ReactNode, useEffect, useState } from "react";
 
-interface ProtectedRouteProps {
+interface PublicRouteProps {
   children: ReactNode;
 }
 
-export function ProtectedRoute({ children }: ProtectedRouteProps) {
+export function PublicRoute({ children }: PublicRouteProps) {
   const { isAuthenticated } = useAuthContext();
   const location = useLocation();
   const [isClient, setIsClient] = useState(false);
@@ -22,17 +22,13 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <>{children}</>;
   }
 
-  // No cliente, verificar autenticação
-  if (!isAuthenticated) {
-    return (
-      <Navigate
-        to={ROUTES.auth.login}
-        state={{ from: location.pathname }}
-        replace
-      />
-    );
+  // No cliente, se já estiver autenticado, redirecionar para a página principal
+  if (isAuthenticated) {
+    // Verificar se há uma rota de retorno salva no estado de navegação
+    const from = location.state?.from || ROUTES.app.root;
+    return <Navigate to={from} replace />;
   }
 
-  // Autenticado, renderizar conteúdo protegido
+  // Não autenticado, renderizar conteúdo público normalmente
   return <>{children}</>;
 }

@@ -4,7 +4,7 @@ import { env } from "env";
 export class ApiService {
   private client: AxiosInstance;
   constructor() {
-    const baseURL = `${env.API_URL || "http://localhost:3000"}/api`;
+    const baseURL = env.API_URL || "http://localhost:3000";
     this.client = axios.create({
       baseURL,
       timeout: 5000,
@@ -17,8 +17,8 @@ export class ApiService {
     this.client.interceptors.request.use((config) => {
       // Não adicionar token em rotas de autenticação
       const isAuthRoute =
-        config.url?.includes("/auth/local") ||
-        config.url?.includes("/auth/local/register");
+        config.url?.includes("/api/auth/local") ||
+        config.url?.includes("/api/auth/local/register");
 
       if (!isAuthRoute) {
         const token =

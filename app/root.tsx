@@ -49,16 +49,16 @@ export default function AppWithProviders() {
   const data = useLoaderData<typeof loader>();
   const [queryClient] = useState(() => new QueryClient());
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
         <ThemeProvider
           specifiedTheme={data.theme}
           themeAction={ROUTES.api.global.setTheme}
         >
           <App queryClient={queryClient} />
         </ThemeProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

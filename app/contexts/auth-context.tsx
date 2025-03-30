@@ -21,6 +21,7 @@ interface AuthResponse {
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
+  isLoading: boolean;
   login: UseMutateFunction<
     AuthResponse,
     Error,

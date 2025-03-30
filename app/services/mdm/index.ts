@@ -21,4 +21,27 @@ export class MdmService<T extends EntityType> {
     let url = `${this.endpoint}/?page=${pageIndex}`;
     return this.api.get<ApiResponse<EntityMap[T]>>(url);
   }
+
+  // Get a single entity by ID
+  getById(id: string | number): Promise<EntityMap[T]> {
+    return this.api.get<EntityMap[T]>(`${this.endpoint}/${id}`);
+  }
+
+  // Create a new entity
+  create(data: Partial<EntityMap[T]>): Promise<EntityMap[T]> {
+    return this.api.post<EntityMap[T]>(`${this.endpoint}`, data);
+  }
+
+  // Update an existing entity
+  update(
+    id: string | number,
+    data: Partial<EntityMap[T]>
+  ): Promise<EntityMap[T]> {
+    return this.api.put<EntityMap[T]>(`${this.endpoint}/${id}`, data);
+  }
+
+  // Delete an entity
+  delete(id: string | number): Promise<void> {
+    return this.api.delete(`${this.endpoint}/${id}`);
+  }
 }

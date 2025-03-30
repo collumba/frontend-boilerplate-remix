@@ -62,3 +62,19 @@ export function useEntityColumns<T extends EntityType>(entity: T) {
     return [];
   }
 }
+export const useEntityFormConfig = (entity: EntityType) => {
+  const formsMap = {
+    character: useCharacterFormConfig,
+    location: useLocationFormConfig,
+    episode: useEpisodeFormConfig,
+  };
+
+  const useFormConfig = formsMap[entity];
+
+  if (!useFormConfig) {
+    throw new Error(
+      `Não foi possível encontrar configuração para a entidade: ${entity}`
+    );
+  }
+  return useFormConfig();
+};

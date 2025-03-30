@@ -10,7 +10,8 @@ import { ROUTES } from "@app/config/routes";
 import { useDataTable } from "@app/hooks/useDataTable";
 import { MdmService } from "@app/services/mdm";
 import { EntityMap, EntityType } from "@app/types/mdm";
-import { useNavigate, useParams } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, useLoaderData, useNavigate } from "@remix-run/react";
 import { PlusIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -22,12 +23,18 @@ export const handle = {
   }),
 };
 
-export default function MassDataManagementList() {
-  const { entity } = useParams();
+export async function loader({ params }: LoaderFunctionArgs) {
+  const { entity } = params;
 
   if (!entity || !Object.keys(ENTITY_CONFIG).includes(entity)) {
-    throw new Error(`Invalid entity type: ${entity}`);
+    throw new Response("Entity not found", { status: 404 });
   }
+
+  return json({ entity });
+}
+
+export default function MassDataManagementListPage() {
+  const { entity } = useLoaderData<typeof loader>();
 
   const entityType = entity as EntityType;
 

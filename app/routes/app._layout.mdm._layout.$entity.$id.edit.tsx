@@ -6,35 +6,35 @@ import { useLoaderData } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 
 export const handle = {
-  breadcrumb: (params: { entity: string }) => ({
-    label: `common.action.create`,
-    labelParams: { value: params.entity },
+  breadcrumb: (params: { entity: string; id: string }) => ({
+    label: `entities.${params.entity}.edit`,
+    labelParams: { value: params.id },
   }),
 };
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const { entity } = params;
+  const { entity, id } = params;
 
-  if (!entity || !Object.keys(ENTITY_CONFIG).includes(entity)) {
+  if (!entity || !id || !Object.keys(ENTITY_CONFIG).includes(entity)) {
     throw new Response("Entity not found", { status: 404 });
   }
 
-  return json({ entity });
+  return json({ entity, id });
 }
 
-export default function MassDataManagementCreatePage() {
-  const { entity } = useLoaderData<typeof loader>();
+export default function EditEntity() {
+  const { entity, id } = useLoaderData<typeof loader>();
   const { t } = useTranslation();
 
   return (
     <div className="container py-6">
       <PageHeader
-        title={`entities.${entity}.create`}
-        subtitle={`entities.${entity}.createDescription`}
+        title={`entities.${entity}.edit`}
+        subtitle={`entities.${entity}.editDescription`}
       />
 
       <div className="mt-8">
-        <EntityForm entity={entity as any} isCreate={true} />
+        <EntityForm entity={entity as any} id={id} isCreate={false} />
       </div>
     </div>
   );

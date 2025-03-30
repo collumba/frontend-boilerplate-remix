@@ -1,4 +1,5 @@
 import { useCharacterColumns } from "@app/features/mdm/character/useCharacterColumns";
+import useCharacterForm from "@app/features/mdm/character/useCharacterForm";
 import { useEpisodeColumns } from "@app/features/mdm/episode/useEpisodeColumns";
 import { useLocationColumns } from "@app/features/mdm/location/useLocationColumns";
 import { Character } from "@app/types/mdm/character";
@@ -62,11 +63,11 @@ export function useEntityColumns<T extends EntityType>(entity: T) {
     return [];
   }
 }
-export const useEntityFormConfig = (entity: EntityType) => {
+export const useEntityForm = (entity: EntityType) => {
   const formsMap = {
-    character: useCharacterFormConfig,
-    location: useLocationFormConfig,
-    episode: useEpisodeFormConfig,
+    character: useCharacterForm,
+    location: null,
+    episode: null,
   };
 
   const useFormConfig = formsMap[entity];

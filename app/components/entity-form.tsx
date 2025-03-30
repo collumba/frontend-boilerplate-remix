@@ -9,17 +9,19 @@ import {
   FormMessage,
 } from "@app/components/ui/form";
 import { Input } from "@app/components/ui/input";
+import { useEntityForm } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
 import { MdmService } from "@app/services/mdm";
 import { EntityType } from "@app/types/mdm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
+import PageHeader from "./ui/page-header";
 
 interface EntityFieldConfig {
   name: string;
@@ -28,37 +30,12 @@ interface EntityFieldConfig {
   options?: { label: string; value: string }[];
 }
 
-interface EntityFormConfig {
+export interface EntityFormConfig {
   fields: Record<string, EntityFieldConfig>;
 }
 
-// This would typically come from a config file
-const ENTITY_FORM_CONFIG: Record<string, EntityFormConfig> = {
-  character: {
-    fields: {
-      name: { name: "name", type: "text", required: true },
-      status: { name: "status", type: "text", required: true },
-      species: { name: "species", type: "text", required: true },
-      gender: { name: "gender", type: "text", required: true },
-    },
-  },
-  location: {
-    fields: {
-      name: { name: "name", type: "text", required: true },
-      type: { name: "type", type: "text", required: true },
-    },
-  },
-  episode: {
-    fields: {
-      name: { name: "name", type: "text", required: true },
-      air_date: { name: "air_date", type: "text", required: true },
-      episode: { name: "episode", type: "text", required: true },
-    },
-  },
-};
-
 export function generateZodSchema(entity: string) {
-  const config = ENTITY_FORM_CONFIG[entity];
+  const config = useEntityForm(entity as EntityType);
   const schemaObj: Record<string, any> = {};
 
   Object.entries(config.fields).forEach(([key, field]) => {
@@ -100,6 +77,7 @@ export default function EntityForm({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const service = new MdmService(entity as EntityType);
+  const entityFormConfig = useEntityForm(entity as EntityType);
 
   // Define form schema based on entity
   const formSchema = generateZodSchema(entity);
@@ -145,65 +123,51 @@ export default function EntityForm({
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  const pageHeaderTitle = isCreate
+    ? `${t("common.action.create")} - ${t(`entities.${entity}.name`)}`
+    : `${t("common.action.edit")} - ${t(`entities.${entity}.name`)}`;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => navigate(ROUTES.app.mdm.list(entity))}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          {t("actions.back")}
-        </Button>
-        <h2 className="text-2xl font-bold">
-          {isCreate
-            ? t(`entities.${entity}.create`)
-            : t(`entities.${entity}.edit`)}
-        </h2>
-      </div>
-
+      <PageHeader title={pageHeaderTitle} hasBackButton={true}>
+        <div className="flex justify-end">
+          <Button type="submit" disabled={mutation.isPending}>
+            <Save className="mr-2 h-4 w-4" />
+            {t("common.actions.save")}
+          </Button>
+        </div>
+      </PageHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {Object.entries(ENTITY_FORM_CONFIG[entity].fields).map(
-              ([key, field]) => (
-                <FormField
-                  key={key}
-                  control={form.control}
-                  name={key}
-                  render={({ field: formField }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {t(`entities.${entity}.fields.${key}`)}
-                      </FormLabel>
-                      <FormControl>
-                        {field.type === "text" || field.type === "number" ? (
-                          <Input
-                            type={field.type === "number" ? "number" : "text"}
-                            {...formField}
-                          />
-                        ) : field.type === "checkbox" ? (
-                          <Checkbox
-                            checked={formField.value}
-                            onCheckedChange={formField.onChange}
-                          />
-                        ) : null}
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )
-            )}
-          </div>
-
-          <div className="flex justify-end">
-            <Button type="submit" disabled={mutation.isPending}>
-              <Save className="mr-2 h-4 w-4" />
-              {t("actions.save")}
-            </Button>
+            {Object.entries(entityFormConfig.fields).map(([key, field]) => (
+              <FormField
+                key={key}
+                control={form.control}
+                name={key}
+                render={({ field: formField }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t(`entities.${entity}.fields.${key}`)}
+                    </FormLabel>
+                    <FormControl>
+                      {field.type === "text" || field.type === "number" ? (
+                        <Input
+                          type={field.type === "number" ? "number" : "text"}
+                          {...formField}
+                        />
+                      ) : field.type === "checkbox" ? (
+                        <Checkbox
+                          checked={formField.value}
+                          onCheckedChange={formField.onChange}
+                        />
+                      ) : null}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
           </div>
         </form>
       </Form>

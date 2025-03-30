@@ -32,7 +32,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         <div className="flex flex-row items-center gap-2">
           {hasBackButton && (
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Button
                   variant="outline"
                   size="icon"

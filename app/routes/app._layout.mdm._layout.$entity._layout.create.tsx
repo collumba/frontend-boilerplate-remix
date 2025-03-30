@@ -1,5 +1,4 @@
 import EntityForm from "@app/components/entity-form";
-import PageHeader from "@app/components/ui/page-header";
 import { ENTITY_CONFIG } from "@app/config/mdm";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -27,15 +26,8 @@ export default function MassDataManagementCreatePage() {
   const { t } = useTranslation();
 
   return (
-    <div className="container py-6">
-      <PageHeader
-        title={`entities.${entity}.create`}
-        subtitle={`entities.${entity}.createDescription`}
-      />
-
-      <div className="mt-8">
-        <EntityForm entity={entity as any} isCreate={true} />
-      </div>
+    <div className="container mx-auto px-4 py-6">
+      <EntityForm entity={entity as any} isCreate={true} />
     </div>
   );
 }

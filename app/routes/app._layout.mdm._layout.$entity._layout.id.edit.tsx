@@ -1,5 +1,4 @@
 import EntityForm from "@app/components/entity-form";
-import PageHeader from "@app/components/ui/page-header";
 import { ENTITY_CONFIG } from "@app/config/mdm";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -27,15 +26,8 @@ export default function EditEntity() {
   const { t } = useTranslation();
 
   return (
-    <div className="container py-6">
-      <PageHeader
-        title={`entities.${entity}.edit`}
-        subtitle={`entities.${entity}.editDescription`}
-      />
-
-      <div className="mt-8">
-        <EntityForm entity={entity as any} id={id} isCreate={false} />
-      </div>
+    <div className="container mx-auto px-4 py-6">
+      <EntityForm entity={entity as any} id={id} isCreate={false} />
     </div>
   );
 }

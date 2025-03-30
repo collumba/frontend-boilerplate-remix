@@ -37,7 +37,7 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import PageHeader from "./ui/page-header";
 import { Skeleton } from "./ui/skeleton";
-
+const REQUIRED_FIELD_MARKER = "*";
 export function generateZodSchema(entity: EntityType) {
   const config = ENTITY_CONFIG[entity];
   const schemaObj: Record<string, any> = {};
@@ -226,6 +226,11 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
+          <div className="text-sm text-muted-foreground mb-4">
+            {t("common.form.requiredFieldsNote", "Os campos marcados com")}
+            <span className="text-destructive">{` ${REQUIRED_FIELD_MARKER} `}</span>
+            {t("common.form.areRequired", t("common.form.areRequired"))}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(entityConfig.fields || {}).map(([key, field]) => (
               <FormField
@@ -236,6 +241,11 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                   <FormItem>
                     <FormLabel htmlFor={`field-${key}`} id={`label-${key}`}>
                       {t(`entities.${entity}.fields.${key}`)}
+                      {field.required && (
+                        <span className="text-destructive ml-0.5">
+                          {REQUIRED_FIELD_MARKER}
+                        </span>
+                      )}
                     </FormLabel>
                     <FormControl>
                       {field.type === "text" || field.type === "number" ? (

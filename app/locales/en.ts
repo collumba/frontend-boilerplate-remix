@@ -89,6 +89,10 @@ export default {
       searchOptions: "Search options...",
       noResults: "No results found.",
     },
+    form: {
+      requiredFieldsNote: "The fields marked with",
+      areRequired: "are required",
+    },
   },
   component: {
     dataTable: {

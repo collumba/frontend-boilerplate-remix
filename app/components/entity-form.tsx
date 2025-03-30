@@ -171,7 +171,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
       return isCreate ? service.create(data) : service.update(id!, data);
     },
     onSuccess: () => {
-      navigate(ROUTES.app.mdm.list(entity));
+      navigate(ROUTES.app.mdm.details(entity, id!));
     },
   });
 

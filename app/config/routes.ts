@@ -13,6 +13,7 @@ export const ROUTES = {
       list: (entity: string) => `/app/mdm/${entity}/list`,
       create: (entity: string) => `/app/mdm/${entity}/create`,
       edit: (entity: string, id: string) => `/app/mdm/${entity}/${id}/edit`,
+      details: (entity: string, id: string) => `/app/mdm/${entity}/${id}`,
     },
   },
   api: {

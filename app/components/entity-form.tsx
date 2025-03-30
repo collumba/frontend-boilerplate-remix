@@ -1,5 +1,5 @@
-import { cn } from "@app/components/lib/utils";
 import { Button } from "@app/components/ui/button";
+import { ButtonInput } from "@app/components/ui/button-input";
 import { Calendar } from "@app/components/ui/calendar";
 import { Checkbox } from "@app/components/ui/checkbox";
 import {
@@ -21,6 +21,7 @@ import { ROUTES } from "@app/config/routes";
 import { MdmService } from "@app/services/mdm";
 import { EntityType } from "@app/types/mdm";
 import { ClientOnly } from "@app/utils/client-only";
+import { cn } from "@app/utils/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -211,21 +212,19 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                       ) : field.type === "date" ? (
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button
+                            <ButtonInput
                               id={key}
-                              variant="outline"
+                              leadingIcon={<CalendarIcon className="h-4 w-4" />}
                               className={cn(
-                                "w-full justify-start text-left font-normal",
                                 !formField.value && "text-muted-foreground"
                               )}
                             >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
                               {formField.value ? (
                                 format(formField.value, "PPP", { locale: ptBR })
                               ) : (
                                 <span>{t("common.action.pickDate")}</span>
                               )}
-                            </Button>
+                            </ButtonInput>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0" align="start">
                             <Calendar

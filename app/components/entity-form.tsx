@@ -36,7 +36,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { enUS, es, ptBR } from "date-fns/locale";
 import { CalendarIcon, Eraser, Save } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
@@ -351,6 +351,15 @@ function DatePickerField({
   t: any;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { i18n } = useTranslation();
+  const langLocales = {
+    en: enUS,
+    "pt-BR": ptBR,
+    es: es,
+  };
+
+  const dateLocale =
+    langLocales[i18n.language as keyof typeof langLocales] || enUS;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -364,7 +373,7 @@ function DatePickerField({
           )}
         >
           {formField.value ? (
-            format(formField.value, "PPP", { locale: ptBR })
+            format(new Date(formField.value), "PPP", { locale: dateLocale })
           ) : (
             <span>{t("common.action.pickDate")}</span>
           )}

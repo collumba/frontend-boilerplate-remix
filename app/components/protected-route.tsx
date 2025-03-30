@@ -1,7 +1,6 @@
 import { ROUTES } from "@app/config/routes";
 import { useAuthContext } from "@app/contexts/auth-context";
-import { Navigate, useLocation } from "@remix-run/react";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -9,30 +8,23 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated } = useAuthContext();
-  const location = useLocation();
-  const [isClient, setIsClient] = useState(false);
 
-  // Executar apenas uma vez quando o componente for montado
+  // Use um useEffect para redirecionar em vez de render-time redirect
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    // Certifique-se de que estamos no navegador e não no servidor
+    if (typeof window !== "undefined") {
+      // Redirecione somente se NÃO estiver autenticado
+      if (!isAuthenticated) {
+        // Guarde o caminho atual para retornar depois do login
+        const currentPath = window.location.pathname;
+        sessionStorage.setItem("returnTo", currentPath);
 
-  // No lado do servidor, apenas renderizar as crianças sem verificação
-  if (!isClient) {
-    return <>{children}</>;
-  }
+        // Use redirecionamento direto em vez de Navigate
+        window.location.href = ROUTES.auth.login;
+      }
+    }
+  }, [isAuthenticated]);
 
-  // No cliente, verificar autenticação
-  if (!isAuthenticated) {
-    return (
-      <Navigate
-        to={ROUTES.auth.login}
-        state={{ from: location.pathname }}
-        replace
-      />
-    );
-  }
-
-  // Autenticado, renderizar conteúdo protegido
+  // Sempre renderize os filhos, o redirecionamento acontece via useEffect
   return <>{children}</>;
 }

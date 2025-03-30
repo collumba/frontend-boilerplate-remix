@@ -4,7 +4,7 @@ import { env } from "env";
 export class ApiService {
   private client: AxiosInstance;
   constructor() {
-    const baseURL = env.API_URL || "http://localhost:3000";
+    const baseURL = `${env.API_URL || "http://localhost:3000"}/api`;
     this.client = axios.create({
       baseURL,
       timeout: 5000,

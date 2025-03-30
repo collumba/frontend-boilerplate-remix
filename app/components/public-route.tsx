@@ -1,7 +1,6 @@
 import { ROUTES } from "@app/config/routes";
 import { useAuthContext } from "@app/contexts/auth-context";
-import { Navigate, useLocation } from "@remix-run/react";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface PublicRouteProps {
   children: ReactNode;
@@ -9,26 +8,25 @@ interface PublicRouteProps {
 
 export function PublicRoute({ children }: PublicRouteProps) {
   const { isAuthenticated } = useAuthContext();
-  const location = useLocation();
-  const [isClient, setIsClient] = useState(false);
 
-  // Executar apenas uma vez quando o componente for montado
+  // Use um useEffect para redirecionar em vez de render-time redirect
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    // Certifique-se de que estamos no navegador e não no servidor
+    if (typeof window !== "undefined") {
+      // Redirecione somente se estiver autenticado
+      if (isAuthenticated) {
+        // Verificar se há uma rota de retorno salva
+        const returnTo = sessionStorage.getItem("returnTo") || ROUTES.app.root;
 
-  // No lado do servidor, apenas renderizar as crianças sem verificação
-  if (!isClient) {
-    return <>{children}</>;
-  }
+        // Limpar o valor salvo
+        sessionStorage.removeItem("returnTo");
 
-  // No cliente, se já estiver autenticado, redirecionar para a página principal
-  if (isAuthenticated) {
-    // Verificar se há uma rota de retorno salva no estado de navegação
-    const from = location.state?.from || ROUTES.app.root;
-    return <Navigate to={from} replace />;
-  }
+        // Use redirecionamento direto em vez de Navigate
+        window.location.href = returnTo;
+      }
+    }
+  }, [isAuthenticated]);
 
-  // Não autenticado, renderizar conteúdo público normalmente
+  // Sempre renderize os filhos, o redirecionamento acontece via useEffect
   return <>{children}</>;
 }

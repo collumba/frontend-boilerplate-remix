@@ -1,4 +1,4 @@
-import { ApiService } from "./api";
+import { ApiService } from "@app/services/api";
 
 interface LoginCredentials {
   identifier: string;
@@ -53,7 +53,7 @@ export class AuthService {
       };
 
       const response = await this.api.post<AuthResponse>(
-        "/api/auth/local",
+        "/auth/local",
         payload
       );
       this.setToken(response.jwt);
@@ -68,7 +68,7 @@ export class AuthService {
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
       const response = await this.api.post<AuthResponse>(
-        "/api/auth/local/register",
+        "/auth/local/register",
         data
       );
       this.setToken(response.jwt);
@@ -87,7 +87,7 @@ export class AuthService {
         throw new Error("No authentication token found");
       }
 
-      return await this.api.get<MeResponse>("/api/users/me");
+      return await this.api.get<MeResponse>("/users/me");
     } catch (error) {
       console.error("Failed to fetch user data:", error);
       throw error;

@@ -19,13 +19,17 @@ export interface EntityFieldConfig {
   required?: boolean;
   options?: Array<{ label: string; value: string }>;
   placeholder?: string;
-  min?: number;
-  max?: number;
+  min?: number | string;
+  max?: number | string;
   mask?: string;
   pattern?: string;
   helperText?: string;
   disabled?: boolean;
   readonly?: boolean;
+  optionsSource?: "static" | "api";
+  optionsEndpoint?: string;
+  optionsParams?: Record<string, any>;
+  entity?: keyof EntityMap;
 }
 
 // Interface base para configuração de entidade
@@ -35,9 +39,11 @@ export interface EntityConfig<T> {
 }
 
 // Registre todas as entidades aqui
-export const ENTITY_CONFIG = {
+export const ENTITY_CONFIG: {
+  [K in keyof EntityMap]: EntityConfig<K>;
+} = {
   character: {
-    endpoint: "character",
+    endpoint: "/character",
     fields: {
       name: {
         name: "name",
@@ -142,7 +148,7 @@ export const ENTITY_CONFIG = {
     },
   },
   location: {
-    endpoint: "location",
+    endpoint: "/location",
     fields: {
       name: { name: "name", type: "text", required: true },
       type: { name: "type", type: "text", required: true },
@@ -156,29 +162,32 @@ export const ENTITY_CONFIG = {
       episode: { name: "episode", type: "text", required: true },
     },
   },
+  common: {
+    endpoint: "/common",
+    fields: {},
+  },
 } as const;
 
 // Tipos gerados automaticamente a partir da configuração
-export type EntityType = keyof typeof ENTITY_CONFIG;
+export type EntityType = "character" | "location" | "episode" | "common";
 export type EntityMap = {
-  [K in EntityType]: K extends "character"
-    ? Character
-    : K extends "location"
-    ? Location
-    : K extends "episode"
-    ? Episode
-    : never;
+  character: Character;
+  location: Location;
+  episode: Episode;
+  common: Record<string, any>;
 };
 
 // Função auxiliar para obter as colunas dinamicamente
-export function useEntityColumns<T extends EntityType>(entity: T) {
+export function useEntityColumns<
+  T extends "character" | "location" | "episode"
+>(entity: T) {
   try {
     // Mapeia diretamente os hooks de colunas usando importações estáticas
     const columnsMap = {
       character: useCharacterColumns,
       location: useLocationColumns,
       episode: useEpisodeColumns,
-    };
+    } as const;
 
     // Obtenha a função de colunas do mapa
     const useColumns = columnsMap[entity];

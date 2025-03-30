@@ -7,9 +7,14 @@ export interface BaseEntity {
   created: string;
 }
 
+export interface CommonEntity {
+  // Interface vazia para representar entidades comuns de opções
+}
+
 export type EntityMap = {
   character: Character;
   location: Location;
+  common: CommonEntity; // Adiciona common como um tipo de entidade
 };
 
 export type EntityType = keyof EntityMap;

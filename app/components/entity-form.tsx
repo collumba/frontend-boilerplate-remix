@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@app/components/ui/select";
+import { SelectFromApi } from "@app/components/ui/select-api";
 import { Textarea } from "@app/components/ui/textarea";
 import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
@@ -295,48 +296,67 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                                   }
                                 )
                           }
-                          minLength={field.min}
-                          maxLength={field.max}
+                          minLength={
+                            typeof field.min === "string"
+                              ? parseInt(field.min)
+                              : field.min
+                          }
+                          maxLength={
+                            typeof field.max === "string"
+                              ? parseInt(field.max)
+                              : field.max
+                          }
                           disabled={field.disabled}
                           readOnly={field.readonly}
                           className="min-h-[120px]"
                           {...formField}
                         />
                       ) : field.type === "select" ? (
-                        <Select
-                          onValueChange={formField.onChange}
-                          value={formField.value}
-                          disabled={field.disabled}
-                        >
-                          <SelectTrigger
-                            id={`field-${key}`}
-                            className={cn(
-                              "w-full",
-                              !!formState.errors[key] && "border-destructive"
-                            )}
-                            aria-invalid={!!formState.errors[key]}
+                        field.optionsSource === "api" ? (
+                          <SelectFromApi
+                            fieldId={`field-${key}`}
+                            field={field}
+                            formField={formField}
+                            formState={formState}
+                            t={t}
+                            fieldKey={key}
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={formField.onChange}
+                            value={formField.value}
+                            disabled={field.disabled}
                           >
-                            <SelectValue
-                              placeholder={
-                                field.placeholder
-                                  ? t(field.placeholder)
-                                  : t("common.action.select")
-                              }
-                            />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {field.options?.map(
-                              (option: { label: string; value: string }) => (
-                                <SelectItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {t(option.label)}
-                                </SelectItem>
-                              )
-                            )}
-                          </SelectContent>
-                        </Select>
+                            <SelectTrigger
+                              id={`field-${key}`}
+                              className={cn(
+                                "w-full",
+                                !!formState.errors[key] && "border-destructive"
+                              )}
+                              aria-invalid={!!formState.errors[key]}
+                            >
+                              <SelectValue
+                                placeholder={
+                                  field.placeholder
+                                    ? t(field.placeholder)
+                                    : t("common.action.select")
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {field.options?.map(
+                                (option: { label: string; value: string }) => (
+                                  <SelectItem
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {t(option.label)}
+                                  </SelectItem>
+                                )
+                              )}
+                            </SelectContent>
+                          </Select>
+                        )
                       ) : field.type === "checkbox" ? (
                         <Checkbox
                           id={`field-${key}`}
@@ -397,22 +417,35 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                         </div>
                       ) : field.type === "multiselect" ? (
                         <div className="multiselect-wrapper">
-                          <MultiSelect
-                            options={field.options || []}
-                            selected={formField.value || []}
-                            onChange={formField.onChange}
-                            placeholder={
-                              field.placeholder
-                                ? t(field.placeholder)
-                                : t("common.action.selectOptions")
-                            }
-                            disabled={field.disabled}
-                            t={t}
-                            id={`field-${key}`}
-                            className={
-                              formState.errors[key] ? "border-destructive" : ""
-                            }
-                          />
+                          {field.optionsSource === "api" ? (
+                            <SelectFromApi
+                              fieldId={`field-${key}`}
+                              field={field}
+                              formField={formField}
+                              formState={formState}
+                              t={t}
+                              fieldKey={key}
+                            />
+                          ) : (
+                            <MultiSelect
+                              options={field.options || []}
+                              selected={formField.value || []}
+                              onChange={formField.onChange}
+                              placeholder={
+                                field.placeholder
+                                  ? t(field.placeholder)
+                                  : t("common.action.selectOptions")
+                              }
+                              disabled={field.disabled}
+                              t={t}
+                              id={`field-${key}`}
+                              className={
+                                formState.errors[key]
+                                  ? "border-destructive"
+                                  : ""
+                              }
+                            />
+                          )}
                         </div>
                       ) : null}
                     </FormControl>

@@ -322,7 +322,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           options={field.options || []}
                           selected={formField.value || []}
                           onChange={formField.onChange}
-                          placeholder={t("common.action.select")}
+                          placeholder={t("common.action.selectOptions")}
                           t={t}
                         />
                       ) : null}

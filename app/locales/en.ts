@@ -85,6 +85,9 @@ export default {
       pickDate: "Pick date",
       enterText: "Enter text",
       select: "Select",
+      selectOptions: "Select options...",
+      searchOptions: "Search options...",
+      noResults: "No results found.",
     },
   },
   component: {

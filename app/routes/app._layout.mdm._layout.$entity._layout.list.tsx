@@ -76,16 +76,4 @@ export default function MassDataManagementListPage() {
       )}
     </div>
   );
-
-  // if (isLoading || isFetching) return <DataTableSkeleton />;
-  // if (error)
-  //   return (
-  //     <DataTableError
-  //       title={error.status?.toString()}
-  //       description={error.message}
-  //       reload={refetch}
-  //     />
-  //   );
-
-  // return <DataTable table={table} />;
 }

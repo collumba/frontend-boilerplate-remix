@@ -31,7 +31,6 @@ export const handle = {
   },
 };
 
-// Verificação de autenticação no servidor
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireAuth(request);
   return {};

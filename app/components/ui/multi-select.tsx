@@ -34,6 +34,7 @@ interface MultiSelectProps {
   className?: string;
   badgeClassName?: string;
   t?: (key: string) => string;
+  id?: string;
 }
 
 function MultiSelect({
@@ -46,6 +47,7 @@ function MultiSelect({
   className,
   badgeClassName,
   t,
+  id,
 }: MultiSelectProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -77,6 +79,7 @@ function MultiSelect({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div
+          id={id}
           role="combobox"
           aria-expanded={open}
           aria-haspopup="listbox"

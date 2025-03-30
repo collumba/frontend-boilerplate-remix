@@ -223,14 +223,14 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                 name={key as any}
                 render={({ field: formField }) => (
                   <FormItem>
-                    <FormLabel htmlFor={key}>
+                    <FormLabel htmlFor={`field-${key}`} id={`label-${key}`}>
                       {t(`entities.${entity}.fields.${key}`)}
                     </FormLabel>
                     <FormControl>
                       {field.type === "text" || field.type === "number" ? (
                         field.mask ? (
                           <MaskedInput
-                            id={key}
+                            id={`field-${key}`}
                             mask={field.mask}
                             placeholder={
                               field.placeholder
@@ -242,7 +242,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           />
                         ) : (
                           <Input
-                            id={key}
+                            id={`field-${key}`}
                             type={field.type === "number" ? "number" : "text"}
                             placeholder={
                               field.placeholder
@@ -259,7 +259,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                         )
                       ) : field.type === "textarea" ? (
                         <Textarea
-                          id={key}
+                          id={`field-${key}`}
                           placeholder={
                             field.placeholder
                               ? t(field.placeholder)
@@ -283,7 +283,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           defaultValue={formField.value}
                           disabled={field.disabled}
                         >
-                          <SelectTrigger id={key} className="w-full">
+                          <SelectTrigger id={`field-${key}`} className="w-full">
                             <SelectValue
                               placeholder={
                                 field.placeholder
@@ -307,7 +307,7 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                         </Select>
                       ) : field.type === "checkbox" ? (
                         <Checkbox
-                          id={key}
+                          id={`field-${key}`}
                           checked={formField.value}
                           onCheckedChange={formField.onChange}
                           disabled={field.disabled}
@@ -315,52 +315,58 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                       ) : field.type === "date" ? (
                         <DatePickerField
                           key={key}
-                          fieldId={key}
+                          fieldId={`field-${key}`}
                           field={field}
                           formField={formField}
                           t={t}
                         />
                       ) : field.type === "radio" ? (
-                        <RadioGroup
-                          onValueChange={formField.onChange}
-                          defaultValue={formField.value}
-                          className="flex flex-col space-y-2"
-                          disabled={field.disabled}
-                        >
-                          {field.options?.map(
-                            (option: { label: string; value: string }) => (
-                              <div
-                                key={option.value}
-                                className="flex items-center space-x-2"
-                              >
-                                <RadioGroupItem
-                                  value={option.value}
-                                  id={`${key}-${option.value}`}
-                                  disabled={field.disabled}
-                                />
-                                <label
-                                  htmlFor={`${key}-${option.value}`}
-                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        <div className="radio-group-wrapper">
+                          <RadioGroup
+                            onValueChange={formField.onChange}
+                            defaultValue={formField.value}
+                            className="flex flex-col space-y-2"
+                            disabled={field.disabled}
+                            aria-labelledby={`label-${key}`}
+                          >
+                            {field.options?.map(
+                              (option: { label: string; value: string }) => (
+                                <div
+                                  key={option.value}
+                                  className="flex items-center space-x-2"
                                 >
-                                  {t(option.label)}
-                                </label>
-                              </div>
-                            )
-                          )}
-                        </RadioGroup>
+                                  <RadioGroupItem
+                                    value={option.value}
+                                    id={`field-${key}-${option.value}`}
+                                    disabled={field.disabled}
+                                  />
+                                  <label
+                                    htmlFor={`field-${key}-${option.value}`}
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                  >
+                                    {t(option.label)}
+                                  </label>
+                                </div>
+                              )
+                            )}
+                          </RadioGroup>
+                        </div>
                       ) : field.type === "multiselect" ? (
-                        <MultiSelect
-                          options={field.options || []}
-                          selected={formField.value || []}
-                          onChange={formField.onChange}
-                          placeholder={
-                            field.placeholder
-                              ? t(field.placeholder)
-                              : t("common.action.selectOptions")
-                          }
-                          disabled={field.disabled}
-                          t={t}
-                        />
+                        <div className="multiselect-wrapper">
+                          <MultiSelect
+                            options={field.options || []}
+                            selected={formField.value || []}
+                            onChange={formField.onChange}
+                            placeholder={
+                              field.placeholder
+                                ? t(field.placeholder)
+                                : t("common.action.selectOptions")
+                            }
+                            disabled={field.disabled}
+                            t={t}
+                            id={`field-${key}`}
+                          />
+                        </div>
                       ) : null}
                     </FormControl>
                     {field.helperText && (

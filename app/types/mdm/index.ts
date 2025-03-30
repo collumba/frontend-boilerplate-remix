@@ -1,5 +1,4 @@
 import { Character } from "@app/types/mdm/character";
-import { Location } from "@app/types/mdm/location";
 import { ColumnDef } from "@tanstack/react-table";
 export interface BaseEntity {
   id: number;
@@ -8,13 +7,11 @@ export interface BaseEntity {
 }
 
 export interface CommonEntity {
-  // Interface vazia para representar entidades comuns de opções
+  // Empty interface to represent common option entities
 }
 
 export type EntityMap = {
   character: Character;
-  location: Location;
-  common: CommonEntity; // Adiciona common como um tipo de entidade
 };
 
 export type EntityType = keyof EntityMap;

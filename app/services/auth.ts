@@ -1,4 +1,5 @@
-import { ApiService } from "@app/services/api";
+import { AUTH_CONFIG } from "@app/config/auth";
+import { ApiService } from "./api";
 
 interface LoginCredentials {
   identifier: string;
@@ -37,7 +38,7 @@ interface MeResponse {
 
 export class AuthService {
   private api: ApiService;
-  private TOKEN_KEY = "strapi_token";
+  private TOKEN_KEY = AUTH_CONFIG.TOKEN_KEY;
 
   constructor() {
     this.api = new ApiService();
@@ -53,7 +54,7 @@ export class AuthService {
       };
 
       const response = await this.api.post<AuthResponse>(
-        "/auth/local",
+        "/api/auth/local",
         payload
       );
       this.setToken(response.jwt);
@@ -68,7 +69,7 @@ export class AuthService {
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
       const response = await this.api.post<AuthResponse>(
-        "/auth/local/register",
+        "/api/auth/local/register",
         data
       );
       this.setToken(response.jwt);
@@ -87,7 +88,7 @@ export class AuthService {
         throw new Error("No authentication token found");
       }
 
-      return await this.api.get<MeResponse>("/users/me");
+      return await this.api.get<MeResponse>("/api/users/me");
     } catch (error) {
       console.error("Failed to fetch user data:", error);
       throw error;
@@ -96,12 +97,22 @@ export class AuthService {
 
   // Fazer logout
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    sessionStorage.removeItem(this.TOKEN_KEY);
+    this.removeToken();
   }
 
-  // Salvar token (opcionalmente em sessionStorage ou localStorage)
+  // Salvar token como cookie
   private setToken(token: string, rememberMe = false): void {
+    const expiresIn = rememberMe
+      ? AUTH_CONFIG.EXPIRATION.REMEMBER_ME
+      : AUTH_CONFIG.EXPIRATION.DEFAULT;
+    const expires = new Date(Date.now() + expiresIn * 1000);
+
+    // Salvar o token como cookie
+    document.cookie = `${
+      this.TOKEN_KEY
+    }=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax;`;
+
+    // Manter retrocompatibilidade
     if (rememberMe) {
       localStorage.setItem(this.TOKEN_KEY, token);
     } else {
@@ -111,10 +122,30 @@ export class AuthService {
 
   // Obter token de autenticação
   getToken(): string | null {
+    // Verificar primeiro nos cookies
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split("=");
+      if (name === this.TOKEN_KEY) {
+        return value;
+      }
+    }
+
+    // Retrocompatibilidade: verificar em localStorage/sessionStorage
     return (
       localStorage.getItem(this.TOKEN_KEY) ||
       sessionStorage.getItem(this.TOKEN_KEY)
     );
+  }
+
+  // Remover token
+  private removeToken(): void {
+    // Remover cookie
+    document.cookie = `${this.TOKEN_KEY}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+
+    // Remover também do localStorage/sessionStorage
+    localStorage.removeItem(this.TOKEN_KEY);
+    sessionStorage.removeItem(this.TOKEN_KEY);
   }
 
   // Verificar se o usuário está autenticado

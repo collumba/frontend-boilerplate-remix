@@ -1,16 +1,18 @@
+import { AUTH_CONFIG } from "@app/config/auth";
 import axios, { AxiosInstance } from "axios";
 import { env } from "env";
 
 export class ApiService {
   private client: AxiosInstance;
   constructor() {
-    const baseURL = `${env.API_URL || "http://localhost:3000"}/api`;
+    const baseURL = env.API_URL || "http://localhost:3000";
     this.client = axios.create({
       baseURL,
       timeout: 5000,
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
 
     // Interceptor para adicionar token de autenticação
@@ -22,8 +24,8 @@ export class ApiService {
 
       if (!isAuthRoute) {
         const token =
-          localStorage.getItem("strapi_token") ||
-          sessionStorage.getItem("strapi_token");
+          localStorage.getItem(AUTH_CONFIG.TOKEN_KEY) ||
+          sessionStorage.getItem(AUTH_CONFIG.TOKEN_KEY);
 
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;

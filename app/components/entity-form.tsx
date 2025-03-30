@@ -16,6 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@app/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@app/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -64,6 +65,8 @@ export function generateZodSchema(entity: EntityType) {
     } else if (field.type === "textarea") {
       fieldSchema = z.string();
     } else if (field.type === "select") {
+      fieldSchema = z.string();
+    } else if (field.type === "radio") {
       fieldSchema = z.string();
     }
 
@@ -282,6 +285,32 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                           formField={formField}
                           t={t}
                         />
+                      ) : field.type === "radio" ? (
+                        <RadioGroup
+                          onValueChange={formField.onChange}
+                          defaultValue={formField.value}
+                          className="flex flex-col space-y-2"
+                        >
+                          {field.options?.map(
+                            (option: { label: string; value: string }) => (
+                              <div
+                                key={option.value}
+                                className="flex items-center space-x-2"
+                              >
+                                <RadioGroupItem
+                                  value={option.value}
+                                  id={`${key}-${option.value}`}
+                                />
+                                <label
+                                  htmlFor={`${key}-${option.value}`}
+                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                  {t(option.label)}
+                                </label>
+                              </div>
+                            )
+                          )}
+                        </RadioGroup>
                       ) : null}
                     </FormControl>
                     <FormMessage />

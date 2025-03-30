@@ -84,6 +84,7 @@ export default {
       list: "List",
       pickDate: "Pick date",
       enterText: "Enter text",
+      select: "Select",
     },
   },
   component: {
@@ -131,6 +132,17 @@ export default {
         in_active: "In Active",
         birthDate: "Birth Date",
         description: "Description",
+      },
+      status: {
+        alive: "Alive",
+        dead: "Dead",
+        unknown: "Unknown",
+      },
+      gender: {
+        male: "Male",
+        female: "Female",
+        genderless: "Genderless",
+        unknown: "Unknown",
       },
     },
   },

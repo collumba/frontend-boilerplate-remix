@@ -7,7 +7,14 @@ import { Location } from "@app/types/mdm/location";
 
 export interface EntityFieldConfig {
   name: string;
-  type: "text" | "number" | "checkbox" | "select" | "date" | "textarea";
+  type:
+    | "text"
+    | "number"
+    | "checkbox"
+    | "select"
+    | "date"
+    | "textarea"
+    | "radio";
   required?: boolean;
   options?: Array<{ label: string; value: string }>;
 }
@@ -34,8 +41,21 @@ export const ENTITY_CONFIG = {
           { label: "entities.character.status.unknown", value: "unknown" },
         ],
       },
+      gender: {
+        name: "gender",
+        type: "radio",
+        required: true,
+        options: [
+          { label: "entities.character.gender.male", value: "male" },
+          { label: "entities.character.gender.female", value: "female" },
+          {
+            label: "entities.character.gender.genderless",
+            value: "genderless",
+          },
+          { label: "entities.character.gender.unknown", value: "unknown" },
+        ],
+      },
       species: { name: "species", type: "text", required: true },
-      gender: { name: "gender", type: "text", required: true },
       description: { name: "description", type: "textarea", required: false },
       in_active: { name: "in_active", type: "checkbox", required: false },
       birthDate: { name: "birthDate", type: "date", required: true },

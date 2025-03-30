@@ -75,10 +75,28 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
   const formSchema = generateZodSchema(entity);
   type FormValues = z.infer<typeof formSchema>;
 
-  // Initialize the form with explicit type
+  // Create default values for all fields
+  const defaultValues = React.useMemo(() => {
+    const values: Record<string, any> = {};
+    if (entityConfig.fields) {
+      Object.entries(entityConfig.fields).forEach(([key, field]) => {
+        // Set appropriate default value based on field type
+        if (field.type === "checkbox") {
+          values[key] = false;
+        } else if (field.type === "number") {
+          values[key] = 0;
+        } else {
+          values[key] = "";
+        }
+      });
+    }
+    return values;
+  }, [entityConfig.fields]);
+
+  // Initialize the form with explicit type and default values
   const form = useForm<Record<string, any>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues,
   });
 
   // Fetch entity data for edit mode

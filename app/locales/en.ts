@@ -121,6 +121,13 @@ export default {
         created: "Created",
         gender: "Gender",
       },
+      fields: {
+        name: "Name",
+        status: "Status",
+        species: "Species",
+        gender: "Gender",
+        in_active: "In Active",
+      },
     },
   },
   route: {

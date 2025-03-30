@@ -1,15 +1,36 @@
 import axios, { AxiosInstance } from "axios";
+import { env } from "env";
 
 export class ApiService {
   private client: AxiosInstance;
   constructor() {
-    const baseURL = import.meta.env.VITE_API_URL;
+    const baseURL = `${env.API_URL || "http://localhost:3000"}/api`;
     this.client = axios.create({
       baseURL,
       timeout: 5000,
       headers: {
         "Content-Type": "application/json",
       },
+    });
+
+    // Interceptor para adicionar token de autenticação
+    this.client.interceptors.request.use((config) => {
+      // Não adicionar token em rotas de autenticação
+      const isAuthRoute =
+        config.url?.includes("/auth/local") ||
+        config.url?.includes("/auth/local/register");
+
+      if (!isAuthRoute) {
+        const token =
+          localStorage.getItem("strapi_token") ||
+          sessionStorage.getItem("strapi_token");
+
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      }
+
+      return config;
     });
   }
 

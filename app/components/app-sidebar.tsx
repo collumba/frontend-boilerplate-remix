@@ -14,8 +14,6 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
-import { NavMain } from "@app/components/nav-main";
-import { NavProjects } from "@app/components/nav-projects";
 import { NavUser } from "@app/components/nav-user";
 import { TeamSwitcher } from "@app/components/team-switcher";
 import {
@@ -26,6 +24,7 @@ import {
   SidebarMenu,
   SidebarRail,
 } from "@app/components/ui/sidebar";
+import { NavMdm } from "./nav-mdm";
 import { LocaleToggle } from "./ui/locale-toggle";
 import { ThemeToggle } from "./ui/theme-toggle";
 
@@ -166,8 +165,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavMain items={data.navMain} /> */}
+        <NavMdm />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
@@ -176,7 +176,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <ThemeToggle />
           </div>
         </SidebarMenu>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

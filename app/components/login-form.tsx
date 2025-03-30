@@ -5,7 +5,10 @@ import { Label } from "@app/components/ui/label";
 import { Link } from "@app/components/ui/link";
 import { Muted, Typography } from "@app/components/ui/typography";
 import { ROUTES } from "@app/config/routes";
+import { authService } from "@app/services/auth";
 import { useNavigate } from "@remix-run/react";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export function LoginForm({
@@ -14,8 +17,42 @@ export function LoginForm({
 }: React.ComponentProps<"form">) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: async (credentials: {
+      identifier: string;
+      password: string;
+    }) => {
+      return authService.login(credentials);
+    },
+    onSuccess: () => {
+      navigate(ROUTES.app.root);
+    },
+    onError: (err: any) => {
+      setError(
+        err.response?.data?.error?.message ||
+          "Falha na autenticação. Verifique suas credenciais."
+      );
+    },
+  });
+
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={(e) => {
+        e.preventDefault();
+        setError(null);
+        login({
+          identifier: email,
+          password,
+        });
+      }}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <Typography variant="h1">{t("auth.login.title")}</Typography>
         <Muted className="text-sm text-balance">
@@ -23,6 +60,11 @@ export function LoginForm({
         </Muted>
       </div>
       <div className="grid gap-6">
+        {error && (
+          <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+            {error}
+          </div>
+        )}
         <div className="grid gap-3">
           <Label htmlFor="email">{t("auth.login.email")}</Label>
           <Input
@@ -31,6 +73,8 @@ export function LoginForm({
             placeholder="m@example.com"
             required
             autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="grid gap-3">
@@ -42,13 +86,27 @@ export function LoginForm({
             type="password"
             required
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
+        </div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="remember-me"
+            className="h-4 w-4 rounded border-gray-300"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+          />
+          <Label htmlFor="remember-me" className="text-sm font-normal">
+            Lembrar-me
+          </Label>
         </div>
         <Link href="#" variant="underline" className="text-right">
           {t("auth.login.forgotPassword")}
         </Link>
-        <Button type="submit" className="w-full">
-          {t("auth.login.button")}
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? "Processando..." : t("auth.login.button")}
         </Button>
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
           <Muted className="relative z-10 px-2">
@@ -59,6 +117,7 @@ export function LoginForm({
           variant="outline"
           onClick={() => navigate(ROUTES.app.root)}
           className="w-full"
+          type="button"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
@@ -71,7 +130,7 @@ export function LoginForm({
       </div>
       <div className="text-center text-sm flex items-center justify-center gap-2">
         {t("auth.login.dontHaveAccount")}
-        <Link href="#" variant="underline">
+        <Link href={ROUTES.auth.register} variant="underline">
           {t("auth.login.signUp")}
         </Link>
       </div>

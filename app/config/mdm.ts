@@ -4,6 +4,7 @@ import { useLocationColumns } from "@app/features/mdm/location/useLocationColumn
 import { Character } from "@app/types/mdm/character";
 import { Episode } from "@app/types/mdm/episode";
 import { Location } from "@app/types/mdm/location";
+import { LucideIcon, Map, Tv, User } from "lucide-react";
 
 export interface EntityFieldConfig {
   name: string;
@@ -36,6 +37,7 @@ export interface EntityFieldConfig {
 export interface EntityConfig<T> {
   endpoint: string;
   fields?: Record<string, EntityFieldConfig>;
+  icon?: LucideIcon;
 }
 
 // Registre todas as entidades aqui
@@ -43,6 +45,7 @@ export const ENTITY_CONFIG: {
   [K in keyof EntityMap]: EntityConfig<K>;
 } = {
   character: {
+    icon: User,
     endpoint: "/character",
     fields: {
       name: {
@@ -148,6 +151,7 @@ export const ENTITY_CONFIG: {
     },
   },
   location: {
+    icon: Map,
     endpoint: "/location",
     fields: {
       name: { name: "name", type: "text", required: true },
@@ -155,6 +159,7 @@ export const ENTITY_CONFIG: {
     },
   },
   episode: {
+    icon: Tv,
     endpoint: "episode",
     fields: {
       name: { name: "name", type: "text", required: true },

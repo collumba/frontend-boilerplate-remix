@@ -23,6 +23,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
   SidebarRail,
 } from "@app/components/ui/sidebar";
 import { LocaleToggle } from "./ui/locale-toggle";
@@ -169,10 +170,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <div className="flex items-center justify-between gap-2">
-          <LocaleToggle />
-          <ThemeToggle />
-        </div>
+        <SidebarMenu>
+          <div className="scrollbar-hide flex flex-row items-center justify-between gap-2 group-data-[state=collapsed]:flex-col">
+            <LocaleToggle />
+            <ThemeToggle />
+          </div>
+        </SidebarMenu>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />

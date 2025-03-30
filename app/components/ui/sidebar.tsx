@@ -6,7 +6,6 @@ import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
 
 import { useIsMobile } from "@app/components/hooks/use-mobile";
-import { cn } from "@app/components/lib/utils";
 import { Button } from "@app/components/ui/button";
 import { Input } from "@app/components/ui/input";
 import { Separator } from "@app/components/ui/separator";
@@ -24,6 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@app/components/ui/tooltip";
+import { cn } from "@app/utils/cn";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -524,7 +524,11 @@ const SidebarMenuButton = React.forwardRef<
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+        className={cn(
+          sidebarMenuButtonVariants({ variant, size }),
+          "cursor-pointer",
+          className
+        )}
         {...props}
       />
     );
@@ -657,7 +661,7 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       className={cn(
-        "border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5",
+        "border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5 ",
         "group-data-[collapsible=icon]:hidden",
         className
       )}

@@ -15,11 +15,23 @@ import {
   SidebarTrigger,
 } from "@app/components/ui/sidebar";
 import { ROUTES } from "@app/config/routes";
+import { useAuthContext } from "@app/contexts/auth-context";
 import { AppMatch } from "@app/types/breadcrumb";
+import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
-import { Outlet, useMatches, useRouteError } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import {
+  MetaFunction,
+  Outlet,
+  useMatches,
+  useRouteError,
+} from "@remix-run/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "App" }, { name: "description", content: "App" }];
+};
 
 export const handle = {
   breadcrumb: {
@@ -28,8 +40,15 @@ export const handle = {
   },
 };
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  await requireAuth(request);
+  return {};
+}
+
 export default function AppPage() {
   const matches = useMatches() as AppMatch[];
+  const { t } = useTranslation();
+  const { user } = useAuthContext();
   const breadcrumbs = matches
     .filter((match) => match.handle?.breadcrumb)
     .map((match) => {
@@ -39,7 +58,7 @@ export default function AppPage() {
           : match.handle.breadcrumb;
       return breadcrumb;
     });
-  const { t } = useTranslation();
+
   return (
     <SidebarProvider>
       <AppSidebar />

@@ -8,6 +8,7 @@ import {
 import { Link } from "@app/components/ui/link";
 import { Typography } from "@app/components/ui/typography";
 import { ROUTES } from "@app/config/routes";
+import { MetaFunction } from "@remix-run/react";
 import {
   BookOpen,
   Calendar,
@@ -26,7 +27,12 @@ import {
   TestTube,
   Zap,
 } from "lucide-react";
-
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Boilerplate" },
+    { name: "description", content: "Boilerplate" },
+  ];
+};
 export default function IndexPage() {
   const technologies = [
     {
@@ -233,25 +239,3 @@ export default function IndexPage() {
     </div>
   );
 }
-
-// Add this to app/styles/globals.css if not already present
-// @keyframes fade-in {
-//   from { opacity: 0; }
-//   to { opacity: 1; }
-// }
-// @keyframes fade-in-up {
-//   from {
-//     opacity: 0;
-//     transform: translateY(20px);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// }
-// .animate-fade-in {
-//   animation: fade-in 0.6s ease forwards;
-// }
-// .animate-fade-in-up {
-//   animation: fade-in-up 0.7s ease forwards;
-// }

@@ -39,6 +39,27 @@ export default {
       dontHaveAccount: "Don't have an account?",
       signUp: "Sign up",
       loginWithGitHub: "Login with GitHub",
+      error: {
+        authenticationFailed:
+          "Authentication failed. Please check your credentials.",
+      },
+    },
+    register: {
+      title: "Create an account",
+      description: "Fill in the data below to create your account",
+      username: "Username",
+      email: "Email",
+      password: "Password",
+      confirmPassword: "Confirm password",
+      register: "Register",
+      loading: "Processing...",
+      alreadyHaveAccount: "Already have an account?",
+      login: "Login",
+      error: {
+        passwordMismatch: "The passwords do not match",
+        passwordTooShort: "The password must be at least 6 characters long",
+        registrationFailed: "Registration failed. Please try again.",
+      },
     },
   },
   theme: {
@@ -88,6 +109,7 @@ export default {
       selectOptions: "Select options...",
       searchOptions: "Search options...",
       noResults: "No results found.",
+      logout: "Logout",
     },
     form: {
       requiredFieldsNote: "The fields marked with",
@@ -95,6 +117,11 @@ export default {
     },
   },
   component: {
+    sidebar: {
+      registers: {
+        title: "Registers",
+      },
+    },
     dataTable: {
       inputSearch: {
         placeholder: "Filter...",

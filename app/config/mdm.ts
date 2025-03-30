@@ -1,9 +1,6 @@
 import { useCharacterColumns } from "@app/features/mdm/character/useCharacterColumns";
-import { useEpisodeColumns } from "@app/features/mdm/episode/useEpisodeColumns";
-import { useLocationColumns } from "@app/features/mdm/location/useLocationColumns";
 import { Character } from "@app/types/mdm/character";
-import { Episode } from "@app/types/mdm/episode";
-import { Location } from "@app/types/mdm/location";
+import { LucideIcon, User } from "lucide-react";
 
 export interface EntityFieldConfig {
   name: string;
@@ -32,17 +29,19 @@ export interface EntityFieldConfig {
   entity?: keyof EntityMap;
 }
 
-// Interface base para configuração de entidade
+// Base interface for entity configuration
 export interface EntityConfig<T> {
   endpoint: string;
   fields?: Record<string, EntityFieldConfig>;
+  icon?: LucideIcon;
 }
 
-// Registre todas as entidades aqui
+// Register all entities here
 export const ENTITY_CONFIG: {
   [K in keyof EntityMap]: EntityConfig<K>;
 } = {
   character: {
+    icon: User,
     endpoint: "/character",
     fields: {
       name: {
@@ -147,62 +146,33 @@ export const ENTITY_CONFIG: {
       },
     },
   },
-  location: {
-    endpoint: "/location",
-    fields: {
-      name: { name: "name", type: "text", required: true },
-      type: { name: "type", type: "text", required: true },
-    },
-  },
-  episode: {
-    endpoint: "episode",
-    fields: {
-      name: { name: "name", type: "text", required: true },
-      air_date: { name: "air_date", type: "text", required: true },
-      episode: { name: "episode", type: "text", required: true },
-    },
-  },
-  common: {
-    endpoint: "/common",
-    fields: {},
-  },
 } as const;
 
-// Tipos gerados automaticamente a partir da configuração
-export type EntityType = "character" | "location" | "episode" | "common";
+export type EntityType = "character";
 export type EntityMap = {
   character: Character;
-  location: Location;
-  episode: Episode;
-  common: Record<string, any>;
 };
 
-// Função auxiliar para obter as colunas dinamicamente
-export function useEntityColumns<
-  T extends "character" | "location" | "episode"
->(entity: T) {
+// Helper function to get columns dynamically
+export function useEntityColumns<T extends "character">(entity: T) {
   try {
-    // Mapeia diretamente os hooks de colunas usando importações estáticas
+    // Map directly to the column hooks using static imports
     const columnsMap = {
       character: useCharacterColumns,
-      location: useLocationColumns,
-      episode: useEpisodeColumns,
     } as const;
 
-    // Obtenha a função de colunas do mapa
+    // Get the columns function from the map
     const useColumns = columnsMap[entity];
 
     if (!useColumns) {
-      throw new Error(
-        `Não foi possível encontrar colunas para a entidade: ${entity}`
-      );
+      throw new Error(`Could not find columns for entity: ${entity}`);
     }
 
-    // Execute o hook para obter as colunas
+    // Execute the hook to get the columns
     return useColumns();
   } catch (error) {
-    console.error(`Erro ao obter colunas para ${entity}:`, error);
-    // Retorna colunas vazias para evitar quebrar a UI
+    console.error(`Error getting columns for ${entity}:`, error);
+    // Return empty columns to avoid breaking the UI
     return [];
   }
 }

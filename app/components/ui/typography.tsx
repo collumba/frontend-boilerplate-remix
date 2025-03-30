@@ -1,5 +1,5 @@
+import { cn } from "@app/utils/cn";
 import React from "react";
-import { cn } from "../lib/utils";
 
 export interface TypographyProps
   extends React.HTMLAttributes<HTMLHeadingElement | HTMLParagraphElement> {
@@ -28,14 +28,14 @@ export const Typography = React.forwardRef<
     (variant === "blockquote"
       ? "span"
       : variant === "lead"
-        ? "span"
-        : variant === "large"
-          ? "span"
-          : variant === "small"
-            ? "span"
-            : variant === "muted"
-              ? "span"
-              : "p");
+      ? "span"
+      : variant === "large"
+      ? "span"
+      : variant === "small"
+      ? "span"
+      : variant === "muted"
+      ? "span"
+      : "p");
   return React.createElement(Component, {
     ref,
     className: cn(

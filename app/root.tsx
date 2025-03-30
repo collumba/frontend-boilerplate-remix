@@ -1,4 +1,5 @@
 import { ROUTES } from "@app/config/routes";
+import { AuthProvider } from "@app/contexts/auth-context";
 import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
 import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
@@ -45,21 +46,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function AppWithProviders() {
-  const data = useLoaderData<typeof loader>();  
+  const data = useLoaderData<typeof loader>();
   const [queryClient] = useState(() => new QueryClient());
   return (
-    <QueryClientProvider client={queryClient}> 
-      <ThemeProvider
-        specifiedTheme={data.theme}
-        themeAction={ROUTES.api.global.setTheme}
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ThemeProvider
+          specifiedTheme={data.theme}
+          themeAction={ROUTES.api.global.setTheme}
         >
-        <App queryClient={queryClient} />
-      </ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
 
-export function App({ queryClient }: { queryClient: QueryClient }) {
+export function App() {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
   useChangeLanguage(data.locale);
@@ -81,9 +84,3 @@ export function App({ queryClient }: { queryClient: QueryClient }) {
     </html>
   );
 }
-
-// export function ErrorBoundary() {
-//   const error = useRouteError();
-//   const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
-//   return <ShowError code={errorCode} message={errorMessage} />;
-// }

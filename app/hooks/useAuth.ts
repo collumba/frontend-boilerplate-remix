@@ -14,13 +14,11 @@ interface User {
 }
 
 export function useAuth() {
-  // Inicializar o estado com base no token existente
   const hasToken =
     typeof window !== "undefined" ? !!authService.getToken() : false;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
   const [user, setUser] = useState<User | null>(null);
 
-  // Verificar se o usuário está autenticado - usando staleTime para evitar consultas frequentes
   const {
     data: authData,
     refetch: checkAuth,
@@ -45,7 +43,6 @@ export function useAuth() {
         };
       } catch (error) {
         console.error("Auth check failed:", error);
-        // Em caso de erro, limpar o token para evitar loops
         if (typeof window !== "undefined") {
           authService.logout();
         }
@@ -55,14 +52,11 @@ export function useAuth() {
         };
       }
     },
-    // Evita consultas excessivas
-    staleTime: 5 * 60 * 1000, // 5 minutos
+    staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    // Desativar execução automática para controlá-la manualmente
     enabled: false,
   });
 
-  // Atualizar estado apenas quando dados mudarem
   useEffect(() => {
     if (authData) {
       setIsAuthenticated(authData.isAuthenticated);
@@ -86,7 +80,6 @@ export function useAuth() {
     onSuccess: (response) => {
       setIsAuthenticated(true);
       setUser(response.user);
-      // Redirecionamento feito pelo componente de login, não aqui
     },
   });
 
@@ -99,17 +92,15 @@ export function useAuth() {
     onSuccess: () => {
       setIsAuthenticated(false);
       setUser(null);
-      // Redirecionamento direto, sem usar React Router
       window.location.href = ROUTES.auth.login;
     },
   });
 
-  // Verificar autenticação ao carregar o componente
   useEffect(() => {
     if (hasToken) {
       checkAuth();
     }
-  }, []); // Execute apenas uma vez
+  }, []);
 
   return {
     isLoading: isLoginPending || isLogoutPending || isLoading,

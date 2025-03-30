@@ -1,6 +1,6 @@
+import { cn } from "@app/utils/cn";
 import { LucideIcon } from "lucide-react";
 import * as React from "react";
-import { cn } from "../../components/lib/utils";
 import { Typography } from "./typography";
 
 interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {

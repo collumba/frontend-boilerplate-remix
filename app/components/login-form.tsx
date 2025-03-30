@@ -1,4 +1,3 @@
-import { cn } from "@app/components/lib/utils";
 import { Button } from "@app/components/ui/button";
 import { Input } from "@app/components/ui/input";
 import { Label } from "@app/components/ui/label";
@@ -6,6 +5,7 @@ import { Link } from "@app/components/ui/link";
 import { Muted, Typography } from "@app/components/ui/typography";
 import { ROUTES } from "@app/config/routes";
 import { authService } from "@app/services/auth";
+import { cn } from "@app/utils/cn";
 import { useNavigate } from "@remix-run/react";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";

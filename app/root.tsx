@@ -55,14 +55,14 @@ export default function AppWithProviders() {
           specifiedTheme={data.theme}
           themeAction={ROUTES.api.global.setTheme}
         >
-          <App queryClient={queryClient} />
+          <App />
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
 }
 
-export function App({ queryClient }: { queryClient: QueryClient }) {
+export function App() {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
   useChangeLanguage(data.locale);
@@ -84,9 +84,3 @@ export function App({ queryClient }: { queryClient: QueryClient }) {
     </html>
   );
 }
-
-// export function ErrorBoundary() {
-//   const error = useRouteError();
-//   const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
-//   return <ShowError code={errorCode} message={errorMessage} />;
-// }

@@ -28,7 +28,7 @@ import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { CalendarIcon, Save } from "lucide-react";
+import { CalendarIcon, Eraser, Save } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -183,10 +183,21 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
             : `${t(`entities.${entity}.name`)} - ${t("common.action.edit")}`
         }
       >
-        <Button type="submit" disabled={mutation.isPending}>
-          <Save className="mr-2 h-4 w-4" />
-          {t("common.action.save")}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            disabled={mutation.isPending}
+            onClick={() => form.reset()}
+          >
+            <Eraser className="mr-2 h-4 w-4" />
+            {t("common.action.clear")}
+          </Button>
+          <Button type="submit" disabled={mutation.isPending}>
+            <Save className="mr-2 h-4 w-4" />
+            {t("common.action.save")}
+          </Button>
+        </div>
       </PageHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

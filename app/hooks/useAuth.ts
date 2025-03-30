@@ -1,6 +1,5 @@
 import { ROUTES } from "@app/config/routes";
 import { authService } from "@app/services/auth";
-import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -20,7 +19,6 @@ export function useAuth() {
     typeof window !== "undefined" ? !!authService.getToken() : false;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
   const [user, setUser] = useState<User | null>(null);
-  const navigate = useNavigate();
 
   // Verificar se o usuário está autenticado - usando staleTime para evitar consultas frequentes
   const {
@@ -47,6 +45,10 @@ export function useAuth() {
         };
       } catch (error) {
         console.error("Auth check failed:", error);
+        // Em caso de erro, limpar o token para evitar loops
+        if (typeof window !== "undefined") {
+          authService.logout();
+        }
         return {
           isAuthenticated: false,
           user: null,
@@ -84,7 +86,7 @@ export function useAuth() {
     onSuccess: (response) => {
       setIsAuthenticated(true);
       setUser(response.user);
-      navigate(ROUTES.app.root);
+      // Redirecionamento feito pelo componente de login, não aqui
     },
   });
 
@@ -97,7 +99,8 @@ export function useAuth() {
     onSuccess: () => {
       setIsAuthenticated(false);
       setUser(null);
-      navigate(ROUTES.auth.login);
+      // Redirecionamento direto, sem usar React Router
+      window.location.href = ROUTES.auth.login;
     },
   });
 

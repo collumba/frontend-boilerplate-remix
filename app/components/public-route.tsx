@@ -9,24 +9,17 @@ interface PublicRouteProps {
 export function PublicRoute({ children }: PublicRouteProps) {
   const { isAuthenticated } = useAuthContext();
 
-  // Use um useEffect para redirecionar em vez de render-time redirect
+  // Verificação única na montagem do componente
   useEffect(() => {
-    // Certifique-se de que estamos no navegador e não no servidor
+    // Verifica apenas no lado do cliente
     if (typeof window !== "undefined") {
-      // Redirecione somente se estiver autenticado
+      // Se estiver autenticado, redireciona diretamente
       if (isAuthenticated) {
-        // Verificar se há uma rota de retorno salva
-        const returnTo = sessionStorage.getItem("returnTo") || ROUTES.app.root;
-
-        // Limpar o valor salvo
-        sessionStorage.removeItem("returnTo");
-
-        // Use redirecionamento direto em vez de Navigate
-        window.location.href = returnTo;
+        window.location.href = ROUTES.app.root;
       }
     }
-  }, [isAuthenticated]);
+  }, []);
 
-  // Sempre renderize os filhos, o redirecionamento acontece via useEffect
+  // Renderiza os filhos diretamente
   return <>{children}</>;
 }

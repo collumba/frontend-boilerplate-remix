@@ -30,12 +30,12 @@ export function LoginForm({
       return authService.login(credentials);
     },
     onSuccess: () => {
-      navigate(ROUTES.app.root);
+      window.location.href = ROUTES.app.root;
     },
     onError: (err: any) => {
       setError(
         err.response?.data?.error?.message ||
-          t("auth.login.error.authenticationFailed")
+          "Falha na autenticação. Verifique suas credenciais."
       );
     },
   });

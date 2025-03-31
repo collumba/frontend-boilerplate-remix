@@ -1,8 +1,14 @@
 import { ROUTES } from "@app/config/routes";
 import { AuthProvider } from "@app/contexts/auth-context";
+import { useLoaderToasts } from "@app/hooks/use-loader-toasts";
+import { ToastContainer, ToastContextProvider } from "@app/hooks/use-toast";
 import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
-import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -14,14 +20,24 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import clsx from "clsx";
-import { useState } from "react";
-import { useChangeLanguage } from "remix-i18next/react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   PreventFlashOnWrongTheme,
   Theme,
   ThemeProvider,
   useTheme,
 } from "remix-themes";
+
+import "./styles/globals.css";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "App Title" },
+    { name: "description", content: "App description" },
+  ];
+};
+
 export const links: LinksFunction = () => [
   { rel: "preload", href: "/app/styles/globals.css", as: "style" },
   { rel: "stylesheet", href: "/app/styles/globals.css" },
@@ -36,6 +52,7 @@ export const links: LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
   const locale = await i18next.getLocale(request);
@@ -48,6 +65,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function AppWithProviders() {
   const data = useLoaderData<typeof loader>();
   const [queryClient] = useState(() => new QueryClient());
+  const { i18n } = useTranslation();
+
+  // Use os toasts retornados pelo loader
+  useLoaderToasts(useLoaderData());
+
+  // Inicializar i18n
+  useEffect(() => {
+    // Set initial language
+    i18n.changeLanguage(data.locale).then(() => {});
+  }, [i18n, data]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -55,7 +83,9 @@ export default function AppWithProviders() {
           specifiedTheme={data.theme}
           themeAction={ROUTES.api.global.setTheme}
         >
-          <App />
+          <ToastContextProvider>
+            <App />
+          </ToastContextProvider>
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
@@ -65,7 +95,17 @@ export default function AppWithProviders() {
 export function App() {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
-  useChangeLanguage(data.locale);
+  const { i18n } = useTranslation();
+
+  // Use os toasts retornados pelo loader
+  useLoaderToasts(useLoaderData());
+
+  // Inicializar i18n
+  useEffect(() => {
+    // Set initial language
+    i18n.changeLanguage(data.locale).then(() => {});
+  }, [i18n, data]);
+
   return (
     <html lang={data.locale} className={clsx(theme)}>
       <head>
@@ -76,7 +116,10 @@ export function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <ToastContextProvider>
+          <Outlet />
+          <ToastContainer />
+        </ToastContextProvider>
         <ScrollRestoration />
         <Scripts />
         <ReactQueryDevtools initialIsOpen={false} />

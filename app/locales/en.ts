@@ -122,6 +122,42 @@ export default {
         title: "Registers",
       },
     },
+    toast: {
+      success: {
+        title: "Success!",
+        description: "Operation completed successfully in {{app}}.",
+      },
+      error: {
+        title: "Error!",
+        description: "There was an error processing your request.",
+      },
+      warning: {
+        title: "Warning!",
+        description: "Please note the details before proceeding.",
+      },
+      info: {
+        title: "Information",
+        description: "Here's some important information.",
+      },
+      default: {
+        title: "Notification",
+        description: "A new notification.",
+      },
+      task: {
+        created: {
+          title: "Task Created",
+          description: "{{count}} new task added successfully.",
+        },
+        deleted: {
+          title: "Task Removed",
+          description: "The task was successfully deleted.",
+        },
+        error: {
+          title: "Task Error",
+          description: "Unable to perform operation on task.",
+        },
+      },
+    },
     dataTable: {
       inputSearch: {
         placeholder: "Filter...",

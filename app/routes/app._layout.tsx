@@ -19,6 +19,7 @@ import { useAuthContext } from "@app/contexts/auth-context";
 import { AppMatch } from "@app/types/breadcrumb";
 import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
+import { withSuccessMessage } from "@app/utils/toast-server";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   MetaFunction,
@@ -42,7 +43,7 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireAuth(request);
-  return {};
+  return withSuccessMessage({}, "toast.success.title", "gg");
 }
 
 export default function AppPage() {

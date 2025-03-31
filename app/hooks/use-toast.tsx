@@ -1,3 +1,4 @@
+import { cn } from "@app/utils/cn";
 import { AlertCircle, CheckCircle, Info, XCircle } from "lucide-react";
 import * as React from "react";
 
@@ -228,9 +229,23 @@ export function ToastContainer() {
             }}
             {...props}
           >
-            <div className="flex">
-              {icon && <div className="mr-3 pt-0.5">{icon}</div>}
-              <div className="grid gap-1">
+            <div className="flex w-full items-start">
+              {icon && (
+                <div
+                  className={cn(
+                    "mr-2 mt-0.5 flex-shrink-0 rounded-full p-1",
+                    variant === "destructive" && "bg-white/90",
+                    variant === "success" && "bg-white/10",
+                    variant === "warning" && "bg-white/10",
+                    variant === "info" && "bg-white/10",
+                    !variant ||
+                      (variant === "default" && "bg-gray-100 dark:bg-gray-800")
+                  )}
+                >
+                  {icon}
+                </div>
+              )}
+              <div className="flex-1 grid gap-0.5">
                 {title && <ToastTitle>{t(title, titleParams)}</ToastTitle>}
                 {description && (
                   <ToastDescription>
@@ -288,7 +303,7 @@ export function ToastContextProvider({
       return toast({
         ...props,
         variant: "success",
-        icon: <CheckCircle className="h-5 w-5" />,
+        icon: <CheckCircle className="h-3.5 w-3.5 text-success" />,
       });
     },
     [toast]
@@ -299,7 +314,7 @@ export function ToastContextProvider({
       return toast({
         ...props,
         variant: "destructive",
-        icon: <XCircle className="h-5 w-5" />,
+        icon: <XCircle className="h-3.5 w-3.5 text-red-600" />,
       });
     },
     [toast]
@@ -310,7 +325,7 @@ export function ToastContextProvider({
       return toast({
         ...props,
         variant: "warning",
-        icon: <AlertCircle className="h-5 w-5" />,
+        icon: <AlertCircle className="h-3.5 w-3.5 text-warning" />,
       });
     },
     [toast]
@@ -321,7 +336,7 @@ export function ToastContextProvider({
       return toast({
         ...props,
         variant: "info",
-        icon: <Info className="h-5 w-5" />,
+        icon: <Info className="h-3.5 w-3.5 text-info" />,
       });
     },
     [toast]

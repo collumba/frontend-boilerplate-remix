@@ -46,7 +46,7 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireAuth(request);
-  const toastResult = await createSuccessToast(
+  const { headers } = await createSuccessToast(
     request,
     "Título do toast", // título
     "Mensagem detalhada", // descrição (opcional)
@@ -58,7 +58,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return json(
     {},
     {
-      headers: toastResult.headers,
+      headers,
     }
   );
 }
@@ -120,7 +120,40 @@ export default function AppPage() {
               })
             }
           >
-            Click me
+            Click me success
+          </Button>
+          <Button
+            onClick={() =>
+              error({
+                title: "toast.error.title",
+                description: "toast.error.description",
+                titleParams: { app: "Toast" },
+              })
+            }
+          >
+            Click me error
+          </Button>
+          <Button
+            onClick={() =>
+              warning({
+                title: "toast.warning.title",
+                description: "toast.warning.description",
+                titleParams: { app: "Toast" },
+              })
+            }
+          >
+            Click me warning
+          </Button>
+          <Button
+            onClick={() =>
+              info({
+                title: "toast.info.title",
+                description: "toast.info.description",
+                titleParams: { app: "Toast" },
+              })
+            }
+          >
+            Click me info
           </Button>
           <Outlet />
         </div>

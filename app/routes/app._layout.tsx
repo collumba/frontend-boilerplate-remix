@@ -7,7 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@app/components/ui/breadcrumb";
-import { Button } from "@app/components/ui/button";
 import { Separator } from "@app/components/ui/separator";
 import ShowError from "@app/components/ui/show-error";
 import {
@@ -16,7 +15,6 @@ import {
   SidebarTrigger,
 } from "@app/components/ui/sidebar";
 import { ROUTES } from "@app/config/routes";
-import { useToast } from "@app/hooks/use-toast";
 import { AppMatch } from "@app/types/breadcrumb";
 import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
@@ -64,7 +62,6 @@ export default function AppPage() {
           : match.handle.breadcrumb;
       return breadcrumb;
     });
-  const { toast, success, error, warning, info } = useToast();
 
   return (
     <SidebarProvider>
@@ -99,50 +96,6 @@ export default function AppPage() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <Button
-            onClick={() =>
-              success({
-                title: "toast.success.title",
-                description: "toast.success.description",
-                titleParams: { app: "Toast" },
-              })
-            }
-          >
-            Click me success
-          </Button>
-          <Button
-            onClick={() =>
-              error({
-                title: "toast.error.title",
-                description: "toast.error.description",
-                titleParams: { app: "Toast" },
-              })
-            }
-          >
-            Click me error
-          </Button>
-          <Button
-            onClick={() =>
-              warning({
-                title: "toast.warning.title",
-                description: "toast.warning.description",
-                titleParams: { app: "Toast" },
-              })
-            }
-          >
-            Click me warning
-          </Button>
-          <Button
-            onClick={() =>
-              info({
-                title: "toast.info.title",
-                description: "toast.info.description",
-                titleParams: { app: "Toast" },
-              })
-            }
-          >
-            Click me info
-          </Button>
           <Outlet />
         </div>
       </SidebarInset>

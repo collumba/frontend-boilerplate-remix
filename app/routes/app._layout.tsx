@@ -7,6 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@app/components/ui/breadcrumb";
+import { Button } from "@app/components/ui/button";
 import { Separator } from "@app/components/ui/separator";
 import ShowError from "@app/components/ui/show-error";
 import {
@@ -16,10 +17,11 @@ import {
 } from "@app/components/ui/sidebar";
 import { ROUTES } from "@app/config/routes";
 import { useAuthContext } from "@app/contexts/auth-context";
+import { useToast } from "@app/hooks/use-toast";
 import { AppMatch } from "@app/types/breadcrumb";
 import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
-import { withSuccessMessage } from "@app/utils/toast-server";
+import { createSuccessToast } from "@app/utils/session.server";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   MetaFunction,
@@ -43,7 +45,13 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireAuth(request);
-  return withSuccessMessage({}, "toast.success.title", "gg");
+  return createSuccessToast(
+    request,
+    "toast.success.title",
+    "gg",
+    undefined,
+    undefined
+  );
 }
 
 export default function AppPage() {
@@ -59,6 +67,7 @@ export default function AppPage() {
           : match.handle.breadcrumb;
       return breadcrumb;
     });
+  const { toast, success, error, warning, info } = useToast();
 
   return (
     <SidebarProvider>
@@ -93,6 +102,17 @@ export default function AppPage() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <Button
+            onClick={() =>
+              success({
+                title: "toast.success.title",
+                description: "toast.success.description",
+                titleParams: { app: "Toast" },
+              })
+            }
+          >
+            Click me
+          </Button>
           <Outlet />
         </div>
       </SidebarInset>

@@ -1,10 +1,12 @@
 import { ROUTES } from "@app/config/routes";
 import { AuthProvider } from "@app/contexts/auth-context";
-import { useLoaderToasts } from "@app/hooks/use-loader-toasts";
+import { useFlashToasts } from "@app/hooks/use-flash-toasts";
 import { ToastContainer, ToastContextProvider } from "@app/hooks/use-toast";
 import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
+import { getToastsAndCommit } from "@app/utils/session.server";
 import {
+  json,
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
@@ -56,19 +58,26 @@ export const links: LinksFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
   const locale = await i18next.getLocale(request);
-  return {
-    theme: getTheme() || Theme.LIGHT,
-    locale,
-  };
+
+  // Obtém toasts da flash session e limpa a session
+  const { messages, headers } = await getToastsAndCommit(request);
+
+  return json(
+    {
+      theme: getTheme() || Theme.LIGHT,
+      locale,
+      toastMessages: messages,
+    },
+    {
+      headers,
+    }
+  );
 }
 
 export default function AppWithProviders() {
   const data = useLoaderData<typeof loader>();
   const [queryClient] = useState(() => new QueryClient());
   const { i18n } = useTranslation();
-
-  // Use os toasts retornados pelo loader
-  useLoaderToasts(useLoaderData());
 
   // Inicializar i18n
   useEffect(() => {
@@ -97,8 +106,8 @@ export function App() {
   const [theme] = useTheme();
   const { i18n } = useTranslation();
 
-  // Use os toasts retornados pelo loader
-  useLoaderToasts(useLoaderData());
+  // Usar o hook abstraído para processar flash toasts
+  useFlashToasts(data.toastMessages);
 
   // Inicializar i18n
   useEffect(() => {

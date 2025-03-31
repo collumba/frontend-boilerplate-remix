@@ -1,17 +1,17 @@
 import { Button } from "@app/components/ui/button";
 import { useToast } from "@app/hooks/use-toast";
 import {
-  withErrorMessage,
-  withInfoMessage,
-  withSuccessMessage,
-  withWarningMessage,
-} from "@app/utils/toast-server";
+  createErrorToast,
+  createInfoToast,
+  createSuccessToast,
+  createWarningToast,
+} from "@app/utils/session.server";
 import {
   json,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useNavigate } from "@remix-run/react";
 import {
   AlertTriangle,
   Bell,
@@ -36,18 +36,58 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const message = url.searchParams.get("message");
   const type = url.searchParams.get("type");
 
-  let data = { todos };
+  console.log("Processando loader da rota todos");
 
+  // Vamos retornar os dados normais
+  const data = { todos };
+
+  // Se tiver mensagem nos parâmetros, vamos adicionar um toast
   if (message) {
+    console.log(`Toast do servidor solicitado: ${type} - ${message}`);
+
+    // Criar o toast baseado no tipo e redirecionar para a mesma rota sem parâmetros
+    // para evitar que o toast seja mostrado novamente ao atualizar a página
     switch (type) {
       case "success":
-        return withSuccessMessage(data, "toast.success.title", message);
+        return createSuccessToast(
+          request,
+          "toast.success.title",
+          message,
+          undefined,
+          undefined,
+          "/todos"
+        );
+
       case "error":
-        return withErrorMessage(data, "toast.error.title", message);
+        return createErrorToast(
+          request,
+          "toast.error.title",
+          message,
+          undefined,
+          undefined,
+          "/todos"
+        );
+
       case "warning":
-        return withWarningMessage(data, "toast.warning.title", message);
+        return createWarningToast(
+          request,
+          "toast.warning.title",
+          message,
+          undefined,
+          undefined,
+          "/todos"
+        );
+
       case "info":
-        return withInfoMessage(data, "toast.info.title", message);
+        return createInfoToast(
+          request,
+          "toast.info.title",
+          message,
+          undefined,
+          undefined,
+          "/todos"
+        );
+
       default:
         return json(data);
     }
@@ -61,31 +101,44 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const intent = formData.get("intent");
 
+  console.log("Processando action:", intent);
+
   if (intent === "create") {
     // Simular criação de tarefa
-    return withSuccessMessage(
-      { success: true },
+    return createSuccessToast(
+      request,
       "toast.task.created.title",
       "toast.task.created.description",
-      { count: "1" }
+      { count: "1" },
+      undefined,
+      "/todos"
     );
   }
 
   if (intent === "delete") {
     const id = formData.get("id");
+    console.log("Excluindo tarefa:", id);
+
     // Simular erro
     if (id === "1") {
-      return withErrorMessage(
-        { success: false },
+      return createErrorToast(
+        request,
         "toast.task.error.title",
-        "toast.task.error.description"
+        "toast.task.error.description",
+        undefined,
+        undefined,
+        "/todos"
       );
     }
+
     // Simular exclusão com sucesso
-    return withSuccessMessage(
-      { success: true },
+    return createSuccessToast(
+      request,
       "toast.task.deleted.title",
-      "toast.task.deleted.description"
+      "toast.task.deleted.description",
+      undefined,
+      undefined,
+      "/todos"
     );
   }
 
@@ -93,8 +146,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function TodosPage() {
-  const { todos } = useLoaderData<typeof loader>();
   const { toast, success, error, warning, info } = useToast();
+  const navigate = useNavigate();
 
   // Exemplo de como usar toasts no cliente
   function handleClientToast(type: string) {
@@ -130,6 +183,13 @@ export default function TodosPage() {
           description: "toast.default.description",
         });
     }
+  }
+
+  // Função para navegar com parâmetros programaticamente
+  // (Alternativa aos links <a> para demonstração)
+  function handleServerToast(type: string) {
+    const message = `Mensagem de ${type} do servidor (programático)`;
+    navigate(`?message=${encodeURIComponent(message)}&type=${type}`);
   }
 
   return (
@@ -183,7 +243,9 @@ export default function TodosPage() {
       </div>
 
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Toasts do Servidor</h2>
+        <h2 className="text-xl font-semibold mb-2">
+          Toasts do Servidor (Links)
+        </h2>
         <p className="mb-4">
           Clique nos links abaixo para simular mensagens retornadas do servidor:
         </p>
@@ -216,6 +278,46 @@ export default function TodosPage() {
               Info do Servidor
             </Button>
           </a>
+        </div>
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">
+          Toasts do Servidor (Programático)
+        </h2>
+        <p className="mb-4">
+          Clique nos botões para simular navegação programática:
+        </p>
+
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant="success"
+            onClick={() => handleServerToast("success")}
+          >
+            <CheckCircle className="mr-2 h-4 w-4" />
+            Sucesso (Programático)
+          </Button>
+
+          <Button
+            variant="destructive"
+            onClick={() => handleServerToast("error")}
+          >
+            <XCircle className="mr-2 h-4 w-4" />
+            Erro (Programático)
+          </Button>
+
+          <Button
+            variant="warning"
+            onClick={() => handleServerToast("warning")}
+          >
+            <AlertTriangle className="mr-2 h-4 w-4" />
+            Aviso (Programático)
+          </Button>
+
+          <Button variant="info" onClick={() => handleServerToast("info")}>
+            <Info className="mr-2 h-4 w-4" />
+            Info (Programático)
+          </Button>
         </div>
       </div>
 

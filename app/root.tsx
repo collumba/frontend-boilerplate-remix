@@ -6,7 +6,6 @@ import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
 import { getToastsAndCommit } from "@app/utils/toast.server";
 import {
-  json,
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
@@ -59,10 +58,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
   const locale = await i18next.getLocale(request);
 
-  // Obtém toasts da flash session e limpa a session
   const { messages, headers } = await getToastsAndCommit(request);
 
-  return json(
+  return Response.json(
     {
       theme: getTheme() || Theme.LIGHT,
       locale,
@@ -70,6 +68,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
     {
       headers,
+      status: 200,
     }
   );
 }

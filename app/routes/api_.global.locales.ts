@@ -1,5 +1,5 @@
 import { resources } from "@app/config/i18n";
-import { type LoaderFunctionArgs, json } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "@remix-run/node";
 import { env } from "env";
 import { cacheHeader } from "pretty-cache-header";
 import { z } from "zod";
@@ -33,5 +33,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
     );
   }
 
-  return json(namespaces[ns], { headers });
+  return Response.json(namespaces[ns], { headers, status: 200 });
 }

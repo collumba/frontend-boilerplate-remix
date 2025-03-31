@@ -16,15 +16,12 @@ import {
   SidebarTrigger,
 } from "@app/components/ui/sidebar";
 import { ROUTES } from "@app/config/routes";
-import { useAuthContext } from "@app/contexts/auth-context";
 import { useToast } from "@app/hooks/use-toast";
 import { AppMatch } from "@app/types/breadcrumb";
 import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
-import { createSuccessToast } from "@app/utils/toast.server";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
-  json,
   MetaFunction,
   Outlet,
   useMatches,
@@ -46,19 +43,11 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireAuth(request);
-  const { headers } = await createSuccessToast(
-    request,
-    "Título do toast", // título
-    "Mensagem detalhada", // descrição (opcional)
-    {}, // parâmetros de tradução do título (opcional)
-    {} // parâmetros de tradução da descrição (opcional)
-  );
 
-  // Retornar os dados + headers do toast
-  return json(
+  return Response.json(
     {},
     {
-      headers,
+      status: 200,
     }
   );
 }
@@ -66,7 +55,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function AppPage() {
   const matches = useMatches() as AppMatch[];
   const { t } = useTranslation();
-  const { user } = useAuthContext();
   const breadcrumbs = matches
     .filter((match) => match.handle?.breadcrumb)
     .map((match) => {

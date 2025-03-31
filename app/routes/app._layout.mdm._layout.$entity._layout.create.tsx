@@ -1,7 +1,7 @@
 import EntityForm from "@app/components/entity-form";
 import { ENTITY_CONFIG } from "@app/config/mdm";
 import { EntityType } from "@app/types/mdm";
-import { json, LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 export const handle = {
@@ -18,7 +18,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     throw new Response("Entity not found", { status: 404 });
   }
 
-  return json({ entity });
+  return Response.json({ entity }, { status: 200 });
 }
 
 export default function MassDataManagementCreatePage() {

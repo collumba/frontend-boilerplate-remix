@@ -11,7 +11,7 @@ import { useDataTable } from "@app/hooks/useDataTable";
 import { MdmService } from "@app/services/mdm";
 import { EntityMap, EntityType } from "@app/types/mdm";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { json, useLoaderData, useNavigate } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { PlusIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -30,7 +30,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     throw new Response("Entity not found", { status: 404 });
   }
 
-  return json({ entity });
+  return Response.json({ entity }, { status: 200 });
 }
 
 export default function MassDataManagementListPage() {

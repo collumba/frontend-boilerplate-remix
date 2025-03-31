@@ -1,9 +1,9 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 
-// Tipos de toasts suportados
+// Supported toast types
 export type ToastType = "success" | "error" | "warning" | "info" | "default";
 
-// Interface para toast messages
+// Interface for toast messages
 export interface ToastMessage {
   type: ToastType;
   title?: string;
@@ -12,21 +12,21 @@ export interface ToastMessage {
   descriptionParams?: Record<string, string>;
 }
 
-// Configuração do session storage
+// Session storage configuration
 const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "app_flash_messages",
     httpOnly: true,
     path: "/",
     sameSite: "lax",
-    secrets: ["s3cr3t"], // Trocar por um segredo real em produção
+    secrets: ["s3cr3t"], // Replace with a real secret in production
     secure: process.env.NODE_ENV === "production",
-    maxAge: 60, // 60 segundos, já que são flash messages
+    maxAge: 60, // 60 seconds, since they are flash messages
   },
 });
 
 /**
- * Função para obter a session do request
+ * Function to get the session from the request
  */
 export async function getSession(request: Request) {
   const cookie = request.headers.get("Cookie");
@@ -34,7 +34,7 @@ export async function getSession(request: Request) {
 }
 
 /**
- * Adiciona uma flash message na session e redireciona para uma URL
+ * Adds a flash message to the session and redirects to a URL
  */
 export async function createToastAndRedirect(
   request: Request,
@@ -63,23 +63,23 @@ export async function createToastAndRedirect(
 }
 
 /**
- * Obtém todas as flash messages da session e limpa a session
+ * Gets all flash messages from the session and clears the session
  */
 export async function getToastsAndCommit(request: Request) {
   const session = await getSession(request);
 
-  // Obtém todas as mensagens
+  // Get all messages
   const messages = (session.get("toasts") || []) as ToastMessage[];
 
-  console.log(`Obtidas ${messages.length} mensagens da flash session`);
+  console.log(`Got ${messages.length} messages from the flash session`);
   if (messages.length > 0) {
-    console.log(`Mensagens: ${JSON.stringify(messages)}`);
+    console.log(`Messages: ${JSON.stringify(messages)}`);
   }
 
-  // Limpa as mensagens (flash)
+  // Clear messages (flash)
   session.unset("toasts");
 
-  // Retorna as mensagens e um cabeçalho para limpar a session
+  // Return messages and a header to clear the session
   return {
     messages,
     headers: {
@@ -89,7 +89,7 @@ export async function getToastsAndCommit(request: Request) {
 }
 
 /**
- * Cria um toast genérico na session e retorna os headers
+ * Creates a generic toast in the session and returns the headers
  */
 function setToastInSession(message: ToastMessage, session: any) {
   const messages = (session.get("toasts") || []) as ToastMessage[];
@@ -98,7 +98,7 @@ function setToastInSession(message: ToastMessage, session: any) {
 }
 
 /**
- * Utilitários para criar toasts específicos
+ * Utilities to create specific toasts
  */
 export async function createSuccessToast(
   request: Request,

@@ -21,9 +21,10 @@ import { useToast } from "@app/hooks/use-toast";
 import { AppMatch } from "@app/types/breadcrumb";
 import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
-import { createSuccessToast } from "@app/utils/session.server";
+import { createSuccessToast } from "@app/utils/toast.server";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
+  json,
   MetaFunction,
   Outlet,
   useMatches,
@@ -45,12 +46,20 @@ export const handle = {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireAuth(request);
-  return createSuccessToast(
+  const toastResult = await createSuccessToast(
     request,
-    "toast.success.title",
-    "gg",
-    undefined,
-    undefined
+    "Título do toast", // título
+    "Mensagem detalhada", // descrição (opcional)
+    {}, // parâmetros de tradução do título (opcional)
+    {} // parâmetros de tradução da descrição (opcional)
+  );
+
+  // Retornar os dados + headers do toast
+  return json(
+    {},
+    {
+      headers: toastResult.headers,
+    }
   );
 }
 

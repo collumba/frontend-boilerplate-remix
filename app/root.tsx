@@ -4,7 +4,7 @@ import { useFlashToasts } from "@app/hooks/use-flash-toasts";
 import { ToastContainer, ToastContextProvider } from "@app/hooks/use-toast";
 import i18next from "@app/modules/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
-import { getToastsAndCommit } from "@app/utils/session.server";
+import { getToastsAndCommit } from "@app/utils/toast.server";
 import {
   json,
   LinksFunction,

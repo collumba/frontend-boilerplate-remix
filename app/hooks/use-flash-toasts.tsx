@@ -1,10 +1,10 @@
 import { useToast } from "@app/hooks/use-toast";
-import { ToastMessage } from "@app/utils/session.server";
+import { ToastMessage } from "@app/utils/toast.server";
 import { useEffect, useRef } from "react";
 
 /**
- * Hook para processar toast messages da flash session
- * Abstraído do root para manter o código mais organizado
+ * Hook for processing toast messages from the flash session
+ * Abstracted from root to keep the code more organized
  */
 export function useFlashToasts(messages?: ToastMessage[]) {
   const { toast, success, error, warning, info } = useToast();
@@ -12,10 +12,7 @@ export function useFlashToasts(messages?: ToastMessage[]) {
 
   useEffect(() => {
     if (messages && messages.length > 0) {
-      console.log(
-        "useFlashToasts: Processando toasts da flash session:",
-        messages
-      );
+      console.log("useFlashToasts: Processing flash session toasts:", messages);
 
       // Verifica se há mensagens novas para processar
       const newMessages = messages.filter(
@@ -26,14 +23,11 @@ export function useFlashToasts(messages?: ToastMessage[]) {
       );
 
       if (newMessages.length === 0) {
-        console.log("useFlashToasts: Todas as mensagens já foram processadas");
+        console.log("useFlashToasts: All messages already processed");
         return;
       }
 
-      console.log(
-        "useFlashToasts: Novas mensagens para processar:",
-        newMessages
-      );
+      console.log("useFlashToasts: New messages to process:", newMessages);
 
       newMessages.forEach((msg, index) => {
         const { type, title, description, titleParams, descriptionParams } =
@@ -43,7 +37,7 @@ export function useFlashToasts(messages?: ToastMessage[]) {
         // Marca a mensagem como processada
         processedMessagesRef.current.push(messageId);
 
-        console.log(`useFlashToasts: Exibindo toast: ${type} - ${title}`);
+        console.log(`useFlashToasts: Displaying toast: ${type} - ${title}`);
 
         switch (type) {
           case "success":

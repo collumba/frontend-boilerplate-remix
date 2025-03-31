@@ -2,6 +2,7 @@ import { ROUTES } from "@app/config/routes";
 import { authService } from "@app/services/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useToast } from "./use-toast";
 
 interface User {
   id: number;
@@ -18,6 +19,7 @@ export function useAuth() {
     typeof window !== "undefined" ? !!authService.getToken() : false;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
   const [user, setUser] = useState<User | null>(null);
+  const toast = useToast();
 
   const {
     data: authData,
@@ -80,6 +82,13 @@ export function useAuth() {
     onSuccess: (response) => {
       setIsAuthenticated(true);
       setUser(response.user);
+    },
+    onError: (error) => {
+      toast.error({
+        title: "toast.error.title",
+        description: error.message || "toast.error.description",
+        titleParams: { app: "Toast" },
+      });
     },
   });
 

@@ -4,6 +4,7 @@ import { Label } from "@app/components/ui/label";
 import { Link } from "@app/components/ui/link";
 import { Muted, Typography } from "@app/components/ui/typography";
 import { ROUTES } from "@app/config/routes";
+import { useToast } from "@app/hooks/use-toast";
 import { authService } from "@app/services/auth";
 import { cn } from "@app/utils/cn";
 import { useNavigate } from "@remix-run/react";
@@ -19,8 +20,8 @@ export function LoginForm({
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(false);
+  const toast = useToast();
 
   const { mutate: login, isPending } = useMutation({
     mutationFn: async (credentials: {
@@ -33,10 +34,13 @@ export function LoginForm({
       window.location.href = ROUTES.app.root;
     },
     onError: (err: any) => {
-      setError(
-        err.response?.data?.error?.message ||
-          "Falha na autenticação. Verifique suas credenciais."
-      );
+      toast.error({
+        title: "component.toast.error.title",
+        description:
+          err.response?.data?.error?.message ||
+          "component.toast.error.description",
+        titleParams: { app: "Toast" },
+      });
     },
   });
 
@@ -46,7 +50,6 @@ export function LoginForm({
       {...props}
       onSubmit={(e) => {
         e.preventDefault();
-        setError(null);
         login({
           identifier: email,
           password,
@@ -60,11 +63,6 @@ export function LoginForm({
         </Muted>
       </div>
       <div className="grid gap-6">
-        {error && (
-          <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-            {error}
-          </div>
-        )}
         <div className="grid gap-3">
           <Label htmlFor="email">{t("auth.login.email")}</Label>
           <Input

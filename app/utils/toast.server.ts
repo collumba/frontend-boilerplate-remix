@@ -51,10 +51,6 @@ export async function createToastAndRedirect(
   // Cria o cabeçalho Set-Cookie e redireciona
   const cookieHeader = await sessionStorage.commitSession(session);
 
-  console.log(`Criando toast e redirecionando para ${redirectTo}`);
-  console.log(`Cookie header: ${cookieHeader}`);
-  console.log(`Mensagem: ${JSON.stringify(message)}`);
-
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": cookieHeader,
@@ -70,11 +66,6 @@ export async function getToastsAndCommit(request: Request) {
 
   // Get all messages
   const messages = (session.get("toasts") || []) as ToastMessage[];
-
-  console.log(`Got ${messages.length} messages from the flash session`);
-  if (messages.length > 0) {
-    console.log(`Messages: ${JSON.stringify(messages)}`);
-  }
 
   // Clear messages (flash)
   session.unset("toasts");

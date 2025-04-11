@@ -31,6 +31,101 @@ Este boilerplate inclui:
 - Hooks personalizados para lógica reutilizável
 - Funções utilitárias para tarefas comuns
 
+## Implementações Detalhadas
+
+O boilerplate contém as seguintes implementações:
+
+1. **Core Framework**:
+
+   - Remix.run setup com TypeScript
+   - Integração com React 18
+   - React Query para busca e cache de dados
+
+2. **Sistema de Componentes UI**:
+
+   - Biblioteca abrangente com mais de 35 componentes:
+     - Básicos: Button, Input, Textarea, Select
+     - Avançados: DataTable, MultiSelect, MaskedInput
+     - Layout: Card, Dialog, Popover, Sidebar
+     - Feedback: Toast, Skeleton, EmptyState
+     - Componentes de formulário com suporte a validação
+   - Componentes responsivos
+   - Alternância de temas (modo claro/escuro)
+
+3. **Autenticação & Autorização**:
+
+   - Sistema de autenticação com formulários de login/registro
+   - Contexto e hooks de autenticação
+   - Rotas protegidas
+
+4. **Internacionalização (i18n)**:
+
+   - Suporte para múltiplos idiomas
+   - Componente de troca de idioma
+   - Conteúdo localizado
+
+5. **Formulários & Validação**:
+
+   - Componentes de formulário com validação
+   - Formulário de entidade com manipulação de dados complexos
+   - Suporte a input com máscara
+
+6. **Gerenciamento de Dados**:
+
+   - Módulo MDM (Master Data Management)
+   - Camada de serviço API
+   - Hooks para busca de dados (useTable, useDataTable)
+
+7. **Navegação & Layout**:
+
+   - Sidebar da aplicação
+   - Componentes de navegação (NavMain, NavUser, NavProjects)
+   - Layouts de página
+   - Navegação por breadcrumb
+
+8. **Roteamento**:
+
+   - Estrutura de rotas aninhadas
+   - Roteamento baseado em layout
+   - Rotas de API para funcionalidades de backend
+
+9. **Gerenciamento de Estado**:
+
+   - Implementação da Context API
+   - React Query para estado do servidor
+   - Hooks personalizados para gerenciamento de estado
+
+10. **Estilização & Sistema de Design**:
+
+    - Integração com Tailwind CSS
+    - Padrões consistentes de UI/UX
+    - Sistema de tipografia
+    - Tematização personalizada
+
+11. **Utilitários**:
+
+    - Sistema de notificações toast
+    - Gerenciamento de cookies
+    - Formatação de datas
+    - Componentes apenas para cliente
+    - Tratamento de erros
+
+12. **Experiência do Desenvolvedor**:
+
+    - Configuração TypeScript
+    - Configuração ESLint
+    - Integração com VS Code
+    - Documentação
+
+13. **Integração com API**:
+
+    - Wrapper Fetch
+    - Manipulação de requisições/respostas
+    - Tratamento de erros
+
+14. **Configuração de Testes**:
+    - Configuração Vitest para testes
+
 ## Começando
 
 ### Pré-requisitos

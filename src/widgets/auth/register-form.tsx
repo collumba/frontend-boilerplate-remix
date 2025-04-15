@@ -1,15 +1,15 @@
 import { useAuthContext } from "@/app/providers/auth-context";
 import { useToast } from "@/app/providers/toast-context";
-import { authService } from "@/shared/api/auth";
+import { AuthResponse, RegisterData } from "@/shared/api/auth";
 import { ROUTES } from "@/shared/config/routes";
 import { cn } from "@/shared/lib/cn";
+import { useApiMutation } from "@/shared/lib/query/query-hooks";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Link } from "@/shared/ui/link";
 import { Muted, Typography } from "@/shared/ui/typography";
 import { useNavigate } from "@remix-run/react";
-import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -25,23 +25,10 @@ export function RegisterForm({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { actions } = useToast();
-  const { mutate: register, isPending } = useMutation({
-    mutationFn: async () => {
-      // Validações básicas
-      if (password !== confirmPassword) {
-        throw new Error(t("auth.register.error.passwordMismatch"));
-      }
-
-      if (password.length < 6) {
-        throw new Error(t("auth.register.error.passwordTooShort"));
-      }
-
-      return authService.register({
-        username,
-        email,
-        password,
-      });
-    },
+  const { mutate: register, isPending } = useApiMutation<
+    AuthResponse,
+    RegisterData
+  >("/auth/local/register", "post", {
     onSuccess: async () => {
       await checkAuth();
       navigate(ROUTES.app.root);
@@ -59,7 +46,11 @@ export function RegisterForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    register();
+    register({
+      username,
+      email,
+      password,
+    });
   };
 
   return (

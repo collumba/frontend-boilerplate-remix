@@ -32,8 +32,6 @@ export function useApiMutation<TData, TVariables>(
   method: "post" | "put" | "patch" | "delete" = "post",
   options?: UseMutationOptions<TData, ApiError, TVariables>
 ) {
-  const queryClient = useQueryClient();
-
   return useMutation<TData, ApiError, TVariables>({
     mutationFn: async (variables) => {
       try {

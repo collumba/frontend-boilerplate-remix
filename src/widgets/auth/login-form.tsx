@@ -1,13 +1,13 @@
-import { authService } from "@/shared/api/auth";
+import { AuthResponse } from "@/shared/api/auth";
 import { ROUTES } from "@/shared/config/routes";
 import { cn } from "@/shared/lib/cn";
+import { useApiMutation } from "@/shared/lib/query/query-hooks";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Link } from "@/shared/ui/link";
 import { Muted, Typography } from "@/shared/ui/typography";
 import { useNavigate } from "@remix-run/react";
-import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -22,20 +22,17 @@ export function LoginForm({
   const [error, setError] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const { mutate: login, isPending } = useMutation({
-    mutationFn: async (credentials: {
-      identifier: string;
-      password: string;
-    }) => {
-      return authService.login(credentials);
-    },
+  const { mutate: login, isPending } = useApiMutation<
+    AuthResponse,
+    { identifier: string; password: string }
+  >("/auth/local", "post", {
     onSuccess: () => {
       window.location.href = ROUTES.app.root;
     },
     onError: (err: any) => {
       setError(
         err.response?.data?.error?.message ||
-          "Falha na autenticação. Verifique suas credenciais."
+          "Authentication failed. Please check your credentials."
       );
     },
   });

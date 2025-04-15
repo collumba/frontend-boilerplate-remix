@@ -6,13 +6,13 @@ interface LoginCredentials {
   password: string;
 }
 
-interface RegisterData {
+export interface RegisterData {
   username: string;
   email: string;
   password: string;
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   jwt: string;
   user: {
     id: number;

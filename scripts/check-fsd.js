@@ -154,7 +154,7 @@ Object.keys(expectedDirectories).forEach((layerName) => {
 });
 
 if (structureViolations.length > 0) {
-  console.log("\n⚠️ Directory structure violations:");
+  console.log("\n⚠️  Directory structure violations:");
   structureViolations.forEach((v) => {
     console.log(`  - ${v.directory}: ${v.message}`);
   });
@@ -181,7 +181,7 @@ tsFiles.forEach((file) => {
 });
 
 if (importViolations.length > 0) {
-  console.log("\n⚠️ Import violations:");
+  console.log("\n⚠️  Import violations:");
   importViolations.forEach((v) => {
     console.log(`  - ${v.file}: ${v.message} (import: ${v.import})`);
   });

@@ -36,19 +36,19 @@ interface AuthContextType {
   checkAuth: (options?: RefetchOptions) => Promise<any>;
 }
 
-// Criar contexto com um valor padrão vazio
+// Create context with a default empty value
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Hook personalizado para usar o contexto
+// Custom hook to use the context
 export function useAuthContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuthContext deve ser usado dentro de um AuthProvider");
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
   return context;
 }
 
-// Provider do contexto de autenticação
+// Authentication context provider
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useAuth();
 

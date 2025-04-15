@@ -60,6 +60,34 @@ export default function ToastExamplePage() {
     <div className="container mx-auto p-6 space-y-8">
       <Typography variant="h1">Toast Examples</Typography>
       <div className="space-y-4">
+        <Typography variant="h2">Technologies Used</Typography>
+        <div className="prose dark:prose-invert">
+          <p>The toast system uses several key technologies:</p>
+          <ul>
+            <li>
+              <strong>Remix Session Storage:</strong> Uses cookie-based session
+              storage to persist toast messages between server and client
+            </li>
+            <li>
+              <strong>React Context:</strong> Implements a ToastContext to
+              manage toast state and actions across the application
+            </li>
+            <li>
+              <strong>i18n Integration:</strong> Supports internationalization
+              through react-i18next for translated toast messages
+            </li>
+            <li>
+              <strong>Server-Side Rendering:</strong> Supports both client-side
+              and server-side toast generation
+            </li>
+            <li>
+              <strong>Type Safety:</strong> Uses TypeScript for type-safe toast
+              message handling
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="space-y-4">
         <Typography variant="h2">Client-side Toasts</Typography>
         <div className="flex flex-wrap gap-2">
           <Button

@@ -10,8 +10,8 @@
     "cssVariables": true
   },
   "aliases": {
-    "components": "@app/components",
-    "utils": "@app/components/lib/utils",
-    "hooks": "@app/components/hooks"
+    "components": "@app/shared/ui",
+    "utils": "@app/shared/ui/lib",
+    "hooks": "@app/shared/ui/lib/hooks"
   }
 }

@@ -3,7 +3,7 @@ import {
   useToast,
   useToastI18n,
 } from "@app/app/providers/toast-context";
-import { ToastContainer } from "@app/widgets/toast/toast-container";
+import { ToastContainer } from "@app/widgets/toast";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 

@@ -7,7 +7,7 @@ import {
   getToastMessages,
 } from "@app/modules/toast/session.server";
 import { ROUTES } from "@app/shared/config/routes";
-import { ToastContainer } from "@app/widgets/toast/toast-container";
+import { ToastContainer } from "@app/widgets/toast";
 import { LinksFunction, LoaderFunctionArgs, json } from "@remix-run/node";
 import {
   Links,

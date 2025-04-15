@@ -1,7 +1,7 @@
-import { ToastContainer } from "@app/components/toast-container";
-import { ToastContext } from "@app/contexts/toast-context";
-import { ToastMessage } from "@app/modules/toast/session.server";
 import { act, render, screen } from "@testing-library/react";
+import { ToastContext, ToastProvider } from "src/app/providers/toast-context";
+import { ToastMessage } from "src/modules/toast/session.server";
+import { ToastContainer } from "src/widgets/toast/toast-container";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 // Mock useToast hook context
@@ -28,9 +28,9 @@ describe("ToastContainer Component", () => {
 
   test("should render nothing when there are no toasts", () => {
     render(
-      <ToastContext.Provider value={createMockToastContext()}>
+      <ToastProvider>
         <ToastContainer />
-      </ToastContext.Provider>
+      </ToastProvider>
     );
 
     expect(
@@ -57,9 +57,9 @@ describe("ToastContainer Component", () => {
     ];
 
     render(
-      <ToastContext.Provider value={createMockToastContext(mockToasts)}>
+      <ToastProvider>
         <ToastContainer />
-      </ToastContext.Provider>
+      </ToastProvider>
     );
 
     expect(screen.getByText("Success Toast")).toBeInTheDocument();

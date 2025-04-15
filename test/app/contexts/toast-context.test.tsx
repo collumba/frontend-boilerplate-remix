@@ -1,10 +1,10 @@
-import { ToastContainer } from "@app/components/toast-container";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import {
   ToastProvider,
   useToast,
   useToastI18n,
-} from "@app/contexts/toast-context";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+} from "src/app/providers/toast-context";
+import { ToastContainer } from "src/widgets/toast/toast-container";
 import { describe, expect, test, vi } from "vitest";
 
 // Mock for react-i18next

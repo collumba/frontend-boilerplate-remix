@@ -153,6 +153,9 @@ export default {
         title: "Notification",
         description: "A new notification.",
       },
+      language: {
+        changed: "Language changed to {{language}}",
+      },
     },
     dataTable: {
       inputSearch: {

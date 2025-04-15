@@ -80,7 +80,6 @@ export class MdmService<T extends EntityType> {
 
       return data.options || [];
     } catch (error) {
-      console.error("Error fetching options from API:", error);
       return [];
     }
   }

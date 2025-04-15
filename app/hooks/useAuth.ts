@@ -1,7 +1,9 @@
 import { ROUTES } from "@app/config/routes";
+import { useToast } from "@app/contexts/toast-context";
 import { authService } from "@app/services/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface User {
   id: number;
@@ -18,7 +20,8 @@ export function useAuth() {
     typeof window !== "undefined" ? !!authService.getToken() : false;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
   const [user, setUser] = useState<User | null>(null);
-
+  const { actions } = useToast();
+  const { t } = useTranslation();
   const {
     data: authData,
     refetch: checkAuth,
@@ -42,7 +45,11 @@ export function useAuth() {
           user: null,
         };
       } catch (error) {
-        console.error("Auth check failed:", error);
+        actions.addToast({
+          title: t("auth.error.checkAuth"),
+          description: t("auth.error.checkAuthDescription"),
+          type: "error",
+        });
         if (typeof window !== "undefined") {
           authService.logout();
         }
@@ -81,6 +88,13 @@ export function useAuth() {
       setIsAuthenticated(true);
       setUser(response.user);
     },
+    onError: () => {
+      actions.addToast({
+        title: t("auth.error.login"),
+        description: t("auth.error.loginDescription"),
+        type: "error",
+      });
+    },
   });
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
@@ -93,6 +107,13 @@ export function useAuth() {
       setIsAuthenticated(false);
       setUser(null);
       window.location.href = ROUTES.auth.login;
+    },
+    onError: () => {
+      actions.addToast({
+        title: t("auth.error.logout"),
+        description: t("auth.error.logoutDescription"),
+        type: "error",
+      });
     },
   });
 

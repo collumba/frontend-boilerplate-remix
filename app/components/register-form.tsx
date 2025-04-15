@@ -5,6 +5,7 @@ import { Link } from "@app/components/ui/link";
 import { Muted, Typography } from "@app/components/ui/typography";
 import { ROUTES } from "@app/config/routes";
 import { useAuthContext } from "@app/contexts/auth-context";
+import { useToast } from "@app/contexts/toast-context";
 import { authService } from "@app/services/auth";
 import { cn } from "@app/utils/cn";
 import { useNavigate } from "@remix-run/react";
@@ -23,7 +24,7 @@ export function RegisterForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const { actions } = useToast();
   const { mutate: register, isPending } = useMutation({
     mutationFn: async () => {
       // Validações básicas
@@ -46,16 +47,16 @@ export function RegisterForm({
       navigate(ROUTES.app.root);
     },
     onError: (err: any) => {
-      setError(
-        err.response?.data?.error?.message ||
-          t("auth.register.error.registrationFailed")
-      );
+      actions.addToast({
+        title: t("auth.error.register"),
+        description: t("auth.error.registerDescription"),
+        type: "error",
+      });
     },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     register();
   };
 
@@ -72,11 +73,6 @@ export function RegisterForm({
         </Muted>
       </div>
       <div className="grid gap-6">
-        {error && (
-          <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-            {error}
-          </div>
-        )}
         <div className="grid gap-3">
           <Label htmlFor="username">{t("auth.register.username")}</Label>
           <Input

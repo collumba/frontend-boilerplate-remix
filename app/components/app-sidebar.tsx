@@ -25,6 +25,7 @@ import {
   SidebarRail,
 } from "@app/components/ui/sidebar";
 import { NavMdm } from "./nav-mdm";
+import { NavResources } from "./nav-resources";
 import { LocaleToggle } from "./ui/locale-toggle";
 import { ThemeToggle } from "./ui/theme-toggle";
 
@@ -167,6 +168,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         {/* <NavMain items={data.navMain} /> */}
         <NavMdm />
+        <NavResources />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>

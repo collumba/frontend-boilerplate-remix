@@ -19,20 +19,6 @@ import { ENTITY_CONFIG } from "@app/config/mdm";
 import { ROUTES } from "@app/config/routes";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useTranslation } from "react-i18next";
-// {
-//   items,
-// }: {
-//   items: {
-//     title: string;
-//     url: string;
-//     icon?: LucideIcon;
-//     isActive?: boolean;
-//     items?: {
-//       title: string;
-//       url: string;
-//     }[];
-//   }[];
-// }
 
 export function NavMdm() {
   const { t } = useTranslation();

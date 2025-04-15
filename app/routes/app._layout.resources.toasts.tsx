@@ -60,29 +60,115 @@ export default function ToastExamplePage() {
     <div className="container mx-auto p-6 space-y-8">
       <Typography variant="h1">Toast Examples</Typography>
       <div className="space-y-4">
-        <Typography variant="h2">Technologies Used</Typography>
+        <Typography variant="h2">Tecnologias Utilizadas</Typography>
         <div className="prose dark:prose-invert">
-          <p>The toast system uses several key technologies:</p>
-          <ul>
-            <li>
-              <strong>Remix Session Storage:</strong> Uses cookie-based session
-              storage to persist toast messages between server and client
+          <p>O sistema de toasts utiliza as seguintes tecnologias:</p>
+          <ul className="space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Remix Session Storage:
+              </span>
+              <span>
+                Utiliza armazenamento de sessão baseado em cookies para
+                persistir mensagens entre servidor e cliente
+              </span>
             </li>
-            <li>
-              <strong>React Context:</strong> Implements a ToastContext to
-              manage toast state and actions across the application
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">React Context:</span>
+              <span>
+                Implementa um ToastContext para gerenciar estado e ações dos
+                toasts na aplicação
+              </span>
             </li>
-            <li>
-              <strong>i18n Integration:</strong> Supports internationalization
-              through react-i18next for translated toast messages
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">Integração i18n:</span>
+              <span>
+                Suporta internacionalização através do react-i18next para
+                mensagens traduzidas
+              </span>
             </li>
-            <li>
-              <strong>Server-Side Rendering:</strong> Supports both client-side
-              and server-side toast generation
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Renderização no Servidor:
+              </span>
+              <span>
+                Suporta geração de toasts tanto no cliente quanto no servidor
+              </span>
             </li>
-            <li>
-              <strong>Type Safety:</strong> Uses TypeScript for type-safe toast
-              message handling
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">Tipagem Segura:</span>
+              <span>
+                Utiliza TypeScript para manipulação segura de mensagens
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="space-y-4">
+        <Typography variant="h2">Boas Práticas</Typography>
+        <div className="prose dark:prose-invert">
+          <p>Siga estas boas práticas ao usar toasts em sua aplicação:</p>
+          <ul className="space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Mantenha as Mensagens Concisas:
+              </span>
+              <span>
+                As mensagens devem ser curtas e objetivas, idealmente não mais
+                que uma ou duas linhas
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Use Tipos Apropriados:
+              </span>
+              <span>
+                Escolha o tipo correto (sucesso, erro, aviso, informação)
+                baseado no contexto
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Limite a Frequência:
+              </span>
+              <span>
+                Evite mostrar múltiplos toasts em sequência para não
+                sobrecarregar os usuários
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Inclua Ações Claras:
+              </span>
+              <span>
+                Quando apropriado, forneça próximos passos ou ações claras na
+                mensagem
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Considere Acessibilidade:
+              </span>
+              <span>
+                Garanta que as mensagens sejam acessíveis a leitores de tela e
+                sigam as diretrizes WCAG
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">Use Traduções:</span>
+              <span>
+                Sempre utilize o sistema de tradução para mensagens, suportando
+                internacionalização
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-primary">
+                Servidor vs Cliente:
+              </span>
+              <span>
+                Use toasts do servidor para ações que requerem recarregamento de
+                página, e do cliente para feedback imediato
+              </span>
             </li>
           </ul>
         </div>

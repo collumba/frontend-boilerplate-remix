@@ -8,7 +8,7 @@ This project is organized following the Feature Slice Design architecture patter
   - **providers/** - Global providers (contexts, shared providers)
   - **styles/** - Global styles
   - **layouts/** - Global layouts used across multiple features
-- **routes/** - Routing layer: route components, layouts specific to routes
+- **pages/** - Routing layer: route components, layouts specific to routes
   - Route components with minimal logic that compose widgets/features
 - **widgets/** - Composite UI blocks used on pages
   - Widgets can use features and entities but shouldn't know about pages
@@ -40,3 +40,10 @@ This project is organized following the Feature Slice Design architecture patter
 - Isolated features that are easier to maintain and test
 - Code organization that mirrors business domain
 - Enables parallel development by different teams
+
+## Project Structure Notes
+
+This project uses:
+
+1. "src" as the root directory instead of traditional "app"
+2. "pages" directory instead of "routes" for Remix routes

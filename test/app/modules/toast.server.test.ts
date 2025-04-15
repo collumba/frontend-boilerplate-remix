@@ -1,4 +1,8 @@
 /// <reference types="vitest" />
+import {
+  jsonWithToastNotification,
+  redirectWithToastNotification,
+} from "@app/modules/toast/toast.server";
 import { expect, test, vi } from "vitest";
 
 // Mock modules
@@ -23,12 +27,6 @@ vi.mock("@app/modules/toast/session.server", () => {
 vi.mock("crypto", () => ({
   randomUUID: () => "test-id-123",
 }));
-
-// Import modules after mocking
-import {
-  jsonWithToastNotification,
-  redirectWithToastNotification,
-} from "./toast.server";
 
 // Test
 test("jsonWithToastNotification works", async () => {

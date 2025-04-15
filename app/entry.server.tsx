@@ -1,7 +1,7 @@
 import { PassThrough } from "node:stream";
 
 import * as i18n from "@app/config/i18n";
-import i18nServer from "@app/modules/i18n.server";
+import i18nServer from "@app/modules/i18n/i18n.server";
 import type { AppLoadContext, EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";

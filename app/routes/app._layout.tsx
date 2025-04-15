@@ -16,8 +16,8 @@ import {
 } from "@app/components/ui/sidebar";
 import { ROUTES } from "@app/config/routes";
 import { useAuthContext } from "@app/contexts/auth-context";
+import { requireAuth } from "@app/modules/auth/auth-server";
 import { AppMatch } from "@app/types/breadcrumb";
-import { requireAuth } from "@app/utils/auth-server";
 import ErrorBoundaryParserError from "@app/utils/error-bondary";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {

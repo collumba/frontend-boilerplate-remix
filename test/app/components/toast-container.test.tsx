@@ -1,8 +1,8 @@
+import { ToastContainer } from "@app/components/toast-container";
 import { ToastContext } from "@app/contexts/toast-context";
 import { ToastMessage } from "@app/modules/toast/session.server";
 import { act, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { ToastContainer } from "./toast-container";
 
 // Mock useToast hook context
 const mockRemoveToast = vi.fn();

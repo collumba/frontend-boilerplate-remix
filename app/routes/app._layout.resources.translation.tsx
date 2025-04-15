@@ -8,8 +8,8 @@ import {
 import { Typography } from "@app/components/ui/typography";
 import { supportedLngsConfig } from "@app/config/i18n";
 import { useToast, useToastI18n } from "@app/contexts/toast-context";
-import i18nServer from "@app/modules/i18n.server";
-import { jsonWithToastNotification } from "@app/utils/toast.server";
+import i18nServer from "@app/modules/i18n/i18n.server";
+import { jsonWithToastNotification } from "@app/modules/toast/toast.server";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import { env } from "env";
 import { useTranslation } from "react-i18next";

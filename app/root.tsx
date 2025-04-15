@@ -2,7 +2,7 @@ import { ToastContainer } from "@app/components/toast-container";
 import { ROUTES } from "@app/config/routes";
 import { AuthProvider } from "@app/contexts/auth-context";
 import { ToastProvider } from "@app/contexts/toast-context";
-import i18next from "@app/modules/i18n.server";
+import i18next from "@app/modules/i18n/i18n.server";
 import { themeSessionResolver } from "@app/modules/theme/sessions.server";
 import {
   clearToastMessages,

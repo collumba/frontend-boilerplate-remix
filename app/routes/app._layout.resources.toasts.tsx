@@ -4,7 +4,7 @@ import { useToast, useToastI18n } from "@app/contexts/toast-context";
 import {
   jsonWithToastNotification,
   redirectWithToastNotification,
-} from "@app/utils/toast.server";
+} from "@app/modules/toast/toast.server";
 import { Form } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 

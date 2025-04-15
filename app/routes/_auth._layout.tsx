@@ -1,7 +1,7 @@
 import { Link } from "@app/components/ui/link";
 import { LocaleToggle } from "@app/components/ui/locale-toggle";
 import { ROUTES } from "@app/config/routes";
-import { requireGuest } from "@app/utils/auth-server";
+import { requireGuest } from "@app/modules/auth/auth-server";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { MetaFunction, Outlet } from "@remix-run/react";
 import { GalleryVerticalEnd } from "lucide-react";

@@ -1,9 +1,9 @@
 import { ROUTES } from "@app/config/routes";
+import { hasAuthToken } from "@app/utils/cookie";
 import { redirect } from "@remix-run/node";
-import { hasAuthToken } from "./cookie";
 
 /**
- * Verifica se o usuário está autenticado no servidor e redireciona para login se não estiver
+ * Checks if the user is authenticated on the server and redirects to login if not
  */
 export async function requireAuth(request: Request) {
   if (!hasAuthToken(request)) {
@@ -12,7 +12,7 @@ export async function requireAuth(request: Request) {
 }
 
 /**
- * Verifica se o usuário está autenticado no servidor e redireciona para área protegida se estiver
+ * Checks if the user is authenticated on the server and redirects to the protected area if they are
  */
 export async function requireGuest(request: Request) {
   if (hasAuthToken(request)) {

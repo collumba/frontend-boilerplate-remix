@@ -1,10 +1,10 @@
 import { ToastProvider } from "@app/contexts/toast-context";
+import ToastExamplePage from "@app/routes/app._layout.resources.toasts";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
-import ToastExamplePage from "../../../app/routes/app._layout.resources.toasts";
 
-// Mock dos módulos necessários
-vi.mock("@app/utils/toast.server", () => ({
+// Mock the necessary modules
+vi.mock("@app/modules/toast/toast.server", () => ({
   jsonWithToastNotification: vi
     .fn()
     .mockResolvedValue(
@@ -31,7 +31,7 @@ vi.mock("@remix-run/react", () => ({
   useNavigation: () => ({ state: "idle" }),
 }));
 
-// Mock dos componentes UI
+// Mock UI components
 vi.mock("@app/components/ui/button", () => ({
   Button: ({ children, onClick, ...props }: any) => (
     <button onClick={onClick} {...props}>
@@ -48,7 +48,7 @@ vi.mock("@app/components/ui/typography", () => ({
   },
 }));
 
-// Mock do contexto de toast
+// Mock toast context
 const mockSuccess = vi.fn();
 vi.mock("@app/contexts/toast-context", () => ({
   useToast: () => ({
@@ -68,7 +68,7 @@ vi.mock("@app/contexts/toast-context", () => ({
   ToastProvider: ({ children }: any) => <div>{children}</div>,
 }));
 
-// Testes
+// Tests
 test("renders the toast examples page correctly", () => {
   render(
     <ToastProvider>
@@ -76,21 +76,21 @@ test("renders the toast examples page correctly", () => {
     </ToastProvider>
   );
 
-  // Verificamos apenas elementos básicos para evitar complexidade
+  // We only check basic elements to avoid complexity
   expect(screen.getByText("Toast Examples")).toBeInTheDocument();
   expect(screen.getByText("Client-side Toasts")).toBeInTheDocument();
 
-  // Verificamos pelo menos um botão
+  // We check at least one button
   expect(screen.getByRole("button", { name: /Success$/i })).toBeInTheDocument();
 });
 
 test("client-side toast buttons trigger toasts", () => {
   render(<ToastExamplePage />);
 
-  // Click em um botão de client-side toast
+  // Click on a client-side toast button
   const successButton = screen.getByRole("button", { name: /Success$/i });
   fireEvent.click(successButton);
 
-  // Verifica se a função mockSuccess foi chamada
+  // Verify if the mockSuccess function was called
   expect(mockSuccess).toHaveBeenCalled();
 });

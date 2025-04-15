@@ -1,7 +1,11 @@
 import { ToastContainer } from "@app/components/toast-container";
+import {
+  ToastProvider,
+  useToast,
+  useToastI18n,
+} from "@app/contexts/toast-context";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
-import { ToastProvider, useToast, useToastI18n } from "./toast-context";
 
 // Mock for react-i18next
 vi.mock("react-i18next", () => ({

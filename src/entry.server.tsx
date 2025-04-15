@@ -1,4 +1,4 @@
-import i18nServer, * as i18n from "@app/modules/i18n/i18n.server";
+import * as i18n from "@app/shared/config/i18n";
 import type { AppLoadContext, EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
@@ -7,6 +7,7 @@ import { isbot } from "isbot";
 import { PassThrough } from "node:stream";
 import { renderToPipeableStream } from "react-dom/server";
 import { I18nextProvider, initReactI18next } from "react-i18next";
+import i18nServer from "./modules/i18n/i18n.server";
 
 const ABORT_DELAY = 5_000;
 

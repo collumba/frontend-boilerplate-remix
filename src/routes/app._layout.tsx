@@ -1,8 +1,8 @@
-import { useAuthContext } from "@app/app/providers/auth-context";
-import { requireAuth } from "@app/modules/auth/auth-server";
-import { ROUTES } from "@app/shared/config/routes";
-import ErrorBoundaryParserError from "@app/shared/lib/error-bondary";
-import { AppMatch } from "@app/shared/types/breadcrumb";
+import { useAuthContext } from "@/app/providers/auth-context";
+import { requireAuth } from "@/modules/auth/auth-server";
+import { ROUTES } from "@/shared/config/routes";
+import ErrorBoundaryParserError from "@/shared/lib/error-bondary";
+import { AppMatch } from "@/shared/types/breadcrumb";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,15 +10,15 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@app/shared/ui/breadcrumb";
-import { Separator } from "@app/shared/ui/separator";
-import ShowError from "@app/shared/ui/show-error";
+} from "@/shared/ui/breadcrumb";
+import { Separator } from "@/shared/ui/separator";
+import ShowError from "@/shared/ui/show-error";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@app/shared/ui/sidebar";
-import { AppSidebar } from "@app/widgets/navigation/app-sidebar";
+} from "@/shared/ui/sidebar";
+import { AppSidebar } from "@/widgets/navigation/app-sidebar";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   MetaFunction,

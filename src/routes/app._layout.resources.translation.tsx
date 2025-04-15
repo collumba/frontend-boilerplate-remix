@@ -1,10 +1,10 @@
-import { useToast, useToastI18n } from "@app/app/providers/toast-context";
-import i18nServer from "@app/modules/i18n/i18n.server";
-import { jsonWithToastNotification } from "@app/modules/toast/toast.server";
-import { supportedLngsConfig } from "@app/shared/config/i18n";
-import { Button } from "@app/shared/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@app/shared/ui/card";
-import { Typography } from "@app/shared/ui/typography";
+import { useToast, useToastI18n } from "@/app/providers/toast-context";
+import i18nServer from "@/modules/i18n/i18n.server";
+import { jsonWithToastNotification } from "@/modules/toast/toast.server";
+import { supportedLngsConfig } from "@/shared/config/i18n";
+import { Button } from "@/shared/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Typography } from "@/shared/ui/typography";
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import { env } from "env";
 import { useTranslation } from "react-i18next";
@@ -150,7 +150,7 @@ export default function TranslationExamplePage() {
           <div className="space-y-2">
             <Typography variant="small">Server-side:</Typography>
             <code className="block bg-muted p-2 rounded">
-              {`import i18n from "@app/modules/i18n.server";`}
+              {`import i18n from "@/modules/i18n.server";`}
               <br />
               {`const t = await i18n.getFixedT(request);`}
               <br />

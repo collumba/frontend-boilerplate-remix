@@ -1,12 +1,12 @@
-import { supportedLngsConfig } from "@app/shared/config/i18n";
-import { Button } from "@app/shared/ui/button";
+import { supportedLngsConfig } from "@/shared/config/i18n";
+import { Button } from "@/shared/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@app/shared/ui/dropdown-menu";
-import { Typography } from "@app/shared/ui/typography";
+} from "@/shared/ui/dropdown-menu";
+import { Typography } from "@/shared/ui/typography";
 import { env } from "env";
 import { useTranslation } from "react-i18next";
 

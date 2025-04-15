@@ -1,14 +1,14 @@
 "use client";
 
-import { ROUTES } from "@app/shared/config/routes";
-import { Collapsible } from "@app/shared/ui/collapsible";
+import { ROUTES } from "@/shared/config/routes";
+import { Collapsible } from "@/shared/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@app/shared/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "@remix-run/react";
 import { AlertOctagon, Languages } from "lucide-react";

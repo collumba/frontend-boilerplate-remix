@@ -10,7 +10,7 @@ vi.mock("env", () => {
 });
 
 // Mock for i18n on the server side
-vi.mock("@app/modules/i18n/i18n.server", () => ({
+vi.mock("@/modules/i18n/i18n.server", () => ({
   default: {
     getFixedT: vi.fn().mockResolvedValue((key: string, options?: any) => {
       if (key === "component.toast.success.title") return "Success!";
@@ -23,7 +23,7 @@ vi.mock("@app/modules/i18n/i18n.server", () => ({
 }));
 
 // Mock for jsonWithToastNotification
-vi.mock("@app/modules/toast/toast.server", () => ({
+vi.mock("@/modules/toast/toast.server", () => ({
   jsonWithToastNotification: vi.fn().mockImplementation((data, toast) => {
     // Return a structure that mimics the jsonWithToastNotification response
     // without actually calling the real implementation that uses env.DOMAIN
@@ -38,7 +38,7 @@ vi.mock("@app/modules/toast/toast.server", () => ({
 }));
 
 // Mock for supportedLngsConfig
-vi.mock("@app/config/i18n", () => ({
+vi.mock("@/config/i18n", () => ({
   supportedLngsConfig: [
     { language: "en", flag: "US" },
     { language: "pt-BR", flag: "BR" },
@@ -48,7 +48,7 @@ vi.mock("@app/config/i18n", () => ({
 
 // Mock for toast context
 const mockAddToast = vi.fn();
-vi.mock("@app/contexts/toast-context", () => ({
+vi.mock("@/contexts/toast-context", () => ({
   useToast: () => ({
     actions: {
       addToast: mockAddToast,
@@ -89,7 +89,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 // Import after the mocks
-import TranslationExamplePage from "@app/routes/app._layout.resources.translation";
+import TranslationExamplePage from "@/routes/app._layout.resources.translation";
 
 describe("Translation Example Page", () => {
   beforeEach(() => {
@@ -116,7 +116,7 @@ describe("Translation Example Page", () => {
   test("loader returns success toast with translations", async () => {
     // Import the loader directly from the module
     const { loader } = await import(
-      "@app/routes/app._layout.resources.translation"
+      "@/routes/app._layout.resources.translation"
     );
 
     // Create a request mock

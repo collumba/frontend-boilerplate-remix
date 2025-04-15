@@ -1,5 +1,5 @@
-import { useCharacterColumns } from "@app/features/mdm/character/useCharacterColumns";
-import { Character } from "@app/types/mdm/character";
+import { useCharacterColumns } from "@/features/mdm/character/useCharacterColumns";
+import { Character } from "@/types/mdm/character";
 import { LucideIcon, User } from "lucide-react";
 
 export interface EntityFieldConfig {

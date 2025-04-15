@@ -2,7 +2,7 @@
 import {
   jsonWithToastNotification,
   redirectWithToastNotification,
-} from "@app/modules/toast/toast.server";
+} from "@/modules/toast/toast.server";
 import { expect, test, vi } from "vitest";
 
 // Mock modules
@@ -13,7 +13,7 @@ vi.mock("env", () => ({
   },
 }));
 
-vi.mock("@app/modules/toast/session.server", () => {
+vi.mock("@/modules/toast/session.server", () => {
   return {
     getToastSession: vi.fn().mockResolvedValue({
       get: vi.fn().mockReturnValue([]),

@@ -1,10 +1,10 @@
-import { ToastProvider } from "@app/app/providers/toast-context";
-import ToastExamplePage from "@app/routes/app._layout.resources.toasts";
+import { ToastProvider } from "@/app/providers/toast-context";
+import ToastExamplePage from "@/routes/app._layout.resources.toasts";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 
 // Mock the necessary modules
-vi.mock("@app/modules/toast/toast.server", () => ({
+vi.mock("@/modules/toast/toast.server", () => ({
   jsonWithToastNotification: vi
     .fn()
     .mockResolvedValue(
@@ -32,7 +32,7 @@ vi.mock("@remix-run/react", () => ({
 }));
 
 // Mock UI components
-vi.mock("@app/components/ui/button", () => ({
+vi.mock("@/components/ui/button", () => ({
   Button: ({ children, onClick, ...props }: any) => (
     <button onClick={onClick} {...props}>
       {children}
@@ -40,7 +40,7 @@ vi.mock("@app/components/ui/button", () => ({
   ),
 }));
 
-vi.mock("@app/components/ui/typography", () => ({
+vi.mock("@/components/ui/typography", () => ({
   Typography: ({ variant, children, ...props }: any) => {
     if (variant === "h1") return <h1 {...props}>{children}</h1>;
     if (variant === "h2") return <h2 {...props}>{children}</h2>;
@@ -50,7 +50,7 @@ vi.mock("@app/components/ui/typography", () => ({
 
 // Mock toast context
 const mockSuccess = vi.fn();
-vi.mock("@app/app/providers/toast-context", () => ({
+vi.mock("@/app/providers/toast-context", () => ({
   useToast: () => ({
     toasts: [],
     actions: {

@@ -2,8 +2,8 @@
 
 import { LogOut } from "lucide-react";
 
-import { useAuthContext } from "@app/app/providers/auth-context";
-import { Avatar, AvatarFallback, AvatarImage } from "@app/shared/ui/avatar";
+import { useAuthContext } from "@/app/providers/auth-context";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,13 +11,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@app/shared/ui/dropdown-menu";
+} from "@/shared/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@app/shared/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useTranslation } from "react-i18next";
 

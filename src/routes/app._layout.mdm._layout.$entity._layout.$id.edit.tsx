@@ -1,6 +1,6 @@
-import { ENTITY_CONFIG } from "@app/shared/config/mdm";
-import { EntityType } from "@app/shared/types/mdm";
-import EntityForm from "@app/widgets/mdm/entity-form";
+import { ENTITY_CONFIG } from "@/shared/config/mdm";
+import { EntityType } from "@/shared/types/mdm";
+import EntityForm from "@/widgets/mdm/entity-form";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 

@@ -95,7 +95,18 @@
     "Use '@app/', '@routes/', '@widgets/', '@features/', '@entities/', '@shared/' aliases for imports",
     "Always use existing UI components from the shared layer before creating new ones",
     "Avoid overriding styles of existing components; use composition and props instead",
-    "Always create tests for new components and features"
+    "Always create tests for new components and features",
+    "Always use the axios library for requests",
+    "Always use the i18next library for translations",
+    "Always use the lucide-react library for icons",
+    "Always use the react-hook-form library for form handling",
+    "Always use the zod library for validation",
+    "Always use the react-query library for data fetching",
+    "Always use the react-router-dom library for routing",
+    "Always use the react-hook-form library for form handling",
+    "Always use the zod library for validation",
+    "Always use the react-query library for data fetching",
+    "Only English texts and comments are allowed in the project"
   ],
   "import_aliases": {
     "src": "@app"
@@ -115,6 +126,7 @@
     "icons": "lucide-react",
     "testing": "vitest",
     "linting": "eslint",
-    "formatting": "prettier"
+    "formatting": "prettier",
+    "requests": "axios"
   }
 }

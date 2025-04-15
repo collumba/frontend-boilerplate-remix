@@ -1,10 +1,10 @@
-import { useToast, useToastI18n } from "@app/app/providers/toast-context";
+import { useToast, useToastI18n } from "@/app/providers/toast-context";
 import {
   jsonWithToastNotification,
   redirectWithToastNotification,
-} from "@app/modules/toast/toast.server";
-import { Button } from "@app/shared/ui/button";
-import { Typography } from "@app/shared/ui/typography";
+} from "@/modules/toast/toast.server";
+import { Button } from "@/shared/ui/button";
+import { Typography } from "@/shared/ui/typography";
 import { Form } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 

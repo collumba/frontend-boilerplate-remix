@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@app/shared/lib/cn";
-import { Dialog, DialogContent } from "@app/shared/ui/dialog";
+import { cn } from "@/shared/lib/cn";
+import { Dialog, DialogContent } from "@/shared/ui/dialog";
 import { type DialogProps } from "@radix-ui/react-dialog";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Command as CommandPrimitive } from "cmdk";

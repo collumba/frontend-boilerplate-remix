@@ -1,4 +1,4 @@
-import { ROUTES } from "@app/shared/config/routes";
+import { ROUTES } from "@/shared/config/routes";
 import { Outlet } from "@remix-run/react";
 
 export const handle = {

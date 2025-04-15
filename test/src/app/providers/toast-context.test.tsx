@@ -2,8 +2,8 @@ import {
   ToastProvider,
   useToast,
   useToastI18n,
-} from "@app/app/providers/toast-context";
-import { ToastContainer } from "@app/widgets/toast";
+} from "@/app/providers/toast-context";
+import { ToastContainer } from "@/widgets/toast";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 

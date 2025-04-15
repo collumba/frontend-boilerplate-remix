@@ -2,7 +2,7 @@ import {
   ToastMessage,
   commitToastSession,
   getToastSession,
-} from "@app/modules/toast/session.server";
+} from "@/modules/toast/session.server";
 import { json, redirect } from "@remix-run/node";
 import { env } from "env";
 

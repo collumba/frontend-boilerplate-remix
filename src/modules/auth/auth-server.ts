@@ -1,5 +1,5 @@
-import { ROUTES } from "@app/shared/config/routes";
-import { hasAuthToken } from "@app/shared/lib/cookie";
+import { ROUTES } from "@/shared/config/routes";
+import { hasAuthToken } from "@/shared/lib/cookie";
 import { redirect } from "@remix-run/node";
 
 /**

@@ -7,7 +7,7 @@ vi.mock("@remix-run/node", () => ({
   })),
 }));
 
-vi.mock("@app/config/i18n", () => ({
+vi.mock("@/config/i18n", () => ({
   supportedLngs: ["en", "pt-BR", "es"],
   fallbackLng: "en",
   defaultNS: "translation",
@@ -19,7 +19,7 @@ vi.mock("@app/config/i18n", () => ({
 }));
 
 // Import after the mocks
-import i18nServer from "@app/modules/i18n/i18n.server";
+import i18nServer from "@/modules/i18n/i18n.server";
 
 describe("i18n Server Module", () => {
   beforeEach(() => {

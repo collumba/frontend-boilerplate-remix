@@ -1,13 +1,13 @@
-import { useIsMobile } from "@app/components/hooks/use-mobile";
-import { MdmService } from "@app/shared/api/mdm";
-import { ENTITY_CONFIG } from "@app/shared/config/mdm";
-import { ROUTES } from "@app/shared/config/routes";
-import { ClientOnly } from "@app/shared/lib/client-only";
-import { cn } from "@app/shared/lib/cn";
-import { EntityType } from "@app/shared/types/mdm";
-import { Button } from "@app/shared/ui/button";
-import { Checkbox } from "@app/shared/ui/checkbox";
-import { DatePickerField } from "@app/shared/ui/date-picker";
+import { useIsMobile } from "@/components/hooks/use-mobile";
+import { MdmService } from "@/shared/api/mdm";
+import { ENTITY_CONFIG } from "@/shared/config/mdm";
+import { ROUTES } from "@/shared/config/routes";
+import { ClientOnly } from "@/shared/lib/client-only";
+import { cn } from "@/shared/lib/cn";
+import { EntityType } from "@/shared/types/mdm";
+import { Button } from "@/shared/ui/button";
+import { Checkbox } from "@/shared/ui/checkbox";
+import { DatePickerField } from "@/shared/ui/date-picker";
 import {
   Form,
   FormControl,
@@ -15,22 +15,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@app/shared/ui/form";
-import { Input } from "@app/shared/ui/input";
-import { MaskedInput } from "@app/shared/ui/masked-input";
-import { MultiSelect } from "@app/shared/ui/multi-select";
-import PageHeader from "@app/shared/ui/page-header";
-import { RadioGroup, RadioGroupItem } from "@app/shared/ui/radio-group";
+} from "@/shared/ui/form";
+import { Input } from "@/shared/ui/input";
+import { MaskedInput } from "@/shared/ui/masked-input";
+import { MultiSelect } from "@/shared/ui/multi-select";
+import PageHeader from "@/shared/ui/page-header";
+import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@app/shared/ui/select";
-import { SelectFromApi } from "@app/shared/ui/select-api";
-import { Skeleton } from "@app/shared/ui/skeleton";
-import { Textarea } from "@app/shared/ui/textarea";
+} from "@/shared/ui/select";
+import { SelectFromApi } from "@/shared/ui/select-api";
+import { Skeleton } from "@/shared/ui/skeleton";
+import { Textarea } from "@/shared/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";

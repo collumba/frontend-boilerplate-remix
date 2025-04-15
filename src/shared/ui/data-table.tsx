@@ -3,14 +3,14 @@
 import { Table, flexRender } from "@tanstack/react-table";
 import { AlertCircle, ArrowDown, ArrowUp, ChevronDown } from "lucide-react";
 
-import { Button } from "@app/shared/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@app/shared/ui/dropdown-menu";
-import { Input } from "@app/shared/ui/input";
+} from "@/shared/ui/dropdown-menu";
+import { Input } from "@/shared/ui/input";
 import {
   TableBody,
   TableCell,
@@ -18,7 +18,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@app/shared/ui/table";
+} from "@/shared/ui/table";
 import { useTranslation } from "react-i18next";
 import { EmptyState } from "./empty-state";
 import { Skeleton } from "./skeleton";

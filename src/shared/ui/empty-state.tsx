@@ -1,4 +1,4 @@
-import { cn } from "@app/shared/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import { LucideIcon } from "lucide-react";
 import * as React from "react";
 import { Typography } from "./typography";

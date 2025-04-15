@@ -1,7 +1,7 @@
 "use client";
 
-import { MdmService } from "@app/shared/api/mdm";
-import { MultiSelect } from "@app/shared/ui/multi-select";
+import { MdmService } from "@/shared/api/mdm";
+import { MultiSelect } from "@/shared/ui/multi-select";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 

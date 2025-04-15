@@ -1,4 +1,4 @@
-import { ROUTES } from "@app/shared/config/routes";
+import { ROUTES } from "@/shared/config/routes";
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@app/shared/ui/card";
+} from "@/shared/ui/card";
 import { Link } from "@remix-run/react";
 import { CloudOff } from "lucide-react";
 import React from "react";

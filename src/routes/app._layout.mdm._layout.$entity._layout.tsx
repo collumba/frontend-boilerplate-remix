@@ -1,5 +1,5 @@
+import { ROUTES } from "@app/shared/config/routes";
 import { Outlet } from "@remix-run/react";
-import { ROUTES } from "src/shared/config/routes";
 
 export const handle = {
   breadcrumb: (params: { entity: string }) => ({

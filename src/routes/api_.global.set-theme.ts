@@ -1,4 +1,4 @@
+import { themeSessionResolver } from "@app/modules/theme/sessions.server";
 import { createThemeAction } from "remix-themes";
-import { themeSessionResolver } from "src/modules/theme/sessions.server";
 
 export const action = createThemeAction(themeSessionResolver);

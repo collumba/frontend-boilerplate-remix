@@ -1,17 +1,17 @@
 "use client";
 
-import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { useNavigate } from "@remix-run/react";
-import { AlertOctagon, Languages } from "lucide-react";
-import { ROUTES } from "src/shared/config/routes";
-import { Collapsible } from "src/shared/ui/collapsible";
+import { ROUTES } from "@app/shared/config/routes";
+import { Collapsible } from "@app/shared/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "src/shared/ui/sidebar";
+} from "@app/shared/ui/sidebar";
+import { ChevronRightIcon } from "@radix-ui/react-icons";
+import { useNavigate } from "@remix-run/react";
+import { AlertOctagon, Languages } from "lucide-react";
 
 export function NavResources() {
   const navigate = useNavigate();

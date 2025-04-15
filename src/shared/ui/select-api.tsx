@@ -1,16 +1,16 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { MdmService } from "src/shared/api/mdm";
-import { cn } from "src/shared/lib/cn";
+import { MdmService } from "@app/shared/api/mdm";
+import { cn } from "@app/shared/lib/cn";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "src/shared/ui/select";
+} from "@app/shared/ui/select";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 interface Option {
   label: string;

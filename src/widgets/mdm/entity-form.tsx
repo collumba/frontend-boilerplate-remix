@@ -1,20 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@remix-run/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Eraser, Save } from "lucide-react";
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { useIsMobile } from "src/components/hooks/use-mobile";
-import { MdmService } from "src/shared/api/mdm";
-import { ENTITY_CONFIG } from "src/shared/config/mdm";
-import { ROUTES } from "src/shared/config/routes";
-import { ClientOnly } from "src/shared/lib/client-only";
-import { cn } from "src/shared/lib/cn";
-import { EntityType } from "src/shared/types/mdm";
-import { Button } from "src/shared/ui/button";
-import { Checkbox } from "src/shared/ui/checkbox";
-import { DatePickerField } from "src/shared/ui/date-picker";
+import { useIsMobile } from "@app/components/hooks/use-mobile";
+import { MdmService } from "@app/shared/api/mdm";
+import { ENTITY_CONFIG } from "@app/shared/config/mdm";
+import { ROUTES } from "@app/shared/config/routes";
+import { ClientOnly } from "@app/shared/lib/client-only";
+import { cn } from "@app/shared/lib/cn";
+import { EntityType } from "@app/shared/types/mdm";
+import { Button } from "@app/shared/ui/button";
+import { Checkbox } from "@app/shared/ui/checkbox";
+import { DatePickerField } from "@app/shared/ui/date-picker";
 import {
   Form,
   FormControl,
@@ -22,22 +15,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "src/shared/ui/form";
-import { Input } from "src/shared/ui/input";
-import { MaskedInput } from "src/shared/ui/masked-input";
-import { MultiSelect } from "src/shared/ui/multi-select";
-import PageHeader from "src/shared/ui/page-header";
-import { RadioGroup, RadioGroupItem } from "src/shared/ui/radio-group";
+} from "@app/shared/ui/form";
+import { Input } from "@app/shared/ui/input";
+import { MaskedInput } from "@app/shared/ui/masked-input";
+import { MultiSelect } from "@app/shared/ui/multi-select";
+import PageHeader from "@app/shared/ui/page-header";
+import { RadioGroup, RadioGroupItem } from "@app/shared/ui/radio-group";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "src/shared/ui/select";
-import { SelectFromApi } from "src/shared/ui/select-api";
-import { Skeleton } from "src/shared/ui/skeleton";
-import { Textarea } from "src/shared/ui/textarea";
+} from "@app/shared/ui/select";
+import { SelectFromApi } from "@app/shared/ui/select-api";
+import { Skeleton } from "@app/shared/ui/skeleton";
+import { Textarea } from "@app/shared/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "@remix-run/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Eraser, Save } from "lucide-react";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 const REQUIRED_FIELD_MARKER = "*";
 export function generateZodSchema(entity: EntityType) {

@@ -1,8 +1,16 @@
+import { ToastContext, ToastProvider } from "@app/app/providers/toast-context";
+import { ToastMessage } from "@app/modules/toast/session.server";
+import { ToastContainer } from "@app/widgets/toast/toast-container";
 import { act, render, screen } from "@testing-library/react";
-import { ToastContext, ToastProvider } from "src/app/providers/toast-context";
-import { ToastMessage } from "src/modules/toast/session.server";
-import { ToastContainer } from "src/widgets/toast/toast-container";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
+// Mock para useMatches com diferentes conjuntos de dados
+const mockUseMatches = vi.fn().mockReturnValue([{ data: { toasts: [] } }]);
+
+// Mock useMatches do React Router
+vi.mock("@remix-run/react", () => ({
+  useMatches: () => mockUseMatches(),
+}));
 
 // Mock useToast hook context
 const mockRemoveToast = vi.fn();
@@ -20,6 +28,8 @@ describe("ToastContainer Component", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     mockRemoveToast.mockClear();
+    // Restaurar o mock para o valor padrão antes de cada teste
+    mockUseMatches.mockReturnValue([{ data: { toasts: [] } }]);
   });
 
   afterEach(() => {
@@ -55,6 +65,9 @@ describe("ToastContainer Component", () => {
         createdAt: Date.now(),
       },
     ];
+
+    // Configurar mockUseMatches para retornar toasts para este teste
+    mockUseMatches.mockReturnValue([{ data: { toasts: mockToasts } }]);
 
     render(
       <ToastProvider>

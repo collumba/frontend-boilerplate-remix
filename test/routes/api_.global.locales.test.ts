@@ -48,7 +48,7 @@ vi.mock("env", () => {
 });
 
 // Mock para recursos de tradução
-vi.mock("@app/config/i18n", () => ({
+vi.mock("@app/shared/config/i18n", () => ({
   resources: {
     en: {
       translation: {
@@ -76,7 +76,7 @@ vi.mock("pretty-cache-header", () => ({
   cacheHeader: vi.fn().mockReturnValue("mock-cache-header"),
 }));
 
-import { loader } from "src/routes/api_.global.locales";
+import { loader } from "@app/routes/api_.global.locales";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 describe("API Global Locales Route", () => {

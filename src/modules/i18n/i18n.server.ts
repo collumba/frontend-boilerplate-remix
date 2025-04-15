@@ -1,6 +1,6 @@
+import * as i18n from "@app/shared/config/i18n";
 import { createCookie } from "@remix-run/node";
 import { RemixI18Next } from "remix-i18next/server";
-import * as i18n from "src/shared/config/i18n";
 
 export const localeCookie = createCookie("lng", {
   path: "/",

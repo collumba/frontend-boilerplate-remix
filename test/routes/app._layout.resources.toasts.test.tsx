@@ -1,6 +1,6 @@
-import { ToastProvider } from "@app/contexts/toast-context";
+import { ToastProvider } from "@app/app/providers/toast-context";
+import ToastExamplePage from "@app/routes/app._layout.resources.toasts";
 import { fireEvent, render, screen } from "@testing-library/react";
-import ToastExamplePage from "src/routes/app._layout.resources.toasts";
 import { expect, test, vi } from "vitest";
 
 // Mock the necessary modules
@@ -50,7 +50,7 @@ vi.mock("@app/components/ui/typography", () => ({
 
 // Mock toast context
 const mockSuccess = vi.fn();
-vi.mock("@app/contexts/toast-context", () => ({
+vi.mock("@app/app/providers/toast-context", () => ({
   useToast: () => ({
     toasts: [],
     actions: {

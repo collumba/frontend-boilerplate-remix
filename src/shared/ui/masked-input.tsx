@@ -1,9 +1,9 @@
 "use client";
 
+import { cn } from "@app/shared/lib/cn";
 import IMask from "imask";
 import * as React from "react";
 import { useEffect } from "react";
-import { cn } from "src/shared/lib/cn";
 
 // Criar um componente que emula uma entrada mascarada usando um input nativo
 export interface MaskedInputProps

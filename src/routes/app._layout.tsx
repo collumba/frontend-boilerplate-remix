@@ -1,3 +1,24 @@
+import { useAuthContext } from "@app/app/providers/auth-context";
+import { requireAuth } from "@app/modules/auth/auth-server";
+import { ROUTES } from "@app/shared/config/routes";
+import ErrorBoundaryParserError from "@app/shared/lib/error-bondary";
+import { AppMatch } from "@app/shared/types/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@app/shared/ui/breadcrumb";
+import { Separator } from "@app/shared/ui/separator";
+import ShowError from "@app/shared/ui/show-error";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@app/shared/ui/sidebar";
+import { AppSidebar } from "@app/widgets/navigation/app-sidebar";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   MetaFunction,
@@ -7,27 +28,6 @@ import {
 } from "@remix-run/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useAuthContext } from "src/app/providers/auth-context";
-import { requireAuth } from "src/modules/auth/auth-server";
-import { ROUTES } from "src/shared/config/routes";
-import ErrorBoundaryParserError from "src/shared/lib/error-bondary";
-import { AppMatch } from "src/shared/types/breadcrumb";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "src/shared/ui/breadcrumb";
-import { Separator } from "src/shared/ui/separator";
-import ShowError from "src/shared/ui/show-error";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "src/shared/ui/sidebar";
-import { AppSidebar } from "src/widgets/navigation/app-sidebar";
 
 export const meta: MetaFunction = () => {
   return [{ title: "App" }, { name: "description", content: "App" }];

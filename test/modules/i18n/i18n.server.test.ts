@@ -19,7 +19,7 @@ vi.mock("@app/config/i18n", () => ({
 }));
 
 // Import after the mocks
-import i18nServer from "src/modules/i18n/i18n.server";
+import i18nServer from "@app/modules/i18n/i18n.server";
 
 describe("i18n Server Module", () => {
   beforeEach(() => {

@@ -1,6 +1,6 @@
+import { ROUTES } from "@app/shared/config/routes";
+import { hasAuthToken } from "@app/shared/lib/cookie";
 import { redirect } from "@remix-run/node";
-import { ROUTES } from "src/shared/config/routes";
-import { hasAuthToken } from "src/shared/lib/cookie";
 
 /**
  * Checks if the user is authenticated on the server and redirects to login if not

@@ -2,7 +2,7 @@
 import {
   jsonWithToastNotification,
   redirectWithToastNotification,
-} from "src/modules/toast/toast.server";
+} from "@app/modules/toast/toast.server";
 import { expect, test, vi } from "vitest";
 
 // Mock modules

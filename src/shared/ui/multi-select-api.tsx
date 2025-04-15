@@ -1,9 +1,9 @@
 "use client";
 
+import { MdmService } from "@app/shared/api/mdm";
+import { MultiSelect } from "@app/shared/ui/multi-select";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { MdmService } from "src/shared/api/mdm";
-import { MultiSelect } from "src/shared/ui/multi-select";
 
 interface Option {
   label: string;

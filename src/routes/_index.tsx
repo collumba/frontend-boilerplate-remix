@@ -1,3 +1,13 @@
+import { ROUTES } from "@app/shared/config/routes";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@app/shared/ui/card";
+import { Link } from "@app/shared/ui/link";
+import { Typography } from "@app/shared/ui/typography";
 import { MetaFunction } from "@remix-run/react";
 import {
   BookOpen,
@@ -19,16 +29,6 @@ import {
   TestTube,
   Zap,
 } from "lucide-react";
-import { ROUTES } from "src/shared/config/routes";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "src/shared/ui/card";
-import { Link } from "src/shared/ui/link";
-import { Typography } from "src/shared/ui/typography";
 export const meta: MetaFunction = () => {
   return [
     { title: "Boilerplate" },

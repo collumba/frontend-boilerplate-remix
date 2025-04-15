@@ -1,8 +1,8 @@
+import { ENTITY_CONFIG } from "@app/shared/config/mdm";
+import { EntityType } from "@app/shared/types/mdm";
+import EntityForm from "@app/widgets/mdm/entity-form";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { ENTITY_CONFIG } from "src/shared/config/mdm";
-import { EntityType } from "src/shared/types/mdm";
-import EntityForm from "src/widgets/mdm/entity-form";
 
 export const handle = {
   breadcrumb: (params: { entity: string }) => ({

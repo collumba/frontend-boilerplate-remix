@@ -1,11 +1,11 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import {
   ToastProvider,
   useToast,
   useToastI18n,
-} from "src/app/providers/toast-context";
-import { ToastContainer } from "src/widgets/toast/toast-container";
-import { describe, expect, test, vi } from "vitest";
+} from "@app/app/providers/toast-context";
+import { ToastContainer } from "@app/widgets/toast/toast-container";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 
 // Mock for react-i18next
 vi.mock("react-i18next", () => ({
@@ -27,15 +27,18 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+// Mock para useMatches com diferentes conjuntos de dados
+const mockUseMatches = vi.fn().mockReturnValue([
+  {
+    data: {
+      toasts: [],
+    },
+  },
+]);
+
 // Mock for useMatches
 vi.mock("@remix-run/react", () => ({
-  useMatches: () => [
-    {
-      data: {
-        toasts: [],
-      },
-    },
-  ],
+  useMatches: () => mockUseMatches(),
 }));
 
 // Test component that uses toast hooks
@@ -80,6 +83,11 @@ const TestComponent = () => {
 };
 
 describe("Toast Context", () => {
+  beforeEach(() => {
+    // Restaurar o mock para o valor padrão antes de cada teste
+    mockUseMatches.mockReturnValue([{ data: { toasts: [] } }]);
+  });
+
   test("ToastProvider renders children correctly", () => {
     render(
       <ToastProvider>

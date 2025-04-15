@@ -1,3 +1,4 @@
+import { ApiResponse, FetchParams } from "@app/shared/types/api";
 import { useSearchParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -7,7 +8,6 @@ import {
 } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { ApiResponse, FetchParams } from "src/shared/types/api";
 
 interface UseTableProps<T> {
   queryKey: string;

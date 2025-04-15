@@ -1,4 +1,4 @@
-import { ROUTES } from "src/shared/config/routes";
+import { ROUTES } from "@app/shared/config/routes";
 
 export const handle = {
   breadcrumb: {

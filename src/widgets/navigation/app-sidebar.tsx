@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
-import { LocaleToggle } from "src/shared/ui/locale-toggle";
+import { LocaleToggle } from "@app/shared/ui/locale-toggle";
 import {
   Sidebar,
   SidebarContent,
@@ -22,12 +22,12 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarRail,
-} from "src/shared/ui/sidebar";
-import { ThemeToggle } from "src/shared/ui/theme-toggle";
-import { NavMdm } from "src/widgets/navigation/nav-mdm";
-import { NavResources } from "src/widgets/navigation/nav-resources";
-import { NavUser } from "src/widgets/navigation/nav-user";
-import { TeamSwitcher } from "src/widgets/navigation/team-switcher";
+} from "@app/shared/ui/sidebar";
+import { ThemeToggle } from "@app/shared/ui/theme-toggle";
+import { NavMdm } from "@app/widgets/navigation/nav-mdm";
+import { NavResources } from "@app/widgets/navigation/nav-resources";
+import { NavUser } from "@app/widgets/navigation/nav-user";
+import { TeamSwitcher } from "@app/widgets/navigation/team-switcher";
 
 // This is sample data.
 const data = {

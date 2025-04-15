@@ -1,14 +1,14 @@
-import { env } from "env";
-import { useTranslation } from "react-i18next";
-import { supportedLngsConfig } from "src/shared/config/i18n";
-import { Button } from "src/shared/ui/button";
+import { supportedLngsConfig } from "@app/shared/config/i18n";
+import { Button } from "@app/shared/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "src/shared/ui/dropdown-menu";
-import { Typography } from "src/shared/ui/typography";
+} from "@app/shared/ui/dropdown-menu";
+import { Typography } from "@app/shared/ui/typography";
+import { env } from "env";
+import { useTranslation } from "react-i18next";
 
 export function LocaleToggle() {
   const { i18n, t } = useTranslation();

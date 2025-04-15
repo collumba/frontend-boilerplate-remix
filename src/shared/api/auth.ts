@@ -1,4 +1,4 @@
-import { AUTH_CONFIG } from "src/shared/config/auth";
+import { AUTH_CONFIG } from "@app/shared/config/auth";
 import { ApiService } from "./api";
 
 interface LoginCredentials {

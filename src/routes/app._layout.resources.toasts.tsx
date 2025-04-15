@@ -1,12 +1,12 @@
-import { Form } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
-import { useToast, useToastI18n } from "src/app/providers/toast-context";
+import { useToast, useToastI18n } from "@app/app/providers/toast-context";
 import {
   jsonWithToastNotification,
   redirectWithToastNotification,
-} from "src/modules/toast/toast.server";
-import { Button } from "src/shared/ui/button";
-import { Typography } from "src/shared/ui/typography";
+} from "@app/modules/toast/toast.server";
+import { Button } from "@app/shared/ui/button";
+import { Typography } from "@app/shared/ui/typography";
+import { Form } from "@remix-run/react";
+import { useTranslation } from "react-i18next";
 
 export const loader = async () => {
   return jsonWithToastNotification(

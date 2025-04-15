@@ -1,4 +1,4 @@
-import { AUTH_CONFIG } from "src/shared/config/auth";
+import { AUTH_CONFIG } from "@app/shared/config/auth";
 
 /**
  * Verifica se um token de autenticação existe nos cookies da requisição

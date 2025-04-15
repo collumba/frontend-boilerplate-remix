@@ -1,5 +1,5 @@
+import { cn } from "@app/shared/lib/cn";
 import * as React from "react";
-import { cn } from "src/shared/lib/cn";
 import { Button } from "./button";
 
 // Extend from React.ComponentPropsWithoutRef<"button"> instead of using ButtonProps from Radix

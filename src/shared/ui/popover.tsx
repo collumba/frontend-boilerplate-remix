@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "@app/shared/lib/cn";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
-import { cn } from "src/shared/lib/cn";
 
 const Popover = PopoverPrimitive.Root;
 

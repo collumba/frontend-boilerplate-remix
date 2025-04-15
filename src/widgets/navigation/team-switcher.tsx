@@ -1,7 +1,5 @@
 "use client";
 
-import { CaretSortIcon, PlusIcon } from "@radix-ui/react-icons";
-import * as React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,13 +8,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "src/shared/ui/dropdown-menu";
+} from "@app/shared/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "src/shared/ui/sidebar";
+} from "@app/shared/ui/sidebar";
+import { CaretSortIcon, PlusIcon } from "@radix-ui/react-icons";
+import * as React from "react";
 
 export function TeamSwitcher({
   teams,

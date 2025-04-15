@@ -1,15 +1,15 @@
+import { authService } from "@app/shared/api/auth";
+import { ROUTES } from "@app/shared/config/routes";
+import { cn } from "@app/shared/lib/cn";
+import { Button } from "@app/shared/ui/button";
+import { Input } from "@app/shared/ui/input";
+import { Label } from "@app/shared/ui/label";
+import { Link } from "@app/shared/ui/link";
+import { Muted, Typography } from "@app/shared/ui/typography";
 import { useNavigate } from "@remix-run/react";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { authService } from "src/shared/api/auth";
-import { ROUTES } from "src/shared/config/routes";
-import { cn } from "src/shared/lib/cn";
-import { Button } from "src/shared/ui/button";
-import { Input } from "src/shared/ui/input";
-import { Label } from "src/shared/ui/label";
-import { Link } from "src/shared/ui/link";
-import { Muted, Typography } from "src/shared/ui/typography";
 
 export function LoginForm({
   className,

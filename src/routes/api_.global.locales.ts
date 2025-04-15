@@ -1,7 +1,7 @@
+import { resources } from "@app/shared/config/i18n";
 import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { env } from "env";
 import { cacheHeader } from "pretty-cache-header";
-import { resources } from "src/shared/config/i18n";
 import { z } from "zod";
 
 export async function loader({ request }: LoaderFunctionArgs) {

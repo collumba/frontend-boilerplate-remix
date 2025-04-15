@@ -2,14 +2,13 @@
 
 import { Folder, Forward, Trash2, type LucideIcon } from "lucide-react";
 
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "src/shared/ui/dropdown-menu";
+} from "@app/shared/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -18,7 +17,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "src/shared/ui/sidebar";
+} from "@app/shared/ui/sidebar";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 export function NavProjects({
   projects,

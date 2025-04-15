@@ -3,8 +3,8 @@
 import { X } from "lucide-react";
 import * as React from "react";
 
-import { cn } from "src/shared/lib/cn";
-import { Badge } from "src/shared/ui/badge";
+import { cn } from "@app/shared/lib/cn";
+import { Badge } from "@app/shared/ui/badge";
 import {
   Command,
   CommandEmpty,
@@ -12,8 +12,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "src/shared/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "src/shared/ui/popover";
+} from "@app/shared/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@app/shared/ui/popover";
 
 export type Option = {
   label: string;

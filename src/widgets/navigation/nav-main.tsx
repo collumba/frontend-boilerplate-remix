@@ -2,12 +2,11 @@
 
 import { type LucideIcon } from "lucide-react";
 
-import { ChevronRightIcon } from "@radix-ui/react-icons";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "src/shared/ui/collapsible";
+} from "@app/shared/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -17,7 +16,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "src/shared/ui/sidebar";
+} from "@app/shared/ui/sidebar";
+import { ChevronRightIcon } from "@radix-ui/react-icons";
 
 export function NavMain({
   items,

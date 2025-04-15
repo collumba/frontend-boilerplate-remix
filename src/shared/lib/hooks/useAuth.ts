@@ -1,9 +1,9 @@
+import { useToast } from "@app/app/providers/toast-context";
+import { authService } from "@app/shared/api/auth";
+import { ROUTES } from "@app/shared/config/routes";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useToast } from "src/app/providers/toast-context";
-import { authService } from "src/shared/api/auth";
-import { ROUTES } from "src/shared/config/routes";
 
 interface User {
   id: number;

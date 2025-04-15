@@ -89,7 +89,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 // Import after the mocks
-import TranslationExamplePage from "src/routes/app._layout.resources.translation";
+import TranslationExamplePage from "@app/routes/app._layout.resources.translation";
 
 describe("Translation Example Page", () => {
   beforeEach(() => {
@@ -116,7 +116,7 @@ describe("Translation Example Page", () => {
   test("loader returns success toast with translations", async () => {
     // Import the loader directly from the module
     const { loader } = await import(
-      "src/routes/app._layout.resources.translation"
+      "@app/routes/app._layout.resources.translation"
     );
 
     // Create a request mock

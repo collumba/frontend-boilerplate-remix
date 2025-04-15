@@ -1,8 +1,8 @@
+import { useFormattedDate } from "@app/shared/lib/hooks/useFormattedDate";
+import { Character } from "@app/shared/types/mdm/character";
+import { Avatar, AvatarFallback, AvatarImage } from "@app/shared/ui/avatar";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
-import { useFormattedDate } from "src/shared/lib/hooks/useFormattedDate";
-import { Character } from "src/shared/types/mdm/character";
-import { Avatar, AvatarFallback, AvatarImage } from "src/shared/ui/avatar";
 
 const useCharacterColumns = () => {
   const { t } = useTranslation();

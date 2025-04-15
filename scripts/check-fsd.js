@@ -61,7 +61,7 @@ function checkImportViolations(filePath, content) {
 }
 
 // Find all TypeScript and TSX files
-console.log("Verificando violações de arquitetura FSD...");
+console.log("Checking FSD architecture violations...");
 const tsFiles = execSync('find src -type f -name "*.ts" -o -name "*.tsx"', {
   encoding: "utf-8",
 })
@@ -77,19 +77,19 @@ tsFiles.forEach((file) => {
 
     if (violations.length > 0) {
       totalViolations += violations.length;
-      console.log(`\n⚠️ Violações em ${file}:`);
+      console.log(`\n⚠️ Violations in ${file}:`);
       violations.forEach((v) => {
         console.log(`  - ${v.message} (import: ${v.import})`);
       });
     }
   } catch (error) {
-    console.error(`Erro ao verificar ${file}:`, error.message);
+    console.error(`Error checking ${file}:`, error.message);
   }
 });
 
 if (totalViolations > 0) {
-  console.log(`\n❌ Total de violações encontradas: ${totalViolations}`);
+  console.log(`\n❌ Total of violations found: ${totalViolations}`);
   process.exit(1);
 } else {
-  console.log("\n✅ Nenhuma violação de arquitetura FSD encontrada!");
+  console.log("\n✅ No FSD architecture violations found!");
 }

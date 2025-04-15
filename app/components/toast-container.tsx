@@ -20,7 +20,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="toast-item animate-in fade-in slide-in-from-bottom-5 duration-300">
+    <div className="toast-item transition-all duration-300 animate-fade-in-up">
       <Toast variant={toast.type} onClose={onClose}>
         <div className="grid gap-1">
           <ToastTitle>{toast.title}</ToastTitle>
@@ -39,7 +39,7 @@ export function ToastContainer() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-0 right-0 z-50 flex flex-col p-4 sm:bottom-4 sm:right-4 sm:top-auto sm:max-w-md gap-3">
+    <div className="fixed bottom-0 right-0 z-[100] flex flex-col p-4 sm:bottom-4 sm:right-4 sm:top-auto max-w-[420px] gap-2 md:gap-3">
       {toasts.map((toast) => (
         <ToastItem
           key={toast.id}

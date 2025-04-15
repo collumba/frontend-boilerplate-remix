@@ -10,11 +10,14 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-background border",
-        success: "bg-green-50 border-green-200 text-green-800",
-        error: "bg-red-50 border-red-200 text-red-800",
-        warning: "bg-yellow-50 border-yellow-200 text-yellow-800",
-        info: "bg-blue-50 border-blue-200 text-blue-800",
+        default: "bg-background border-border text-foreground",
+        success:
+          "dark:bg-green-950 dark:border-green-800 dark:text-green-200 bg-green-50 border-green-200 text-green-800",
+        error:
+          "dark:bg-red-950 dark:border-red-800 dark:text-red-200 bg-red-50 border-red-200 text-red-800",
+        warning:
+          "dark:bg-yellow-950 dark:border-yellow-800 dark:text-yellow-200 bg-yellow-50 border-yellow-200 text-yellow-800",
+        info: "dark:bg-blue-950 dark:border-blue-800 dark:text-blue-200 bg-blue-50 border-blue-200 text-blue-800",
       },
     },
     defaultVariants: {
@@ -41,7 +44,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
         {onClose && (
           <button
             onClick={onClose}
-            className="cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-slate-500 transition-colors hover:text-slate-900 focus:outline-none"
+            className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-1 focus:ring-ring"
           >
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>

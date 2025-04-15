@@ -18,7 +18,10 @@
     "gen:entity": "node scripts/generate-entity.js",
     "gen:shared": "node scripts/generate-shared.js",
     "gen:component": "node scripts/generate-component.js",
-    "check:fsd": "node scripts/check-fsd.js"
+    "gen:route": "node scripts/generate-route.js",
+    "check:fsd": "node scripts/check-fsd.js",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

@@ -16,6 +16,23 @@ const layers = {
   shared: [],
 };
 
+// Expected directory structure for each layer
+const expectedDirectories = {
+  features: ["ui", "model", "api", "lib", "config"],
+  entities: ["ui", "model", "api", "lib", "config"],
+  shared: ["ui", "api", "lib", "config", "types"],
+};
+
+// File name patterns
+const filePatterns = {
+  ui: /\.(tsx|jsx)$/,
+  model: /\.(ts|js)$/,
+  api: /\.(ts|js)$/,
+  lib: /\.(ts|js)$/,
+  config: /\.(ts|js)$/,
+  types: /\.(ts|js)$/,
+};
+
 // Helper function to check import violations
 function checkImportViolations(filePath, content) {
   const violations = [];
@@ -60,32 +77,117 @@ function checkImportViolations(filePath, content) {
   return violations;
 }
 
+// Helper function to check directory structure
+function checkDirectoryStructure(layerPath, layerName) {
+  const violations = [];
+
+  if (!expectedDirectories[layerName]) {
+    return violations; // No specific structure expected
+  }
+
+  // Get all subdirectories
+  const subdirs = fs
+    .readdirSync(layerPath, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name);
+
+  // Check for expected directories in features and entities modules
+  if (layerName === "features" || layerName === "entities") {
+    subdirs.forEach((subdir) => {
+      const moduleDir = path.join(layerPath, subdir);
+
+      // Check if module has the required structure
+      const moduleDirs = fs
+        .readdirSync(moduleDir, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+
+      // Check for missing directories
+      const missingDirs = expectedDirectories[layerName].filter(
+        (dir) => !moduleDirs.includes(dir)
+      );
+
+      if (missingDirs.length > 0) {
+        violations.push({
+          directory: path.relative(rootDir, moduleDir),
+          message: `Missing expected directories: ${missingDirs.join(", ")}`,
+        });
+      }
+
+      // Check for index.ts file
+      if (!fs.existsSync(path.join(moduleDir, "index.ts"))) {
+        violations.push({
+          directory: path.relative(rootDir, moduleDir),
+          message: "Missing index.ts file",
+        });
+      }
+    });
+  } else if (layerName === "shared") {
+    // Check if shared has the required structure
+    const missingDirs = expectedDirectories[layerName].filter(
+      (dir) => !subdirs.includes(dir)
+    );
+
+    if (missingDirs.length > 0) {
+      violations.push({
+        directory: path.relative(rootDir, layerPath),
+        message: `Missing expected directories: ${missingDirs.join(", ")}`,
+      });
+    }
+  }
+
+  return violations;
+}
+
 // Find all TypeScript and TSX files
 console.log("Checking FSD architecture violations...");
+
+// Check directory structure
+let structureViolations = [];
+Object.keys(expectedDirectories).forEach((layerName) => {
+  const layerPath = path.join(rootDir, "src", layerName);
+  if (fs.existsSync(layerPath)) {
+    structureViolations = structureViolations.concat(
+      checkDirectoryStructure(layerPath, layerName)
+    );
+  }
+});
+
+if (structureViolations.length > 0) {
+  console.log("\n⚠️ Directory structure violations:");
+  structureViolations.forEach((v) => {
+    console.log(`  - ${v.directory}: ${v.message}`);
+  });
+}
+
+// Check import violations
 const tsFiles = execSync('find src -type f -name "*.ts" -o -name "*.tsx"', {
   encoding: "utf-8",
 })
   .split("\n")
   .filter(Boolean);
 
-let totalViolations = 0;
+let importViolations = [];
 
 tsFiles.forEach((file) => {
   try {
     const content = fs.readFileSync(path.join(rootDir, file), "utf-8");
-    const violations = checkImportViolations(path.join(rootDir, file), content);
-
-    if (violations.length > 0) {
-      totalViolations += violations.length;
-      console.log(`\n⚠️ Violations in ${file}:`);
-      violations.forEach((v) => {
-        console.log(`  - ${v.message} (import: ${v.import})`);
-      });
-    }
+    importViolations = importViolations.concat(
+      checkImportViolations(path.join(rootDir, file), content)
+    );
   } catch (error) {
     console.error(`Error checking ${file}:`, error.message);
   }
 });
+
+if (importViolations.length > 0) {
+  console.log("\n⚠️ Import violations:");
+  importViolations.forEach((v) => {
+    console.log(`  - ${v.file}: ${v.message} (import: ${v.import})`);
+  });
+}
+
+const totalViolations = structureViolations.length + importViolations.length;
 
 if (totalViolations > 0) {
   console.log(`\n❌ Total of violations found: ${totalViolations}`);

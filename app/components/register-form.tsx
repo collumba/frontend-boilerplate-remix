@@ -49,7 +49,9 @@ export function RegisterForm({
     onError: (err: any) => {
       actions.addToast({
         title: t("auth.error.register"),
-        description: t("auth.error.registerDescription"),
+        description:
+          err.response?.data?.error?.message ||
+          t("auth.error.registerDescription"),
         type: "error",
       });
     },

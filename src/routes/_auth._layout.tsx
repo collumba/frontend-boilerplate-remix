@@ -1,7 +1,7 @@
-import { requireGuest } from "@app/modules/auth/auth-server";
-import { ROUTES } from "@app/shared/config/routes";
-import { Link } from "@app/shared/ui/link";
-import { LocaleToggle } from "@app/shared/ui/locale-toggle";
+import { requireGuest } from "@/modules/auth/auth-server";
+import { ROUTES } from "@/shared/config/routes";
+import { Link } from "@/shared/ui/link";
+import { LocaleToggle } from "@/shared/ui/locale-toggle";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { MetaFunction, Outlet } from "@remix-run/react";
 import { GalleryVerticalEnd } from "lucide-react";

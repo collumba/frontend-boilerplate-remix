@@ -1,4 +1,4 @@
-import { ToastMessage } from "@app/modules/toast/session.server";
+import { ToastMessage } from "@/modules/toast/session.server";
 import { useMatches } from "@remix-run/react";
 import * as React from "react";
 import { useTranslation } from "react-i18next";

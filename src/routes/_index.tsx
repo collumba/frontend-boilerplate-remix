@@ -1,13 +1,13 @@
-import { ROUTES } from "@app/shared/config/routes";
+import { ROUTES } from "@/shared/config/routes";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@app/shared/ui/card";
-import { Link } from "@app/shared/ui/link";
-import { Typography } from "@app/shared/ui/typography";
+} from "@/shared/ui/card";
+import { Link } from "@/shared/ui/link";
+import { Typography } from "@/shared/ui/typography";
 import { MetaFunction } from "@remix-run/react";
 import {
   BookOpen,

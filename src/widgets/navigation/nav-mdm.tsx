@@ -1,12 +1,12 @@
 "use client";
 
-import { ENTITY_CONFIG } from "@app/shared/config/mdm";
-import { ROUTES } from "@app/shared/config/routes";
+import { ENTITY_CONFIG } from "@/shared/config/mdm";
+import { ROUTES } from "@/shared/config/routes";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@app/shared/ui/collapsible";
+} from "@/shared/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -16,7 +16,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@app/shared/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useTranslation } from "react-i18next";
 

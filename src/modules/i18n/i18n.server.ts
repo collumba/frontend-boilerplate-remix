@@ -1,4 +1,4 @@
-import * as i18n from "@app/shared/config/i18n";
+import * as i18n from "@/shared/config/i18n";
 import { createCookie } from "@remix-run/node";
 import { RemixI18Next } from "remix-i18next/server";
 

@@ -1,4 +1,4 @@
-import { ApiResponse, FetchParams } from "@app/shared/types/api";
+import { ApiResponse, FetchParams } from "@/shared/types/api";
 import { useSearchParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import {

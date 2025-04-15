@@ -13,7 +13,12 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "gen:feature": "node scripts/generate-feature.js",
+    "gen:entity": "node scripts/generate-entity.js",
+    "gen:shared": "node scripts/generate-shared.js",
+    "gen:component": "node scripts/generate-component.js",
+    "check:fsd": "node scripts/check-fsd.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

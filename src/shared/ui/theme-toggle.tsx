@@ -6,7 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@app/shared/ui/dropdown-menu";
+} from "@/shared/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { Button } from "./button";
 

@@ -1,4 +1,4 @@
-import { cn } from "@app/shared/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";

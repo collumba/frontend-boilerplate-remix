@@ -1,14 +1,14 @@
 "use client";
 
-import { MdmService } from "@app/shared/api/mdm";
-import { cn } from "@app/shared/lib/cn";
+import { MdmService } from "@/shared/api/mdm";
+import { cn } from "@/shared/lib/cn";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@app/shared/ui/select";
+} from "@/shared/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 

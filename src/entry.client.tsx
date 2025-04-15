@@ -1,5 +1,5 @@
-import { defaultNS, fallbackLng, supportedLngs } from "@app/shared/config/i18n";
-import { ROUTES } from "@app/shared/config/routes";
+import { defaultNS, fallbackLng, supportedLngs } from "@/shared/config/i18n";
+import { ROUTES } from "@/shared/config/routes";
 import { RemixBrowser } from "@remix-run/react";
 import i18next from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";

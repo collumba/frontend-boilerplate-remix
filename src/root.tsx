@@ -1,13 +1,13 @@
-import { AuthProvider } from "@app/app/providers/auth-context";
-import { ToastProvider } from "@app/app/providers/toast-context";
-import i18next from "@app/modules/i18n/i18n.server";
-import { themeSessionResolver } from "@app/modules/theme/sessions.server";
+import { AuthProvider } from "@/app/providers/auth-context";
+import { ToastProvider } from "@/app/providers/toast-context";
+import i18next from "@/modules/i18n/i18n.server";
+import { themeSessionResolver } from "@/modules/theme/sessions.server";
 import {
   clearToastMessages,
   getToastMessages,
-} from "@app/modules/toast/session.server";
-import { ROUTES } from "@app/shared/config/routes";
-import { ToastContainer } from "@app/widgets/toast";
+} from "@/modules/toast/session.server";
+import { ROUTES } from "@/shared/config/routes";
+import { ToastContainer } from "@/widgets/toast";
 import { LinksFunction, LoaderFunctionArgs, json } from "@remix-run/node";
 import {
   Links,

@@ -8,13 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@app/shared/ui/dropdown-menu";
+} from "@/shared/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@app/shared/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { CaretSortIcon, PlusIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 

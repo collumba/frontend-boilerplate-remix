@@ -1,15 +1,15 @@
-import { MdmService } from "@app/shared/api/mdm";
-import { ENTITY_CONFIG, useEntityColumns } from "@app/shared/config/mdm";
-import { ROUTES } from "@app/shared/config/routes";
-import { useDataTable } from "@app/shared/lib/hooks/useDataTable";
-import { EntityMap, EntityType } from "@app/shared/types/mdm";
-import { Button } from "@app/shared/ui/button";
+import { MdmService } from "@/shared/api/mdm";
+import { ENTITY_CONFIG, useEntityColumns } from "@/shared/config/mdm";
+import { ROUTES } from "@/shared/config/routes";
+import { useDataTable } from "@/shared/lib/hooks/useDataTable";
+import { EntityMap, EntityType } from "@/shared/types/mdm";
+import { Button } from "@/shared/ui/button";
 import {
   DataTable,
   DataTableError,
   DataTableSkeleton,
-} from "@app/shared/ui/data-table";
-import PageHeader from "@app/shared/ui/page-header";
+} from "@/shared/ui/data-table";
+import PageHeader from "@/shared/ui/page-header";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData, useNavigate } from "@remix-run/react";
 import { PlusIcon } from "lucide-react";

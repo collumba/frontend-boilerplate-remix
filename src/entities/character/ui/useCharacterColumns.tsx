@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@app/components/ui/avatar";
-import { useFormattedDate } from "@app/hooks/useFormattedDate";
-import { Character } from "@app/types/mdm/character";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useFormattedDate } from "@/hooks/useFormattedDate";
+import { Character } from "@/types/mdm/character";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 

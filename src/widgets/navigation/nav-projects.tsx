@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@app/shared/ui/dropdown-menu";
+} from "@/shared/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -17,7 +17,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@app/shared/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 export function NavProjects({

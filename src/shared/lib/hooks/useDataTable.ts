@@ -1,5 +1,5 @@
-import { useTable } from "@app/shared/lib/hooks/useTable";
-import { FetchParams } from "@app/shared/types/api";
+import { useTable } from "@/shared/lib/hooks/useTable";
+import { FetchParams } from "@/shared/types/api";
 import {
   getCoreRowModel,
   getFilteredRowModel,

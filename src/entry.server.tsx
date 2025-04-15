@@ -1,4 +1,4 @@
-import * as i18n from "@app/shared/config/i18n";
+import * as i18n from "@/shared/config/i18n";
 import type { AppLoadContext, EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";

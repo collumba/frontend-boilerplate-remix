@@ -6,7 +6,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@app/shared/ui/collapsible";
+} from "@/shared/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -16,7 +16,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@app/shared/ui/sidebar";
+} from "@/shared/ui/sidebar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 
 export function NavMain({

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@app/shared/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import * as React from "react";

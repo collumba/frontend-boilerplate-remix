@@ -1,4 +1,4 @@
-import { cn } from "@app/shared/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import { Link as RemixLink } from "@remix-run/react";
 import React from "react";
 

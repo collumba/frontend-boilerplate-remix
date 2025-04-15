@@ -1,6 +1,6 @@
-import { ToastContext, ToastProvider } from "@app/app/providers/toast-context";
-import { ToastMessage } from "@app/modules/toast/session.server";
-import { ToastContainer } from "@app/widgets/toast";
+import { ToastContext, ToastProvider } from "@/app/providers/toast-context";
+import { ToastMessage } from "@/modules/toast/session.server";
+import { ToastContainer } from "@/widgets/toast";
 import { act, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 

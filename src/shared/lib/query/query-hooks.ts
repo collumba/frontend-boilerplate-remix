@@ -45,9 +45,9 @@ export function useApiMutation<TData, TVariables>(
         throw handleApiError(error);
       }
     },
-    onSettled: () => {
+    onSettled: (data, error, variables, context) => {
       if (options?.onSettled) {
-        options.onSettled();
+        options.onSettled(data, error, variables, context);
       }
     },
     ...options,

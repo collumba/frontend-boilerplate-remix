@@ -20,6 +20,7 @@ export default defineConfig({
         v3_singleFetch: true,
         v3_lazyRouteDiscovery: true,
       },
+      appDirectory: "src",
       ssr: true,
     }),
     tsconfigPaths(),

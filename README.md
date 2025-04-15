@@ -9,6 +9,13 @@ Um projeto boilerplate para aplicações web frontend utilizando Remix.run e Typ
 - **Tailwind CSS** - Framework CSS utilitário
 - **React** - Biblioteca JavaScript para construção de interfaces
 
+## Project Structure
+
+This project follows the Feature Slice Design architecture pattern and uses:
+
+1. "src" as the root directory instead of traditional "app"
+2. "pages" directory instead of "routes" for Remix routes
+
 ## Estrutura do Projeto
 
 O projeto segue uma estrutura organizada para facilitar o desenvolvimento:

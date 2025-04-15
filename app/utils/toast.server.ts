@@ -9,9 +9,9 @@ import { env } from "env";
 type ToastOptions = Omit<ToastMessage, "id" | "createdAt">;
 
 /**
- * Function to return a JSON with headers to configure a toast message
+ * Function to return a JSON response with a toast notification
  */
-export async function jsonWithToast<T>(
+export async function jsonWithToastNotification<T>(
   data: T,
   options: ToastOptions,
   init?: ResponseInit
@@ -42,9 +42,9 @@ export async function jsonWithToast<T>(
 }
 
 /**
- * Function to redirect with a toast message
+ * Function to redirect with a toast notification
  */
-export async function redirectWithToast(
+export async function redirectWithToastNotification(
   url: string,
   options: ToastOptions,
   init?: ResponseInit

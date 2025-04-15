@@ -1,12 +1,15 @@
 import { Button } from "@app/components/ui/button";
 import { Typography } from "@app/components/ui/typography";
 import { useToast, useToastI18n } from "@app/contexts/toast-context";
-import { jsonWithToast, redirectWithToast } from "@app/utils/toast.server";
+import {
+  jsonWithToastNotification,
+  redirectWithToastNotification,
+} from "@app/utils/toast.server";
 import { Form } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 
 export const loader = async () => {
-  return jsonWithToast(
+  return jsonWithToastNotification(
     { message: "Loader Response" },
     {
       type: "success",
@@ -17,7 +20,7 @@ export const loader = async () => {
 };
 
 export const action = async () => {
-  return redirectWithToast("/app/resources/toasts", {
+  return redirectWithToastNotification("/app/resources/toasts", {
     type: "success",
     title: "Server Toast",
     description: "This toast was sent through the action",
@@ -203,7 +206,7 @@ export default function ToastExamplePage() {
         </div>
       </div>
       <div className="space-y-4">
-        <Typography variant="h2">Toasts Server-side</Typography>
+        <Typography variant="h2">Server-side Toasts</Typography>
         <div className="flex flex-wrap gap-2">
           <Form method="post">
             <Button type="submit" variant="secondary">

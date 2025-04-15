@@ -17,7 +17,6 @@ export const loader = async () => {
 };
 
 export const action = async () => {
-  console.log("action executada");
   return redirectWithToast("/app/resources/toasts", {
     type: "success",
     title: "Server Toast",
@@ -56,16 +55,6 @@ export default function ToastExamplePage() {
         });
     }
   };
-
-  //Mostrar toast do lado do cliente somente quando receber uma resposta do servidor
-  //que NÃO inclua um toast
-  // if (
-  //   actionData?.success &&
-  //   actionData?.type !== "success" &&
-  //   actionData?.type !== "redirect"
-  // ) {
-  //   showClientToast(actionData.type);
-  // }
 
   return (
     <div className="container mx-auto p-6 space-y-8">

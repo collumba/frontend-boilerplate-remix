@@ -4,21 +4,22 @@ import {
   getToastSession,
 } from "@app/modules/toast/session.server";
 import { json, redirect } from "@remix-run/node";
+import { env } from "env";
 
 type ToastOptions = Omit<ToastMessage, "id" | "createdAt">;
 
 /**
- * Função para retornar um JSON com headers para configurar uma mensagem de toast
+ * Function to return a JSON with headers to configure a toast message
  */
 export async function jsonWithToast<T>(
   data: T,
   options: ToastOptions,
   init?: ResponseInit
 ) {
-  // Cria uma sessão diretamente
-  const session = await getToastSession(new Request("http://localhost"));
+  // Create a session directly
+  const session = await getToastSession(new Request(env.DOMAIN));
 
-  // Adiciona a mensagem de toast à sessão
+  // Add the toast message to the session
   const newMessage: ToastMessage = {
     ...options,
     id: crypto.randomUUID(),
@@ -28,7 +29,7 @@ export async function jsonWithToast<T>(
   const messages = session.get("toastMessages") || [];
   session.set("toastMessages", [...messages, newMessage]);
 
-  // Obtém o cookie da sessão
+  // Get the session cookie
   const toastCookie = await commitToastSession(session);
 
   const headers = new Headers(init?.headers);
@@ -41,17 +42,17 @@ export async function jsonWithToast<T>(
 }
 
 /**
- * Função para redirecionar com uma mensagem de toast
+ * Function to redirect with a toast message
  */
 export async function redirectWithToast(
   url: string,
   options: ToastOptions,
   init?: ResponseInit
 ) {
-  // Cria uma sessão diretamente
+  // Create a session directly
   const session = await getToastSession(new Request("http://localhost"));
 
-  // Adiciona a mensagem de toast à sessão
+  // Add the toast message to the session
   const newMessage: ToastMessage = {
     ...options,
     id: crypto.randomUUID(),
@@ -61,7 +62,7 @@ export async function redirectWithToast(
   const messages = session.get("toastMessages") || [];
   session.set("toastMessages", [...messages, newMessage]);
 
-  // Obtém o cookie da sessão
+  // Get the session cookie
   const toastCookie = await commitToastSession(session);
 
   const headers = new Headers(init?.headers);

@@ -41,11 +41,12 @@ export const links: LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
   const locale = await i18next.getLocale(request);
 
-  // Carregar mensagens de toast e limpar da sessão
+  //Load toast messages and clear from session
   const toasts = await getToastMessages(request);
   const headers = new Headers();
 

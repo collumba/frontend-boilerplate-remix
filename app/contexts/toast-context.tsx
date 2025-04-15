@@ -26,7 +26,7 @@ export function useToast() {
 }
 
 /**
- * Hook para adicionar toasts usando traduções
+ * Hook to add toasts using translations
  */
 export function useToastI18n() {
   const { actions } = useToast();
@@ -86,18 +86,18 @@ interface LoaderData {
 }
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  // Estado para armazenar os toasts
+  // State to store toasts
   const [toasts, setToasts] = React.useState<ToastMessage[]>([]);
 
-  // Referência para tracking de toasts já processados
+  // Reference to track processed toasts
   const processedToastIds = React.useRef(new Set<string>());
 
-  // Busca mensagens do servidor a partir dos dados de loader
+  // Search for server toasts from loader data
   const matches = useMatches();
   const rootData = matches[0]?.data as LoaderData | undefined;
   const serverToasts = rootData?.toasts || [];
 
-  // Inicializa os toasts com as mensagens do servidor quando elas mudam
+  // Initialize toasts with server toasts when they change
   React.useEffect(() => {
     if (serverToasts.length > 0) {
       const newToasts = serverToasts.filter(
@@ -105,15 +105,13 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       );
 
       if (newToasts.length > 0) {
-        // Marcar como processados
+        // Mark as processed
         newToasts.forEach((toast) => {
           processedToastIds.current.add(toast.id);
         });
 
-        // Adicionar à lista
+        // Add to list
         setToasts((prev) => [...prev, ...newToasts]);
-
-        console.log("Toasts do servidor processados:", newToasts);
       }
     }
   }, [serverToasts]);
@@ -125,7 +123,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         id: crypto.randomUUID(),
         createdAt: Date.now(),
       };
-      console.log("Toast adicionado pelo cliente:", newToast);
       setToasts((prev) => [...prev, newToast]);
     },
     removeToast: (id) => {

@@ -41,7 +41,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
         {onClose && (
           <button
             onClick={onClose}
-            className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-slate-500 transition-colors hover:text-slate-900 focus:outline-none"
+            className="cursor-pointer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-slate-500 transition-colors hover:text-slate-900 focus:outline-none"
           >
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>

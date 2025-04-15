@@ -10,8 +10,9 @@ export type ToastMessage = {
 };
 
 const isProduction = env.NODE_ENV === "production";
+const domain = env.DOMAIN;
 
-// Cria o storage de sessão para os toasts
+// Create session storage for toasts
 const toastSessionStorage = createCookieSessionStorage({
   cookie: {
     name: "toast_messages",
@@ -19,14 +20,12 @@ const toastSessionStorage = createCookieSessionStorage({
     httpOnly: true,
     sameSite: "lax",
     secrets: ["toast_secret"],
-    // Define domínio e secure apenas em produção
-    ...(isProduction
-      ? { domain: "your-production-domain.com", secure: true }
-      : {}),
+    // only domain and secure in production
+    ...(isProduction ? { domain, secure: true } : {}),
   },
 });
 
-// Funções para gerenciar os toasts na sessão
+// Functions to manage toasts in session
 export async function getToastSession(request: Request) {
   return toastSessionStorage.getSession(request.headers.get("Cookie"));
 }
@@ -35,7 +34,7 @@ export async function commitToastSession(session: any) {
   return toastSessionStorage.commitSession(session);
 }
 
-// Funções para gerenciar os toasts na sessão
+// Functions to manage toasts in session
 export async function getToastMessages(
   request: Request
 ): Promise<ToastMessage[]> {
@@ -51,17 +50,17 @@ export async function setToastMessage(
   const session = await getToastSession(request);
   const messages = session.get("toastMessages") || [];
 
-  // Cria uma nova mensagem com ID único e timestamp
+  // Create a new message with unique ID and timestamp
   const newMessage: ToastMessage = {
     ...message,
     id: crypto.randomUUID(),
     createdAt: Date.now(),
   };
 
-  // Adiciona a nova mensagem à lista
+  // Add the new message to the list
   session.set("toastMessages", [...messages, newMessage]);
 
-  // Retorna um cookie com a sessão atualizada
+  // Return an updated cookie with the session
   return await commitToastSession(session);
 }
 

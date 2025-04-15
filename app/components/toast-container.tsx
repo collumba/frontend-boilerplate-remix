@@ -3,7 +3,7 @@ import { useToast } from "@app/contexts/toast-context";
 import { ToastMessage } from "@app/modules/toast/session.server";
 import * as React from "react";
 
-const TOAST_TIMEOUT = 5000; // 5 segundos
+const TOAST_TIMEOUT = 5000; // 5 seconds
 
 interface ToastItemProps {
   toast: ToastMessage;

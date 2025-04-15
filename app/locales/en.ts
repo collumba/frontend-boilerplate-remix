@@ -61,6 +61,16 @@ export default {
         registrationFailed: "Registration failed. Please try again.",
       },
     },
+    error: {
+      checkAuth: "Error checking authentication",
+      checkAuthDescription: "Unable to check authentication",
+      login: "Error logging in",
+      loginDescription: "Unable to log in",
+      logout: "Error logging out",
+      logoutDescription: "Unable to log out",
+      register: "Error registering",
+      registerDescription: "Unable to register",
+    },
   },
   theme: {
     toggle: "Toggle theme",
@@ -142,20 +152,6 @@ export default {
       default: {
         title: "Notification",
         description: "A new notification.",
-      },
-      task: {
-        created: {
-          title: "Task Created",
-          description: "{{count}} new task added successfully.",
-        },
-        deleted: {
-          title: "Task Removed",
-          description: "The task was successfully deleted.",
-        },
-        error: {
-          title: "Task Error",
-          description: "Unable to perform operation on task.",
-        },
       },
     },
     dataTable: {

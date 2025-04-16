@@ -76,7 +76,6 @@ export function useAuth() {
     mutationFn: async ({
       identifier,
       password,
-      rememberMe = false,
     }: {
       identifier: string;
       password: string;
@@ -121,7 +120,7 @@ export function useAuth() {
     if (hasToken) {
       checkAuth();
     }
-  }, []);
+  }, [checkAuth, hasToken]);
 
   return {
     isLoading: isLoginPending || isLogoutPending || isLoading,

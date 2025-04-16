@@ -40,7 +40,7 @@ export default function AuthLayout() {
       <div className="relative hidden bg-muted lg:block">
         <img
           src="/login-placeholder.png"
-          alt="Image"
+          alt="Login placeholder"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>

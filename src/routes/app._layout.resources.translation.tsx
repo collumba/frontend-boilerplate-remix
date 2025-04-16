@@ -210,42 +210,6 @@ export default function TranslationExamplePage() {
               </Typography>
             </div>
           </div>
-
-          <div className="space-y-2 border rounded-md p-4">
-            <Typography variant="small" className="font-semibold">
-              Do's and Don'ts
-            </Typography>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Typography
-                  variant="small"
-                  className="font-semibold text-green-600"
-                >
-                  ✓ Do
-                </Typography>
-                <ul className="space-y-1 list-disc list-inside">
-                  <li>Use camelCase for keys</li>
-                  <li>Group by feature/module</li>
-                  <li>Keep keys consistent across languages</li>
-                  <li>Use variables for dynamic content</li>
-                </ul>
-              </div>
-              <div>
-                <Typography
-                  variant="small"
-                  className="font-semibold text-red-600"
-                >
-                  ✗ Don't
-                </Typography>
-                <ul className="space-y-1 list-disc list-inside">
-                  <li>Use flat structure for all keys</li>
-                  <li>Create keys with spaces or special chars</li>
-                  <li>Duplicate similar texts across keys</li>
-                  <li>Hardcode formatting in translations</li>
-                </ul>
-              </div>
-            </div>
-          </div>
         </CardContent>
       </Card>
 

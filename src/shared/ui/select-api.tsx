@@ -2,14 +2,16 @@
 
 import { MdmService } from "@/shared/api/mdm";
 import { cn } from "@/shared/lib/cn";
+import { EntityType } from "@/shared/types/mdm";
 import {
-  Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select";
+import { Select } from "@radix-ui/react-select";
 import { useQuery } from "@tanstack/react-query";
+import { TFunction } from "i18next";
 import { Loader2 } from "lucide-react";
 
 interface Option {
@@ -19,10 +21,23 @@ interface Option {
 
 interface SelectFieldProps {
   fieldId: string;
-  field: any;
-  formField: any;
-  formState: any;
-  t: any;
+  field: {
+    entity?: EntityType;
+    optionsSource: "api" | "static";
+    optionsEndpoint: string;
+    optionsParams: Record<string, string>;
+    options: Option[];
+    disabled: boolean;
+    placeholder: string;
+  };
+  formField: {
+    onChange: (value: string) => void;
+    value: string;
+  };
+  formState: {
+    errors: Record<string, { message?: string }>;
+  };
+  t: TFunction;
   fieldKey: string;
 }
 
@@ -34,8 +49,8 @@ export function SelectFromApi({
   fieldKey,
   t,
 }: SelectFieldProps) {
-  const entity = field.entity || "common";
-  const service = new MdmService(entity);
+  const entity = field.entity || "character";
+  const service = new MdmService(entity as "character");
 
   const {
     data: options = [],

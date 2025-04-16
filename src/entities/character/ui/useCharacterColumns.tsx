@@ -1,6 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useFormattedDate } from "@/hooks/useFormattedDate";
-import { Character } from "@/types/mdm/character";
+import { Character } from "@/shared/types/mdm/character";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 
@@ -70,7 +69,7 @@ const useCharacterColumns = () => {
       accessorKey: "created",
       header: t("entities.character.columns.created"),
       cell: ({ row }) => {
-        return <div>{useFormattedDate(row.original.created)}</div>;
+        return <div>{row.original.created}</div>;
       },
     },
   ];

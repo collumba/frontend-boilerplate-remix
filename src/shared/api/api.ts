@@ -40,11 +40,11 @@ export class ApiService {
     return this.client.get<T>(url).then((response) => response.data);
   }
 
-  post<T>(url: string, data: any) {
+  post<T, D>(url: string, data: D) {
     return this.client.post<T>(url, data).then((response) => response.data);
   }
 
-  put<T>(url: string, data: any) {
+  put<T, D>(url: string, data: D) {
     return this.client.put<T>(url, data).then((response) => response.data);
   }
 

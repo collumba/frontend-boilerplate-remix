@@ -78,6 +78,7 @@ function MultiSelect({
           id={id}
           role="combobox"
           aria-expanded={open}
+          aria-controls="multi-select-options"
           aria-haspopup="listbox"
           aria-labelledby="multi-select"
           tabIndex={0}
@@ -142,6 +143,7 @@ function MultiSelect({
       <PopoverContent className="w-full p-0" align="start">
         <Command onKeyDown={handleKeyDown}>
           <CommandInput
+            disabled={disabled}
             ref={inputRef}
             value={inputValue}
             onValueChange={setInputValue}
@@ -173,7 +175,7 @@ function MultiSelect({
                     setInputValue("");
                   }}
                 >
-                  Create "{inputValue}"
+                  Create &quot;{inputValue}&quot;
                 </CommandItem>
               )}
             </CommandGroup>

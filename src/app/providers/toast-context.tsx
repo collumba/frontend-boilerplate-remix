@@ -35,7 +35,7 @@ export function useToastI18n() {
   return {
     success: (
       key: string,
-      options?: Record<string, any>,
+      options?: Record<string, string | number | boolean>,
       customTitle?: string
     ) => {
       actions.addToast({
@@ -46,7 +46,7 @@ export function useToastI18n() {
     },
     error: (
       key: string,
-      options?: Record<string, any>,
+      options?: Record<string, string | number | boolean>,
       customTitle?: string
     ) => {
       actions.addToast({
@@ -57,7 +57,7 @@ export function useToastI18n() {
     },
     warning: (
       key: string,
-      options?: Record<string, any>,
+      options?: Record<string, string | number | boolean>,
       customTitle?: string
     ) => {
       actions.addToast({
@@ -68,7 +68,7 @@ export function useToastI18n() {
     },
     info: (
       key: string,
-      options?: Record<string, any>,
+      options?: Record<string, string | number | boolean>,
       customTitle?: string
     ) => {
       actions.addToast({
@@ -95,10 +95,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   // Search for server toasts from loader data
   const matches = useMatches();
   const rootData = matches[0]?.data as LoaderData | undefined;
-  const serverToasts = rootData?.toasts || [];
 
   // Initialize toasts with server toasts when they change
   React.useEffect(() => {
+    const serverToasts = rootData?.toasts || [];
+    
     if (serverToasts.length > 0) {
       const newToasts = serverToasts.filter(
         (toast) => !processedToastIds.current.has(toast.id)
@@ -114,7 +115,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         setToasts((prev) => [...prev, ...newToasts]);
       }
     }
-  }, [serverToasts]);
+  }, [rootData]);
 
   const actions: ToastAction = {
     addToast: (toast) => {

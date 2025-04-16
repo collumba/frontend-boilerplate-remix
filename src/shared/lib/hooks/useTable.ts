@@ -57,7 +57,7 @@ function useTable<T>({
     }
 
     setSearchParams(params, { replace: true });
-  }, [pageIndex, pageSize, sorting, setSearchParams]);
+  }, [pageIndex, pageSize, sorting, searchParams, setSearchParams]);
 
   const { data, isLoading, isFetching, error, refetch } = useQuery<
     ApiResponse<T>,
@@ -84,9 +84,9 @@ function useTable<T>({
     const [sort] = sorting;
     if (!sort) return data.results;
 
-    return [...data.results].sort((a: any, b: any) => {
-      const aValue = a[sort.id];
-      const bValue = b[sort.id];
+    return [...data.results].sort((a: T, b: T) => {
+      const aValue = a[sort.id as keyof T];
+      const bValue = b[sort.id as keyof T];
 
       if (aValue < bValue) return sort.desc ? 1 : -1;
       if (aValue > bValue) return sort.desc ? -1 : 1;

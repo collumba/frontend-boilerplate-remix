@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from "@remix-run/node";
+import { createCookieSessionStorage, Session } from "@remix-run/node";
 import { env } from "env";
 
 export type ToastMessage = {
@@ -30,7 +30,7 @@ export async function getToastSession(request: Request) {
   return toastSessionStorage.getSession(request.headers.get("Cookie"));
 }
 
-export async function commitToastSession(session: any) {
+export async function commitToastSession(session: Session) {
   return toastSessionStorage.commitSession(session);
 }
 

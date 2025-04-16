@@ -8,6 +8,12 @@ export interface ApiResponse<T> {
   };
 }
 
+export interface ApiError {
+  error: {
+    message: string;
+  };
+}
+
 export interface FetchParams {
   pageIndex: number;
   pageSize: number;

@@ -1,5 +1,5 @@
 import { useCharacterColumns } from "@/features/mdm/character/useCharacterColumns";
-import { Character } from "@/types/mdm/character";
+import { Character } from "@/shared/types/mdm/character";
 import { LucideIcon, User } from "lucide-react";
 
 export interface EntityFieldConfig {
@@ -25,12 +25,12 @@ export interface EntityFieldConfig {
   readonly?: boolean;
   optionsSource?: "static" | "api";
   optionsEndpoint?: string;
-  optionsParams?: Record<string, any>;
+  optionsParams?: Record<string, string>;
   entity?: keyof EntityMap;
 }
 
 // Base interface for entity configuration
-export interface EntityConfig<T> {
+export interface EntityConfig {
   endpoint: string;
   fields?: Record<string, EntityFieldConfig>;
   icon?: LucideIcon;
@@ -38,7 +38,7 @@ export interface EntityConfig<T> {
 
 // Register all entities here
 export const ENTITY_CONFIG: {
-  [K in keyof EntityMap]: EntityConfig<K>;
+  [K in keyof EntityMap]: EntityConfig;
 } = {
   character: {
     icon: User,
@@ -155,24 +155,22 @@ export type EntityMap = {
 
 // Helper function to get columns dynamically
 export function useEntityColumns<T extends "character">(entity: T) {
-  try {
-    // Map directly to the column hooks using static imports
-    const columnsMap = {
-      character: useCharacterColumns,
-    } as const;
+  // Map directly to the column hooks using static imports
+  const columnsMap = {
+    character: useCharacterColumns,
+  } as const;
 
-    // Get the columns function from the map
-    const useColumns = columnsMap[entity];
+  // Get the columns function from the map
+  const useColumns = columnsMap[entity];
 
-    if (!useColumns) {
-      throw new Error(`Could not find columns for entity: ${entity}`);
-    }
+  // Execute the hook to get the columns
+  const columns = useColumns();
 
-    // Execute the hook to get the columns
-    return useColumns();
-  } catch (error) {
-    console.error(`Error getting columns for ${entity}:`, error);
-    // Return empty columns to avoid breaking the UI
+  // Handle error case
+  if (!columns) {
+    console.error(`Could not find columns for entity: ${entity}`);
     return [];
   }
+
+  return columns;
 }

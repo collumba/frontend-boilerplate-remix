@@ -27,13 +27,13 @@ vi.mock("react-i18next", () => ({
 
 // Mock remix hooks
 vi.mock("@remix-run/react", () => ({
-  Form: ({ children, ...props }: any) => <form {...props}>{children}</form>,
+  Form: ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => <form {...props}>{children}</form>,
   useNavigation: () => ({ state: "idle" }),
 }));
 
 // Mock UI components
 vi.mock("@/components/ui/button", () => ({
-  Button: ({ children, onClick, ...props }: any) => (
+  Button: ({ children, onClick, ...props }: { children: React.ReactNode; onClick: () => void; [key: string]: unknown }) => (
     <button onClick={onClick} {...props}>
       {children}
     </button>
@@ -41,7 +41,7 @@ vi.mock("@/components/ui/button", () => ({
 }));
 
 vi.mock("@/components/ui/typography", () => ({
-  Typography: ({ variant, children, ...props }: any) => {
+  Typography: ({ variant, children, ...props }: { variant: string; children: React.ReactNode; [key: string]: unknown }) => {
     if (variant === "h1") return <h1 {...props}>{children}</h1>;
     if (variant === "h2") return <h2 {...props}>{children}</h2>;
     return <p {...props}>{children}</p>;
@@ -65,7 +65,7 @@ vi.mock("@/app/providers/toast-context", () => ({
     warning: vi.fn(),
     info: vi.fn(),
   }),
-  ToastProvider: ({ children }: any) => <div>{children}</div>,
+  ToastProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
 // Tests

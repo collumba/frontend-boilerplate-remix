@@ -1,5 +1,7 @@
 import { cn } from "@/shared/lib/cn";
+import PropTypes from "prop-types";
 import * as React from "react";
+
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -13,6 +15,9 @@ const Table = React.forwardRef<
   </div>
 ));
 Table.displayName = "Table";
+Table.propTypes = {
+  className: PropTypes.string,
+};
 
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
@@ -21,6 +26,9 @@ const TableHeader = React.forwardRef<
   <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
 ));
 TableHeader.displayName = "TableHeader";
+TableHeader.propTypes = {
+  className: PropTypes.string,
+};
 
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
@@ -33,6 +41,9 @@ const TableBody = React.forwardRef<
   />
 ));
 TableBody.displayName = "TableBody";
+TableBody.propTypes = {
+  className: PropTypes.string,
+};
 
 const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
@@ -48,6 +59,9 @@ const TableFooter = React.forwardRef<
   />
 ));
 TableFooter.displayName = "TableFooter";
+TableFooter.propTypes = {
+  className: PropTypes.string,
+};
 
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
@@ -63,6 +77,9 @@ const TableRow = React.forwardRef<
   />
 ));
 TableRow.displayName = "TableRow";
+TableRow.propTypes = {
+  className: PropTypes.string,
+};
 
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
@@ -78,6 +95,9 @@ const TableHead = React.forwardRef<
   />
 ));
 TableHead.displayName = "TableHead";
+TableHead.propTypes = {
+  className: PropTypes.string,
+};
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
@@ -93,6 +113,9 @@ const TableCell = React.forwardRef<
   />
 ));
 TableCell.displayName = "TableCell";
+TableCell.propTypes = {
+  className: PropTypes.string,
+};
 
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
@@ -105,6 +128,9 @@ const TableCaption = React.forwardRef<
   />
 ));
 TableCaption.displayName = "TableCaption";
+TableCaption.propTypes = {
+  className: PropTypes.string,
+};
 
 export {
   Table,

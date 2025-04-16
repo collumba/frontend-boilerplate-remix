@@ -106,7 +106,8 @@
     "Always use the react-hook-form library for form handling",
     "Always use the zod library for validation",
     "Always use the react-query library for data fetching",
-    "Only English texts and comments are allowed in the project"
+    "Only English texts and comments are allowed in the project",
+    "Never use type any"
   ],
   "import_aliases": {
     "src": "@app"

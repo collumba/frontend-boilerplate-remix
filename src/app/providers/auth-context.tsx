@@ -1,5 +1,9 @@
 import { useAuth } from "@/shared/lib/hooks/useAuth";
-import { RefetchOptions, UseMutateFunction } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  UseMutateFunction,
+} from "@tanstack/react-query";
 import { createContext, ReactNode, useContext } from "react";
 
 interface User {
@@ -33,7 +37,15 @@ interface AuthContextType {
     unknown
   >;
   logout: UseMutateFunction<void, Error, void, unknown>;
-  checkAuth: (options?: RefetchOptions) => Promise<any>;
+  checkAuth: (options?: RefetchOptions) => Promise<
+    QueryObserverResult<
+      {
+        isAuthenticated: boolean;
+        user: User | null;
+      },
+      Error
+    >
+  >;
 }
 
 // Criar contexto com um valor padrão vazio

@@ -3,6 +3,7 @@ import { useToast } from "@/app/providers/toast-context";
 import { authService } from "@/shared/api/auth";
 import { ROUTES } from "@/shared/config/routes";
 import { cn } from "@/shared/lib/cn";
+import { ApiError } from "@/shared/types/api";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -10,6 +11,7 @@ import { Link } from "@/shared/ui/link";
 import { Muted, Typography } from "@/shared/ui/typography";
 import { useNavigate } from "@remix-run/react";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -27,7 +29,6 @@ export function RegisterForm({
   const { actions } = useToast();
   const { mutate: register, isPending } = useMutation({
     mutationFn: async () => {
-      // Validações básicas
       if (password !== confirmPassword) {
         throw new Error(t("auth.register.error.passwordMismatch"));
       }
@@ -46,7 +47,7 @@ export function RegisterForm({
       await checkAuth();
       navigate(ROUTES.app.root);
     },
-    onError: (err: any) => {
+    onError: (err: AxiosError<ApiError>) => {
       actions.addToast({
         title: t("auth.error.register"),
         description:

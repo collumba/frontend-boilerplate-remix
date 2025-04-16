@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import { EmptyState } from "./empty-state";
 import { Skeleton } from "./skeleton";
 
-type DataTableProps<TData, TValue> = {
+type DataTableProps<TData> = {
   table: Table<TData>;
   inputSearch?: {
     placeholder: string;
@@ -34,12 +34,12 @@ type DataTableProps<TData, TValue> = {
   noResultsText?: string;
 };
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData>({
   table,
   inputSearch,
   showColumnsText,
   noResultsText,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData>) {
   const { t } = useTranslation();
 
   return (

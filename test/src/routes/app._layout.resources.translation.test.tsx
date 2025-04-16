@@ -12,7 +12,7 @@ vi.mock("env", () => {
 // Mock for i18n on the server side
 vi.mock("@/modules/i18n/i18n.server", () => ({
   default: {
-    getFixedT: vi.fn().mockResolvedValue((key: string, options?: any) => {
+    getFixedT: vi.fn().mockResolvedValue((key: string, options?: Record<string, unknown>) => {
       if (key === "component.toast.success.title") return "Success!";
       if (key === "component.toast.success.description" && options?.app) {
         return `Operation completed successfully in ${options.app}.`;

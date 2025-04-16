@@ -10,7 +10,7 @@ import { beforeEach, describe, expect, test, vi } from "vitest";
 // Mock for react-i18next
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
+    t: (key: string, options?: Record<string, unknown>) => {
       if (key === "component.toast.success.title") return "Success!";
       if (key === "component.toast.error.title") return "Error!";
       if (key === "component.toast.warning.title") return "Warning!";

@@ -1,8 +1,12 @@
 import { useCharacterColumns } from "@/features/mdm/character/useCharacterColumns";
-import { ColumnFactory, EntityType } from "@/types/mdm";
+import { EntityMap, EntityType } from "@/shared/config/mdm";
+import { ColumnFactory } from "@/shared/types/mdm";
 
 // Map de factories de colunas por tipo de entidade
-export const columnFactories: Record<EntityType, ColumnFactory<any>> = {
+export const columnFactories: Record<
+  EntityType,
+  ColumnFactory<EntityMap[EntityType]>
+> = {
   character: {
     useColumns: useCharacterColumns,
   },

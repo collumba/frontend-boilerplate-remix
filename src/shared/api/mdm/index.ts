@@ -21,13 +21,8 @@ export class MdmService<T extends EntityType> {
     this.endpoint = ENTITY_CONFIG[entity].endpoint;
   }
 
-  fetch({
-    pageIndex,
-    pageSize,
-    sortField,
-    sortDirection,
-  }: FetchParams): Promise<ApiResponse<EntityMap[T]>> {
-    let url = `${this.endpoint}/?page=${pageIndex}`;
+  fetch({ pageIndex }: FetchParams): Promise<ApiResponse<EntityMap[T]>> {
+    const url = `${this.endpoint}/?page=${pageIndex}`;
     return this.api.get<ApiResponse<EntityMap[T]>>(url);
   }
 
@@ -38,7 +33,10 @@ export class MdmService<T extends EntityType> {
 
   // Create a new entity
   create(data: Partial<EntityMap[T]>): Promise<EntityMap[T]> {
-    return this.api.post<EntityMap[T]>(`${this.endpoint}`, data);
+    return this.api.post<EntityMap[T], Partial<EntityMap[T]>>(
+      `${this.endpoint}`,
+      data
+    );
   }
 
   // Update an existing entity
@@ -46,7 +44,10 @@ export class MdmService<T extends EntityType> {
     id: string | number,
     data: Partial<EntityMap[T]>
   ): Promise<EntityMap[T]> {
-    return this.api.put<EntityMap[T]>(`${this.endpoint}/${id}`, data);
+    return this.api.put<EntityMap[T], Partial<EntityMap[T]>>(
+      `${this.endpoint}/${id}`,
+      data
+    );
   }
 
   // Delete an entity
@@ -62,7 +63,7 @@ export class MdmService<T extends EntityType> {
    */
   async getOptions(
     endpoint: string,
-    params?: Record<string, any>
+    params?: Record<string, string>
   ): Promise<Option[]> {
     try {
       // Build the URL with parameters, if any

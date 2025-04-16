@@ -1,4 +1,3 @@
-import { useFormattedDate } from "@/shared/lib/hooks/useFormattedDate";
 import { Character } from "@/shared/types/mdm/character";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { ColumnDef } from "@tanstack/react-table";
@@ -70,7 +69,7 @@ const useCharacterColumns = () => {
       accessorKey: "created",
       header: t("entities.character.columns.created"),
       cell: ({ row }) => {
-        return <div>{useFormattedDate(row.original.created)}</div>;
+        return <div>{row.original.created}</div>;
       },
     },
   ];

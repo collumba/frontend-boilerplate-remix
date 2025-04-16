@@ -1,4 +1,3 @@
-import { useAuthContext } from "@/app/providers/auth-context";
 import { requireAuth } from "@/modules/auth/auth-server";
 import { ROUTES } from "@/shared/config/routes";
 import ErrorBoundaryParserError from "@/shared/lib/error-bondary";
@@ -48,7 +47,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function AppPage() {
   const matches = useMatches() as AppMatch[];
   const { t } = useTranslation();
-  const { user } = useAuthContext();
   const breadcrumbs = matches
     .filter((match) => match.handle?.breadcrumb)
     .map((match) => {

@@ -6,15 +6,27 @@ import { Calendar } from "@/shared/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { format } from "date-fns";
 import { enUS, es, ptBR } from "date-fns/locale";
+import { TFunction } from "i18next";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface DatePickerFieldProps {
   fieldId: string;
-  field: any;
-  formField: any;
-  t: any;
+  field: {
+    disabled?: boolean;
+    placeholder?: string;
+    min?: string;
+    max?: string;
+  };
+  formField: {
+    onChange: (date: Date) => void;
+    value: Date;
+  };
+  formState: {
+    errors: Record<string, { message?: string }>;
+  };
+  t: TFunction;
   hasError?: boolean;
 }
 
@@ -66,12 +78,14 @@ function DatePicker({
           mode="single"
           selected={formField.value}
           onSelect={(date) => {
-            formField.onChange(date);
-            setIsOpen(false);
+            if (date) {
+              formField.onChange(date);
+              setIsOpen(false);
+            }
           }}
           disabled={(date) => {
-            if (field.min && date < new Date(field.min)) return true;
-            if (field.max && date > new Date(field.max)) return true;
+            if (field?.min && date < new Date(field.min)) return true;
+            if (field?.max && date > new Date(field.max)) return true;
             return false;
           }}
           initialFocus

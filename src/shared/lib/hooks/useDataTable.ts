@@ -1,6 +1,7 @@
 import { useTable } from "@/shared/lib/hooks/useTable";
-import { FetchParams } from "@/shared/types/api";
+import { ApiResponse, FetchParams } from "@/shared/types/api";
 import {
+  ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -10,8 +11,8 @@ import {
 
 interface UseDataTableProps<TData> {
   queryKey: string;
-  fetchData: (params: FetchParams) => Promise<any>;
-  columns: any[];
+  fetchData: (params: FetchParams) => Promise<ApiResponse<TData>>;
+  columns: ColumnDef<TData>[];
   initialPageSize?: number;
   defaultSort?: { id: string; desc: boolean };
 }

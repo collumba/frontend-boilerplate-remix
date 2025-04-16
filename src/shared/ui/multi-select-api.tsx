@@ -3,6 +3,7 @@
 import { MdmService } from "@/shared/api/mdm";
 import { MultiSelect } from "@/shared/ui/multi-select";
 import { useQuery } from "@tanstack/react-query";
+import { TFunction } from "i18next";
 import { Loader2 } from "lucide-react";
 
 interface Option {
@@ -12,10 +13,23 @@ interface Option {
 
 interface MultiSelectFieldProps {
   fieldId: string;
-  field: any;
-  formField: any;
-  formState: any;
-  t: any;
+  field: {
+    entity?: string;
+    optionsSource: "api" | "static";
+    optionsEndpoint: string;
+    optionsParams: Record<string, string>;
+    options: Option[];
+    disabled: boolean;
+    placeholder: string;
+  };
+  formField: {
+    onChange: (value: string[]) => void;
+    value: string[];
+  };
+  formState: {
+    errors: Record<string, { message?: string }>;
+  };
+  t: TFunction;
   fieldKey: string;
 }
 
@@ -28,7 +42,7 @@ export function MultiSelectFromApi({
   t,
 }: MultiSelectFieldProps) {
   const entity = field.entity || "common";
-  const service = new MdmService(entity);
+  const service = new MdmService(entity as "character");
 
   const {
     data: options = [],

@@ -1,7 +1,6 @@
 import { useIsMobile } from "@/components/hooks/use-mobile";
 import { MdmService } from "@/shared/api/mdm";
 import { ENTITY_CONFIG } from "@/shared/config/mdm";
-import { ROUTES } from "@/shared/config/routes";
 import { ClientOnly } from "@/shared/lib/client-only";
 import { cn } from "@/shared/lib/cn";
 import { EntityType } from "@/shared/types/mdm";
@@ -40,16 +39,41 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 const REQUIRED_FIELD_MARKER = "*";
+
+// Define field types
+type FieldType = "text" | "number" | "checkbox" | "date" | "textarea" | "select" | "radio" | "multiselect";
+
+// Update FormFieldValue to handle all possible field types
+type FormFieldValue = string | number | boolean | string[] | null | undefined;
+
+type FormValues = Record<string, FormFieldValue>;
+
+// Helper function to get typed form field value
+function getTypedFormFieldValue(value: FormFieldValue, type: FieldType): FormFieldValue {
+  if (type === "number") {
+    return (value as number) || 0;
+  } else if (type === "checkbox") {
+    return (value as boolean) || false;
+  } else if (type === "date") {
+    // Store dates as ISO strings
+    return value ? (value as string) : null;
+  } else if (type === "multiselect") {
+    return (value as string[]) || [];
+  } else {
+    return (value as string) || "";
+  }
+}
+
 export function generateZodSchema(entity: EntityType) {
   const config = ENTITY_CONFIG[entity];
-  const schemaObj: Record<string, any> = {};
+  const schemaObj: Record<string, z.ZodTypeAny> = {};
 
   if (!config.fields) {
     return z.object({});
   }
 
   Object.entries(config.fields).forEach(([key, field]) => {
-    let fieldSchema: any = z.string();
+    let fieldSchema: z.ZodTypeAny = z.string();
 
     if (field.type === "number") {
       fieldSchema = z.coerce.number();
@@ -75,7 +99,7 @@ export function generateZodSchema(entity: EntityType) {
           required_error: `${key} is required`,
         });
       } else {
-        fieldSchema = fieldSchema.min(1, { message: `${key} is required` });
+        fieldSchema = (fieldSchema as z.ZodString).min(1, { message: `${key} is required` });
       }
     } else {
       fieldSchema = fieldSchema.optional();
@@ -99,14 +123,14 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
   const navigate = useNavigate();
   const service = new MdmService(entity);
   const entityConfig = ENTITY_CONFIG[entity];
+  const isMobile = useIsMobile();
 
   // Define form schema based on entity
   const formSchema = generateZodSchema(entity);
-  type FormValues = z.infer<typeof formSchema>;
 
   // Create default values for all fields
   const defaultValues = React.useMemo(() => {
-    const values: Record<string, any> = {};
+    const values: FormValues = {};
     if (entityConfig.fields) {
       Object.entries(entityConfig.fields).forEach(([key, field]) => {
         // Set appropriate default value based on field type
@@ -115,16 +139,9 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
         } else if (field.type === "number") {
           values[key] = 0;
         } else if (field.type === "date") {
-          values[key] = undefined;
+          values[key] = null;
         } else if (field.type === "multiselect") {
           values[key] = [];
-        } else if (
-          field.type === "textarea" ||
-          field.type === "text" ||
-          field.type === "select" ||
-          field.type === "radio"
-        ) {
-          values[key] = "";
         } else {
           values[key] = "";
         }
@@ -133,18 +150,40 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
     return values;
   }, [entityConfig.fields]);
 
-  // Initialize the form with explicit type and default values
-  const form = useForm<Record<string, any>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+
+  const mutation = useMutation({
+    mutationFn: async (data: FormValues) => {
+      const submissionData = { ...data };
+      if (entityConfig.fields) {
+        Object.entries(entityConfig.fields).forEach(([key, field]) => {
+          if (field.type === "date" && submissionData[key]) {
+            // Ensure dates are handled as strings
+            submissionData[key] = submissionData[key] as string;
+          }
+        });
+      }
+      return isCreate ? service.create(submissionData) : service.update(id!, submissionData);
+    },
+    onSuccess: () => {
+      navigate(`/mdm/${entity}`);
+    },
+  });
+
+  const onSubmit = (data: FormValues) => {
+    mutation.mutate(data);
+  };
 
   // Fetch entity data for edit mode
   const { data: entityData, isLoading } = useQuery({
     queryKey: [entity, id],
     queryFn: async () => {
-      if (!id || isCreate) return {};
-      return service.getById(id);
+      if (!id || isCreate) return {} as Partial<FormValues>;
+      const data = await service.getById(id);
+      return data as unknown as Partial<FormValues>;
     },
     enabled: !!id && !isCreate,
   });
@@ -152,32 +191,19 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
   // Set form values when entity data is loaded
   React.useEffect(() => {
     if (entityData && !isCreate) {
-      // Convert date strings to Date objects
-      const processedData: Record<string, any> = { ...entityData };
+      const processedData: Partial<FormValues> = { ...entityData };
       if (entityConfig.fields) {
         Object.entries(entityConfig.fields).forEach(([key, field]) => {
-          if (field.type === "date" && typeof processedData[key] === "string") {
-            processedData[key] = new Date(processedData[key]);
+          if (field.type === "date" && processedData[key as keyof FormValues]) {
+            // Keep dates as ISO strings
+            const dateValue = processedData[key as keyof FormValues];
+            processedData[key as keyof FormValues] = typeof dateValue === 'string' ? dateValue : (dateValue as unknown as Date).toISOString();
           }
         });
       }
       form.reset(processedData);
     }
   }, [entityData, form, isCreate, entityConfig.fields]);
-
-  // Handle form submission
-  const mutation = useMutation({
-    mutationFn: async (data: FormValues) => {
-      return isCreate ? service.create(data) : service.update(id!, data);
-    },
-    onSuccess: () => {
-      navigate(ROUTES.app.mdm.details(entity, id!));
-    },
-  });
-
-  const onSubmit = (data: FormValues) => {
-    mutation.mutate(data);
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -190,7 +216,6 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
       </div>
     );
   }
-  const isMobile = useIsMobile();
 
   return (
     <div className="space-y-6">
@@ -247,222 +272,242 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
               <FormField
                 key={key}
                 control={form.control}
-                name={key as any}
-                render={({ field: formField, formState }) => (
-                  <FormItem>
-                    <FormLabel htmlFor={`field-${key}`} id={`label-${key}`}>
-                      {t(`entities.${entity}.fields.${key}`)}
-                      {field.required && (
-                        <span className="text-destructive ml-0.5">
-                          {REQUIRED_FIELD_MARKER}
-                        </span>
-                      )}
-                    </FormLabel>
-                    <FormControl>
-                      {field.type === "text" || field.type === "number" ? (
-                        field.mask ? (
-                          <MaskedInput
+                name={key as keyof FormValues}
+                render={({ field: formField, formState }) => {
+                  const fieldKey = key as keyof FormValues;
+                  // Update field configuration for SelectFromApi
+                  const selectFieldConfig = {
+                    entity: "character" as const,
+                    optionsSource: field.optionsSource || "static",
+                    optionsEndpoint: field.optionsEndpoint || "",
+                    optionsParams: field.optionsParams || {},
+                    options: field.options || [],
+                    disabled: field.disabled || false,
+                    placeholder: field.placeholder || "",
+                  };
+                  return (
+                    <FormItem>
+                      <FormLabel htmlFor={`field-${key}`} id={`label-${key}`}>
+                        {t(`entities.${entity}.fields.${key}`)}
+                        {field.required && (
+                          <span className="text-destructive ml-0.5">
+                            {REQUIRED_FIELD_MARKER}
+                          </span>
+                        )}
+                      </FormLabel>
+                      <FormControl>
+                        {field.type === "text" || field.type === "number" ? (
+                          field.mask ? (
+                            <MaskedInput
+                              id={`field-${key}`}
+                              mask={field.mask}
+                              placeholder={field.placeholder ? t(field.placeholder) : undefined}
+                              disabled={field.disabled}
+                              value={getTypedFormFieldValue(formField.value, "text") as string}
+                              onChange={formField.onChange}
+                              onBlur={formField.onBlur}
+                              name={formField.name}
+                              ref={formField.ref}
+                            />
+                          ) : (
+                            <Input
+                              id={`field-${key}`}
+                              type={field.type === "number" ? "number" : "text"}
+                              placeholder={field.placeholder ? t(field.placeholder) : undefined}
+                              min={field.min}
+                              max={field.max}
+                              pattern={field.pattern}
+                              disabled={field.disabled}
+                              readOnly={field.readonly}
+                              value={getTypedFormFieldValue(formField.value, field.type) as string}
+                              onChange={formField.onChange}
+                              onBlur={formField.onBlur}
+                              name={formField.name}
+                              ref={formField.ref}
+                            />
+                          )
+                        ) : field.type === "textarea" ? (
+                          <Textarea
                             id={`field-${key}`}
-                            mask={field.mask}
-                            placeholder={
-                              field.placeholder
-                                ? t(field.placeholder)
-                                : undefined
-                            }
-                            disabled={field.disabled}
-                            {...formField}
-                          />
-                        ) : (
-                          <Input
-                            id={`field-${key}`}
-                            type={field.type === "number" ? "number" : "text"}
-                            placeholder={
-                              field.placeholder
-                                ? t(field.placeholder)
-                                : undefined
-                            }
-                            min={field.min}
-                            max={field.max}
-                            pattern={field.pattern}
+                            placeholder={field.placeholder ? t(field.placeholder) : undefined}
+                            minLength={typeof field.min === "string" ? parseInt(field.min) : field.min}
+                            maxLength={typeof field.max === "string" ? parseInt(field.max) : field.max}
                             disabled={field.disabled}
                             readOnly={field.readonly}
-                            {...formField}
+                            className="min-h-[120px]"
+                            value={getTypedFormFieldValue(formField.value, "textarea") as string}
+                            onChange={formField.onChange}
+                            onBlur={formField.onBlur}
+                            name={formField.name}
+                            ref={formField.ref}
                           />
-                        )
-                      ) : field.type === "textarea" ? (
-                        <Textarea
-                          id={`field-${key}`}
-                          placeholder={
-                            field.placeholder
-                              ? t(field.placeholder)
-                              : t(
-                                  `entities.${entity}.fields.${key}Placeholder`,
-                                  {
-                                    defaultValue: t("common.action.enterText"),
-                                  }
-                                )
-                          }
-                          minLength={
-                            typeof field.min === "string"
-                              ? parseInt(field.min)
-                              : field.min
-                          }
-                          maxLength={
-                            typeof field.max === "string"
-                              ? parseInt(field.max)
-                              : field.max
-                          }
-                          disabled={field.disabled}
-                          readOnly={field.readonly}
-                          className="min-h-[120px]"
-                          {...formField}
-                        />
-                      ) : field.type === "select" ? (
-                        field.optionsSource === "api" ? (
-                          <SelectFromApi
-                            fieldId={`field-${key}`}
-                            field={field}
-                            formField={formField}
-                            formState={formState}
-                            t={t}
-                            fieldKey={key}
-                          />
-                        ) : (
-                          <Select
-                            onValueChange={formField.onChange}
-                            value={formField.value}
-                            disabled={field.disabled}
-                          >
-                            <SelectTrigger
-                              id={`field-${key}`}
-                              className={cn(
-                                "w-full",
-                                !!formState.errors[key] && "border-destructive"
-                              )}
-                              aria-invalid={!!formState.errors[key]}
-                            >
-                              <SelectValue
-                                placeholder={
-                                  field.placeholder
-                                    ? t(field.placeholder)
-                                    : t("common.action.select")
-                                }
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {field.options?.map(
-                                (option: { label: string; value: string }) => (
-                                  <SelectItem
-                                    key={option.value}
-                                    value={option.value}
-                                  >
-                                    {t(option.label)}
-                                  </SelectItem>
-                                )
-                              )}
-                            </SelectContent>
-                          </Select>
-                        )
-                      ) : field.type === "checkbox" ? (
-                        <Checkbox
-                          id={`field-${key}`}
-                          checked={formField.value}
-                          onCheckedChange={formField.onChange}
-                          disabled={field.disabled}
-                        />
-                      ) : field.type === "date" ? (
-                        <DatePickerField
-                          key={key}
-                          fieldId={`field-${key}`}
-                          field={field}
-                          formField={formField}
-                          t={t}
-                          hasError={!!formState.errors[key]}
-                        />
-                      ) : field.type === "radio" ? (
-                        <div
-                          className="radio-group-wrapper"
-                          aria-invalid={!!formState.errors[key]}
-                        >
-                          <RadioGroup
-                            onValueChange={formField.onChange}
-                            value={formField.value}
-                            className={cn(
-                              "flex flex-col space-y-2",
-                              !!formState.errors[key] && "border-destructive"
-                            )}
-                            disabled={field.disabled}
-                            aria-labelledby={`label-${key}`}
-                          >
-                            {field.options?.map(
-                              (option: { label: string; value: string }) => (
-                                <div
-                                  key={option.value}
-                                  className="flex items-center space-x-2"
-                                >
-                                  <RadioGroupItem
-                                    value={option.value}
-                                    id={`field-${key}-${option.value}`}
-                                    disabled={field.disabled}
-                                    className={
-                                      !!formState.errors[key]
-                                        ? "border-destructive"
-                                        : ""
-                                    }
-                                  />
-                                  <label
-                                    htmlFor={`field-${key}-${option.value}`}
-                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                  >
-                                    {t(option.label)}
-                                  </label>
-                                </div>
-                              )
-                            )}
-                          </RadioGroup>
-                        </div>
-                      ) : field.type === "multiselect" ? (
-                        <div className="multiselect-wrapper">
-                          {field.optionsSource === "api" ? (
+                        ) : field.type === "select" ? (
+                          field.optionsSource === "api" ? (
                             <SelectFromApi
                               fieldId={`field-${key}`}
-                              field={field}
-                              formField={formField}
-                              formState={formState}
+                              field={{
+                                entity: field.entity || "character",
+                                optionsSource: field.optionsSource || "static",
+                                optionsEndpoint: field.optionsEndpoint || "",
+                                optionsParams: field.optionsParams || {},
+                                options: field.options || [],
+                                disabled: field.disabled || false,
+                                placeholder: field.placeholder || "",
+                              }}
+                              formField={{
+                                onChange: formField.onChange,
+                                value: formField.value as string || "",
+                              }}
+                              formState={{
+                                errors: Object.fromEntries(
+                                  Object.entries(formState.errors).map(([key, error]) => [
+                                    key,
+                                    { message: error?.message },
+                                  ])
+                                ),
+                              }}
                               t={t}
                               fieldKey={key}
                             />
                           ) : (
-                            <MultiSelect
-                              options={field.options || []}
-                              selected={formField.value || []}
-                              onChange={formField.onChange}
-                              placeholder={
-                                field.placeholder
-                                  ? t(field.placeholder)
-                                  : t("common.action.selectOptions")
-                              }
+                            <Select
+                              onValueChange={formField.onChange}
+                              value={getTypedFormFieldValue(formField.value, "select") as string}
                               disabled={field.disabled}
-                              t={t}
-                              id={`field-${key}`}
-                              className={
-                                formState.errors[key]
-                                  ? "border-destructive"
-                                  : ""
-                              }
-                            />
-                          )}
-                        </div>
-                      ) : null}
-                    </FormControl>
-                    {field.helperText && (
-                      <p className="text-sm text-muted-foreground">
-                        {t(field.helperText)}
-                      </p>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
+                            >
+                              <SelectTrigger
+                                id={`field-${key}`}
+                                className={cn(
+                                  "w-full",
+                                  !!formState.errors[fieldKey] && "border-destructive"
+                                )}
+                                aria-invalid={!!formState.errors[fieldKey]}
+                              >
+                                <SelectValue
+                                  placeholder={
+                                    field.placeholder
+                                      ? t(field.placeholder)
+                                      : t("common.action.select")
+                                  }
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {field.options?.map(
+                                  (option: { label: string; value: string }) => (
+                                    <SelectItem
+                                      key={option.value}
+                                      value={option.value}
+                                    >
+                                      {t(option.label)}
+                                    </SelectItem>
+                                  )
+                                )}
+                              </SelectContent>
+                            </Select>
+                          )
+                        ) : field.type === "checkbox" ? (
+                          <Checkbox
+                            id={`field-${key}`}
+                            checked={getTypedFormFieldValue(formField.value, "checkbox") as boolean}
+                            onCheckedChange={formField.onChange}
+                            disabled={field.disabled}
+                          />
+                        ) : field.type === "date" ? (
+                          <DatePickerField
+                            key={key}
+                            fieldId={`field-${key}`}
+                            field={field}
+                            formField={formField}
+                            t={t}
+                            hasError={!!formState.errors[fieldKey]}
+                          />
+                        ) : field.type === "radio" ? (
+                          <div
+                            className="radio-group-wrapper"
+                            aria-invalid={!!formState.errors[fieldKey]}
+                          >
+                            <RadioGroup
+                              onValueChange={formField.onChange}
+                              value={getTypedFormFieldValue(formField.value, "radio") as string}
+                              className={cn(
+                                "flex flex-col space-y-2",
+                                !!formState.errors[fieldKey] && "border-destructive"
+                              )}
+                              disabled={field.disabled}
+                              aria-labelledby={`label-${key}`}
+                            >
+                              {field.options?.map(
+                                (option: { label: string; value: string }) => (
+                                  <div
+                                    key={option.value}
+                                    className="flex items-center space-x-2"
+                                  >
+                                    <RadioGroupItem
+                                      value={option.value}
+                                      id={`field-${key}-${option.value}`}
+                                      disabled={field.disabled}
+                                      className={
+                                        formState.errors[fieldKey]
+                                          ? "border-destructive"
+                                          : ""
+                                      }
+                                    />
+                                    <label
+                                      htmlFor={`field-${key}-${option.value}`}
+                                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    >
+                                      {t(option.label)}
+                                    </label>
+                                  </div>
+                                )
+                              )}
+                            </RadioGroup>
+                          </div>
+                        ) : field.type === "multiselect" ? (
+                          <div className="multiselect-wrapper">
+                            {field.optionsSource === "api" ? (
+                              <SelectFromApi
+                                fieldId={`field-${key}`}
+                                field={selectFieldConfig}
+                                formField={{
+                                  onChange: formField.onChange,
+                                  value: formField.value as string || "",
+                                }}
+                                formState={{
+                                  errors: Object.fromEntries(
+                                    Object.entries(formState.errors).map(([key, error]) => [    
+                                      key,
+                                      { message: error?.message },
+                                    ])
+                                  ),
+                                }}
+                                t={t}
+                                fieldKey={key}
+                              />
+                            ) : (
+                              <MultiSelect
+                                options={field.options || []}
+                                selected={getTypedFormFieldValue(formField.value, "multiselect") as string[]}
+                                onChange={formField.onChange}
+                                placeholder={field.placeholder ? t(field.placeholder) : t("common.action.selectOptions")}
+                                disabled={field.disabled}
+                                t={t}
+                                id={`field-${key}`}
+                                className={formState.errors[fieldKey] ? "border-destructive" : ""}
+                              />
+                            )}
+                          </div>
+                        ) : null}
+                      </FormControl>
+                      {field.helperText && (
+                        <p className="text-sm text-muted-foreground">
+                          {t(field.helperText)}
+                        </p>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
             ))}
           </div>

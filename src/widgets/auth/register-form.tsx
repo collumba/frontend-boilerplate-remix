@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAuthContext } from '@/app/providers/auth-context';
-import { useToast } from '@/app/providers/toast-context';
+import { useToast } from '@/features/toast';
 import { authService } from '@/shared/api/auth';
 import { ROUTES } from '@/shared/config/routes';
 import { cn } from '@/shared/lib/cn';

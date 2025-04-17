@@ -2,7 +2,7 @@ import { useMatches } from '@remix-run/react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import type { ToastMessage } from '../api/session';
+import type { ToastMessage } from '@/features/toast/api/session';
 
 export type ToastAction = {
   addToast: (toast: Omit<ToastMessage, 'id' | 'createdAt'>) => void;

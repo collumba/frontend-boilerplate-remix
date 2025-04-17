@@ -10,7 +10,7 @@
     "typecheck": "tsc",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
-    "lint:watch": "nodemon --watch src --ext ts,tsx,js,jsx --exec \"yarn lint\"",
+    "lint:watch": "nodemon --watch src --ext ts,tsx,js,jsx --exec \"yarn lint:fix && yarn lint\"",
     "format": "prettier --write .",
     "test": "vitest",
     "test:ui": "vitest --ui",

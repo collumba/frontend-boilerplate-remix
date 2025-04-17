@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { useToast } from '@/app/providers/toast-context';
-import { ToastMessage } from '@/modules/toast/session.server';
-import { Toast, ToastDescription, ToastTitle } from '@/shared/ui/toast';
+import { useToast } from '../model/context';
+import type { ToastMessage } from '../api/session';
+import { Toast, ToastDescription, ToastTitle } from './toast-primitive';
 
 const TOAST_TIMEOUT = 5000; // 5 seconds
 

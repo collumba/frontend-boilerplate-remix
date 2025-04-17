@@ -1,11 +1,12 @@
 import { Form } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 
-import { useToast, useToastI18n } from '@/app/providers/toast-context';
 import {
+  useToast,
+  useToastI18n,
   jsonWithToastNotification,
   redirectWithToastNotification,
-} from '@/modules/toast/toast.server';
+} from '@/features/toast';
 import { Button } from '@/shared/ui/button';
 import { Typography } from '@/shared/ui/typography';
 

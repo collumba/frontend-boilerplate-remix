@@ -107,7 +107,8 @@
     "Always use the zod library for validation",
     "Always use the react-query library for data fetching",
     "Only English texts and comments are allowed in the project",
-    "Never use type any"
+    "Never use type any",
+    "Always use alias to import modules"
   ],
   "import_aliases": {
     "src": "@app"

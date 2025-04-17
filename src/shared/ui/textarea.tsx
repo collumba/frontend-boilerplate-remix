@@ -1,4 +1,4 @@
-import { cn } from '@shared/lib/cn';
+import { cn } from '@shared/ui/cn';
 import * as React from 'react';
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(

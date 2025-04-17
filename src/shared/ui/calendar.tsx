@@ -1,7 +1,7 @@
 'use client';
 
-import { cn } from '@shared/lib/cn';
 import { buttonVariants } from '@shared/ui/button';
+import { cn } from '@shared/ui/cn';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import * as React from 'react';
 import { DayPicker } from 'react-day-picker';

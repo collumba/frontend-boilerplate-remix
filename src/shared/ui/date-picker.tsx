@@ -1,8 +1,8 @@
 'use client';
 
-import { cn } from '@shared/lib/cn';
 import { ButtonInput } from '@shared/ui/button-input';
 import { Calendar } from '@shared/ui/calendar';
+import { cn } from '@shared/ui/cn';
 import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/popover';
 import { format } from 'date-fns';
 import { enUS, es, ptBR } from 'date-fns/locale';

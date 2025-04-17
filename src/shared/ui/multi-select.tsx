@@ -1,7 +1,7 @@
 'use client';
 
-import { cn } from '@shared/lib/cn';
 import { Badge } from '@shared/ui/badge';
+import { cn } from '@shared/ui/cn';
 import {
   Command,
   CommandEmpty,

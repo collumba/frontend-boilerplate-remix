@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@shared/lib/cn';
+import { cn } from '@shared/ui/cn';
 import IMask from 'imask';
 import * as React from 'react';
 import { useEffect } from 'react';

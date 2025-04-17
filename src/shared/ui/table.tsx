@@ -1,4 +1,4 @@
-import { cn } from '@shared/lib/cn';
+import { cn } from '@shared/ui/cn';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 

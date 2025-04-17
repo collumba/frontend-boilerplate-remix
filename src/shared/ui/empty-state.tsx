@@ -1,4 +1,4 @@
-import { cn } from '@shared/lib/cn';
+import { cn } from '@shared/ui/cn';
 import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 

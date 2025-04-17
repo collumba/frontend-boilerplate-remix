@@ -8,9 +8,9 @@ import { useNavigate } from '@remix-run/react';
 // Shared layer imports
 import { authService } from '@shared/api/auth';
 import { ROUTES } from '@shared/config/routes';
-import { cn } from '@shared/lib/cn';
 import { ApiError } from '@shared/types/api';
 import { Button } from '@shared/ui/button';
+import { cn } from '@shared/ui/cn';
 import { Input } from '@shared/ui/input';
 import { Label } from '@shared/ui/label';
 import { Link } from '@shared/ui/link';

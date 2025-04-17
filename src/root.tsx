@@ -1,22 +1,21 @@
+import { AuthProvider } from '@app/providers/auth-context';
+import {
+  clearToastMessages,
+  getToastMessages,
+  ToastContainer,
+  ToastProvider,
+} from '@features/toast';
 import { json, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { ROUTES } from '@shared/config/routes';
+import i18next from '@shared/lib/i18n/i18n.server';
+import { themeSessionResolver } from '@shared/lib/theme/sessions.server';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useChangeLanguage } from 'remix-i18next/react';
 import { PreventFlashOnWrongTheme, Theme, ThemeProvider, useTheme } from 'remix-themes';
-
-import { AuthProvider } from '@/app/providers/auth-context';
-import {
-  clearToastMessages,
-  getToastMessages,
-  ToastContainer,
-  ToastProvider,
-} from '@/features/toast';
-import i18next from '@/modules/i18n/i18n.server';
-import { themeSessionResolver } from '@/modules/theme/sessions.server';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: '/src/app/styles/globals.css' },

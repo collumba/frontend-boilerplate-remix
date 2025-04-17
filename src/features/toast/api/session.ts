@@ -1,5 +1,4 @@
-import { createCookieSessionStorage, Session } from '@remix-run/node';
-import { env } from 'env';
+import { env } from '@shared/config/env';
 
 export type ToastMessage = {
   id: string;

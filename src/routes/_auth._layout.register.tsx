@@ -1,6 +1,6 @@
+import { RegisterForm } from '@features/auth/ui/register-form';
 import { MetaFunction } from '@remix-run/react';
 
-import { RegisterForm } from '@/widgets/auth/register-form';
 export const meta: MetaFunction = () => {
   return [{ title: 'Register' }, { name: 'description', content: 'Register' }];
 };

@@ -1,4 +1,4 @@
-import { env } from 'env';
+import { env } from '@shared/config/env';
 import { createCookieSessionStorage } from 'react-router';
 import { createThemeSessionResolver } from 'remix-themes';
 const isProduction = env.NODE_ENV === 'production';

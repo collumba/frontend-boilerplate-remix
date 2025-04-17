@@ -1,13 +1,3 @@
-import { AuthProvider } from "@/app/providers/auth-context";
-import { ToastProvider } from "@/app/providers/toast-context";
-import i18next from "@/modules/i18n/i18n.server";
-import { themeSessionResolver } from "@/modules/theme/sessions.server";
-import {
-  clearToastMessages,
-  getToastMessages,
-} from "@/modules/toast/session.server";
-import { ROUTES } from "@/shared/config/routes";
-import { ToastContainer } from "@/widgets/toast";
 import { LinksFunction, LoaderFunctionArgs, json } from "@remix-run/node";
 import {
   Links,
@@ -28,6 +18,17 @@ import {
   ThemeProvider,
   useTheme,
 } from "remix-themes";
+
+import { AuthProvider } from "@/app/providers/auth-context";
+import { ToastProvider } from "@/app/providers/toast-context";
+import i18next from "@/modules/i18n/i18n.server";
+import { themeSessionResolver } from "@/modules/theme/sessions.server";
+import {
+  clearToastMessages,
+  getToastMessages,
+} from "@/modules/toast/session.server";
+import { ROUTES } from "@/shared/config/routes";
+import { ToastContainer } from "@/widgets/toast";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "/src/app/styles/globals.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

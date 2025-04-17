@@ -1,9 +1,10 @@
+import { json, redirect } from "@remix-run/node";
+
 import {
   ToastMessage,
   commitToastSession,
   getToastSession,
 } from "@/modules/toast/session.server";
-import { json, redirect } from "@remix-run/node";
 import { env } from "env";
 
 type ToastOptions = Omit<ToastMessage, "id" | "createdAt">;

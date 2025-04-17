@@ -1,10 +1,11 @@
-import { useAuth } from "@/shared/lib/hooks/useAuth";
 import {
   QueryObserverResult,
   RefetchOptions,
   UseMutateFunction,
 } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext } from "react";
+
+import { useAuth } from "@/shared/lib/hooks/useAuth";
 
 interface User {
   id: number;

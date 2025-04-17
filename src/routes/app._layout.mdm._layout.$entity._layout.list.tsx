@@ -1,3 +1,8 @@
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, useLoaderData, useNavigate } from "@remix-run/react";
+import { PlusIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
 import { MdmService } from "@/shared/api/mdm";
 import { ENTITY_CONFIG, useEntityColumns } from "@/shared/config/mdm";
 import { ROUTES } from "@/shared/config/routes";
@@ -10,10 +15,6 @@ import {
   DataTableSkeleton,
 } from "@/shared/ui/data-table";
 import PageHeader from "@/shared/ui/page-header";
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { json, useLoaderData, useNavigate } from "@remix-run/react";
-import { PlusIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export const handle = {
   breadcrumb: (params: { entity: string }) => ({

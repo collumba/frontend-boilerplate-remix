@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { type LucideIcon } from "lucide-react";
 
 import {
@@ -17,7 +18,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/shared/ui/sidebar";
-import { ChevronRightIcon } from "@radix-ui/react-icons";
 
 export function NavMain({
   items,

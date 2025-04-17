@@ -1,5 +1,6 @@
-import { Character } from "@/shared/types/mdm/character";
 import { ColumnDef } from "@tanstack/react-table";
+
+import { Character } from "@/shared/types/mdm/character";
 export interface BaseEntity {
   id: number;
   name: string;

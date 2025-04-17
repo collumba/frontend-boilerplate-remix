@@ -1,5 +1,8 @@
 "use client";
 
+import { ChevronRightIcon } from "@radix-ui/react-icons";
+import { useTranslation } from "react-i18next";
+
 import { ENTITY_CONFIG } from "@/shared/config/mdm";
 import { ROUTES } from "@/shared/config/routes";
 import {
@@ -17,8 +20,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/shared/ui/sidebar";
-import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { useTranslation } from "react-i18next";
 
 export function NavMdm() {
   const { t } = useTranslation();

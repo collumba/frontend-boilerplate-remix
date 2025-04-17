@@ -9,10 +9,10 @@ import { PreventFlashOnWrongTheme, Theme, ThemeProvider, useTheme } from 'remix-
 
 import { AuthProvider } from '@/app/providers/auth-context';
 import {
-  ToastProvider,
-  ToastContainer,
-  getToastMessages,
   clearToastMessages,
+  getToastMessages,
+  ToastContainer,
+  ToastProvider,
 } from '@/features/toast';
 import i18next from '@/modules/i18n/i18n.server';
 import { themeSessionResolver } from '@/modules/theme/sessions.server';

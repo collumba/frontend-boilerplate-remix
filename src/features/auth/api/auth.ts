@@ -1,6 +1,5 @@
-import { AUTH_CONFIG } from '@shared/config/auth';
-
-import { ApiService } from './api';
+import { AUTH_CONFIG } from '@features/auth/config/auth';
+import { ApiService } from '@shared/api/api';
 
 interface LoginCredentials {
   identifier: string;

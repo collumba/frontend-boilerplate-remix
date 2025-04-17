@@ -1,4 +1,4 @@
-import { AuthProvider } from '@app/providers/auth-context';
+import { AuthProvider } from '@features/auth/contexts/auth-context';
 import {
   clearToastMessages,
   getToastMessages,

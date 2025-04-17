@@ -1,8 +1,8 @@
 'use client';
 
-import { useNavigate } from '@remix-run/react';
 // Shared layer imports
-import { authService } from '@shared/api/auth';
+import { authService } from '@features/auth/api/auth';
+import { useNavigate } from '@remix-run/react';
 import { ROUTES } from '@shared/config/routes';
 import { ApiError } from '@shared/types/api';
 import { Button } from '@shared/ui/button';

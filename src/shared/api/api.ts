@@ -1,4 +1,4 @@
-import { AUTH_CONFIG } from '@shared/config/auth';
+import { AUTH_CONFIG } from '@features/auth/config/auth';
 import { env } from '@shared/config/env';
 import axios, { AxiosInstance } from 'axios';
 

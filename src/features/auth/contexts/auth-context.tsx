@@ -1,4 +1,4 @@
-import { useAuth } from '@app/hooks/useAuth';
+import { useAuth } from '@features/auth/hooks/useAuth';
 import { QueryObserverResult, RefetchOptions, UseMutateFunction } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext } from 'react';
 
@@ -13,7 +13,7 @@ interface User {
   avatar?: string;
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   jwt: string;
   user: User;
 }

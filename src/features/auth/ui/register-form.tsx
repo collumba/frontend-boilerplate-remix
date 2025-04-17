@@ -1,12 +1,12 @@
 'use client';
 
 // App layer imports (allowed in features)
-import { useAuthContext } from '@app/providers/auth-context';
+// Shared layer imports
+import { authService } from '@features/auth/api/auth';
+import { useAuthContext } from '@features/auth/contexts/auth-context';
 // Feature layer imports
 import { useToast } from '@features/toast';
 import { useNavigate } from '@remix-run/react';
-// Shared layer imports
-import { authService } from '@shared/api/auth';
 import { ROUTES } from '@shared/config/routes';
 import { ApiError } from '@shared/types/api';
 import { Button } from '@shared/ui/button';

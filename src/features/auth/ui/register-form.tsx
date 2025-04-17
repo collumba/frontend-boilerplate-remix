@@ -20,17 +20,24 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export function RegisterForm({ className, ...props }: React.ComponentProps<'form'>) {
+// Custom hook for register form logic
+interface RegisterFormData {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+function useRegisterMutation() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { checkAuth } = useAuthContext();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const { actions } = useToast();
-  const { mutate: register, isPending } = useMutation({
-    mutationFn: async () => {
+
+  return useMutation({
+    mutationFn: async (data: RegisterFormData) => {
+      const { username, email, password, confirmPassword } = data;
+
       if (password !== confirmPassword) {
         throw new Error(t('auth.register.error.passwordMismatch'));
       }
@@ -57,74 +64,134 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'form
       });
     },
   });
+}
+
+// Component for form header
+function FormHeader() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex flex-col items-center gap-2 text-center">
+      <Typography variant="h1">{t('auth.register.title')}</Typography>
+      <Muted className="text-sm text-balance">{t('auth.register.description')}</Muted>
+    </div>
+  );
+}
+
+// Component for a single form field
+interface FormFieldProps {
+  id: string;
+  label: string;
+  type: string;
+  placeholder?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  autoComplete?: string;
+  required?: boolean;
+}
+
+function FormField({
+  id,
+  label,
+  type,
+  placeholder,
+  value,
+  onChange,
+  autoComplete,
+  required = true,
+}: FormFieldProps) {
+  return (
+    <div className="grid gap-3">
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        required={required}
+        autoComplete={autoComplete}
+        value={value}
+        onChange={onChange}
+      />
+    </div>
+  );
+}
+
+// Component for the register form footer with login link
+function FormFooter() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="text-center text-sm flex items-center justify-center gap-2">
+      {t('auth.register.alreadyHaveAccount')}
+      <Link href={ROUTES.auth.login} variant="underline">
+        {t('auth.register.login')}
+      </Link>
+    </div>
+  );
+}
+
+export function RegisterForm({ className, ...props }: React.ComponentProps<'form'>) {
+  const { t } = useTranslation();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { mutate: register, isPending } = useRegisterMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    register();
+    register({ username, email, password, confirmPassword });
   };
 
   return (
     <form className={cn('flex flex-col gap-6', className)} {...props} onSubmit={handleSubmit}>
-      <div className="flex flex-col items-center gap-2 text-center">
-        <Typography variant="h1">{t('auth.register.title')}</Typography>
-        <Muted className="text-sm text-balance">{t('auth.register.description')}</Muted>
-      </div>
+      <FormHeader />
+
       <div className="grid gap-6">
-        <div className="grid gap-3">
-          <Label htmlFor="username">{t('auth.register.username')}</Label>
-          <Input
-            id="username"
-            type="text"
-            placeholder="usuario123"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="grid gap-3">
-          <Label htmlFor="email">{t('auth.register.email')}</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="seu@email.com"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="grid gap-3">
-          <Label htmlFor="password">{t('auth.register.password')}</Label>
-          <Input
-            id="password"
-            type="password"
-            required
-            autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="grid gap-3">
-          <Label htmlFor="confirm-password">{t('auth.register.confirmPassword')}</Label>
-          <Input
-            id="confirm-password"
-            type="password"
-            required
-            autoComplete="new-password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
+        <FormField
+          id="username"
+          label={t('auth.register.username')}
+          type="text"
+          placeholder="usuario123"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <FormField
+          id="email"
+          label={t('auth.register.email')}
+          type="email"
+          placeholder="seu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+        />
+
+        <FormField
+          id="password"
+          label={t('auth.register.password')}
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="new-password"
+        />
+
+        <FormField
+          id="confirm-password"
+          label={t('auth.register.confirmPassword')}
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          autoComplete="new-password"
+        />
+
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? t('auth.register.loading') : t('auth.register.register')}
         </Button>
       </div>
-      <div className="text-center text-sm flex items-center justify-center gap-2">
-        {t('auth.register.alreadyHaveAccount')}
-        <Link href={ROUTES.auth.login} variant="underline">
-          {t('auth.register.login')}
-        </Link>
-      </div>
+
+      <FormFooter />
     </form>
   );
 }

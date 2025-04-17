@@ -1,8 +1,8 @@
 import { AppSidebar } from '@app/ui/app-sidebar';
+import { requireAuth } from '@features/auth/lib/auth-server';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { MetaFunction, Outlet, useMatches } from '@remix-run/react';
 import { ROUTES } from '@shared/config/routes';
-import { requireAuth } from '@shared/lib/auth/auth-server';
 import { AppMatch } from '@shared/types/breadcrumb';
 import {
   Breadcrumb,

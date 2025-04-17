@@ -5,7 +5,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface User {
+export interface User {
   id: number;
   username: string;
   email: string;
@@ -15,17 +15,17 @@ interface User {
   updatedAt: string;
 }
 
-export function useAuth() {
-  const hasToken = typeof window !== 'undefined' ? !!authService.getToken() : false;
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
-  const [user, setUser] = useState<User | null>(null);
+interface AuthData {
+  isAuthenticated: boolean;
+  user: User | null;
+}
+
+// Custom hook to check authentication status
+function useAuthCheck(setAuthState: (data: AuthData) => void) {
   const { actions } = useToast();
   const { t } = useTranslation();
-  const {
-    data: authData,
-    refetch: checkAuth,
-    isLoading,
-  } = useQuery({
+
+  const query = useQuery({
     queryKey: ['auth'],
     queryFn: async () => {
       try {
@@ -63,14 +63,22 @@ export function useAuth() {
     enabled: false,
   });
 
+  // Handle the success case with useEffect instead of onSuccess option
   useEffect(() => {
-    if (authData) {
-      setIsAuthenticated(authData.isAuthenticated);
-      setUser(authData.user);
+    if (query.data) {
+      setAuthState(query.data);
     }
-  }, [authData]);
+  }, [query.data, setAuthState]);
 
-  const { mutate: login, isPending: isLoginPending } = useMutation({
+  return query;
+}
+
+// Custom hook for login functionality
+function useAuthLogin(setAuthState: (data: AuthData) => void) {
+  const { actions } = useToast();
+  const { t } = useTranslation();
+
+  return useMutation({
     mutationKey: ['login'],
     mutationFn: async ({
       identifier,
@@ -83,8 +91,10 @@ export function useAuth() {
       return authService.login({ identifier, password });
     },
     onSuccess: (response) => {
-      setIsAuthenticated(true);
-      setUser(response.user);
+      setAuthState({
+        isAuthenticated: true,
+        user: response.user,
+      });
     },
     onError: () => {
       actions.addToast({
@@ -94,16 +104,24 @@ export function useAuth() {
       });
     },
   });
+}
 
-  const { mutate: logout, isPending: isLogoutPending } = useMutation({
+// Custom hook for logout functionality
+function useAuthLogout(setAuthState: (data: AuthData) => void) {
+  const { actions } = useToast();
+  const { t } = useTranslation();
+
+  return useMutation({
     mutationKey: ['logout'],
     mutationFn: () => {
       authService.logout();
       return Promise.resolve();
     },
     onSuccess: () => {
-      setIsAuthenticated(false);
-      setUser(null);
+      setAuthState({
+        isAuthenticated: false,
+        user: null,
+      });
       window.location.href = ROUTES.auth.login;
     },
     onError: () => {
@@ -114,6 +132,22 @@ export function useAuth() {
       });
     },
   });
+}
+
+export function useAuth() {
+  const hasToken = typeof window !== 'undefined' ? !!authService.getToken() : false;
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
+  const [user, setUser] = useState<User | null>(null);
+
+  // Function to update authentication state from sub-hooks
+  const setAuthState = (data: AuthData) => {
+    setIsAuthenticated(data.isAuthenticated);
+    setUser(data.user);
+  };
+
+  const { refetch: checkAuth, isLoading: isCheckAuthLoading } = useAuthCheck(setAuthState);
+  const { mutate: login, isPending: isLoginPending } = useAuthLogin(setAuthState);
+  const { mutate: logout, isPending: isLogoutPending } = useAuthLogout(setAuthState);
 
   useEffect(() => {
     if (hasToken) {
@@ -122,7 +156,7 @@ export function useAuth() {
   }, [checkAuth, hasToken]);
 
   return {
-    isLoading: isLoginPending || isLogoutPending || isLoading,
+    isLoading: isLoginPending || isLogoutPending || isCheckAuthLoading,
     isAuthenticated,
     user,
     login,

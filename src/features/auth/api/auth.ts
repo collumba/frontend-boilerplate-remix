@@ -1,5 +1,5 @@
-import { AUTH_CONFIG } from '@features/auth/config/auth';
 import { ApiService } from '@shared/api/api';
+import { AUTH_CONFIG } from '@shared/config/auth';
 
 interface LoginCredentials {
   identifier: string;
@@ -53,7 +53,10 @@ export class AuthService {
         password: credentials.password,
       };
 
-      const response = await this.api.post<AuthResponse>('/api/auth/local', payload);
+      const response = await this.api.post<AuthResponse, LoginCredentials>(
+        '/api/auth/local',
+        payload
+      );
       this.setToken(response.jwt);
       return response;
     } catch (error) {
@@ -65,7 +68,10 @@ export class AuthService {
   // Register new user
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      const response = await this.api.post<AuthResponse>('/api/auth/local/register', data);
+      const response = await this.api.post<AuthResponse, RegisterData>(
+        '/api/auth/local/register',
+        data
+      );
       this.setToken(response.jwt);
       return response;
     } catch (error) {

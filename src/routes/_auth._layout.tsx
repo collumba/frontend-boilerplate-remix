@@ -1,8 +1,8 @@
 import { LocaleToggle } from '@app/ui/locale-toggle';
+import { requireGuest } from '@features/auth/lib/auth-server';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { MetaFunction, Outlet } from '@remix-run/react';
 import { ROUTES } from '@shared/config/routes';
-import { requireGuest } from '@shared/lib/auth/auth-server';
 import { Link } from '@shared/ui/link';
 import { GalleryVerticalEnd } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

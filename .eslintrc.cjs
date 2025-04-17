@@ -19,7 +19,17 @@ module.exports = {
     es6: true,
     node: true,
   },
-  ignorePatterns: ['!**/.server', '!**/.client', 'dist', 'build', 'node_modules', 'scripts'],
+  ignorePatterns: [
+    '!**/.server',
+    '!**/.client',
+    'dist',
+    'build',
+    'node_modules',
+    'scripts',
+    'postcss.config.js',
+    'tailwind.config.js',
+    'vite.config.ts',
+  ],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',

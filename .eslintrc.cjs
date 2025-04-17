@@ -48,22 +48,9 @@ module.exports = {
       version: 'detect',
     },
     'import/resolver': {
-      node: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
-      },
       typescript: {
+        project: './tsconfig.json',
         alwaysTryTypes: true,
-      },
-      alias: {
-        map: [
-          ['@app', './src/app'],
-          ['@routes', './src/routes'],
-          ['@widgets', './src/widgets'],
-          ['@features', './src/features'],
-          ['@entities', './src/entities'],
-          ['@shared', './src/shared'],
-        ],
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },
     },
     'boundaries/elements': [
@@ -77,6 +64,7 @@ module.exports = {
     'boundaries/ignore': ['**/*.test.*', '**/*.spec.*'],
   },
   rules: {
+    // FSD architecture rules
     'boundaries/element-types': [
       'error',
       {
@@ -91,6 +79,9 @@ module.exports = {
         ],
       },
     ],
+    'import/no-relative-parent-imports': 'error',
+    'import/no-named-as-default-member': 'off',
+    // Unused imports
     'no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
@@ -101,17 +92,17 @@ module.exports = {
     // Import organization
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
-    'import/no-relative-parent-imports': 'error',
 
-    // TypeScript quality
+    // TypeScript strictness
     '@typescript-eslint/no-explicit-any': 'error',
 
-    // Code quality rules
+    // Code quality
     'max-lines-per-function': ['warn', 80],
     'max-lines': ['warn', { max: 400, skipBlankLines: true, skipComments: true }],
     'max-params': ['warn', 4],
     complexity: ['warn', 10],
-    // Prettier integration
+
+    // Prettier
     'prettier/prettier': ['error', { endOfLine: 'lf' }],
   },
   overrides: [

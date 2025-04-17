@@ -1,4 +1,4 @@
-import { useAuth } from '@shared/lib/hooks/useAuth';
+import { useAuth } from '@shared/hooks/useAuth';
 import { QueryObserverResult, RefetchOptions, UseMutateFunction } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext } from 'react';
 

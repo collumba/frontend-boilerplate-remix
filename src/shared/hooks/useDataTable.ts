@@ -1,4 +1,4 @@
-import { useTable } from '@shared/lib/hooks/useTable';
+import { useTable } from '@shared/hooks/useTable';
 import { ApiResponse, FetchParams } from '@shared/types/api';
 import {
   ColumnDef,

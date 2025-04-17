@@ -1,6 +1,11 @@
+'use client';
+
+// App layer imports (allowed in features)
 import { useAuthContext } from '@app/providers/auth-context';
+// Feature layer imports
 import { useToast } from '@features/toast';
 import { useNavigate } from '@remix-run/react';
+// Shared layer imports
 import { authService } from '@shared/api/auth';
 import { ROUTES } from '@shared/config/routes';
 import { cn } from '@shared/lib/cn';

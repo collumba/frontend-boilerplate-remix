@@ -6,9 +6,10 @@
  * and re-export them with feature-specific adjustments if needed.
  */
 
-// In a real implementation, we'd create the components here and export them
-// For now, we'll export types to show the concept
+// Export actual components
+export { RegisterForm } from './register-form';
 
+// Types used by the components
 export type LoginForm = {
   email: string;
   password: string;
@@ -16,7 +17,7 @@ export type LoginForm = {
   isLoading?: boolean;
 };
 
-export type RegisterForm = {
+export type RegisterFormProps = {
   email: string;
   password: string;
   confirmPassword: string;

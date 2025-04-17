@@ -1,3 +1,5 @@
+import { useTable } from '@shared/lib/hooks/useTable';
+import { ApiResponse, FetchParams } from '@shared/types/api';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -6,9 +8,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-
-import { useTable } from '@/shared/lib/hooks/useTable';
-import { ApiResponse, FetchParams } from '@/shared/types/api';
 
 interface UseDataTableProps<TData> {
   queryKey: string;

@@ -1,17 +1,13 @@
 'use client';
 
-import { flexRender, Table } from '@tanstack/react-table';
-import { AlertCircle, ArrowDown, ArrowUp, ChevronDown } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-
-import { Button } from '@/shared/ui/button';
+import { Button } from '@shared/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import { Input } from '@/shared/ui/input';
+} from '@shared/ui/dropdown-menu';
+import { Input } from '@shared/ui/input';
 import {
   Table as TableComponent,
   TableBody,
@@ -19,7 +15,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/ui/table';
+} from '@shared/ui/table';
+import { flexRender, Table } from '@tanstack/react-table';
+import { AlertCircle, ArrowDown, ArrowUp, ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { EmptyState } from './empty-state';
 import { Skeleton } from './skeleton';

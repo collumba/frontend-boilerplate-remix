@@ -1,9 +1,5 @@
 import { Link } from '@remix-run/react';
-import { CloudOff } from 'lucide-react';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-
-import { ROUTES } from '@/shared/config/routes';
+import { ROUTES } from '@shared/config/routes';
 import {
   Card,
   CardContent,
@@ -11,7 +7,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
+} from '@shared/ui/card';
+import { CloudOff } from 'lucide-react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from './button';
 

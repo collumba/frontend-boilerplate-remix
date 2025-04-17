@@ -1,6 +1,6 @@
-import { ENTITY_CONFIG } from '@/shared/config/mdm';
-import { ApiResponse, FetchParams } from '@/shared/types/api';
-import { EntityMap, EntityType } from '@/shared/types/mdm';
+import { ENTITY_CONFIG } from '@shared/config/mdm';
+import { ApiResponse, FetchParams } from '@shared/types/api';
+import { EntityMap, EntityType } from '@shared/types/mdm';
 
 import { ApiService } from '../api';
 

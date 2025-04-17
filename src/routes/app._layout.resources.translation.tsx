@@ -1,13 +1,13 @@
 import { LoaderFunctionArgs } from '@remix-run/server-runtime';
+import { supportedLngsConfig } from '@shared/config/i18n';
+import { Button } from '@shared/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
+import { Typography } from '@shared/ui/typography';
 import { env } from 'env';
 import { useTranslation } from 'react-i18next';
 
 import { jsonWithToastNotification, useToast, useToastI18n } from '@/features/toast';
 import i18nServer from '@/modules/i18n/i18n.server';
-import { supportedLngsConfig } from '@/shared/config/i18n';
-import { Button } from '@/shared/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { Typography } from '@/shared/ui/typography';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const t = await i18nServer.getFixedT(request);

@@ -1,6 +1,7 @@
 'use client';
 
 import { LocaleToggle } from '@shared/ui/locale-toggle';
+import { NavUser } from '@shared/ui/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -9,11 +10,10 @@ import {
   SidebarMenu,
   SidebarRail,
 } from '@shared/ui/sidebar';
+import { TeamSwitcher } from '@shared/ui/team-switcher';
 import { ThemeToggle } from '@shared/ui/theme-toggle';
 import { NavMdm } from '@widgets/navigation/nav-mdm';
 import { NavResources } from '@widgets/navigation/nav-resources';
-import { NavUser } from '@widgets/navigation/nav-user';
-import { TeamSwitcher } from '@shared/ui/team-switcher';
 import {
   AudioWaveform,
   BookOpen,

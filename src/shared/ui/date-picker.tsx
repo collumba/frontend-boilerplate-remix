@@ -1,16 +1,15 @@
 'use client';
 
+import { cn } from '@shared/lib/cn';
+import { ButtonInput } from '@shared/ui/button-input';
+import { Calendar } from '@shared/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/popover';
 import { format } from 'date-fns';
 import { enUS, es, ptBR } from 'date-fns/locale';
 import { TFunction } from 'i18next';
 import { CalendarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { cn } from '@/shared/lib/cn';
-import { ButtonInput } from '@/shared/ui/button-input';
-import { Calendar } from '@/shared/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 
 interface DatePickerFieldProps {
   fieldId: string;

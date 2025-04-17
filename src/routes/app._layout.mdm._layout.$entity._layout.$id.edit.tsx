@@ -1,8 +1,8 @@
 import { json, LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { ENTITY_CONFIG } from '@shared/config/mdm';
+import { EntityType } from '@shared/types/mdm';
 
-import { ENTITY_CONFIG } from '@/shared/config/mdm';
-import { EntityType } from '@/shared/types/mdm';
 import EntityForm from '@/widgets/mdm/entity-form';
 
 export const handle = {

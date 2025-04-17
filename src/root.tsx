@@ -1,5 +1,6 @@
 import { json, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
+import { ROUTES } from '@shared/config/routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import clsx from 'clsx';
@@ -16,7 +17,6 @@ import {
 } from '@/features/toast';
 import i18next from '@/modules/i18n/i18n.server';
 import { themeSessionResolver } from '@/modules/theme/sessions.server';
-import { ROUTES } from '@/shared/config/routes';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: '/src/app/styles/globals.css' },

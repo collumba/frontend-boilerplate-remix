@@ -1,4 +1,4 @@
-import { AUTH_CONFIG } from '@/shared/config/auth';
+import { AUTH_CONFIG } from '@shared/config/auth';
 
 import { ApiService } from './api';
 

@@ -48,7 +48,7 @@ vi.mock('env', () => {
 });
 
 // Mock para recursos de tradução
-vi.mock('@/shared/config/i18n', () => ({
+vi.mock('@shared/config/i18n', () => ({
   resources: {
     en: {
       translation: {

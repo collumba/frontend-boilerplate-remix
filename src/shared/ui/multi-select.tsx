@@ -1,10 +1,7 @@
 'use client';
 
-import { X } from 'lucide-react';
-import * as React from 'react';
-
-import { cn } from '@/shared/lib/cn';
-import { Badge } from '@/shared/ui/badge';
+import { cn } from '@shared/lib/cn';
+import { Badge } from '@shared/ui/badge';
 import {
   Command,
   CommandEmpty,
@@ -12,8 +9,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/shared/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+} from '@shared/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/popover';
+import { X } from 'lucide-react';
+import * as React from 'react';
 
 export type Option = {
   label: string;

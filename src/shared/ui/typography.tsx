@@ -1,6 +1,5 @@
+import { cn } from '@shared/lib/cn';
 import React from 'react';
-
-import { cn } from '@/shared/lib/cn';
 
 export interface TypographyProps
   extends React.HTMLAttributes<HTMLHeadingElement | HTMLParagraphElement> {

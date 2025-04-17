@@ -1,7 +1,6 @@
+import { cn } from '@shared/lib/cn';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-
-import { cn } from '@/shared/lib/cn';
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (

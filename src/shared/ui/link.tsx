@@ -1,7 +1,6 @@
 import { Link as RemixLink } from '@remix-run/react';
+import { cn } from '@shared/lib/cn';
 import React from 'react';
-
-import { cn } from '@/shared/lib/cn';
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   variant?: 'default' | 'muted' | 'underline' | 'hover';

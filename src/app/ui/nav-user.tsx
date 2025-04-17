@@ -17,8 +17,7 @@ import { useTranslation } from 'react-i18next';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user } = useAuthContext();
-  const { logout } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { t } = useTranslation();
 
   const handleLogout = () => {

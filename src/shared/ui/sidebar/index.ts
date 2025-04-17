@@ -1,5 +1,5 @@
 // Re-export all sidebar components
-export * from '@shared/ui/sidebar/sidebar-components';
-export * from '@shared/ui/sidebar/sidebar-context';
-export * from '@shared/ui/sidebar/sidebar-main';
-export * from '@shared/ui/sidebar/sidebar-provider';
+export * from './sidebar-components';
+export * from './sidebar-context';
+export * from './sidebar-main';
+export * from './sidebar-provider';

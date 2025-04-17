@@ -5,13 +5,12 @@ import { Button } from '@shared/ui/button';
 import { cn } from '@shared/ui/cn';
 import { Input } from '@shared/ui/input';
 import { Separator } from '@shared/ui/separator';
+import { useSidebar } from '@shared/ui/sidebar/sidebar-context';
 import { Skeleton } from '@shared/ui/skeleton';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@shared/ui/tooltip';
 import { cva, VariantProps } from 'class-variance-authority';
 import { PanelLeftIcon } from 'lucide-react';
 import * as React from 'react';
-
-import { useSidebar } from './sidebar-context';
 
 // SidebarTrigger component
 export function SidebarTrigger({

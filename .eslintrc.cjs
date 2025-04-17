@@ -49,8 +49,8 @@ module.exports = {
     },
     'import/resolver': {
       typescript: {
-        project: './tsconfig.json',
         alwaysTryTypes: true,
+        project: './tsconfig.json',
       },
     },
     'boundaries/elements': [
@@ -64,7 +64,7 @@ module.exports = {
     'boundaries/ignore': ['**/*.test.*', '**/*.spec.*'],
   },
   rules: {
-    // FSD architecture rules
+    // FSD architecture protection
     'boundaries/element-types': [
       'error',
       {
@@ -79,9 +79,7 @@ module.exports = {
         ],
       },
     ],
-    'import/no-relative-parent-imports': 'error',
-    'import/no-named-as-default-member': 'off',
-    // Unused imports
+    // Unused imports cleanup
     'no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
@@ -89,7 +87,7 @@ module.exports = {
       { vars: 'all', args: 'after-used', ignoreRestSiblings: true },
     ],
 
-    // Import organization
+    // Import sort & grouping
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
 
@@ -104,6 +102,9 @@ module.exports = {
 
     // Prettier
     'prettier/prettier': ['error', { endOfLine: 'lf' }],
+
+    // Desabilita aviso falso-positivo do React
+    'import/no-named-as-default-member': 'off',
   },
   overrides: [
     {

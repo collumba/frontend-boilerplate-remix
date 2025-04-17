@@ -1,8 +1,8 @@
+import { LocaleToggle } from '@app/ui/locale-toggle';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { MetaFunction, Outlet } from '@remix-run/react';
 import { ROUTES } from '@shared/config/routes';
 import { Link } from '@shared/ui/link';
-import { LocaleToggle } from '@shared/ui/locale-toggle';
 import { GalleryVerticalEnd } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

@@ -1,8 +1,8 @@
 'use client';
 
-import { LocaleToggle } from '@shared/ui/locale-toggle';
+import { LocaleToggle } from '@app/ui/locale-toggle';
+import { NavUser } from '@app/ui/nav-user';
 import { NavResources } from '@shared/ui/nav-resources';
-import { NavUser } from '@shared/ui/nav-user';
 import {
   Sidebar,
   SidebarContent,

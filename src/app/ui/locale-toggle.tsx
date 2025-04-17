@@ -1,3 +1,4 @@
+import { env } from '@app/config/env';
 import { supportedLngsConfig } from '@shared/config/i18n';
 import { Button } from '@shared/ui/button';
 import {
@@ -7,7 +8,6 @@ import {
   DropdownMenuTrigger,
 } from '@shared/ui/dropdown-menu';
 import { Typography } from '@shared/ui/typography';
-import { env } from 'env';
 import { useTranslation } from 'react-i18next';
 
 export function LocaleToggle() {

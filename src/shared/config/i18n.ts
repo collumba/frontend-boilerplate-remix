@@ -1,8 +1,7 @@
+import * as enTranslation from '@shared/config/locales/en';
+import * as esTranslation from '@shared/config/locales/es';
+import * as ptBRTranslation from '@shared/config/locales/pt-BR';
 import { serverOnly$ } from 'vite-env-only/macros';
-
-import enTranslation from '@/locales/en';
-import esTranslation from '@/locales/es';
-import ptBRTranslation from '@/locales/pt-BR';
 // This is the list of languages your application supports, the last one is your
 // fallback language
 export const supportedLngsConfig = [

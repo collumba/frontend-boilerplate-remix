@@ -1,11 +1,12 @@
-import { requireGuest } from '@/modules/auth/auth-server';
-import { ROUTES } from '@/shared/config/routes';
-import { Link } from '@/shared/ui/link';
-import { LocaleToggle } from '@/shared/ui/locale-toggle';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { MetaFunction, Outlet } from '@remix-run/react';
 import { GalleryVerticalEnd } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
+import { requireGuest } from '@/modules/auth/auth-server';
+import { ROUTES } from '@/shared/config/routes';
+import { Link } from '@/shared/ui/link';
+import { LocaleToggle } from '@/shared/ui/locale-toggle';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Auth' }, { name: 'description', content: 'Auth' }];

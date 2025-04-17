@@ -1,3 +1,9 @@
+import { useNavigate } from '@remix-run/react';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { useAuthContext } from '@/app/providers/auth-context';
 import { useToast } from '@/app/providers/toast-context';
 import { authService } from '@/shared/api/auth';
@@ -9,11 +15,6 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Link } from '@/shared/ui/link';
 import { Muted, Typography } from '@/shared/ui/typography';
-import { useNavigate } from '@remix-run/react';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<'form'>) {
   const { t } = useTranslation();

@@ -1,4 +1,5 @@
 import { AUTH_CONFIG } from '@/shared/config/auth';
+
 import { ApiService } from './api';
 
 interface LoginCredentials {

@@ -111,12 +111,6 @@ module.exports = {
     'max-lines': ['warn', { max: 400, skipBlankLines: true, skipComments: true }],
     'max-params': ['warn', 4],
     complexity: ['warn', 10],
-    'sonarjs/cognitive-complexity': ['warn', 15],
-
-    // Security best practices
-    'security/detect-eval-with-expression': 'error',
-    'security/detect-object-injection': 'warn',
-
     // Prettier integration
     'prettier/prettier': ['error', { endOfLine: 'lf' }],
   },

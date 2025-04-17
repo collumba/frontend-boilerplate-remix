@@ -1,5 +1,6 @@
-import { LoginForm } from '@/widgets/auth/login-form';
 import { MetaFunction } from '@remix-run/react';
+
+import { LoginForm } from '@/widgets/auth/login-form';
 export const meta: MetaFunction = () => {
   return [{ title: 'Login' }, { name: 'description', content: 'Login' }];
 };

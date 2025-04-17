@@ -1,5 +1,9 @@
 'use client';
 
+import { ChevronRightIcon } from '@radix-ui/react-icons';
+import { useNavigate } from '@remix-run/react';
+import { AlertOctagon, Languages } from 'lucide-react';
+
 import { ROUTES } from '@/shared/config/routes';
 import { Collapsible } from '@/shared/ui/collapsible';
 import {
@@ -9,9 +13,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/shared/ui/sidebar';
-import { ChevronRightIcon } from '@radix-ui/react-icons';
-import { useNavigate } from '@remix-run/react';
-import { AlertOctagon, Languages } from 'lucide-react';
 
 export function NavResources() {
   const navigate = useNavigate();

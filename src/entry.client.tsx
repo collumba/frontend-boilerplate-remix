@@ -1,5 +1,3 @@
-import { defaultNS, fallbackLng, supportedLngs } from '@/shared/config/i18n';
-import { ROUTES } from '@/shared/config/routes';
 import { RemixBrowser } from '@remix-run/react';
 import i18next from 'i18next';
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
@@ -8,6 +6,9 @@ import { startTransition, StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { getInitialNamespaces } from 'remix-i18next/client';
+
+import { defaultNS, fallbackLng, supportedLngs } from '@/shared/config/i18n';
+import { ROUTES } from '@/shared/config/routes';
 
 async function main() {
   // eslint-disable-next-line import/no-named-as-default-member

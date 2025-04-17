@@ -1,3 +1,12 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from '@remix-run/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Eraser, Save } from 'lucide-react';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
+
 import { useIsMobile } from '@/components/hooks/use-mobile';
 import { MdmService } from '@/shared/api/mdm';
 import { ENTITY_CONFIG } from '@/shared/config/mdm';
@@ -17,14 +26,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { SelectFromApi } from '@/shared/ui/select-api';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Textarea } from '@/shared/ui/textarea';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from '@remix-run/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Eraser, Save } from 'lucide-react';
-import * as React from 'react';
-import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { z } from 'zod';
 const REQUIRED_FIELD_MARKER = '*';
 
 // Define field types

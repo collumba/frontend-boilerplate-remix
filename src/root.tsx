@@ -1,11 +1,4 @@
-import { AuthProvider } from '@/app/providers/auth-context';
-import { ToastProvider } from '@/app/providers/toast-context';
-import i18next from '@/modules/i18n/i18n.server';
-import { themeSessionResolver } from '@/modules/theme/sessions.server';
-import { clearToastMessages, getToastMessages } from '@/modules/toast/session.server';
-import { ROUTES } from '@/shared/config/routes';
-import { ToastContainer } from '@/widgets/toast';
-import { LinksFunction, LoaderFunctionArgs, json } from '@remix-run/node';
+import { json, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -13,6 +6,14 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { useChangeLanguage } from 'remix-i18next/react';
 import { PreventFlashOnWrongTheme, Theme, ThemeProvider, useTheme } from 'remix-themes';
+
+import { AuthProvider } from '@/app/providers/auth-context';
+import { ToastProvider } from '@/app/providers/toast-context';
+import i18next from '@/modules/i18n/i18n.server';
+import { themeSessionResolver } from '@/modules/theme/sessions.server';
+import { clearToastMessages, getToastMessages } from '@/modules/toast/session.server';
+import { ROUTES } from '@/shared/config/routes';
+import { ToastContainer } from '@/widgets/toast';
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: '/src/app/styles/globals.css' },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

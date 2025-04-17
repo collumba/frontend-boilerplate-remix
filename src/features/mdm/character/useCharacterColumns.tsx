@@ -1,7 +1,8 @@
-import { Character } from '@/shared/types/mdm/character';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { ColumnDef } from '@tanstack/react-table';
 import { useTranslation } from 'react-i18next';
+
+import { Character } from '@/shared/types/mdm/character';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 
 const useCharacterColumns = () => {
   const { t } = useTranslation();

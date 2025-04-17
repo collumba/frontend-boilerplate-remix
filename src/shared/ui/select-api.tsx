@@ -1,13 +1,14 @@
 'use client';
 
-import { MdmService } from '@/shared/api/mdm';
-import { cn } from '@/shared/lib/cn';
-import { EntityType } from '@/shared/types/mdm';
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Select } from '@radix-ui/react-select';
 import { useQuery } from '@tanstack/react-query';
 import { TFunction } from 'i18next';
 import { Loader2 } from 'lucide-react';
+
+import { MdmService } from '@/shared/api/mdm';
+import { cn } from '@/shared/lib/cn';
+import { EntityType } from '@/shared/types/mdm';
+import { SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 
 interface Option {
   label: string;

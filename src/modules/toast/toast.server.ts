@@ -1,6 +1,7 @@
-import { ToastMessage, commitToastSession, getToastSession } from '@/modules/toast/session.server';
 import { json, redirect } from '@remix-run/node';
 import { env } from 'env';
+
+import { commitToastSession, getToastSession, ToastMessage } from '@/modules/toast/session.server';
 
 type ToastOptions = Omit<ToastMessage, 'id' | 'createdAt'>;
 

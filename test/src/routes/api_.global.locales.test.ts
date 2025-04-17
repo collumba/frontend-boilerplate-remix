@@ -76,8 +76,9 @@ vi.mock('pretty-cache-header', () => ({
   cacheHeader: vi.fn().mockReturnValue('mock-cache-header'),
 }));
 
-import { loader } from '@/routes/api_.global.locales';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+
+import { loader } from '@/routes/api_.global.locales';
 
 describe('API Global Locales Route', () => {
   beforeEach(() => {

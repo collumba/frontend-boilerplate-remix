@@ -1,3 +1,8 @@
+import { Link } from '@remix-run/react';
+import { CloudOff } from 'lucide-react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { ROUTES } from '@/shared/config/routes';
 import {
   Card,
@@ -7,10 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card';
-import { Link } from '@remix-run/react';
-import { CloudOff } from 'lucide-react';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+
 import { Button } from './button';
 
 interface ShowErrorProps {

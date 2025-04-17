@@ -1,3 +1,6 @@
+import { Form } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
+
 import { useToast, useToastI18n } from '@/app/providers/toast-context';
 import {
   jsonWithToastNotification,
@@ -5,8 +8,6 @@ import {
 } from '@/modules/toast/toast.server';
 import { Button } from '@/shared/ui/button';
 import { Typography } from '@/shared/ui/typography';
-import { Form } from '@remix-run/react';
-import { useTranslation } from 'react-i18next';
 
 export const loader = async () => {
   return jsonWithToastNotification(

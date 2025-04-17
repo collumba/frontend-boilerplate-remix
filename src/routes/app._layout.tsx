@@ -1,3 +1,8 @@
+import { LoaderFunctionArgs } from '@remix-run/node';
+import { MetaFunction, Outlet, useMatches, useRouteError } from '@remix-run/react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { requireAuth } from '@/modules/auth/auth-server';
 import { ROUTES } from '@/shared/config/routes';
 import ErrorBoundaryParserError from '@/shared/lib/error-bondary';
@@ -14,10 +19,6 @@ import { Separator } from '@/shared/ui/separator';
 import ShowError from '@/shared/ui/show-error';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/ui/sidebar';
 import { AppSidebar } from '@/widgets/navigation/app-sidebar';
-import { LoaderFunctionArgs } from '@remix-run/node';
-import { MetaFunction, Outlet, useMatches, useRouteError } from '@remix-run/react';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'App' }, { name: 'description', content: 'App' }];

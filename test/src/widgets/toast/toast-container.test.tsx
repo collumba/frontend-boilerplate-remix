@@ -1,8 +1,9 @@
+import { act, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+
 import { ToastContext, ToastProvider } from '@/app/providers/toast-context';
 import { ToastMessage } from '@/modules/toast/session.server';
 import { ToastContainer } from '@/widgets/toast';
-import { act, render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 // Mock para useMatches com diferentes conjuntos de dados
 const mockUseMatches = vi.fn().mockReturnValue([{ data: { toasts: [] } }]);

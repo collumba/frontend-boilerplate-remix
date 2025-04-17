@@ -1,6 +1,7 @@
-import { AUTH_CONFIG } from '@/shared/config/auth';
 import axios, { AxiosInstance } from 'axios';
 import { env } from 'env';
+
+import { AUTH_CONFIG } from '@/shared/config/auth';
 
 export class ApiService {
   private client: AxiosInstance;

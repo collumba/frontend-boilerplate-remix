@@ -1,8 +1,9 @@
+import { expect, test, vi } from 'vitest';
+
 import {
   jsonWithToastNotification,
   redirectWithToastNotification,
 } from '@/modules/toast/toast.server';
-import { expect, test, vi } from 'vitest';
 
 // Mock modules
 vi.mock('env', () => ({

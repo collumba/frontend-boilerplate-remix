@@ -1,6 +1,8 @@
 'use client';
 
+import { CaretSortIcon } from '@radix-ui/react-icons';
 import { LogOut } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { useAuthContext } from '@/app/providers/auth-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
@@ -13,8 +15,6 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/shared/ui/sidebar';
-import { CaretSortIcon } from '@radix-ui/react-icons';
-import { useTranslation } from 'react-i18next';
 
 export function NavUser() {
   const { isMobile } = useSidebar();

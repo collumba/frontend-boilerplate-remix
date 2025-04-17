@@ -1,8 +1,9 @@
-import { resources } from '@/shared/config/i18n';
-import { type LoaderFunctionArgs, json } from '@remix-run/node';
+import { json, type LoaderFunctionArgs } from '@remix-run/node';
 import { env } from 'env';
 import { cacheHeader } from 'pretty-cache-header';
 import { z } from 'zod';
+
+import { resources } from '@/shared/config/i18n';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);

@@ -1,7 +1,8 @@
-import { ToastProvider } from '@/app/providers/toast-context';
-import ToastExamplePage from '@/routes/app._layout.resources.toasts';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
+
+import { ToastProvider } from '@/app/providers/toast-context';
+import ToastExamplePage from '@/routes/app._layout.resources.toasts';
 
 // Mock the necessary modules
 vi.mock('@/modules/toast/toast.server', () => ({

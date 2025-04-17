@@ -1,7 +1,8 @@
 'use client';
 
-import { Table, flexRender } from '@tanstack/react-table';
+import { flexRender, Table } from '@tanstack/react-table';
 import { AlertCircle, ArrowDown, ArrowUp, ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/shared/ui/button';
 import {
@@ -12,14 +13,14 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { Input } from '@/shared/ui/input';
 import {
+  Table as TableComponent,
   TableBody,
   TableCell,
-  Table as TableComponent,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
-import { useTranslation } from 'react-i18next';
+
 import { EmptyState } from './empty-state';
 import { Skeleton } from './skeleton';
 

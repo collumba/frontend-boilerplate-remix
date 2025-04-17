@@ -1,11 +1,8 @@
 'use client';
 
+import { useAuthContext } from '@app/providers/auth-context';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { LogOut } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-
-import { useAuthContext } from '@/app/providers/auth-context';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +10,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/shared/ui/sidebar';
+} from '@shared/ui/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@shared/ui/sidebar';
+import { LogOut } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -67,28 +66,6 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ComponentPlaceholderIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
             <DropdownMenuItem onClick={() => handleLogout()}>
               <LogOut />
               {t('common.action.logout')}

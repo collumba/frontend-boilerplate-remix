@@ -1,5 +1,19 @@
 'use client';
 
+import { LocaleToggle } from '@shared/ui/locale-toggle';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarRail,
+} from '@shared/ui/sidebar';
+import { ThemeToggle } from '@shared/ui/theme-toggle';
+import { NavMdm } from '@widgets/navigation/nav-mdm';
+import { NavResources } from '@widgets/navigation/nav-resources';
+import { NavUser } from '@widgets/navigation/nav-user';
+import { TeamSwitcher } from '@shared/ui/team-switcher';
 import {
   AudioWaveform,
   BookOpen,
@@ -13,21 +27,6 @@ import {
   SquareTerminal,
 } from 'lucide-react';
 import * as React from 'react';
-
-import { LocaleToggle } from '@/shared/ui/locale-toggle';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarRail,
-} from '@/shared/ui/sidebar';
-import { ThemeToggle } from '@/shared/ui/theme-toggle';
-import { NavMdm } from '@/widgets/navigation/nav-mdm';
-import { NavResources } from '@/widgets/navigation/nav-resources';
-import { NavUser } from '@/widgets/navigation/nav-user';
-import { TeamSwitcher } from '@/widgets/navigation/team-switcher';
 
 // This is sample data.
 const data = {

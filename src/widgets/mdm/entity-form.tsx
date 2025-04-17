@@ -1,31 +1,30 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@remix-run/react';
+import { MdmService } from '@shared/api/mdm';
+import { ENTITY_CONFIG } from '@shared/config/mdm';
+import { ClientOnly } from '@shared/lib/client-only';
+import { cn } from '@shared/lib/cn';
+import { EntityType } from '@shared/types/mdm';
+import { Button } from '@shared/ui/button';
+import { Checkbox } from '@shared/ui/checkbox';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
+import { Input } from '@shared/ui/input';
+import { MaskedInput } from '@shared/ui/masked-input';
+import { MultiSelect } from '@shared/ui/multi-select';
+import PageHeader from '@shared/ui/page-header';
+import { RadioGroup, RadioGroupItem } from '@shared/ui/radio-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
+import { SelectFromApi } from '@shared/ui/select-api';
+import { Skeleton } from '@shared/ui/skeleton';
+import { Textarea } from '@shared/ui/textarea';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useIsMobile } from '@widgets/hooks/use-mobile';
 import { Eraser, Save } from 'lucide-react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
-import { useIsMobile } from '@/components/hooks/use-mobile';
-import { MdmService } from '@/shared/api/mdm';
-import { ENTITY_CONFIG } from '@/shared/config/mdm';
-import { ClientOnly } from '@/shared/lib/client-only';
-import { cn } from '@/shared/lib/cn';
-import { EntityType } from '@/shared/types/mdm';
-import { Button } from '@/shared/ui/button';
-import { Checkbox } from '@/shared/ui/checkbox';
-import { DatePickerField } from '@/shared/ui/date-picker';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
-import { MaskedInput } from '@/shared/ui/masked-input';
-import { MultiSelect } from '@/shared/ui/multi-select';
-import PageHeader from '@/shared/ui/page-header';
-import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { SelectFromApi } from '@/shared/ui/select-api';
-import { Skeleton } from '@/shared/ui/skeleton';
-import { Textarea } from '@/shared/ui/textarea';
 const REQUIRED_FIELD_MARKER = '*';
 
 // Define field types
@@ -401,14 +400,15 @@ function EntityFormClient({ entity, id, isCreate = true }: EntityFormProps) {
                             disabled={field.disabled}
                           />
                         ) : field.type === 'date' ? (
-                          <DatePickerField
-                            key={key}
-                            fieldId={`field-${key}`}
-                            field={field}
-                            formField={formField}
-                            t={t}
-                            hasError={!!formState.errors[fieldKey]}
-                          />
+                          // <DatePickerField
+                          //   key={key}
+                          //   fieldId={`field-${key}`}
+                          //   field={field as EntityFieldConfig}
+                          //   formField={formField as ControllerRenderProps<FormValues, string>}
+                          //   t={t}
+                          //   hasError={!!formState.errors[fieldKey]}
+                          // />
+                          <span>comming</span>
                         ) : field.type === 'radio' ? (
                           <div
                             className="radio-group-wrapper"

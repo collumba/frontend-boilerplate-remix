@@ -2,17 +2,16 @@
 
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 import { useNavigate } from '@remix-run/react';
-import { AlertOctagon, Languages } from 'lucide-react';
-
-import { ROUTES } from '@/shared/config/routes';
-import { Collapsible } from '@/shared/ui/collapsible';
+import { ROUTES } from '@shared/config/routes';
+import { Collapsible } from '@shared/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/shared/ui/sidebar';
+} from '@shared/ui/sidebar';
+import { AlertOctagon, Languages } from 'lucide-react';
 
 export function NavResources() {
   const navigate = useNavigate();

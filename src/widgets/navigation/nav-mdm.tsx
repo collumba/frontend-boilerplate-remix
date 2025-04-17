@@ -1,11 +1,9 @@
 'use client';
 
 import { ChevronRightIcon } from '@radix-ui/react-icons';
-import { useTranslation } from 'react-i18next';
-
-import { ENTITY_CONFIG } from '@/shared/config/mdm';
-import { ROUTES } from '@/shared/config/routes';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/shared/ui/collapsible';
+import { ENTITY_CONFIG } from '@shared/config/mdm';
+import { ROUTES } from '@shared/config/routes';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@shared/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,7 +13,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@/shared/ui/sidebar';
+} from '@shared/ui/sidebar';
+import { useTranslation } from 'react-i18next';
 
 export function NavMdm() {
   const { t } = useTranslation();

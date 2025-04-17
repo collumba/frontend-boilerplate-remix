@@ -7,10 +7,11 @@
  */
 
 // Export actual components
+export { LoginForm } from './login-form';
 export { RegisterForm } from './register-form';
 
 // Types used by the components
-export type LoginForm = {
+export type LoginFormProps = {
   email: string;
   password: string;
   onSubmit: (data: { email: string; password: string }) => void;

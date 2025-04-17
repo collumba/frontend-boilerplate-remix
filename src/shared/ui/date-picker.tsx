@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { cn } from "@/shared/lib/cn";
-import { ButtonInput } from "@/shared/ui/button-input";
-import { Calendar } from "@/shared/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
-import { format } from "date-fns";
-import { enUS, es, ptBR } from "date-fns/locale";
-import { TFunction } from "i18next";
-import { CalendarIcon } from "lucide-react";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { cn } from '@/shared/lib/cn';
+import { ButtonInput } from '@/shared/ui/button-input';
+import { Calendar } from '@/shared/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+import { format } from 'date-fns';
+import { enUS, es, ptBR } from 'date-fns/locale';
+import { TFunction } from 'i18next';
+import { CalendarIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface DatePickerFieldProps {
   fieldId: string;
@@ -30,23 +30,16 @@ interface DatePickerFieldProps {
   hasError?: boolean;
 }
 
-function DatePicker({
-  fieldId,
-  field,
-  formField,
-  t,
-  hasError,
-}: DatePickerFieldProps) {
+function DatePicker({ fieldId, field, formField, t, hasError }: DatePickerFieldProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { i18n } = useTranslation();
   const langLocales = {
     en: enUS,
-    "pt-BR": ptBR,
+    'pt-BR': ptBR,
     es: es,
   };
 
-  const dateLocale =
-    langLocales[i18n.language as keyof typeof langLocales] || enUS;
+  const dateLocale = langLocales[i18n.language as keyof typeof langLocales] || enUS;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -55,21 +48,17 @@ function DatePicker({
           id={fieldId}
           leadingIcon={<CalendarIcon className="h-4 w-4" />}
           className={cn(
-            !formField.value && "text-muted-foreground",
-            isOpen && "border-ring",
-            hasError && "border-destructive"
+            !formField.value && 'text-muted-foreground',
+            isOpen && 'border-ring',
+            hasError && 'border-destructive'
           )}
           disabled={field.disabled}
           aria-invalid={hasError}
         >
           {formField.value ? (
-            format(new Date(formField.value), "PPP", { locale: dateLocale })
+            format(new Date(formField.value), 'PPP', { locale: dateLocale })
           ) : (
-            <span>
-              {field.placeholder
-                ? t(field.placeholder)
-                : t("common.action.pickDate")}
-            </span>
+            <span>{field.placeholder ? t(field.placeholder) : t('common.action.pickDate')}</span>
           )}
         </ButtonInput>
       </PopoverTrigger>

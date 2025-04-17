@@ -1,18 +1,10 @@
-import { useCharacterColumns } from "@/features/mdm/character/useCharacterColumns";
-import { Character } from "@/shared/types/mdm/character";
-import { LucideIcon, User } from "lucide-react";
+import { useCharacterColumns } from '@/features/mdm/character/useCharacterColumns';
+import { Character } from '@/shared/types/mdm/character';
+import { LucideIcon, User } from 'lucide-react';
 
 export interface EntityFieldConfig {
   name: string;
-  type:
-    | "text"
-    | "number"
-    | "checkbox"
-    | "select"
-    | "date"
-    | "textarea"
-    | "radio"
-    | "multiselect";
+  type: 'text' | 'number' | 'checkbox' | 'select' | 'date' | 'textarea' | 'radio' | 'multiselect';
   required?: boolean;
   options?: Array<{ label: string; value: string }>;
   placeholder?: string;
@@ -23,7 +15,7 @@ export interface EntityFieldConfig {
   helperText?: string;
   disabled?: boolean;
   readonly?: boolean;
-  optionsSource?: "static" | "api";
+  optionsSource?: 'static' | 'api';
   optionsEndpoint?: string;
   optionsParams?: Record<string, string>;
   entity?: keyof EntityMap;
@@ -42,119 +34,119 @@ export const ENTITY_CONFIG: {
 } = {
   character: {
     icon: User,
-    endpoint: "/character",
+    endpoint: '/character',
     fields: {
       name: {
-        name: "name",
-        type: "text",
+        name: 'name',
+        type: 'text',
         required: true,
-        placeholder: "entities.character.fields.namePlaceholder",
+        placeholder: 'entities.character.fields.namePlaceholder',
         min: 3,
         max: 100,
       },
       status: {
-        name: "status",
-        type: "select",
+        name: 'status',
+        type: 'select',
         required: true,
-        placeholder: "entities.character.fields.statusPlaceholder",
+        placeholder: 'entities.character.fields.statusPlaceholder',
         options: [
-          { label: "entities.character.status.alive", value: "alive" },
-          { label: "entities.character.status.dead", value: "dead" },
-          { label: "entities.character.status.unknown", value: "unknown" },
+          { label: 'entities.character.status.alive', value: 'alive' },
+          { label: 'entities.character.status.dead', value: 'dead' },
+          { label: 'entities.character.status.unknown', value: 'unknown' },
         ],
       },
       gender: {
-        name: "gender",
-        type: "radio",
+        name: 'gender',
+        type: 'radio',
         required: true,
-        helperText: "entities.character.fields.genderHelperText",
+        helperText: 'entities.character.fields.genderHelperText',
         options: [
-          { label: "entities.character.gender.male", value: "male" },
-          { label: "entities.character.gender.female", value: "female" },
+          { label: 'entities.character.gender.male', value: 'male' },
+          { label: 'entities.character.gender.female', value: 'female' },
           {
-            label: "entities.character.gender.genderless",
-            value: "genderless",
+            label: 'entities.character.gender.genderless',
+            value: 'genderless',
           },
-          { label: "entities.character.gender.unknown", value: "unknown" },
+          { label: 'entities.character.gender.unknown', value: 'unknown' },
         ],
       },
       phoneNumber: {
-        name: "phoneNumber",
-        type: "text",
+        name: 'phoneNumber',
+        type: 'text',
         required: true,
-        mask: "+00 (00) 00000-0000",
-        placeholder: "entities.character.fields.phoneNumberPlaceholder",
-        helperText: "entities.character.fields.phoneNumberHelperText",
+        mask: '+00 (00) 00000-0000',
+        placeholder: 'entities.character.fields.phoneNumberPlaceholder',
+        helperText: 'entities.character.fields.phoneNumberHelperText',
       },
       age: {
-        name: "age",
-        type: "number",
+        name: 'age',
+        type: 'number',
         required: true,
         min: 0,
         max: 1000,
-        placeholder: "entities.character.fields.agePlaceholder",
+        placeholder: 'entities.character.fields.agePlaceholder',
       },
       traits: {
-        name: "traits",
-        type: "multiselect",
+        name: 'traits',
+        type: 'multiselect',
         required: true,
-        placeholder: "entities.character.fields.traitsPlaceholder",
+        placeholder: 'entities.character.fields.traitsPlaceholder',
         options: [
           {
-            label: "entities.character.traits.intelligent",
-            value: "intelligent",
+            label: 'entities.character.traits.intelligent',
+            value: 'intelligent',
           },
-          { label: "entities.character.traits.brave", value: "brave" },
-          { label: "entities.character.traits.loyal", value: "loyal" },
-          { label: "entities.character.traits.curious", value: "curious" },
+          { label: 'entities.character.traits.brave', value: 'brave' },
+          { label: 'entities.character.traits.loyal', value: 'loyal' },
+          { label: 'entities.character.traits.curious', value: 'curious' },
           {
-            label: "entities.character.traits.aggressive",
-            value: "aggressive",
+            label: 'entities.character.traits.aggressive',
+            value: 'aggressive',
           },
         ],
       },
       species: {
-        name: "species",
-        type: "text",
+        name: 'species',
+        type: 'text',
         required: true,
-        pattern: "^[A-Za-z ]+$",
-        placeholder: "entities.character.fields.speciesPlaceholder",
+        pattern: '^[A-Za-z ]+$',
+        placeholder: 'entities.character.fields.speciesPlaceholder',
       },
       description: {
-        name: "description",
-        type: "textarea",
+        name: 'description',
+        type: 'textarea',
         required: true,
-        placeholder: "entities.character.fields.descriptionPlaceholder",
+        placeholder: 'entities.character.fields.descriptionPlaceholder',
         min: 10,
         max: 500,
-        helperText: "entities.character.fields.descriptionHelperText",
+        helperText: 'entities.character.fields.descriptionHelperText',
       },
       in_active: {
-        name: "in_active",
-        type: "checkbox",
+        name: 'in_active',
+        type: 'checkbox',
         required: true,
-        helperText: "entities.character.fields.inActiveHelperText",
+        helperText: 'entities.character.fields.inActiveHelperText',
       },
       birthDate: {
-        name: "birthDate",
-        type: "date",
+        name: 'birthDate',
+        type: 'date',
         required: true,
-        min: "1900-01-01",
-        max: "2023-12-31",
-        placeholder: "entities.character.fields.birthDatePlaceholder",
-        helperText: "entities.character.fields.birthDateHelperText",
+        min: '1900-01-01',
+        max: '2023-12-31',
+        placeholder: 'entities.character.fields.birthDatePlaceholder',
+        helperText: 'entities.character.fields.birthDateHelperText',
       },
     },
   },
 } as const;
 
-export type EntityType = "character";
+export type EntityType = 'character';
 export type EntityMap = {
   character: Character;
 };
 
 // Helper function to get columns dynamically
-export function useEntityColumns<T extends "character">(entity: T) {
+export function useEntityColumns<T extends 'character'>(entity: T) {
   // Map directly to the column hooks using static imports
   const columnsMap = {
     character: useCharacterColumns,

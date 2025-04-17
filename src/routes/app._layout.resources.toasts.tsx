@@ -1,29 +1,29 @@
-import { useToast, useToastI18n } from "@/app/providers/toast-context";
+import { useToast, useToastI18n } from '@/app/providers/toast-context';
 import {
   jsonWithToastNotification,
   redirectWithToastNotification,
-} from "@/modules/toast/toast.server";
-import { Button } from "@/shared/ui/button";
-import { Typography } from "@/shared/ui/typography";
-import { Form } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
+} from '@/modules/toast/toast.server';
+import { Button } from '@/shared/ui/button';
+import { Typography } from '@/shared/ui/typography';
+import { Form } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
 
 export const loader = async () => {
   return jsonWithToastNotification(
-    { message: "Loader Response" },
+    { message: 'Loader Response' },
     {
-      type: "success",
-      title: "Server Toast",
-      description: "This toast was sent through the loader",
+      type: 'success',
+      title: 'Server Toast',
+      description: 'This toast was sent through the loader',
     }
   );
 };
 
 export const action = async () => {
-  return redirectWithToastNotification("/app/resources/toasts", {
-    type: "success",
-    title: "Server Toast",
-    description: "This toast was sent through the action",
+  return redirectWithToastNotification('/app/resources/toasts', {
+    type: 'success',
+    title: 'Server Toast',
+    description: 'This toast was sent through the action',
   });
 };
 /**
@@ -38,23 +38,23 @@ export default function ToastExamplePage() {
   //Function to show client toast
   const showClientToast = (type: string) => {
     switch (type) {
-      case "success":
-        toast.success("component.toast.success.description", { app: "Remix" });
+      case 'success':
+        toast.success('component.toast.success.description', { app: 'Remix' });
         break;
-      case "error":
-        toast.error("component.toast.error.description");
+      case 'error':
+        toast.error('component.toast.error.description');
         break;
-      case "warning":
-        toast.warning("component.toast.warning.description");
+      case 'warning':
+        toast.warning('component.toast.warning.description');
         break;
-      case "info":
-        toast.info("component.toast.info.description");
+      case 'info':
+        toast.info('component.toast.info.description');
         break;
       default:
         actions.addToast({
-          type: "default",
-          title: t("component.toast.default.title"),
-          description: t("component.toast.default.description"),
+          type: 'default',
+          title: t('component.toast.default.title'),
+          description: t('component.toast.default.description'),
         });
     }
   };
@@ -68,41 +68,31 @@ export default function ToastExamplePage() {
           <p>O sistema de toasts utiliza as seguintes tecnologias:</p>
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Remix Session Storage:
-              </span>
+              <span className="font-bold text-primary">Remix Session Storage:</span>
               <span>
-                Utiliza armazenamento de sessão baseado em cookies para
-                persistir mensagens entre servidor e cliente
+                Utiliza armazenamento de sessão baseado em cookies para persistir mensagens entre
+                servidor e cliente
               </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="font-bold text-primary">React Context:</span>
               <span>
-                Implementa um ToastContext para gerenciar estado e ações dos
-                toasts na aplicação
+                Implementa um ToastContext para gerenciar estado e ações dos toasts na aplicação
               </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="font-bold text-primary">Integração i18n:</span>
               <span>
-                Suporta internacionalização através do react-i18next para
-                mensagens traduzidas
+                Suporta internacionalização através do react-i18next para mensagens traduzidas
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Renderização no Servidor:
-              </span>
-              <span>
-                Suporta geração de toasts tanto no cliente quanto no servidor
-              </span>
+              <span className="font-bold text-primary">Renderização no Servidor:</span>
+              <span>Suporta geração de toasts tanto no cliente quanto no servidor</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="font-bold text-primary">Tipagem Segura:</span>
-              <span>
-                Utiliza TypeScript para manipulação segura de mensagens
-              </span>
+              <span>Utiliza TypeScript para manipulação segura de mensagens</span>
             </li>
           </ul>
         </div>
@@ -113,64 +103,46 @@ export default function ToastExamplePage() {
           <p>Siga estas boas práticas ao usar toasts em sua aplicação:</p>
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Mantenha as Mensagens Concisas:
-              </span>
+              <span className="font-bold text-primary">Mantenha as Mensagens Concisas:</span>
               <span>
-                As mensagens devem ser curtas e objetivas, idealmente não mais
-                que uma ou duas linhas
+                As mensagens devem ser curtas e objetivas, idealmente não mais que uma ou duas
+                linhas
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Use Tipos Apropriados:
-              </span>
+              <span className="font-bold text-primary">Use Tipos Apropriados:</span>
               <span>
-                Escolha o tipo correto (sucesso, erro, aviso, informação)
-                baseado no contexto
+                Escolha o tipo correto (sucesso, erro, aviso, informação) baseado no contexto
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Limite a Frequência:
-              </span>
+              <span className="font-bold text-primary">Limite a Frequência:</span>
               <span>
-                Evite mostrar múltiplos toasts em sequência para não
-                sobrecarregar os usuários
+                Evite mostrar múltiplos toasts em sequência para não sobrecarregar os usuários
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Inclua Ações Claras:
-              </span>
-              <span>
-                Quando apropriado, forneça próximos passos ou ações claras na
-                mensagem
-              </span>
+              <span className="font-bold text-primary">Inclua Ações Claras:</span>
+              <span>Quando apropriado, forneça próximos passos ou ações claras na mensagem</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Considere Acessibilidade:
-              </span>
+              <span className="font-bold text-primary">Considere Acessibilidade:</span>
               <span>
-                Garanta que as mensagens sejam acessíveis a leitores de tela e
-                sigam as diretrizes WCAG
+                Garanta que as mensagens sejam acessíveis a leitores de tela e sigam as diretrizes
+                WCAG
               </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="font-bold text-primary">Use Traduções:</span>
               <span>
-                Sempre utilize o sistema de tradução para mensagens, suportando
-                internacionalização
+                Sempre utilize o sistema de tradução para mensagens, suportando internacionalização
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="font-bold text-primary">
-                Servidor vs Cliente:
-              </span>
+              <span className="font-bold text-primary">Servidor vs Cliente:</span>
               <span>
-                Use toasts do servidor para ações que requerem recarregamento de
-                página, e do cliente para feedback imediato
+                Use toasts do servidor para ações que requerem recarregamento de página, e do
+                cliente para feedback imediato
               </span>
             </li>
           </ul>
@@ -179,28 +151,19 @@ export default function ToastExamplePage() {
       <div className="space-y-4">
         <Typography variant="h2">Client-side Toasts</Typography>
         <div className="flex flex-wrap gap-2">
-          <Button
-            variant="secondary"
-            onClick={() => showClientToast("success")}
-          >
+          <Button variant="secondary" onClick={() => showClientToast('success')}>
             Success
           </Button>
-          <Button variant="secondary" onClick={() => showClientToast("error")}>
+          <Button variant="secondary" onClick={() => showClientToast('error')}>
             Error
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => showClientToast("warning")}
-          >
+          <Button variant="secondary" onClick={() => showClientToast('warning')}>
             Warning
           </Button>
-          <Button variant="secondary" onClick={() => showClientToast("info")}>
+          <Button variant="secondary" onClick={() => showClientToast('info')}>
             Info
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => showClientToast("default")}
-          >
+          <Button variant="secondary" onClick={() => showClientToast('default')}>
             Default
           </Button>
         </div>
@@ -213,11 +176,7 @@ export default function ToastExamplePage() {
               Action with Toast with redirect
             </Button>
           </Form>
-          <Button
-            type="submit"
-            variant="secondary"
-            onClick={() => window.location.reload()}
-          >
+          <Button type="submit" variant="secondary" onClick={() => window.location.reload()}>
             Loader with Toast
           </Button>
         </div>

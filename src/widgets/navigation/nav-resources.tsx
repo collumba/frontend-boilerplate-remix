@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import { ROUTES } from "@/shared/config/routes";
-import { Collapsible } from "@/shared/ui/collapsible";
+import { ROUTES } from '@/shared/config/routes';
+import { Collapsible } from '@/shared/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/shared/ui/sidebar";
-import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { useNavigate } from "@remix-run/react";
-import { AlertOctagon, Languages } from "lucide-react";
+} from '@/shared/ui/sidebar';
+import { ChevronRightIcon } from '@radix-ui/react-icons';
+import { useNavigate } from '@remix-run/react';
+import { AlertOctagon, Languages } from 'lucide-react';
 
 export function NavResources() {
   const navigate = useNavigate();
   const items = [
     {
-      title: "Toasts",
-      url: ROUTES.app.root + "/resources/toasts",
+      title: 'Toasts',
+      url: ROUTES.app.root + '/resources/toasts',
       icon: AlertOctagon,
       isActive: false,
     },
     {
-      title: "Traslation",
-      url: ROUTES.app.root + "/resources/translation",
+      title: 'Traslation',
+      url: ROUTES.app.root + '/resources/translation',
       icon: Languages,
       isActive: false,
     },

@@ -1,13 +1,9 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
-import { useNavigate } from "@remix-run/react";
-import { ArrowLeftIcon } from "lucide-react";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Button } from "./button";
+import { Tooltip, TooltipContent, TooltipTrigger } from '@radix-ui/react-tooltip';
+import { useNavigate } from '@remix-run/react';
+import { ArrowLeftIcon } from 'lucide-react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from './button';
 
 interface PageHeaderProps {
   title: string;
@@ -33,22 +29,16 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           {hasBackButton && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => navigate(-1)}
-                >
+                <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
                   <ArrowLeftIcon className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>{t("common.action.back")}</TooltipContent>
+              <TooltipContent>{t('common.action.back')}</TooltipContent>
             </Tooltip>
           )}
           <div className="flex flex-col">
             <h1 className="text-2xl font-bold">{t(title)}</h1>
-            {subtitle && (
-              <h2 className="text-lg text-gray-600">{t(subtitle)}</h2>
-            )}
+            {subtitle && <h2 className="text-lg text-gray-600">{t(subtitle)}</h2>}
           </div>
         </div>
         {children}

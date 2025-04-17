@@ -1,19 +1,17 @@
-import { env } from "env";
-import { createCookieSessionStorage } from "react-router";
-import { createThemeSessionResolver } from "remix-themes";
-const isProduction = env.NODE_ENV === "production";
+import { env } from 'env';
+import { createCookieSessionStorage } from 'react-router';
+import { createThemeSessionResolver } from 'remix-themes';
+const isProduction = env.NODE_ENV === 'production';
 
 const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "theme",
-    path: "/",
+    name: 'theme',
+    path: '/',
     httpOnly: true,
-    sameSite: "lax",
-    secrets: ["s3cr3t"],
+    sameSite: 'lax',
+    secrets: ['s3cr3t'],
     // Set domain and secure only if in production
-    ...(isProduction
-      ? { domain: "your-production-domain.com", secure: true }
-      : {}),
+    ...(isProduction ? { domain: 'your-production-domain.com', secure: true } : {}),
   },
 });
 

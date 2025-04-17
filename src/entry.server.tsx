@@ -1,13 +1,13 @@
-import * as i18n from "@/shared/config/i18n";
-import type { AppLoadContext, EntryContext } from "@remix-run/node";
-import { createReadableStreamFromReadable } from "@remix-run/node";
-import { RemixServer } from "@remix-run/react";
-import { createInstance, i18n as i18next } from "i18next";
-import { isbot } from "isbot";
-import { PassThrough } from "node:stream";
-import { renderToPipeableStream } from "react-dom/server";
-import { I18nextProvider, initReactI18next } from "react-i18next";
-import i18nServer from "./modules/i18n/i18n.server";
+import * as i18n from '@/shared/config/i18n';
+import type { AppLoadContext, EntryContext } from '@remix-run/node';
+import { createReadableStreamFromReadable } from '@remix-run/node';
+import { RemixServer } from '@remix-run/react';
+import { createInstance, i18n as i18next } from 'i18next';
+import { isbot } from 'isbot';
+import { PassThrough } from 'node:stream';
+import { renderToPipeableStream } from 'react-dom/server';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
+import i18nServer from './modules/i18n/i18n.server';
 
 const ABORT_DELAY = 5_000;
 
@@ -24,7 +24,7 @@ export default async function handleRequest(
 
   await instance.use(initReactI18next).init({ ...i18n, lng, ns });
 
-  return isbot(request.headers.get("user-agent") || "")
+  return isbot(request.headers.get('user-agent') || '')
     ? handleBotRequest(
         request,
         responseStatusCode,
@@ -55,11 +55,7 @@ async function handleBotRequest(
     let shellRendered = false;
     const { pipe, abort } = renderToPipeableStream(
       <I18nextProvider i18n={i18next}>
-        <RemixServer
-          context={remixContext}
-          url={request.url}
-          abortDelay={ABORT_DELAY}
-        />
+        <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />
       </I18nextProvider>,
       {
         onAllReady() {
@@ -67,7 +63,7 @@ async function handleBotRequest(
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 
-          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set('Content-Type', 'text/html');
 
           resolve(
             new Response(stream, {
@@ -106,11 +102,7 @@ async function handleBrowserRequest(
     let shellRendered = false;
     const { pipe, abort } = renderToPipeableStream(
       <I18nextProvider i18n={i18next}>
-        <RemixServer
-          context={remixContext}
-          url={request.url}
-          abortDelay={ABORT_DELAY}
-        />
+        <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />
       </I18nextProvider>,
       {
         onShellReady() {
@@ -118,7 +110,7 @@ async function handleBrowserRequest(
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 
-          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set('Content-Type', 'text/html');
 
           resolve(
             new Response(stream, {

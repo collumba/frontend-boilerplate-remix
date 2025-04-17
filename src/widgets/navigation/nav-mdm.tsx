@@ -1,12 +1,8 @@
-"use client";
+'use client';
 
-import { ENTITY_CONFIG } from "@/shared/config/mdm";
-import { ROUTES } from "@/shared/config/routes";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/shared/ui/collapsible";
+import { ENTITY_CONFIG } from '@/shared/config/mdm';
+import { ROUTES } from '@/shared/config/routes';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/shared/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -16,9 +12,9 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/shared/ui/sidebar";
-import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { useTranslation } from "react-i18next";
+} from '@/shared/ui/sidebar';
+import { ChevronRightIcon } from '@radix-ui/react-icons';
+import { useTranslation } from 'react-i18next';
 
 export function NavMdm() {
   const { t } = useTranslation();
@@ -42,9 +38,7 @@ export function NavMdm() {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>
-        {t("component.sidebar.registers.title")}
-      </SidebarGroupLabel>
+      <SidebarGroupLabel>{t('component.sidebar.registers.title')}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

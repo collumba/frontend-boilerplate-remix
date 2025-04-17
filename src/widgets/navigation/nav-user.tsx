@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { LogOut } from "lucide-react";
+import { LogOut } from 'lucide-react';
 
-import { useAuthContext } from "@/app/providers/auth-context";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { useAuthContext } from '@/app/providers/auth-context';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,15 +11,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shared/ui/dropdown-menu";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/shared/ui/sidebar";
-import { CaretSortIcon } from "@radix-ui/react-icons";
-import { useTranslation } from "react-i18next";
+} from '@/shared/ui/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/shared/ui/sidebar';
+import { CaretSortIcon } from '@radix-ui/react-icons';
+import { useTranslation } from 'react-i18next';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -62,7 +57,7 @@ export function NavUser() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
@@ -96,7 +91,7 @@ export function NavUser() {
             <DropdownMenuSeparator /> */}
             <DropdownMenuItem onClick={() => handleLogout()}>
               <LogOut />
-              {t("common.action.logout")}
+              {t('common.action.logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

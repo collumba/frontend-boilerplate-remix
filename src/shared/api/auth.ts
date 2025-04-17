@@ -1,5 +1,5 @@
-import { AUTH_CONFIG } from "@/shared/config/auth";
-import { ApiService } from "./api";
+import { AUTH_CONFIG } from '@/shared/config/auth';
+import { ApiService } from './api';
 
 interface LoginCredentials {
   identifier: string;
@@ -53,14 +53,11 @@ export class AuthService {
         password: credentials.password,
       };
 
-      const response = await this.api.post<AuthResponse>(
-        "/api/auth/local",
-        payload
-      );
+      const response = await this.api.post<AuthResponse>('/api/auth/local', payload);
       this.setToken(response.jwt);
       return response;
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error('Login failed:', error);
       throw error;
     }
   }
@@ -68,14 +65,11 @@ export class AuthService {
   // Register new user
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      const response = await this.api.post<AuthResponse>(
-        "/api/auth/local/register",
-        data
-      );
+      const response = await this.api.post<AuthResponse>('/api/auth/local/register', data);
       this.setToken(response.jwt);
       return response;
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error('Registration failed:', error);
       throw error;
     }
   }
@@ -85,12 +79,12 @@ export class AuthService {
     try {
       const token = this.getToken();
       if (!token) {
-        throw new Error("No authentication token found");
+        throw new Error('No authentication token found');
       }
 
-      return await this.api.get<MeResponse>("/api/users/me");
+      return await this.api.get<MeResponse>('/api/users/me');
     } catch (error) {
-      console.error("Failed to fetch user data:", error);
+      console.error('Failed to fetch user data:', error);
       throw error;
     }
   }
@@ -123,19 +117,16 @@ export class AuthService {
   // Get authentication token
   getToken(): string | null {
     // Check first in cookies
-    const cookies = document.cookie.split(";");
+    const cookies = document.cookie.split(';');
     for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split("=");
+      const [name, value] = cookie.trim().split('=');
       if (name === this.TOKEN_KEY) {
         return value;
       }
     }
 
     // Backward compatibility: check in localStorage/sessionStorage
-    return (
-      localStorage.getItem(this.TOKEN_KEY) ||
-      sessionStorage.getItem(this.TOKEN_KEY)
-    );
+    return localStorage.getItem(this.TOKEN_KEY) || sessionStorage.getItem(this.TOKEN_KEY);
   }
 
   // Remove token

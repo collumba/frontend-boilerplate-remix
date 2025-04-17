@@ -1,9 +1,9 @@
-import { ROUTES } from "@/shared/config/routes";
-import { Outlet } from "@remix-run/react";
+import { ROUTES } from '@/shared/config/routes';
+import { Outlet } from '@remix-run/react';
 
 export const handle = {
   breadcrumb: {
-    label: "route.app.mdm.root",
+    label: 'route.app.mdm.root',
     href: ROUTES.app.mdm.root,
   },
 };

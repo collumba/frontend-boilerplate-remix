@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Table, flexRender } from "@tanstack/react-table";
-import { AlertCircle, ArrowDown, ArrowUp, ChevronDown } from "lucide-react";
+import { Table, flexRender } from '@tanstack/react-table';
+import { AlertCircle, ArrowDown, ArrowUp, ChevronDown } from 'lucide-react';
 
-import { Button } from "@/shared/ui/button";
+import { Button } from '@/shared/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/shared/ui/dropdown-menu";
-import { Input } from "@/shared/ui/input";
+} from '@/shared/ui/dropdown-menu';
+import { Input } from '@/shared/ui/input';
 import {
   TableBody,
   TableCell,
@@ -18,10 +18,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/shared/ui/table";
-import { useTranslation } from "react-i18next";
-import { EmptyState } from "./empty-state";
-import { Skeleton } from "./skeleton";
+} from '@/shared/ui/table';
+import { useTranslation } from 'react-i18next';
+import { EmptyState } from './empty-state';
+import { Skeleton } from './skeleton';
 
 type DataTableProps<TData> = {
   table: Table<TData>;
@@ -46,19 +46,16 @@ export function DataTable<TData>({
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder={
-            inputSearch?.placeholder ??
-            t("component.dataTable.inputSearch.placeholder")
-          }
+          placeholder={inputSearch?.placeholder ?? t('component.dataTable.inputSearch.placeholder')}
           value={
             (table
-              .getColumn(inputSearch?.searchByAccessor ?? "name")
-              ?.getFilterValue() as string) ?? ""
+              .getColumn(inputSearch?.searchByAccessor ?? 'name')
+              ?.getFilterValue() as string) ?? ''
           }
           onChange={(event) => {
             table
-              .getColumn(inputSearch?.searchByAccessor ?? "name")
-              ?.setFilterValue(event.target.value ?? "");
+              .getColumn(inputSearch?.searchByAccessor ?? 'name')
+              ?.setFilterValue(event.target.value ?? '');
             inputSearch?.onChange(event.target.value);
           }}
           className="max-w-sm"
@@ -66,7 +63,7 @@ export function DataTable<TData>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              {showColumnsText ?? t("component.dataTable.showColumnsText")}
+              {showColumnsText ?? t('component.dataTable.showColumnsText')}
               <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -80,9 +77,7 @@ export function DataTable<TData>({
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
@@ -102,10 +97,7 @@ export function DataTable<TData>({
                       <div className="flex items-center">
                         {header.isPlaceholder
                           ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                          : flexRender(header.column.columnDef.header, header.getContext())}
                         {header.column.getCanSort() && (
                           <Button
                             variant="ghost"
@@ -114,7 +106,7 @@ export function DataTable<TData>({
                             className="ml-2"
                           >
                             {header.column.getIsSorted() ? (
-                              header.column.getIsSorted() === "asc" ? (
+                              header.column.getIsSorted() === 'asc' ? (
                                 <ArrowUp className="w-4 h-4" />
                               ) : (
                                 <ArrowDown className="w-4 h-4" />
@@ -134,27 +126,18 @@ export function DataTable<TData>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className="h-24 text-center"
-                >
-                  {noResultsText ?? t("component.dataTable.noResultsText")}
+                <TableCell colSpan={table.getAllColumns().length} className="h-24 text-center">
+                  {noResultsText ?? t('component.dataTable.noResultsText')}
                 </TableCell>
               </TableRow>
             )}
@@ -163,7 +146,7 @@ export function DataTable<TData>({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {t("component.dataTable.selectedRows.of", {
+          {t('component.dataTable.selectedRows.of', {
             count: table.getFilteredSelectedRowModel().rows.length,
             total: table.getFilteredRowModel().rows.length,
           })}
@@ -175,7 +158,7 @@ export function DataTable<TData>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            {t("component.dataTable.pagination.previous")}
+            {t('component.dataTable.pagination.previous')}
           </Button>
           <Button
             variant="outline"
@@ -183,7 +166,7 @@ export function DataTable<TData>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            {t("component.dataTable.pagination.next")}
+            {t('component.dataTable.pagination.next')}
           </Button>
         </div>
       </div>
@@ -235,21 +218,17 @@ type DataTableErrorType = {
   description?: string;
   reload?: () => void;
 };
-export function DataTableError({
-  title,
-  description,
-  reload,
-}: DataTableErrorType) {
+export function DataTableError({ title, description, reload }: DataTableErrorType) {
   const { t } = useTranslation();
   return (
     <EmptyState
-      title={title ?? t("component.dataTable.error.title")}
-      description={description ?? t("component.dataTable.error.description")}
+      title={title ?? t('component.dataTable.error.title')}
+      description={description ?? t('component.dataTable.error.description')}
       icon={AlertCircle}
     >
       {reload && (
         <Button variant="outline" onClick={reload}>
-          {t("component.dataTable.error.button")}
+          {t('component.dataTable.error.button')}
         </Button>
       )}
     </EmptyState>

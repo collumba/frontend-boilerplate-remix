@@ -1,23 +1,23 @@
-import { useToast, useToastI18n } from "@/app/providers/toast-context";
-import i18nServer from "@/modules/i18n/i18n.server";
-import { jsonWithToastNotification } from "@/modules/toast/toast.server";
-import { supportedLngsConfig } from "@/shared/config/i18n";
-import { Button } from "@/shared/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { Typography } from "@/shared/ui/typography";
-import { LoaderFunctionArgs } from "@remix-run/server-runtime";
-import { env } from "env";
-import { useTranslation } from "react-i18next";
+import { useToast, useToastI18n } from '@/app/providers/toast-context';
+import i18nServer from '@/modules/i18n/i18n.server';
+import { jsonWithToastNotification } from '@/modules/toast/toast.server';
+import { supportedLngsConfig } from '@/shared/config/i18n';
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Typography } from '@/shared/ui/typography';
+import { LoaderFunctionArgs } from '@remix-run/server-runtime';
+import { env } from 'env';
+import { useTranslation } from 'react-i18next';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const t = await i18nServer.getFixedT(request);
   return jsonWithToastNotification(
-    { message: "Loader Response" },
+    { message: 'Loader Response' },
     {
-      type: "success",
-      title: t("component.toast.success.title"),
-      description: t("component.toast.success.description", {
-        app: "Remix",
+      type: 'success',
+      title: t('component.toast.success.title'),
+      description: t('component.toast.success.description', {
+        app: 'Remix',
       }),
     }
   );
@@ -34,7 +34,7 @@ export default function TranslationExamplePage() {
 
   const changeLanguage = (language: string) => {
     i18n.changeLanguage(language);
-    toast.success("component.toast.language.changed", {
+    toast.success('component.toast.language.changed', {
       language: t(`locale.languages.${language}`),
     });
   };
@@ -46,9 +46,7 @@ export default function TranslationExamplePage() {
     }));
   };
 
-  const currentLocale = getLocales().find(
-    (locale) => locale.label === i18n.language
-  );
+  const currentLocale = getLocales().find((locale) => locale.label === i18n.language);
 
   return (
     <div className="container mx-auto p-6 space-y-8">
@@ -64,15 +62,13 @@ export default function TranslationExamplePage() {
               alt={currentLocale?.label}
               className="w-6 h-6"
             />
-            <Typography variant="large">
-              {t(`locale.languages.${i18n.language}`)}
-            </Typography>
+            <Typography variant="large">{t(`locale.languages.${i18n.language}`)}</Typography>
           </div>
           <div className="flex flex-wrap gap-2">
             {getLocales().map((locale) => (
               <Button
                 key={locale.label}
-                variant={locale.label === i18n.language ? "default" : "outline"}
+                variant={locale.label === i18n.language ? 'default' : 'outline'}
                 onClick={() => changeLanguage(locale.label)}
                 className="flex items-center gap-2"
               >
@@ -89,38 +85,35 @@ export default function TranslationExamplePage() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>{t("common.action.apply")} Client-side</CardTitle>
+          <CardTitle>{t('common.action.apply')} Client-side</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <Typography>
-            {t("app.message.error.404.title")} -{" "}
-            {t("app.message.error.404.message")}
+            {t('app.message.error.404.title')} - {t('app.message.error.404.message')}
           </Typography>
           <Button
             onClick={() =>
               actions.addToast({
-                type: "success",
-                title: t("component.toast.success.title"),
-                description: t("component.toast.success.description", {
-                  app: "Remix",
+                type: 'success',
+                title: t('component.toast.success.title'),
+                description: t('component.toast.success.description', {
+                  app: 'Remix',
                 }),
               })
             }
           >
-            {t("common.action.apply")} Toast
+            {t('common.action.apply')} Toast
           </Button>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>{t("common.action.apply")} Server-side</CardTitle>
+          <CardTitle>{t('common.action.apply')} Server-side</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Typography>{t("auth.login.description")}</Typography>
+          <Typography>{t('auth.login.description')}</Typography>
           <div className="flex flex-wrap gap-2">
-            <Button onClick={() => window.location.reload()}>
-              Loader with Toast
-            </Button>
+            <Button onClick={() => window.location.reload()}>Loader with Toast</Button>
           </div>
         </CardContent>
       </Card>
@@ -165,9 +158,7 @@ export default function TranslationExamplePage() {
           <CardTitle>Nomenclature Best Practices</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Typography>
-            Use the following best practices for organizing translation keys:
-          </Typography>
+          <Typography>Use the following best practices for organizing translation keys:</Typography>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2 border rounded-md p-4">
@@ -233,8 +224,7 @@ export default function TranslationExamplePage() {
                 <code>remix-i18next</code> - Server-side integration for Remix
               </li>
               <li>
-                <code>i18next-browser-languagedetector</code> - Detects user
-                language preference
+                <code>i18next-browser-languagedetector</code> - Detects user language preference
               </li>
               <li>
                 <code>i18next-fetch-backend</code> - Loads translations via API
@@ -248,8 +238,7 @@ export default function TranslationExamplePage() {
             </Typography>
             <ul className="space-y-1 list-disc list-inside">
               <li>
-                <code>app/locales/</code> - Translation files (en.ts, pt-BR.ts,
-                es.ts)
+                <code>app/locales/</code> - Translation files (en.ts, pt-BR.ts, es.ts)
               </li>
               <li>
                 <code>app/config/i18n.ts</code> - i18n configuration
@@ -258,12 +247,11 @@ export default function TranslationExamplePage() {
                 <code>app/modules/i18n.server.ts</code> - Server-side i18n setup
               </li>
               <li>
-                <code>app/entry.client.tsx</code> - Client-side i18n
-                initialization
+                <code>app/entry.client.tsx</code> - Client-side i18n initialization
               </li>
               <li>
-                <code>app/routes/api_.global.locales.ts</code> - API endpoint
-                for loading translations
+                <code>app/routes/api_.global.locales.ts</code> - API endpoint for loading
+                translations
               </li>
             </ul>
           </div>
@@ -274,20 +262,20 @@ export default function TranslationExamplePage() {
             </Typography>
             <div className="border rounded-md p-4 space-y-2">
               <Typography variant="small">
-                1. <span className="font-semibold">Server-side</span>:
-                Translations are loaded and used for SSR content
+                1. <span className="font-semibold">Server-side</span>: Translations are loaded and
+                used for SSR content
               </Typography>
               <Typography variant="small">
-                2. <span className="font-semibold">Hydration</span>: Client
-                initializes with same language as server
+                2. <span className="font-semibold">Hydration</span>: Client initializes with same
+                language as server
               </Typography>
               <Typography variant="small">
-                3. <span className="font-semibold">Client-side</span>:
-                Additional translations loaded via API as needed
+                3. <span className="font-semibold">Client-side</span>: Additional translations
+                loaded via API as needed
               </Typography>
               <Typography variant="small">
-                4. <span className="font-semibold">Language Switch</span>:
-                Changes language on the fly without page reload
+                4. <span className="font-semibold">Language Switch</span>: Changes language on the
+                fly without page reload
               </Typography>
             </div>
           </div>

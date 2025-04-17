@@ -1,10 +1,6 @@
-import { useAuth } from "@/shared/lib/hooks/useAuth";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  UseMutateFunction,
-} from "@tanstack/react-query";
-import { createContext, ReactNode, useContext } from "react";
+import { useAuth } from '@/shared/lib/hooks/useAuth';
+import { QueryObserverResult, RefetchOptions, UseMutateFunction } from '@tanstack/react-query';
+import { createContext, ReactNode, useContext } from 'react';
 
 interface User {
   id: number;
@@ -55,7 +51,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function useAuthContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuthContext deve ser usado dentro de um AuthProvider");
+    throw new Error('useAuthContext deve ser usado dentro de um AuthProvider');
   }
   return context;
 }

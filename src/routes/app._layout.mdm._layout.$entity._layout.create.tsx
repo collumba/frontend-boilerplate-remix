@@ -1,8 +1,8 @@
-import { ENTITY_CONFIG } from "@/shared/config/mdm";
-import { EntityType } from "@/shared/types/mdm";
-import EntityForm from "@/widgets/mdm/entity-form";
-import { json, LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { ENTITY_CONFIG } from '@/shared/config/mdm';
+import { EntityType } from '@/shared/types/mdm';
+import EntityForm from '@/widgets/mdm/entity-form';
+import { json, LoaderFunctionArgs } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 export const handle = {
   breadcrumb: (params: { entity: string }) => ({
@@ -15,7 +15,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const { entity } = params;
 
   if (!entity || !Object.keys(ENTITY_CONFIG).includes(entity)) {
-    throw new Response("Entity not found", { status: 404 });
+    throw new Response('Entity not found', { status: 404 });
   }
 
   return json({ entity });

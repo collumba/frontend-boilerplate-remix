@@ -1,13 +1,9 @@
-import { ApiResponse, FetchParams } from "@/shared/types/api";
-import { useSearchParams } from "@remix-run/react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  PaginationState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table";
-import { AxiosError } from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { ApiResponse, FetchParams } from '@/shared/types/api';
+import { useSearchParams } from '@remix-run/react';
+import { useQuery } from '@tanstack/react-query';
+import { PaginationState, SortingState, VisibilityState } from '@tanstack/react-table';
+import { AxiosError } from 'axios';
+import { useEffect, useMemo, useState } from 'react';
 
 interface UseTableProps<T> {
   queryKey: string;
@@ -20,24 +16,21 @@ function useTable<T>({
   queryKey,
   fetchData,
   initialPageSize = 20,
-  defaultSort = { id: "name", desc: false },
+  defaultSort = { id: 'name', desc: false },
 }: UseTableProps<T>) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-    pageIndex: Math.max(0, parseInt(searchParams.get("page") || "1", 10) - 1),
-    pageSize: parseInt(
-      searchParams.get("size") || initialPageSize.toString(),
-      10
-    ),
+    pageIndex: Math.max(0, parseInt(searchParams.get('page') || '1', 10) - 1),
+    pageSize: parseInt(searchParams.get('size') || initialPageSize.toString(), 10),
   });
 
   const [sorting, setSorting] = useState<SortingState>(() => {
-    const sortField = searchParams.get("sort");
-    const sortDir = searchParams.get("dir");
+    const sortField = searchParams.get('sort');
+    const sortDir = searchParams.get('dir');
 
     if (sortField) {
-      return [{ id: sortField, desc: sortDir === "desc" }];
+      return [{ id: sortField, desc: sortDir === 'desc' }];
     }
 
     return [defaultSort];
@@ -48,21 +41,18 @@ function useTable<T>({
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
-    params.set("page", (pageIndex + 1).toString());
-    params.set("size", pageSize.toString());
+    params.set('page', (pageIndex + 1).toString());
+    params.set('size', pageSize.toString());
 
     if (sorting.length > 0) {
-      params.set("sort", sorting[0].id);
-      params.set("dir", sorting[0].desc ? "desc" : "asc");
+      params.set('sort', sorting[0].id);
+      params.set('dir', sorting[0].desc ? 'desc' : 'asc');
     }
 
     setSearchParams(params, { replace: true });
   }, [pageIndex, pageSize, sorting, searchParams, setSearchParams]);
 
-  const { data, isLoading, isFetching, error, refetch } = useQuery<
-    ApiResponse<T>,
-    AxiosError
-  >({
+  const { data, isLoading, isFetching, error, refetch } = useQuery<ApiResponse<T>, AxiosError>({
     queryKey: [queryKey, pageIndex + 1],
     queryFn: () => {
       const params: FetchParams = {

@@ -1,14 +1,14 @@
-import { ToastContext, ToastProvider } from "@/app/providers/toast-context";
-import { ToastMessage } from "@/modules/toast/session.server";
-import { ToastContainer } from "@/widgets/toast";
-import { act, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { ToastContext, ToastProvider } from '@/app/providers/toast-context';
+import { ToastMessage } from '@/modules/toast/session.server';
+import { ToastContainer } from '@/widgets/toast';
+import { act, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 // Mock para useMatches com diferentes conjuntos de dados
 const mockUseMatches = vi.fn().mockReturnValue([{ data: { toasts: [] } }]);
 
 // Mock useMatches do React Router
-vi.mock("@remix-run/react", () => ({
+vi.mock('@remix-run/react', () => ({
   useMatches: () => mockUseMatches(),
 }));
 
@@ -24,7 +24,7 @@ const createMockToastContext = (toasts: ToastMessage[] = []) => ({
   },
 });
 
-describe("ToastContainer Component", () => {
+describe('ToastContainer Component', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     mockRemoveToast.mockClear();
@@ -36,32 +36,30 @@ describe("ToastContainer Component", () => {
     vi.useRealTimers();
   });
 
-  test("should render nothing when there are no toasts", () => {
+  test('should render nothing when there are no toasts', () => {
     render(
       <ToastProvider>
         <ToastContainer />
       </ToastProvider>
     );
 
-    expect(
-      screen.queryByText(/success|error|warning|info/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/success|error|warning|info/i)).not.toBeInTheDocument();
   });
 
-  test("should render toasts correctly", () => {
+  test('should render toasts correctly', () => {
     const mockToasts: ToastMessage[] = [
       {
-        id: "1",
-        type: "success",
-        title: "Success Toast",
-        description: "This is a success message",
+        id: '1',
+        type: 'success',
+        title: 'Success Toast',
+        description: 'This is a success message',
         createdAt: Date.now(),
       },
       {
-        id: "2",
-        type: "error",
-        title: "Error Toast",
-        description: "This is an error message",
+        id: '2',
+        type: 'error',
+        title: 'Error Toast',
+        description: 'This is an error message',
         createdAt: Date.now(),
       },
     ];
@@ -75,18 +73,18 @@ describe("ToastContainer Component", () => {
       </ToastProvider>
     );
 
-    expect(screen.getByText("Success Toast")).toBeInTheDocument();
-    expect(screen.getByText("This is a success message")).toBeInTheDocument();
-    expect(screen.getByText("Error Toast")).toBeInTheDocument();
-    expect(screen.getByText("This is an error message")).toBeInTheDocument();
+    expect(screen.getByText('Success Toast')).toBeInTheDocument();
+    expect(screen.getByText('This is a success message')).toBeInTheDocument();
+    expect(screen.getByText('Error Toast')).toBeInTheDocument();
+    expect(screen.getByText('This is an error message')).toBeInTheDocument();
   });
 
-  test("should render toasts without description", () => {
+  test('should render toasts without description', () => {
     const mockToasts: ToastMessage[] = [
       {
-        id: "1",
-        type: "warning",
-        title: "Warning Toast",
+        id: '1',
+        type: 'warning',
+        title: 'Warning Toast',
         createdAt: Date.now(),
       },
     ];
@@ -97,15 +95,15 @@ describe("ToastContainer Component", () => {
       </ToastContext.Provider>
     );
 
-    expect(screen.getByText("Warning Toast")).toBeInTheDocument();
+    expect(screen.getByText('Warning Toast')).toBeInTheDocument();
   });
 
-  test("should auto-remove toasts after timeout", () => {
+  test('should auto-remove toasts after timeout', () => {
     const mockToasts: ToastMessage[] = [
       {
-        id: "1",
-        type: "info",
-        title: "Info Toast",
+        id: '1',
+        type: 'info',
+        title: 'Info Toast',
         createdAt: Date.now(),
       },
     ];
@@ -122,6 +120,6 @@ describe("ToastContainer Component", () => {
     });
 
     // Check if removeToast was called for the toast
-    expect(mockRemoveToast).toHaveBeenCalledWith("1");
+    expect(mockRemoveToast).toHaveBeenCalledWith('1');
   });
 });

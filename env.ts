@@ -1,10 +1,10 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(["development", "production"]),
+  NODE_ENV: z.enum(['development', 'production']),
   API_URL: z.string().url(),
   LOCALE_RESOURCES: z.string().url(),
-  DOMAIN: z.string().url().default("http://localhost"),
+  DOMAIN: z.string().url().default('http://localhost'),
 });
 
 const envVariables = {
@@ -18,7 +18,7 @@ const parsedEnv = envSchema.safeParse(envVariables);
 
 if (!parsedEnv.success) {
   console.error(
-    "Error: Invalid environment variables. Please check the following variables:",
+    'Error: Invalid environment variables. Please check the following variables:',
     parsedEnv.error.format()
   );
   process.exit(1);

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Folder, Forward, Trash2, type LucideIcon } from "lucide-react";
+import { Folder, Forward, Trash2, type LucideIcon } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shared/ui/dropdown-menu";
+} from '@/shared/ui/dropdown-menu';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -17,8 +17,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/shared/ui/sidebar";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+} from '@/shared/ui/sidebar';
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 
 export function NavProjects({
   projects,
@@ -52,8 +52,8 @@ export function NavProjects({
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-48 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
+                side={isMobile ? 'bottom' : 'right'}
+                align={isMobile ? 'end' : 'start'}
               >
                 <DropdownMenuItem>
                   <Folder className="text-muted-foreground" />

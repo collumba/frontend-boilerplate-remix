@@ -1,5 +1,5 @@
-import { useTable } from "@/shared/lib/hooks/useTable";
-import { ApiResponse, FetchParams } from "@/shared/types/api";
+import { useTable } from '@/shared/lib/hooks/useTable';
+import { ApiResponse, FetchParams } from '@/shared/types/api';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -7,7 +7,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
 interface UseDataTableProps<TData> {
   queryKey: string;
@@ -49,22 +49,16 @@ export function useDataTable<TData>({
     data: data?.results || [],
     columns,
     onSortingChange: (updater) =>
-      setSorting((prev) =>
-        typeof updater === "function" ? updater(prev) : updater
-      ),
+      setSorting((prev) => (typeof updater === 'function' ? updater(prev) : updater)),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: (updater) =>
-      setColumnVisibility((prev) =>
-        typeof updater === "function" ? updater(prev) : updater
-      ),
+      setColumnVisibility((prev) => (typeof updater === 'function' ? updater(prev) : updater)),
     onRowSelectionChange: setRowSelection,
     onPaginationChange: (updater) =>
-      setPagination((prev) =>
-        typeof updater === "function" ? updater(prev) : updater
-      ),
+      setPagination((prev) => (typeof updater === 'function' ? updater(prev) : updater)),
     manualPagination: true,
     enableSorting: true,
     pageCount: data?.info.pages || 0,

@@ -1,11 +1,11 @@
-import * as i18n from "@/shared/config/i18n";
-import { createCookie } from "@remix-run/node";
-import { RemixI18Next } from "remix-i18next/server";
+import * as i18n from '@/shared/config/i18n';
+import { createCookie } from '@remix-run/node';
+import { RemixI18Next } from 'remix-i18next/server';
 
-export const localeCookie = createCookie("lng", {
-  path: "/",
-  sameSite: "lax",
-  secure: process.env.NODE_ENV === "production",
+export const localeCookie = createCookie('lng', {
+  path: '/',
+  sameSite: 'lax',
+  secure: process.env.NODE_ENV === 'production',
   httpOnly: true,
 });
 

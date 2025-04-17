@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { X } from "lucide-react";
-import * as React from "react";
+import { X } from 'lucide-react';
+import * as React from 'react';
 
-import { cn } from "@/shared/lib/cn";
-import { Badge } from "@/shared/ui/badge";
+import { cn } from '@/shared/lib/cn';
+import { Badge } from '@/shared/ui/badge';
 import {
   Command,
   CommandEmpty,
@@ -12,8 +12,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/shared/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
+} from '@/shared/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 
 export type Option = {
   label: string;
@@ -37,7 +37,7 @@ function MultiSelect({
   options,
   selected,
   onChange,
-  placeholder = "Select options...",
+  placeholder = 'Select options...',
   creatable = false,
   disabled = false,
   className,
@@ -47,7 +47,7 @@ function MultiSelect({
 }: MultiSelectProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState('');
 
   const handleUnselect = (item: string) => {
     onChange(selected.filter((i) => i !== item));
@@ -56,20 +56,18 @@ function MultiSelect({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const input = inputRef.current;
     if (input) {
-      if (e.key === "Delete" || e.key === "Backspace") {
-        if (input.value === "" && selected.length > 0) {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (input.value === '' && selected.length > 0) {
           handleUnselect(selected[selected.length - 1]);
         }
       }
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         input.blur();
       }
     }
   };
 
-  const selectables = options.filter(
-    (option) => !selected.includes(option.value)
-  );
+  const selectables = options.filter((option) => !selected.includes(option.value));
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -84,18 +82,18 @@ function MultiSelect({
           tabIndex={0}
           onClick={() => setOpen(true)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
+            if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               setOpen(true);
             }
           }}
           className={cn(
-            "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-auto min-h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-colors outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-            "focus:border-ring focus:outline-none",
-            "data-[state=open]:border-ring",
-            "aria-invalid:border-destructive",
-            "flex-wrap gap-1.5 flex cursor-pointer",
-            open && "border-ring",
+            'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-auto min-h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-colors outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+            'focus:border-ring focus:outline-none',
+            'data-[state=open]:border-ring',
+            'aria-invalid:border-destructive',
+            'flex-wrap gap-1.5 flex cursor-pointer',
+            open && 'border-ring',
             className
           )}
         >
@@ -108,7 +106,7 @@ function MultiSelect({
                     key={item}
                     variant="outline"
                     className={cn(
-                      "flex items-center gap-1 py-1 px-2 rounded-md text-sm font-medium bg-secondary",
+                      'flex items-center gap-1 py-1 px-2 rounded-md text-sm font-medium bg-secondary',
                       badgeClassName
                     )}
                   >
@@ -116,7 +114,7 @@ function MultiSelect({
                     <button
                       className="ml-1 rounded-full h-4 w-4 inline-flex items-center justify-center hover:bg-muted"
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") {
+                        if (e.key === 'Enter') {
                           handleUnselect(item);
                         }
                       }}
@@ -135,7 +133,7 @@ function MultiSelect({
           )}
           {selected.length === 0 && (
             <div className="flex h-full items-center text-muted-foreground text-sm">
-              {t ? t("common.action.selectOptions") : placeholder}
+              {t ? t('common.action.selectOptions') : placeholder}
             </div>
           )}
         </div>
@@ -147,22 +145,18 @@ function MultiSelect({
             ref={inputRef}
             value={inputValue}
             onValueChange={setInputValue}
-            placeholder={
-              t ? t("common.action.searchOptions") : "Search options..."
-            }
+            placeholder={t ? t('common.action.searchOptions') : 'Search options...'}
             className="h-9"
           />
           <CommandList>
-            <CommandEmpty>
-              {t ? t("common.action.noResults") : "No results found."}
-            </CommandEmpty>
+            <CommandEmpty>{t ? t('common.action.noResults') : 'No results found.'}</CommandEmpty>
             <CommandGroup>
               {selectables.map((option) => (
                 <CommandItem
                   key={option.value}
                   onSelect={() => {
                     onChange([...selected, option.value]);
-                    setInputValue("");
+                    setInputValue('');
                   }}
                 >
                   {t ? t(option.label) : option.label}
@@ -172,7 +166,7 @@ function MultiSelect({
                 <CommandItem
                   onSelect={() => {
                     onChange([...selected, inputValue]);
-                    setInputValue("");
+                    setInputValue('');
                   }}
                 >
                   Create &quot;{inputValue}&quot;

@@ -1,7 +1,7 @@
-import { ENTITY_CONFIG } from "@/shared/config/mdm";
-import { ApiResponse, FetchParams } from "@/shared/types/api";
-import { EntityMap, EntityType } from "@/shared/types/mdm";
-import { ApiService } from "../api";
+import { ENTITY_CONFIG } from '@/shared/config/mdm';
+import { ApiResponse, FetchParams } from '@/shared/types/api';
+import { EntityMap, EntityType } from '@/shared/types/mdm';
+import { ApiService } from '../api';
 
 export interface Option {
   label: string;
@@ -33,21 +33,12 @@ export class MdmService<T extends EntityType> {
 
   // Create a new entity
   create(data: Partial<EntityMap[T]>): Promise<EntityMap[T]> {
-    return this.api.post<EntityMap[T], Partial<EntityMap[T]>>(
-      `${this.endpoint}`,
-      data
-    );
+    return this.api.post<EntityMap[T], Partial<EntityMap[T]>>(`${this.endpoint}`, data);
   }
 
   // Update an existing entity
-  update(
-    id: string | number,
-    data: Partial<EntityMap[T]>
-  ): Promise<EntityMap[T]> {
-    return this.api.put<EntityMap[T], Partial<EntityMap[T]>>(
-      `${this.endpoint}/${id}`,
-      data
-    );
+  update(id: string | number, data: Partial<EntityMap[T]>): Promise<EntityMap[T]> {
+    return this.api.put<EntityMap[T], Partial<EntityMap[T]>>(`${this.endpoint}/${id}`, data);
   }
 
   // Delete an entity
@@ -61,10 +52,7 @@ export class MdmService<T extends EntityType> {
    * @param params - Request parameters (optional)
    * @returns An array of objects with label and value
    */
-  async getOptions(
-    endpoint: string,
-    params?: Record<string, string>
-  ): Promise<Option[]> {
+  async getOptions(endpoint: string, params?: Record<string, string>): Promise<Option[]> {
     try {
       // Build the URL with parameters, if any
       let url = `${endpoint}`;

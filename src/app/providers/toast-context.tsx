@@ -1,10 +1,10 @@
-import { ToastMessage } from "@/modules/toast/session.server";
-import { useMatches } from "@remix-run/react";
-import * as React from "react";
-import { useTranslation } from "react-i18next";
+import { ToastMessage } from '@/modules/toast/session.server';
+import { useMatches } from '@remix-run/react';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export type ToastAction = {
-  addToast: (toast: Omit<ToastMessage, "id" | "createdAt">) => void;
+  addToast: (toast: Omit<ToastMessage, 'id' | 'createdAt'>) => void;
   removeToast: (id: string) => void;
   clearToasts: () => void;
 };
@@ -39,8 +39,8 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: "success",
-        title: customTitle || t("component.toast.success.title"),
+        type: 'success',
+        title: customTitle || t('component.toast.success.title'),
         description: t(key, options),
       });
     },
@@ -50,8 +50,8 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: "error",
-        title: customTitle || t("component.toast.error.title"),
+        type: 'error',
+        title: customTitle || t('component.toast.error.title'),
         description: t(key, options),
       });
     },
@@ -61,8 +61,8 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: "warning",
-        title: customTitle || t("component.toast.warning.title"),
+        type: 'warning',
+        title: customTitle || t('component.toast.warning.title'),
         description: t(key, options),
       });
     },
@@ -72,8 +72,8 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: "info",
-        title: customTitle || t("component.toast.info.title"),
+        type: 'info',
+        title: customTitle || t('component.toast.info.title'),
         description: t(key, options),
       });
     },
@@ -99,11 +99,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   // Initialize toasts with server toasts when they change
   React.useEffect(() => {
     const serverToasts = rootData?.toasts || [];
-    
+
     if (serverToasts.length > 0) {
-      const newToasts = serverToasts.filter(
-        (toast) => !processedToastIds.current.has(toast.id)
-      );
+      const newToasts = serverToasts.filter((toast) => !processedToastIds.current.has(toast.id));
 
       if (newToasts.length > 0) {
         // Mark as processed
@@ -140,7 +138,5 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     actions,
   };
 
-  return (
-    <ToastContext.Provider value={value}>{children}</ToastContext.Provider>
-  );
+  return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;
 }

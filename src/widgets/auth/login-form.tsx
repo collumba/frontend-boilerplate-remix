@@ -1,34 +1,28 @@
-import { authService } from "@/shared/api/auth";
-import { ROUTES } from "@/shared/config/routes";
-import { cn } from "@/shared/lib/cn";
-import { ApiError } from "@/shared/types/api";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { Label } from "@/shared/ui/label";
-import { Link } from "@/shared/ui/link";
-import { Muted, Typography } from "@/shared/ui/typography";
-import { useNavigate } from "@remix-run/react";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { authService } from '@/shared/api/auth';
+import { ROUTES } from '@/shared/config/routes';
+import { cn } from '@/shared/lib/cn';
+import { ApiError } from '@/shared/types/api';
+import { Button } from '@/shared/ui/button';
+import { Input } from '@/shared/ui/input';
+import { Label } from '@/shared/ui/label';
+import { Link } from '@/shared/ui/link';
+import { Muted, Typography } from '@/shared/ui/typography';
+import { useNavigate } from '@remix-run/react';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"form">) {
+export function LoginForm({ className, ...props }: React.ComponentProps<'form'>) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(false);
 
   const { mutate: login, isPending } = useMutation({
-    mutationFn: async (credentials: {
-      identifier: string;
-      password: string;
-    }) => {
+    mutationFn: async (credentials: { identifier: string; password: string }) => {
       return authService.login(credentials);
     },
     onSuccess: () => {
@@ -36,15 +30,14 @@ export function LoginForm({
     },
     onError: (err: AxiosError<ApiError>) => {
       setError(
-        err.response?.data?.error?.message ||
-          "Falha na autenticação. Verifique suas credenciais."
+        err.response?.data?.error?.message || 'Falha na autenticação. Verifique suas credenciais.'
       );
     },
   });
 
   return (
     <form
-      className={cn("flex flex-col gap-6", className)}
+      className={cn('flex flex-col gap-6', className)}
       {...props}
       onSubmit={(e) => {
         e.preventDefault();
@@ -56,19 +49,15 @@ export function LoginForm({
       }}
     >
       <div className="flex flex-col items-center gap-2 text-center">
-        <Typography variant="h1">{t("auth.login.title")}</Typography>
-        <Muted className="text-sm text-balance">
-          {t("auth.login.description")}
-        </Muted>
+        <Typography variant="h1">{t('auth.login.title')}</Typography>
+        <Muted className="text-sm text-balance">{t('auth.login.description')}</Muted>
       </div>
       <div className="grid gap-6">
         {error && (
-          <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-            {error}
-          </div>
+          <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">{error}</div>
         )}
         <div className="grid gap-3">
-          <Label htmlFor="email">{t("auth.login.email")}</Label>
+          <Label htmlFor="email">{t('auth.login.email')}</Label>
           <Input
             id="email"
             type="email"
@@ -81,7 +70,7 @@ export function LoginForm({
         </div>
         <div className="grid gap-3">
           <div className="flex items-center gap-2">
-            <Label htmlFor="password">{t("auth.login.password")}</Label>
+            <Label htmlFor="password">{t('auth.login.password')}</Label>
           </div>
           <Input
             id="password"
@@ -105,15 +94,13 @@ export function LoginForm({
           </Label>
         </div>
         <Link href="#" variant="underline" className="text-right">
-          {t("auth.login.forgotPassword")}
+          {t('auth.login.forgotPassword')}
         </Link>
         <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? "Processando..." : t("auth.login.button")}
+          {isPending ? 'Processando...' : t('auth.login.button')}
         </Button>
         <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-          <Muted className="relative z-10 px-2">
-            {t("auth.login.orContinueWith")}
-          </Muted>
+          <Muted className="relative z-10 px-2">{t('auth.login.orContinueWith')}</Muted>
         </div>
         <Button
           variant="outline"
@@ -127,13 +114,13 @@ export function LoginForm({
               fill="currentColor"
             />
           </svg>
-          {t("auth.login.loginWithGitHub")}
+          {t('auth.login.loginWithGitHub')}
         </Button>
       </div>
       <div className="text-center text-sm flex items-center justify-center gap-2">
-        {t("auth.login.dontHaveAccount")}
+        {t('auth.login.dontHaveAccount')}
         <Link href={ROUTES.auth.register} variant="underline">
-          {t("auth.login.signUp")}
+          {t('auth.login.signUp')}
         </Link>
       </div>
     </form>

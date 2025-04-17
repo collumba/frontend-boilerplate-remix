@@ -1,5 +1,5 @@
 // Mock do zod para env.ts
-vi.mock("zod", () => {
+vi.mock('zod', () => {
   return {
     z: {
       enum: () => ({
@@ -19,17 +19,17 @@ vi.mock("zod", () => {
         safeParse: () => ({
           success: true,
           data: {
-            NODE_ENV: "test",
-            API_URL: "http://localhost:3000",
-            LOCALE_RESOURCES: "http://localhost:3000/locales",
-            DOMAIN: "http://localhost:3000",
+            NODE_ENV: 'test',
+            API_URL: 'http://localhost:3000',
+            LOCALE_RESOURCES: 'http://localhost:3000/locales',
+            DOMAIN: 'http://localhost:3000',
           },
         }),
         parse: () => ({
-          NODE_ENV: "test",
-          API_URL: "http://localhost:3000",
-          LOCALE_RESOURCES: "http://localhost:3000/locales",
-          DOMAIN: "http://localhost:3000",
+          NODE_ENV: 'test',
+          API_URL: 'http://localhost:3000',
+          LOCALE_RESOURCES: 'http://localhost:3000/locales',
+          DOMAIN: 'http://localhost:3000',
         }),
       }),
     },
@@ -37,58 +37,56 @@ vi.mock("zod", () => {
 });
 
 // Mock do env para evitar validações
-vi.mock("env", () => {
+vi.mock('env', () => {
   return {
     env: {
-      NODE_ENV: "test",
-      API_URL: "http://localhost:3000",
-      LOCALE_RESOURCES: "http://localhost:3000/locales",
+      NODE_ENV: 'test',
+      API_URL: 'http://localhost:3000',
+      LOCALE_RESOURCES: 'http://localhost:3000/locales',
     },
   };
 });
 
 // Mock para recursos de tradução
-vi.mock("@/shared/config/i18n", () => ({
+vi.mock('@/shared/config/i18n', () => ({
   resources: {
     en: {
       translation: {
-        test: "Test",
-        hello: "Hello",
+        test: 'Test',
+        hello: 'Hello',
       },
     },
-    "pt-BR": {
+    'pt-BR': {
       translation: {
-        test: "Teste",
-        hello: "Olá",
+        test: 'Teste',
+        hello: 'Olá',
       },
     },
     es: {
       translation: {
-        test: "Prueba",
-        hello: "Hola",
+        test: 'Prueba',
+        hello: 'Hola',
       },
     },
   },
 }));
 
 // Mock para pretty-cache-header
-vi.mock("pretty-cache-header", () => ({
-  cacheHeader: vi.fn().mockReturnValue("mock-cache-header"),
+vi.mock('pretty-cache-header', () => ({
+  cacheHeader: vi.fn().mockReturnValue('mock-cache-header'),
 }));
 
-import { loader } from "@/routes/api_.global.locales";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { loader } from '@/routes/api_.global.locales';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 
-describe("API Global Locales Route", () => {
+describe('API Global Locales Route', () => {
   beforeEach(() => {
     vi.resetModules();
   });
 
-  test("loader returns translations for English", async () => {
+  test('loader returns translations for English', async () => {
     // Criar request para inglês
-    const request = new Request(
-      "http://localhost:3000/api/global/locales?lng=en&ns=translation"
-    );
+    const request = new Request('http://localhost:3000/api/global/locales?lng=en&ns=translation');
 
     // Chamar o loader
     const responseEN = await loader({
@@ -101,10 +99,10 @@ describe("API Global Locales Route", () => {
     expect(responseEN instanceof Response).toBeTruthy();
   });
 
-  test("loader returns translations for Portuguese", async () => {
+  test('loader returns translations for Portuguese', async () => {
     // Criar request para português
     const requestPT = new Request(
-      "http://localhost:3000/api/global/locales?lng=pt-BR&ns=translation"
+      'http://localhost:3000/api/global/locales?lng=pt-BR&ns=translation'
     );
 
     // Chamar o loader

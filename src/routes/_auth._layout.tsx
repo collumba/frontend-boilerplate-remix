@@ -1,14 +1,14 @@
-import { requireGuest } from "@/modules/auth/auth-server";
-import { ROUTES } from "@/shared/config/routes";
-import { Link } from "@/shared/ui/link";
-import { LocaleToggle } from "@/shared/ui/locale-toggle";
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { MetaFunction, Outlet } from "@remix-run/react";
-import { GalleryVerticalEnd } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { requireGuest } from '@/modules/auth/auth-server';
+import { ROUTES } from '@/shared/config/routes';
+import { Link } from '@/shared/ui/link';
+import { LocaleToggle } from '@/shared/ui/locale-toggle';
+import { LoaderFunctionArgs } from '@remix-run/node';
+import { MetaFunction, Outlet } from '@remix-run/react';
+import { GalleryVerticalEnd } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Auth" }, { name: "description", content: "Auth" }];
+  return [{ title: 'Auth' }, { name: 'description', content: 'Auth' }];
 };
 
 // Server authentication verification
@@ -27,7 +27,7 @@ export default function AuthLayout() {
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <GalleryVerticalEnd className="size-4" />
             </div>
-            {t("app.applicationName")}
+            {t('app.applicationName')}
           </Link>
           <LocaleToggle />
         </div>

@@ -1,9 +1,9 @@
-import { useToast } from "@/app/providers/toast-context";
-import { authService } from "@/shared/api/auth";
-import { ROUTES } from "@/shared/config/routes";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useToast } from '@/app/providers/toast-context';
+import { authService } from '@/shared/api/auth';
+import { ROUTES } from '@/shared/config/routes';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface User {
   id: number;
@@ -16,8 +16,7 @@ interface User {
 }
 
 export function useAuth() {
-  const hasToken =
-    typeof window !== "undefined" ? !!authService.getToken() : false;
+  const hasToken = typeof window !== 'undefined' ? !!authService.getToken() : false;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasToken);
   const [user, setUser] = useState<User | null>(null);
   const { actions } = useToast();
@@ -27,7 +26,7 @@ export function useAuth() {
     refetch: checkAuth,
     isLoading,
   } = useQuery({
-    queryKey: ["auth"],
+    queryKey: ['auth'],
     queryFn: async () => {
       try {
         const isAuthValid = authService.isAuthenticated();
@@ -46,11 +45,11 @@ export function useAuth() {
         };
       } catch (error) {
         actions.addToast({
-          title: t("auth.error.checkAuth"),
-          description: t("auth.error.checkAuthDescription"),
-          type: "error",
+          title: t('auth.error.checkAuth'),
+          description: t('auth.error.checkAuthDescription'),
+          type: 'error',
         });
-        if (typeof window !== "undefined") {
+        if (typeof window !== 'undefined') {
           authService.logout();
         }
         return {
@@ -72,7 +71,7 @@ export function useAuth() {
   }, [authData]);
 
   const { mutate: login, isPending: isLoginPending } = useMutation({
-    mutationKey: ["login"],
+    mutationKey: ['login'],
     mutationFn: async ({
       identifier,
       password,
@@ -89,15 +88,15 @@ export function useAuth() {
     },
     onError: () => {
       actions.addToast({
-        title: t("auth.error.login"),
-        description: t("auth.error.loginDescription"),
-        type: "error",
+        title: t('auth.error.login'),
+        description: t('auth.error.loginDescription'),
+        type: 'error',
       });
     },
   });
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
-    mutationKey: ["logout"],
+    mutationKey: ['logout'],
     mutationFn: () => {
       authService.logout();
       return Promise.resolve();
@@ -109,9 +108,9 @@ export function useAuth() {
     },
     onError: () => {
       actions.addToast({
-        title: t("auth.error.logout"),
-        description: t("auth.error.logoutDescription"),
-        type: "error",
+        title: t('auth.error.logout'),
+        description: t('auth.error.logoutDescription'),
+        type: 'error',
       });
     },
   });

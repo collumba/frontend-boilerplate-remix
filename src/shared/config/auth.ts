@@ -6,7 +6,7 @@ export const AUTH_CONFIG = {
   /**
    * Token name used in cookies, localStorage and sessionStorage
    */
-  TOKEN_KEY: "strapi_token",
+  TOKEN_KEY: 'strapi_token',
 
   /**
    * Token expiration time (in seconds)

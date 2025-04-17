@@ -1,10 +1,10 @@
-import { vitePlugin as remix } from "@remix-run/dev";
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "vite";
-import { envOnlyMacros } from "vite-env-only";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { vitePlugin as remix } from '@remix-run/dev';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'vite';
+import { envOnlyMacros } from 'vite-env-only';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
-declare module "@remix-run/node" {
+declare module '@remix-run/node' {
   interface Future {
     v3_singleFetch: true;
   }
@@ -20,7 +20,7 @@ export default defineConfig({
         v3_singleFetch: true,
         v3_lazyRouteDiscovery: true,
       },
-      appDirectory: "src",
+      appDirectory: 'src',
       ssr: true,
     }),
     tsconfigPaths(),
@@ -29,19 +29,19 @@ export default defineConfig({
   ],
   resolve: {
     preserveSymlinks: true,
-    dedupe: ["react", "react-dom"],
+    dedupe: ['react', 'react-dom'],
   },
   optimizeDeps: {
-    include: ["react", "react-dom"],
+    include: ['react', 'react-dom'],
   },
   test: {
     globals: true,
-    environment: "jsdom",
-    setupFiles: ["./test/setup.ts"],
-    include: ["**/*.{test,spec}.{js,jsx,ts,tsx}"],
+    environment: 'jsdom',
+    setupFiles: ['./test/setup.ts'],
+    include: ['**/*.{test,spec}.{js,jsx,ts,tsx}'],
     coverage: {
-      reporter: ["text", "json", "html"],
-      exclude: ["node_modules/", "test/setup.ts"],
+      reporter: ['text', 'json', 'html'],
+      exclude: ['node_modules/', 'test/setup.ts'],
     },
   },
 });

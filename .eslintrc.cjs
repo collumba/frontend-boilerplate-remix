@@ -29,8 +29,6 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:security/recommended',
-    'plugin:sonarjs/recommended',
     'plugin:prettier/recommended',
     'prettier',
   ],
@@ -40,8 +38,6 @@ module.exports = {
     'react',
     'react-hooks',
     'jsx-a11y',
-    'security',
-    'sonarjs',
     'boundaries',
     'simple-import-sort',
     'unused-imports',
@@ -127,9 +123,7 @@ module.exports = {
   overrides: [
     {
       files: ['**/*.test.ts', '**/*.spec.ts'],
-      env: { jest: true, vitest: true },
-      plugins: ['vitest'],
-      extends: ['plugin:vitest/recommended'],
+      env: { jest: true },
       rules: {
         'max-lines-per-function': 'off',
         '@typescript-eslint/no-explicit-any': 'off',

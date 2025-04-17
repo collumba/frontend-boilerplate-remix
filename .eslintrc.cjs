@@ -1,5 +1,5 @@
 /**
- * ESLint Config - Nível 2 (Avançado) para projetos com arquitetura Feature Slice Design (FSD)
+ * ESLint Config - Nível Avançado para projetos com arquitetura Feature Slice Design (FSD)
  */
 
 /** @type {import('eslint').Linter.Config} */

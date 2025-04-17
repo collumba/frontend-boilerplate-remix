@@ -1,7 +1,8 @@
+import { AppSidebar } from '@app/ui/app-sidebar';
 import { LoaderFunctionArgs } from '@remix-run/node';
-import { MetaFunction, Outlet, useMatches, useRouteError } from '@remix-run/react';
+import { MetaFunction, Outlet, useMatches } from '@remix-run/react';
 import { ROUTES } from '@shared/config/routes';
-import ErrorBoundaryParserError from '@shared/lib/error-bondary';
+import { requireAuth } from '@shared/lib/auth/auth-server';
 import { AppMatch } from '@shared/types/breadcrumb';
 import {
   Breadcrumb,
@@ -12,13 +13,9 @@ import {
   BreadcrumbSeparator,
 } from '@shared/ui/breadcrumb';
 import { Separator } from '@shared/ui/separator';
-import ShowError from '@shared/ui/show-error';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@shared/ui/sidebar';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { requireAuth } from '@/modules/auth/auth-server';
-import { AppSidebar } from '@/widgets/navigation/app-sidebar';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'App' }, { name: 'description', content: 'App' }];
@@ -85,10 +82,4 @@ export default function AppPage() {
       </SidebarInset>
     </SidebarProvider>
   );
-}
-
-export function ErrorBoundary() {
-  const error = useRouteError();
-  const { errorMessage, errorCode } = ErrorBoundaryParserError({ error });
-  return <ShowError code={errorCode} message={errorMessage} />;
 }

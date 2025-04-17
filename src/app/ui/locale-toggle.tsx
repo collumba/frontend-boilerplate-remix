@@ -1,4 +1,4 @@
-import { env } from '@app/config/env';
+import { env } from '@shared/config/env';
 import { supportedLngsConfig } from '@shared/config/i18n';
 import { Button } from '@shared/ui/button';
 import {

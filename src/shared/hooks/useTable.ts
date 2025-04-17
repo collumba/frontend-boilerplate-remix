@@ -12,6 +12,46 @@ interface UseTableProps<T> {
   defaultSort?: { id: string; desc: boolean };
 }
 
+function useInitialPagination(
+  searchParams: URLSearchParams,
+  initialPageSize: number
+): PaginationState {
+  return {
+    pageIndex: Math.max(0, parseInt(searchParams.get('page') || '1', 10) - 1),
+    pageSize: parseInt(searchParams.get('size') || initialPageSize.toString(), 10),
+  };
+}
+
+function useInitialSorting(
+  searchParams: URLSearchParams,
+  defaultSort: { id: string; desc: boolean }
+): SortingState {
+  const sortField = searchParams.get('sort');
+  const sortDir = searchParams.get('dir');
+
+  if (sortField) {
+    return [{ id: sortField, desc: sortDir === 'desc' }];
+  }
+
+  return [defaultSort];
+}
+
+function getSortedResults<T>(results: T[], sorting: SortingState): T[] {
+  if (!results.length) return [];
+
+  const [sort] = sorting;
+  if (!sort) return results;
+
+  return [...results].sort((a: T, b: T) => {
+    const aValue = a[sort.id as keyof T];
+    const bValue = b[sort.id as keyof T];
+
+    if (aValue < bValue) return sort.desc ? 1 : -1;
+    if (aValue > bValue) return sort.desc ? -1 : 1;
+    return 0;
+  });
+}
+
 function useTable<T>({
   queryKey,
   fetchData,
@@ -20,21 +60,13 @@ function useTable<T>({
 }: UseTableProps<T>) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-    pageIndex: Math.max(0, parseInt(searchParams.get('page') || '1', 10) - 1),
-    pageSize: parseInt(searchParams.get('size') || initialPageSize.toString(), 10),
-  });
+  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>(
+    useInitialPagination(searchParams, initialPageSize)
+  );
 
-  const [sorting, setSorting] = useState<SortingState>(() => {
-    const sortField = searchParams.get('sort');
-    const sortDir = searchParams.get('dir');
-
-    if (sortField) {
-      return [{ id: sortField, desc: sortDir === 'desc' }];
-    }
-
-    return [defaultSort];
-  });
+  const [sorting, setSorting] = useState<SortingState>(
+    useInitialSorting(searchParams, defaultSort)
+  );
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
@@ -68,21 +100,10 @@ function useTable<T>({
     },
   });
 
-  const sortedResults = useMemo(() => {
-    if (!data?.results.length) return [];
-
-    const [sort] = sorting;
-    if (!sort) return data.results;
-
-    return [...data.results].sort((a: T, b: T) => {
-      const aValue = a[sort.id as keyof T];
-      const bValue = b[sort.id as keyof T];
-
-      if (aValue < bValue) return sort.desc ? 1 : -1;
-      if (aValue > bValue) return sort.desc ? -1 : 1;
-      return 0;
-    });
-  }, [data?.results, sorting]);
+  const sortedResults = useMemo(
+    () => getSortedResults(data?.results || [], sorting),
+    [data?.results, sorting]
+  );
 
   return {
     data: {

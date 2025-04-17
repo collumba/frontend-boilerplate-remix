@@ -79,7 +79,6 @@ O boilerplate contém as seguintes implementações:
 
 6. **Gerenciamento de Dados**:
 
-   - Módulo MDM (Master Data Management)
    - Camada de serviço API
    - Hooks para busca de dados (useTable, useDataTable)
 

@@ -242,10 +242,6 @@ export default {
     app: {
       root: 'App',
       dashboard: 'Dashboard',
-      mdm: {
-        root: 'MDM',
-        create: 'Criar',
-      },
     },
   },
 };

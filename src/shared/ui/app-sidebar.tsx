@@ -1,6 +1,7 @@
 'use client';
 
 import { LocaleToggle } from '@shared/ui/locale-toggle';
+import { NavResources } from '@shared/ui/nav-resources';
 import { NavUser } from '@shared/ui/nav-user';
 import {
   Sidebar,
@@ -12,8 +13,6 @@ import {
 } from '@shared/ui/sidebar';
 import { TeamSwitcher } from '@shared/ui/team-switcher';
 import { ThemeToggle } from '@shared/ui/theme-toggle';
-import { NavMdm } from '@widgets/navigation/nav-mdm';
-import { NavResources } from '@widgets/navigation/nav-resources';
 import {
   AudioWaveform,
   BookOpen,
@@ -166,7 +165,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {/* <NavMain items={data.navMain} /> */}
-        <NavMdm />
         <NavResources />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>

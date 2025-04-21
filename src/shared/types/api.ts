@@ -18,5 +18,5 @@ export interface FetchParams {
   pageIndex: number;
   pageSize: number;
   sortField?: string;
-  sortDirection?: "asc" | "desc";
+  sortDirection?: 'asc' | 'desc';
 }

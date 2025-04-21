@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode", // Prettier
+    "dbaeumer.vscode-eslint", // ESLint
+    "bradlc.vscode-tailwindcss", // Tailwind (caso use)
+    "orta.vscode-jest", // Testes (ou vitest)
+    "yoavbls.pretty-ts-errors", // Mensagens de erro TS legíveis
+    "meganrogge.template-string-converter", // Converter HTML/JSX para template string
+    "kisstkondoros.vscode-codemetrics" // Complexidade de código
+  ],
+  "unwantedRecommendations": [
+    "hookyqr.beautify", // Conflita com Prettier
+    "formulahendry.auto-close-tag" // Já coberto pelo próprio VSCode moderno
+  ]
+}

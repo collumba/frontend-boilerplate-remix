@@ -1,89 +1,129 @@
 /**
- * This is intended to be a basic starting point for linting in your app.
- * It relies on recommended configs out of the box for simplicity, but you can
- * and should modify this configuration to best suit your team's needs.
+ * ESLint Config - Nível Avançado para projetos com arquitetura Feature Slice Design (FSD)
  */
 
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
+    project: './tsconfig.json',
   },
   env: {
     browser: true,
     commonjs: true,
     es6: true,
+    node: true,
   },
-  ignorePatterns: ["!**/.server", "!**/.client"],
-
-  // Base config
-  extends: ["eslint:recommended"],
-
-  overrides: [
-    // React
-    {
-      files: ["**/*.{js,jsx,ts,tsx}"],
-      plugins: ["react", "jsx-a11y", "unused-imports"],
-      extends: [
-        "plugin:react/recommended",
-        "plugin:react/jsx-runtime",
-        "plugin:react-hooks/recommended",
-        "plugin:jsx-a11y/recommended",
-      ],
-      settings: {
-        react: {
-          version: "detect",
-        },
-        formComponents: ["Form"],
-        linkComponents: [
-          { name: "Link", linkAttribute: "to" },
-          { name: "NavLink", linkAttribute: "to" },
+  ignorePatterns: [
+    '!**/.server',
+    '!**/.client',
+    'dist',
+    'build',
+    'node_modules',
+    'scripts',
+    'postcss.config.js',
+    'tailwind.config.js',
+    'vite.config.ts',
+  ],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
+  plugins: [
+    '@typescript-eslint',
+    'import',
+    'react',
+    'react-hooks',
+    'jsx-a11y',
+    'boundaries',
+    'simple-import-sort',
+    'unused-imports',
+    'prettier',
+  ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
+      },
+    },
+    'boundaries/elements': [
+      { type: 'app', pattern: 'src/app/*' },
+      { type: 'routes', pattern: 'src/routes/*' },
+      { type: 'widgets', pattern: 'src/widgets/*' },
+      { type: 'features', pattern: 'src/features/*' },
+      { type: 'entities', pattern: 'src/entities/*' },
+      { type: 'shared', pattern: 'src/shared/*' },
+    ],
+    'boundaries/ignore': ['**/*.test.*', '**/*.spec.*'],
+  },
+  rules: {
+    // FSD architecture protection
+    'boundaries/element-types': [
+      'error',
+      {
+        default: 'disallow',
+        rules: [
+          { from: 'app', allow: ['app', 'shared', 'entities', 'features', 'widgets'] },
+          { from: 'routes', allow: ['routes', 'app', 'widgets', 'features', 'entities', 'shared'] },
+          { from: 'widgets', allow: ['widgets', 'features', 'entities', 'shared'] },
+          { from: 'features', allow: ['features', 'entities', 'shared'] },
+          { from: 'entities', allow: ['entities', 'shared'] },
+          { from: 'shared', allow: ['shared'] },
         ],
-        "import/resolver": {
-          typescript: {},
-        },
+      },
+    ],
+    // Unused imports cleanup
+    'no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+
+    // Import sort & grouping
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+
+    // TypeScript strictness
+    '@typescript-eslint/no-explicit-any': 'error',
+
+    // Code quality
+    'max-lines-per-function': ['warn', 80],
+    'max-lines': ['warn', { max: 400, skipBlankLines: true, skipComments: true }],
+    'max-params': ['warn', 4],
+    complexity: ['warn', 10],
+
+    // Prettier
+    'prettier/prettier': ['error', { endOfLine: 'lf' }],
+
+    // Desabilita aviso falso-positivo do React
+    'import/no-named-as-default-member': 'off',
+  },
+  overrides: [
+    {
+      files: ['**/*.test.ts', '**/*.spec.ts'],
+      env: { jest: true },
+      rules: {
+        'max-lines-per-function': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
       },
     },
-
-    // Typescript
     {
-      files: ["**/*.{ts,tsx}"],
-      plugins: ["@typescript-eslint", "import"],
-      parser: "@typescript-eslint/parser",
-      settings: {
-        "import/internal-regex": "^~/",
-        "import/resolver": {
-          node: {
-            extensions: [".ts", ".tsx"],
-          },
-          typescript: {
-            alwaysTryTypes: true,
-          },
-        },
-      },
-      extends: [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:import/recommended",
-        "plugin:import/typescript",
-      ],
-    },
-
-    // Node
-    {
-      files: [".eslintrc.cjs"],
-      env: {
-        node: true,
-      },
+      files: ['.eslintrc.cjs'],
+      env: { node: true },
     },
   ],
-  rules: {
-    "no-unused-vars": "off",
-    "unused-imports/no-unused-imports": "error",
-    "unused-imports/no-unused-vars": "warn"
-  },
 };

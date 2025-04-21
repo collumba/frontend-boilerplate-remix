@@ -1,38 +1,32 @@
-import { cn } from "@/shared/lib/cn";
-import { Link as RemixLink } from "@remix-run/react";
-import React from "react";
+import { Link as RemixLink } from '@remix-run/react';
+import { cn } from '@shared/ui/cn';
+import React from 'react';
 
-export interface LinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  variant?: "default" | "muted" | "underline" | "hover";
+export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  variant?: 'default' | 'muted' | 'underline' | 'hover';
   external?: boolean;
   to?: string;
 }
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  (
-    { className, variant = "default", external, to, href, children, ...props },
-    ref
-  ) => {
+  ({ className, variant = 'default', external, to, href, children, ...props }, ref) => {
     const styles = cn(
-      "transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary",
+      'transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
       {
         // Default variant
-        "text-primary hover:text-primary/80": variant === "default",
+        'text-primary hover:text-primary/80': variant === 'default',
         // Muted variant
-        "text-muted-foreground hover:text-foreground": variant === "muted",
+        'text-muted-foreground hover:text-foreground': variant === 'muted',
         // Underline variant
-        "underline underline-offset-4 hover:text-primary":
-          variant === "underline",
+        'underline underline-offset-4 hover:text-primary': variant === 'underline',
         // Hover variant
-        "no-underline hover:underline hover:underline-offset-4":
-          variant === "hover",
+        'no-underline hover:underline hover:underline-offset-4': variant === 'hover',
       },
       className
     );
 
     // Handle external links
-    if (external || (!to && href?.startsWith("http"))) {
+    if (external || (!to && href?.startsWith('http'))) {
       return (
         <a
           ref={ref}
@@ -65,17 +59,13 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   }
 );
 
-Link.displayName = "Link";
+Link.displayName = 'Link';
 
 // Convenience components for common link variants
-export const MutedLink = (props: Omit<LinkProps, "variant">) => (
-  <Link variant="muted" {...props} />
-);
+export const MutedLink = (props: Omit<LinkProps, 'variant'>) => <Link variant="muted" {...props} />;
 
-export const UnderlineLink = (props: Omit<LinkProps, "variant">) => (
+export const UnderlineLink = (props: Omit<LinkProps, 'variant'>) => (
   <Link variant="underline" {...props} />
 );
 
-export const HoverLink = (props: Omit<LinkProps, "variant">) => (
-  <Link variant="hover" {...props} />
-);
+export const HoverLink = (props: Omit<LinkProps, 'variant'>) => <Link variant="hover" {...props} />;

@@ -107,7 +107,10 @@
     "Always use the zod library for validation",
     "Always use the react-query library for data fetching",
     "Only English texts and comments are allowed in the project",
-    "Never use type any"
+    "Never use type any",
+    "Always use alias to import modules",
+    "Follow the design tokens defined in the project",
+    "Follow best practices for Remix and React"
   ],
   "import_aliases": {
     "src": "@app"

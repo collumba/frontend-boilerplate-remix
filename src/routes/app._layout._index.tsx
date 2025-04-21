@@ -1,8 +1,8 @@
-import { ROUTES } from "@/shared/config/routes";
+import { ROUTES } from '@shared/config/routes';
 
 export const handle = {
   breadcrumb: {
-    label: "route.app.dashboard",
+    label: 'route.app.dashboard',
     href: ROUTES.app.root,
   },
 };

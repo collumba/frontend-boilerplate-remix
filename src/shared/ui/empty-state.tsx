@@ -1,7 +1,8 @@
-import { cn } from "@/shared/lib/cn";
-import { LucideIcon } from "lucide-react";
-import * as React from "react";
-import { Typography } from "./typography";
+import { cn } from '@shared/ui/cn';
+import { LucideIcon } from 'lucide-react';
+import * as React from 'react';
+
+import { Typography } from './typography';
 
 interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: LucideIcon;
@@ -16,7 +17,7 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
       <div
         ref={ref}
         className={cn(
-          "flex min-h-[400px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50",
+          'flex min-h-[400px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50',
           className
         )}
         {...props}
@@ -28,10 +29,7 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
         )}
         <h3 className="mt-4 text-lg font-semibold">{title}</h3>
         {description && (
-          <Typography
-            as="p"
-            className="mb-4 mt-2 text-sm text-muted-foreground"
-          >
+          <Typography as="p" className="mb-4 mt-2 text-sm text-muted-foreground">
             {description}
           </Typography>
         )}
@@ -40,6 +38,6 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
     );
   }
 );
-EmptyState.displayName = "EmptyState";
+EmptyState.displayName = 'EmptyState';
 
 export { EmptyState };

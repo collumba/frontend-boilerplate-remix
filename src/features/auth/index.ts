@@ -8,6 +8,6 @@
  */
 
 // Public API - Components
-export * from "./ui";
+export * from './ui';
 
 // No direct export of lib and config as they are internal implementation details

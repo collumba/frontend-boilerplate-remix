@@ -1,16 +1,16 @@
-import { AUTH_CONFIG } from "@/shared/config/auth";
-import axios, { AxiosInstance } from "axios";
-import { env } from "env";
+import { AUTH_CONFIG } from '@shared/config/auth';
+import { env } from '@shared/config/env';
+import axios, { AxiosInstance } from 'axios';
 
 export class ApiService {
   private client: AxiosInstance;
   constructor() {
-    const baseURL = env.API_URL || "http://localhost:3000";
+    const baseURL = env.API_URL;
     this.client = axios.create({
       baseURL,
       timeout: 5000,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       withCredentials: true,
     });
@@ -19,8 +19,7 @@ export class ApiService {
     this.client.interceptors.request.use((config) => {
       // Do not add token to authentication routes
       const isAuthRoute =
-        config.url?.includes("/api/auth/local") ||
-        config.url?.includes("/api/auth/local/register");
+        config.url?.includes('/api/auth/local') || config.url?.includes('/api/auth/local/register');
 
       if (!isAuthRoute) {
         const token =

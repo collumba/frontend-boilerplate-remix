@@ -1,44 +1,36 @@
-import { AuthProvider } from "@/app/providers/auth-context";
-import { ToastProvider } from "@/app/providers/toast-context";
-import i18next from "@/modules/i18n/i18n.server";
-import { themeSessionResolver } from "@/modules/theme/sessions.server";
+import { AuthProvider } from '@features/auth/contexts/auth-context';
 import {
   clearToastMessages,
   getToastMessages,
-} from "@/modules/toast/session.server";
-import { ROUTES } from "@/shared/config/routes";
-import { ToastContainer } from "@/widgets/toast";
-import { LinksFunction, LoaderFunctionArgs, json } from "@remix-run/node";
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-} from "@remix-run/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import clsx from "clsx";
-import { useState } from "react";
-import { useChangeLanguage } from "remix-i18next/react";
-import {
-  PreventFlashOnWrongTheme,
-  Theme,
-  ThemeProvider,
-  useTheme,
-} from "remix-themes";
+  ToastContainer,
+  ToastProvider,
+} from '@features/toast';
+import { json, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
+import { ROUTES } from '@shared/config/routes';
+import i18next from '@shared/lib/i18n/i18n.server';
+import { themeSessionResolver } from '@shared/lib/theme/sessions.server';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import * as clsxLib from 'clsx';
+import { useState } from 'react';
+import { useChangeLanguage } from 'remix-i18next/react';
+import { PreventFlashOnWrongTheme, Theme, ThemeProvider, useTheme } from 'remix-themes';
+
+// Use the default export correctly
+const clsx = clsxLib.default || clsxLib;
+
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: "/src/app/styles/globals.css" },
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: 'stylesheet', href: '/src/app/styles/globals.css' },
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
   },
   {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
 ];
 
@@ -52,12 +44,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   if (toasts.length > 0) {
     const toastCookie = await clearToastMessages(request);
-    headers.append("Set-Cookie", toastCookie);
+    headers.append('Set-Cookie', toastCookie);
   }
 
   return json(
     {
-      theme: getTheme() || Theme.LIGHT,
+      theme: getTheme() || Theme.DARK,
       locale,
       toasts,
     },
@@ -71,10 +63,7 @@ export default function AppWithProviders() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <ThemeProvider
-          specifiedTheme={data.theme}
-          themeAction={ROUTES.api.global.setTheme}
-        >
+        <ThemeProvider specifiedTheme={data.theme} themeAction={ROUTES.api.global.setTheme}>
           <ToastProvider>
             <App />
           </ToastProvider>

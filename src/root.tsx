@@ -49,7 +49,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json(
     {
-      theme: getTheme() || Theme.LIGHT,
+      theme: getTheme() || Theme.DARK,
       locale,
       toasts,
     },

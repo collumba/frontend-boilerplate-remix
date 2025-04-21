@@ -15,4 +15,5 @@ const sessionStorage = createCookieSessionStorage({
   },
 });
 
+// createThemeSessionResolver from remix-themes doesn't support defaultTheme option directly
 export const themeSessionResolver = createThemeSessionResolver(sessionStorage);

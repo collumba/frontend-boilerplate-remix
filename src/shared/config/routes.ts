@@ -21,6 +21,7 @@ export const ROUTES = {
     global: {
       locales: '/api/global/locales',
       setTheme: '/api/global/set-theme',
+      setLanguage: '/api/global/set-language',
       healthCheck: '/api/global/health-check',
     },
   },

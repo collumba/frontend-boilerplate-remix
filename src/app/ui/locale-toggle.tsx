@@ -1,5 +1,6 @@
 import { useToastI18n } from '@features/toast/model/context';
 import { supportedLngsConfig } from '@shared/config/i18n';
+import { useServerLanguageChange } from '@shared/lib/i18n/helpers';
 import { Button } from '@shared/ui/button';
 import {
   DropdownMenu,
@@ -14,11 +15,13 @@ import { useTranslation } from 'react-i18next';
 export function LocaleToggle() {
   const { i18n, t } = useTranslation();
   const toast = useToastI18n();
+  const { changeLanguage: changeServerLanguage } = useServerLanguageChange();
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng).then(() => {
       toast.success('locale.changed', { language: t(`locale.languages.${lng}`) });
     });
+    changeServerLanguage(lng);
   };
 
   const getLocales = () => {

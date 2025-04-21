@@ -17,11 +17,7 @@ export function LocaleToggle() {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng).then(() => {
-      // Show success toast when language changes
-      toast.success('locale.languages.changed', { language: t(`locale.languages.${lng}`) });
-
-      // Save the language preference in localStorage
-      localStorage.setItem('i18nextLng', lng);
+      toast.success('locale.changed', { language: t(`locale.languages.${lng}`) });
     });
   };
 
@@ -35,7 +31,7 @@ export function LocaleToggle() {
   const currentLocale = getLocales().find((locale) => locale.label === i18n.language);
 
   const button = (
-    <Button variant="outline" size="icon">
+    <Button variant="ghost" size="icon">
       <Languages />
     </Button>
   );

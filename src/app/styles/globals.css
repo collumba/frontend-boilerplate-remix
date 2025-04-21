@@ -28,6 +28,11 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-muted: hsl(var(--sidebar-muted));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -86,6 +91,10 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --sidebar: 220 15% 96%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-muted: 220 8.9% 46.1%;
   }
   .dark {
     --background: 224 71.4% 4.1%;
@@ -118,6 +127,10 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar: 224 71.4% 5%;
+    --sidebar-foreground: 210 20% 98%;
+    --sidebar-border: 215 27.9% 16.9%;
+    --sidebar-muted: 217.9 10.6% 64.9%;
   }
 }
 
@@ -128,6 +141,35 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Sidebar styles */
+.bg-sidebar {
+  background-color: hsl(var(--sidebar));
+  color: hsl(var(--sidebar-foreground));
+  border-color: hsl(var(--sidebar-border));
+}
+
+/* Add subtle border effect to active menu items */
+[data-sidebar='sidebar'] [data-state='active'] {
+  position: relative;
+  background-color: hsl(var(--primary) / 0.1);
+}
+
+[data-sidebar='sidebar'] [data-state='active']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  height: 70%;
+  width: 2px;
+  background-color: hsl(var(--primary));
+  border-radius: 0 1px 1px 0;
+}
+
+/* Remove the pattern versions as they're no longer needed */
+.bg-sidebar.with-pattern {
+  background-image: none;
 }
 
 @keyframes fade-in {

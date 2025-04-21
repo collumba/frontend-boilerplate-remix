@@ -31,6 +31,10 @@ function useSidebarState(
   const [_open, _setOpen] = React.useState(defaultOpen);
   const open = openProp ?? _open;
 
+  // Store previous isMobile value for transition handling
+  const prevIsMobileRef = React.useRef(isMobile);
+
+  // Create a stable setOpen function
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
       const openState = typeof value === 'function' ? value(open) : value;
@@ -46,8 +50,26 @@ function useSidebarState(
     [setOpenProp, open]
   );
 
+  // Handle transition between mobile and desktop modes
+  React.useEffect(() => {
+    // If transitioning from mobile to desktop
+    if (prevIsMobileRef.current && !isMobile) {
+      // Preserve open state when transitioning from mobile to desktop
+      if (openMobile) {
+        setOpen(true);
+      }
+    }
+    // Update ref with current value
+    prevIsMobileRef.current = isMobile;
+  }, [isMobile, openMobile, setOpen]);
+
+  // Create a stable toggle function that works for both mobile and desktop
   const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open);
+    if (isMobile) {
+      setOpenMobile((prev) => !prev);
+    } else {
+      setOpen((prev) => !prev);
+    }
   }, [isMobile, setOpen, setOpenMobile]);
 
   return { isMobile, open, setOpen, openMobile, setOpenMobile, toggleSidebar };

@@ -48,8 +48,8 @@ export function SidebarRail({ className, ...props }: React.ComponentProps<'butto
       data-sidebar="rail"
       data-slot="sidebar-rail"
       className={cn(
-        'bg-sidebar-accent/30 hover:bg-sidebar-accent/50 active:bg-sidebar-accent/70',
-        'absolute -right-1.5 top-1/2 z-[9999] h-16 w-1.5 -translate-y-1/2 rounded-r-md',
+        'bg-sidebar-border/70 hover:bg-sidebar-border active:bg-sidebar-border/90',
+        'absolute -right-1 top-1/2 z-[9999] h-12 w-1 -translate-y-1/2 rounded-r-sm',
         'transition-all duration-300 ease-in-out cursor-pointer',
         className
       )}
@@ -66,9 +66,9 @@ export function SidebarInset({ className, ...props }: React.ComponentProps<'main
       data-slot="sidebar-inset"
       className={cn(
         'flex h-full flex-1 flex-col',
-        'p-4 group-data-[variant=inset]:ml-(--sidebar-width) transition-[margin] duration-200 ease-linear',
+        'p-0 group-data-[variant=inset]:ml-[var(--sidebar-width)] transition-[margin] duration-200 ease-linear',
         'group-data-[collapsible=offcanvas]:ml-0',
-        'group-data-[collapsible=icon]:ml-(--sidebar-width-icon)',
+        'group-data-[collapsible=icon]:ml-[var(--sidebar-width-icon)]',
         className
       )}
       {...props}
@@ -118,7 +118,7 @@ export function SidebarSeparator({ className, ...props }: React.ComponentProps<t
     <Separator
       data-sidebar="separator"
       data-slot="sidebar-separator"
-      className={cn('bg-sidebar-muted/50', className)}
+      className={cn('bg-sidebar-border/50', className)}
       {...props}
     />
   );
@@ -241,7 +241,7 @@ const sidebarMenuButtonVariants = cva(
     'group/button relative flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
     'ring-offset-background',
-    'hover:bg-sidebar-accent/80 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground data-[state=active]:hover:bg-sidebar-accent/90',
+    'hover:bg-primary/10 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:hover:bg-primary/15',
     'transition-all duration-200',
     'cursor-pointer',
   ],

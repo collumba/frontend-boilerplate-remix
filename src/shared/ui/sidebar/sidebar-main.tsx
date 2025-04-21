@@ -22,7 +22,7 @@ function StaticSidebar({ className, children, ...props }: Omit<SidebarProps, 'co
     <div
       data-slot="sidebar"
       className={cn(
-        'bg-sidebar text-sidebar-foreground flex h-full flex-col',
+        'bg-sidebar text-sidebar-foreground flex h-full flex-col border-r border-sidebar-border',
         'w-[var(--sidebar-width)]',
         className
       )}
@@ -114,7 +114,7 @@ function SidebarContainer({
     <div
       data-slot="sidebar-container"
       className={cn(
-        'fixed inset-y-0 z-10 flex flex-col h-screen bg-background transition-all duration-300 ease-in-out border-r shadow-sm',
+        'fixed inset-y-0 z-10 flex flex-col h-screen transition-all duration-300 ease-in-out',
         {
           'w-[var(--sidebar-width)]': !isCollapsed || collapsible === 'none',
           'w-[var(--sidebar-width-icon)]': isCollapsed && collapsible === 'icon',
@@ -124,10 +124,11 @@ function SidebarContainer({
             side === 'left' && isCollapsed && collapsible === 'offcanvas',
           'right-[calc(var(--sidebar-width)*-1)]':
             side === 'right' && isCollapsed && collapsible === 'offcanvas',
-          'border-r': side === 'left' && variant !== 'floating',
-          'border-l': side === 'right' && variant !== 'floating',
+          'border-r border-sidebar-border': side === 'left' && variant !== 'floating',
+          'border-l border-sidebar-border': side === 'right' && variant !== 'floating',
           'p-0': true,
           'p-2': variant === 'floating',
+          'shadow-sm': variant !== 'floating',
         },
         className
       )}
@@ -199,6 +200,13 @@ export function Sidebar({
 }: SidebarProps) {
   const { isMobile } = useSidebar();
 
+  // Use a ref to track if the component is mounted to avoid hydration issues
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Non-collapsible sidebar
   if (collapsible === 'none') {
     return (
@@ -206,6 +214,12 @@ export function Sidebar({
         {children}
       </StaticSidebar>
     );
+  }
+
+  // Only render based on isMobile after component is mounted
+  // This prevents hydration mismatches and flickering
+  if (!mounted) {
+    return null;
   }
 
   // Mobile sidebar

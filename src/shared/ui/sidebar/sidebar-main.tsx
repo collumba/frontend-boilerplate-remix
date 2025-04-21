@@ -62,6 +62,96 @@ function MobileSidebar({
   );
 }
 
+// Helper for rendering DesktopSidebar gap
+function SidebarGap({
+  isCollapsed,
+  collapsible,
+}: {
+  isCollapsed: boolean;
+  collapsible: string;
+  side: 'left' | 'right';
+}) {
+  return (
+    <div
+      data-slot="sidebar-gap"
+      className={cn(
+        'relative bg-transparent transition-all duration-300 ease-in-out',
+        {
+          'w-0': isCollapsed && collapsible === 'offcanvas',
+          'w-[var(--sidebar-width-icon)]': isCollapsed && collapsible === 'icon',
+          'w-[var(--sidebar-width)]': !isCollapsed || collapsible === 'none',
+        },
+        'group-data-[side=right]:rotate-180'
+      )}
+      style={
+        {
+          '--sidebar-width': SIDEBAR_WIDTH,
+          '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
+        } as React.CSSProperties
+      }
+    />
+  );
+}
+
+// Helper for rendering DesktopSidebar container
+function SidebarContainer({
+  isCollapsed,
+  collapsible,
+  side,
+  variant,
+  className,
+  children,
+  ...props
+}: {
+  isCollapsed: boolean;
+  collapsible: string;
+  side: 'left' | 'right';
+  variant: string;
+  className?: string;
+  children: React.ReactNode;
+} & React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="sidebar-container"
+      className={cn(
+        'fixed inset-y-0 z-10 flex flex-col h-screen bg-background transition-all duration-300 ease-in-out border-r shadow-sm',
+        {
+          'w-[var(--sidebar-width)]': !isCollapsed || collapsible === 'none',
+          'w-[var(--sidebar-width-icon)]': isCollapsed && collapsible === 'icon',
+          'left-0': side === 'left',
+          'right-0': side === 'right',
+          'left-[calc(var(--sidebar-width)*-1)]':
+            side === 'left' && isCollapsed && collapsible === 'offcanvas',
+          'right-[calc(var(--sidebar-width)*-1)]':
+            side === 'right' && isCollapsed && collapsible === 'offcanvas',
+          'border-r': side === 'left' && variant !== 'floating',
+          'border-l': side === 'right' && variant !== 'floating',
+          'p-0': true,
+          'p-2': variant === 'floating',
+        },
+        className
+      )}
+      style={
+        {
+          '--sidebar-width': SIDEBAR_WIDTH,
+          '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
+        } as React.CSSProperties
+      }
+      {...props}
+    >
+      <div
+        data-sidebar="sidebar"
+        data-slot="sidebar-inner"
+        className={cn('bg-sidebar flex h-full w-full flex-col overflow-hidden', {
+          'rounded-lg border border-sidebar-border shadow-sm': variant === 'floating',
+        })}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // Renders desktop sidebar with variants and collapsible modes
 function DesktopSidebar({
   side = 'left',
@@ -73,7 +163,6 @@ function DesktopSidebar({
 }: SidebarProps) {
   const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';
-  const width = isCollapsed && collapsible === 'icon' ? SIDEBAR_WIDTH_ICON : SIDEBAR_WIDTH;
 
   return (
     <div
@@ -84,63 +173,17 @@ function DesktopSidebar({
       data-side={side}
       data-slot="sidebar"
     >
-      {/* Sidebar gap for desktop */}
-      <div
-        data-slot="sidebar-gap"
-        className={cn(
-          'relative bg-transparent transition-all duration-300 ease-in-out',
-          {
-            'w-0': isCollapsed && collapsible === 'offcanvas',
-            'w-[var(--sidebar-width-icon)]': isCollapsed && collapsible === 'icon',
-            'w-[var(--sidebar-width)]': !isCollapsed || collapsible === 'none',
-          },
-          'group-data-[side=right]:rotate-180'
-        )}
-        style={
-          {
-            '--sidebar-width': SIDEBAR_WIDTH,
-            '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
-          } as React.CSSProperties
-        }
-      />
-      <div
-        data-slot="sidebar-container"
-        className={cn(
-          'fixed inset-y-0 z-10 flex flex-col h-screen bg-background transition-all duration-300 ease-in-out border-r shadow-sm',
-          {
-            'w-[var(--sidebar-width)]': !isCollapsed || collapsible === 'none',
-            'w-[var(--sidebar-width-icon)]': isCollapsed && collapsible === 'icon',
-            'left-0': side === 'left',
-            'right-0': side === 'right',
-            'left-[calc(var(--sidebar-width)*-1)]':
-              side === 'left' && isCollapsed && collapsible === 'offcanvas',
-            'right-[calc(var(--sidebar-width)*-1)]':
-              side === 'right' && isCollapsed && collapsible === 'offcanvas',
-            'border-r': side === 'left' && variant !== 'floating',
-            'border-l': side === 'right' && variant !== 'floating',
-            'p-0': true,
-            'p-2': variant === 'floating',
-          },
-          className
-        )}
-        style={
-          {
-            '--sidebar-width': SIDEBAR_WIDTH,
-            '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
-          } as React.CSSProperties
-        }
+      <SidebarGap isCollapsed={isCollapsed} collapsible={collapsible} side={side} />
+      <SidebarContainer
+        isCollapsed={isCollapsed}
+        collapsible={collapsible}
+        side={side}
+        variant={variant}
+        className={className}
         {...props}
       >
-        <div
-          data-sidebar="sidebar"
-          data-slot="sidebar-inner"
-          className={cn('bg-sidebar flex h-full w-full flex-col overflow-hidden', {
-            'rounded-lg border border-sidebar-border shadow-sm': variant === 'floating',
-          })}
-        >
-          {children}
-        </div>
-      </div>
+        {children}
+      </SidebarContainer>
     </div>
   );
 }

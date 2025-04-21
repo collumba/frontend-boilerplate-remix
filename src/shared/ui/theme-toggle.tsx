@@ -13,7 +13,7 @@ import { Button } from './button';
 import { cn } from './cn';
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useTheme();
+  const [, setTheme] = useTheme();
   const { t } = useTranslation();
   const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';

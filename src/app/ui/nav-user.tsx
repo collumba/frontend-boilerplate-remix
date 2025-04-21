@@ -63,7 +63,9 @@ export function NavUser() {
               )}
             >
               {renderUserInfo()}
-              {!isCollapsed && <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />}
+              {!isCollapsed && (
+                <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />
+              )}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -77,7 +79,7 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => handleLogout()} className="gap-2 px-2 py-1.5">
-              <LogOut className="h-4 w-4 text-foreground/70" />
+              <LogOut className="h-4 w-4 text-foreground/70" aria-hidden="true" />
               <span>{t('common.action.logout')}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

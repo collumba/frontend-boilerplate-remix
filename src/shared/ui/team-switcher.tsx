@@ -22,6 +22,7 @@ interface Team {
 
 // Renders the team icon component
 function TeamIcon({ team, isCollapsed }: { team: Team; isCollapsed: boolean }) {
+  const Icon = team.logo;
   return (
     <div
       className={cn(
@@ -29,7 +30,10 @@ function TeamIcon({ team, isCollapsed }: { team: Team; isCollapsed: boolean }) {
         isCollapsed ? 'h-10 w-10' : 'h-8 w-8'
       )}
     >
-      <team.logo className={cn('text-foreground', isCollapsed ? 'h-5 w-5' : 'h-4 w-4')} />
+      <Icon
+        className={cn('text-foreground', isCollapsed ? 'h-5 w-5' : 'h-4 w-4')}
+        aria-hidden="true"
+      />
     </div>
   );
 }
@@ -56,7 +60,7 @@ function TeamMenuItems({
           className="flex items-center gap-2 px-2 py-1.5"
         >
           <div className="flex h-6 w-6 items-center justify-center rounded-md border">
-            <team.logo className="h-3.5 w-3.5 shrink-0" />
+            <team.logo className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           </div>
           <span>{team.name}</span>
           <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
@@ -67,7 +71,7 @@ function TeamMenuItems({
 
       <DropdownMenuItem className="flex items-center gap-2 px-2 py-1.5">
         <div className="flex h-6 w-6 items-center justify-center rounded-md border bg-transparent">
-          <PlusIcon className="h-4 w-4" />
+          <PlusIcon className="h-4 w-4" aria-hidden="true" />
         </div>
         <span className="font-medium text-muted-foreground">Add team</span>
       </DropdownMenuItem>
@@ -103,7 +107,7 @@ export function TeamSwitcher({ teams }: { teams: Team[] }) {
                       {activeTeam.plan}
                     </span>
                   </div>
-                  <CaretSortIcon className="ml-auto h-4 w-4 opacity-50" />
+                  <CaretSortIcon className="ml-auto h-4 w-4 opacity-50" aria-hidden="true" />
                 </>
               )}
             </SidebarMenuButton>

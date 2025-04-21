@@ -25,12 +25,14 @@ export function ThemeToggle() {
           'rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0',
           isCollapsed ? 'h-5 w-5' : 'h-[18px] w-[18px]'
         )}
+        aria-hidden="true"
       />
       <Moon
         className={cn(
           'absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100',
           isCollapsed ? 'h-5 w-5' : 'h-[18px] w-[18px]'
         )}
+        aria-hidden="true"
       />
     </div>
   );
@@ -53,14 +55,14 @@ export function ThemeToggle() {
           onClick={() => setTheme(Theme.LIGHT)}
           className="flex items-center gap-2 px-2 py-1.5"
         >
-          <Sun className="h-4 w-4 text-foreground/70" />
+          <Sun className="h-4 w-4 text-foreground/70" aria-hidden="true" />
           <span>{t('theme.light')}</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme(Theme.DARK)}
           className="flex items-center gap-2 px-2 py-1.5"
         >
-          <Moon className="h-4 w-4 text-foreground/70" />
+          <Moon className="h-4 w-4 text-foreground/70" aria-hidden="true" />
           <span>{t('theme.dark')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

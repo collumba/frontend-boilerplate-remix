@@ -52,11 +52,15 @@ export function NavResources() {
                   'shrink-0 text-foreground',
                   isCollapsed ? 'h-5 w-5' : 'h-4 w-4 opacity-70'
                 )}
+                aria-hidden="true"
               />
               {!isCollapsed && (
                 <>
                   <span className="text-sm">{item.title}</span>
-                  <ChevronRightIcon className="ml-auto h-4 w-4 shrink-0 opacity-40" />
+                  <ChevronRightIcon
+                    className="ml-auto h-4 w-4 shrink-0 opacity-40"
+                    aria-hidden="true"
+                  />
                 </>
               )}
             </SidebarMenuButton>

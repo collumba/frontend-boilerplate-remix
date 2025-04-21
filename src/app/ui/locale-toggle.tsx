@@ -35,7 +35,7 @@ export function LocaleToggle() {
 
   const button = (
     <Button variant="ghost" size="icon">
-      <Languages />
+      <Languages aria-hidden="true" />
     </Button>
   );
 
@@ -49,7 +49,9 @@ export function LocaleToggle() {
             onClick={() => changeLanguage(locale.label)}
             className="flex items-center gap-2 px-2 py-1.5"
           >
-            {currentLocale?.label === locale.label && <Check className="size-4" />}
+            {currentLocale?.label === locale.label && (
+              <Check className="size-4" aria-hidden="true" />
+            )}
             <Typography variant="muted">{t(`locale.languages.${locale.label}`)}</Typography>
           </DropdownMenuItem>
         ))}

@@ -33,7 +33,7 @@ export function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon className="size-4" />
+      <PanelLeftIcon className="size-4" aria-hidden="true" />
       <span className="sr-only">Toggle sidebar</span>
     </Button>
   );

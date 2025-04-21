@@ -25,7 +25,7 @@ export default function AuthLayout() {
         <div className="flex justify-between gap-2 items-center">
           <Link href={ROUTES.app.root} variant="muted">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEnd className="size-4" />
+              <GalleryVerticalEnd className="size-4" aria-hidden="true" />
             </div>
             {t('app.applicationName')}
           </Link>

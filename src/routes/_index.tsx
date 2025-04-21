@@ -1,6 +1,7 @@
 import { MetaFunction } from '@remix-run/react';
 import { ROUTES } from '@shared/config/routes';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
+import { ClientIcon } from '@shared/ui/client-icon';
 import { Link } from '@shared/ui/link';
 import { Typography } from '@shared/ui/typography';
 import {
@@ -23,6 +24,7 @@ import {
   TestTube,
   Zap,
 } from 'lucide-react';
+import React from 'react';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Boilerplate' }, { name: 'description', content: 'Boilerplate' }];
@@ -31,7 +33,7 @@ export const meta: MetaFunction = () => {
 type Technology = {
   name: string;
   description: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   url: string;
   imageUrl: string;
   version: string;
@@ -43,7 +45,7 @@ const technologies: Technology[] = [
     name: 'Remix.run',
     description:
       'Framework web fullstack baseado em React para criar aplicações modernas e eficientes.',
-    icon: <Rocket className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Rocket} className="size-6 text-primary" />,
     url: 'https://remix.run/',
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREQaxnD9QlBXnZ7i7wV6EhBiuwO7S95PPXo0RiHAYPG73wQ7Pi7lSk-jU&usqp=CAE&s',
@@ -53,7 +55,7 @@ const technologies: Technology[] = [
     name: 'TypeScript',
     description:
       'Superset tipado de JavaScript que adiciona tipos estáticos para melhorar a qualidade do código.',
-    icon: <Code2 className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Code2} className="size-6 text-primary" />,
     url: 'https://www.typescriptlang.org/',
     imageUrl:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png',
@@ -63,7 +65,7 @@ const technologies: Technology[] = [
     name: 'React',
     description:
       'Biblioteca JavaScript para construção de interfaces de usuário baseadas em componentes.',
-    icon: <Component className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Component} className="size-6 text-primary" />,
     url: 'https://reactjs.org/',
     imageUrl:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png',
@@ -72,7 +74,7 @@ const technologies: Technology[] = [
   {
     name: 'Tailwind CSS',
     description: 'Framework CSS utilitário para criar designs personalizados sem sair do HTML.',
-    icon: <Palette className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Palette} className="size-6 text-primary" />,
     url: 'https://tailwindcss.com/',
     imageUrl: 'https://tailwindcss.com/_next/static/media/tailwindcss-mark.d52e9897.svg',
     version: '4.0.14',
@@ -80,7 +82,7 @@ const technologies: Technology[] = [
   {
     name: 'shadcn/ui',
     description: 'Componentes de UI reutilizáveis construídos com Radix UI e Tailwind CSS.',
-    icon: <Monitor className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Monitor} className="size-6 text-primary" />,
     url: 'https://ui.shadcn.com/',
     imageUrl: 'https://ui.shadcn.com/og.jpg',
     version: 'Baseado em Radix UI',
@@ -88,7 +90,7 @@ const technologies: Technology[] = [
   {
     name: 'i18next',
     description: 'Framework de internacionalização para aplicações JavaScript.',
-    icon: <Globe className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Globe} className="size-6 text-primary" />,
     url: 'https://www.i18next.com/',
     imageUrl: 'https://avatars.githubusercontent.com/u/8546082?s=200&v=4',
     version: '23.12.2',
@@ -96,7 +98,7 @@ const technologies: Technology[] = [
   {
     name: 'Vite',
     description: 'Ferramenta de build rápida para desenvolvimento moderno de aplicações web.',
-    icon: <Zap className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Zap} className="size-6 text-primary" />,
     url: 'https://vitejs.dev/',
     imageUrl: 'https://vitejs.dev/logo.svg',
     version: '5.4.14',
@@ -104,7 +106,7 @@ const technologies: Technology[] = [
   {
     name: 'Vitest',
     description: 'Framework de testes unitários rápido e simples, integrado ao Vite.',
-    icon: <TestTube className="size-6 text-primary" />,
+    icon: <ClientIcon icon={TestTube} className="size-6 text-primary" />,
     url: 'https://vitest.dev/',
     imageUrl: 'https://vitest.dev/logo.svg',
     version: '3.0.8',
@@ -112,7 +114,7 @@ const technologies: Technology[] = [
   {
     name: 'ESLint',
     description: 'Ferramenta de análise estática para identificar problemas no código JavaScript.',
-    icon: <Shield className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Shield} className="size-6 text-primary" />,
     url: 'https://eslint.org/',
     imageUrl: 'https://eslint.org/icon.svg',
     version: '8.57.1',
@@ -120,7 +122,7 @@ const technologies: Technology[] = [
   {
     name: 'Lucide React',
     description: 'Biblioteca de ícones open-source para React.',
-    icon: <BookOpen className="size-6 text-primary" />,
+    icon: <ClientIcon icon={BookOpen} className="size-6 text-primary" />,
     url: 'https://lucide.dev/',
     imageUrl: 'https://lucide.dev/logo.light.svg',
     version: '0.482.0',
@@ -128,7 +130,7 @@ const technologies: Technology[] = [
   {
     name: 'React Router',
     description: 'Biblioteca de roteamento para React.',
-    icon: <Route className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Route} className="size-6 text-primary" />,
     url: 'https://reactrouter.com/',
     imageUrl: 'https://images.seeklogo.com/logo-png/29/2/react-router-logo-png_seeklogo-294311.png',
     version: '6.26.0',
@@ -136,7 +138,7 @@ const technologies: Technology[] = [
   {
     name: 'React Hook Form',
     description: 'Biblioteca de formulários para React.',
-    icon: <FileSpreadsheet className="size-6 text-primary" />,
+    icon: <ClientIcon icon={FileSpreadsheet} className="size-6 text-primary" />,
     url: 'https://react-hook-form.com/',
     imageUrl: 'https://avatars.githubusercontent.com/u/53986236?v=4&s=400',
     version: '7.55.0',
@@ -144,7 +146,7 @@ const technologies: Technology[] = [
   {
     name: 'Zod',
     description: 'Biblioteca de validação de esquemas para TypeScript.',
-    icon: <FileText className="size-6 text-primary" />,
+    icon: <ClientIcon icon={FileText} className="size-6 text-primary" />,
     url: 'https://zod.dev/',
     imageUrl: 'https://zod.dev/logo.svg',
     version: '3.23.8',
@@ -152,7 +154,7 @@ const technologies: Technology[] = [
   {
     name: 'date-fns',
     description: 'Biblioteca de manipulação de datas para TypeScript.',
-    icon: <Calendar className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Calendar} className="size-6 text-primary" />,
     url: 'https://date-fns.org/',
     imageUrl: 'https://avatars.githubusercontent.com/u/14921202?s=200&v=4',
     version: '4.1.0',
@@ -160,7 +162,7 @@ const technologies: Technology[] = [
   {
     name: 'Tanstack Query',
     description: 'Biblioteca de gerenciamento de dados para React.',
-    icon: <Database className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Database} className="size-6 text-primary" />,
     url: 'https://tanstack.com/query/latest/docs/framework/react/react-native/overview.html',
     imageUrl: 'https://discord.do/wp-content/uploads/2023/08/TanStack.jpg',
     version: '5.59.1',
@@ -168,7 +170,7 @@ const technologies: Technology[] = [
   {
     name: 'React Table',
     description: 'Biblioteca de tabelas para React.',
-    icon: <Table className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Table} className="size-6 text-primary" />,
     url: 'https://tanstack.com/table/latest/docs/framework/react/react-native/overview.html',
     imageUrl: 'https://discord.do/wp-content/uploads/2023/08/TanStack.jpg',
     version: '8.10.0',
@@ -176,7 +178,7 @@ const technologies: Technology[] = [
   {
     name: 'Axios',
     description: 'Biblioteca de requisições HTTP para JavaScript.',
-    icon: <Server className="size-6 text-primary" />,
+    icon: <ClientIcon icon={Server} className="size-6 text-primary" />,
     url: 'https://axios-http.com/',
     imageUrl: 'https://axios-http.com/assets/logo.svg',
     version: '1.7.7',
@@ -184,7 +186,7 @@ const technologies: Technology[] = [
   {
     name: 'Radix UI',
     description: 'Biblioteca de componentes para React.',
-    icon: <PaintBucket className="size-6 text-primary" />,
+    icon: <ClientIcon icon={PaintBucket} className="size-6 text-primary" />,
     url: 'https://www.radix-ui.com/',
     imageUrl: 'https://avatars.githubusercontent.com/u/75042455?s=280&v=4',
     version: '1.1.6',

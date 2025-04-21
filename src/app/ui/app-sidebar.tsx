@@ -51,7 +51,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavResources />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
         <div
           className={cn(
             'flex gap-2 mx-auto mb-3',
@@ -61,6 +60,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <LocaleToggle />
           <ThemeToggle />
         </div>
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

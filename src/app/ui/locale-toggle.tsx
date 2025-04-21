@@ -9,15 +9,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@shared/ui/dropdown-menu';
-import { useSidebar } from '@shared/ui/sidebar';
 import { Typography } from '@shared/ui/typography';
 import { useTranslation } from 'react-i18next';
 
 export function LocaleToggle() {
   const { i18n, t } = useTranslation();
   const toast = useToastI18n();
-  const { state } = useSidebar();
-  const isCollapsed = state === 'collapsed';
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng).then(() => {
@@ -42,16 +39,12 @@ export function LocaleToggle() {
     <img
       src={`${env.LOCALE_RESOURCES}/${currentLocale?.flag}.svg`}
       alt={currentLocale?.label}
-      className={cn(isCollapsed ? 'h-6 w-6' : 'h-5 w-5')}
+      className="h-6 w-6"
     />
   );
 
   const button = (
-    <Button
-      variant="ghost"
-      size="icon"
-      className={cn('rounded-md', isCollapsed ? 'h-10 w-10' : 'h-9 w-9')}
-    >
+    <Button variant="ghost" size="icon" className={cn('rounded-md', 'h-10 w-10')}>
       {buttonContent}
     </Button>
   );

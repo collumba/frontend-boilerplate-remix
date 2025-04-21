@@ -6,8 +6,7 @@
     "orta.vscode-jest", // Testes (ou vitest)
     "yoavbls.pretty-ts-errors", // Mensagens de erro TS legíveis
     "meganrogge.template-string-converter", // Converter HTML/JSX para template string
-    "kisstkondoros.vscode-codemetrics", // Complexidade de código
-    "ms-azuretools.vscode-docker" // Docker (se for usado)
+    "kisstkondoros.vscode-codemetrics" // Complexidade de código
   ],
   "unwantedRecommendations": [
     "hookyqr.beautify", // Conflita com Prettier

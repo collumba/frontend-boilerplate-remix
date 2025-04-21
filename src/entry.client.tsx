@@ -1,4 +1,5 @@
 import { RemixBrowser } from '@remix-run/react';
+import { env } from '@shared/config/env';
 import { defaultNS, fallbackLng, supportedLngs } from '@shared/config/i18n';
 import { ROUTES } from '@shared/config/routes';
 import i18next from 'i18next';
@@ -21,12 +22,15 @@ async function main() {
       supportedLngs,
       ns: getInitialNamespaces(),
       detection: {
-        order: ['htmlTag'],
-        caches: [],
+        order: ['localStorage', 'cookie', 'htmlTag', 'navigator'],
+        lookupCookie: 'i18next',
+        lookupLocalStorage: 'i18nextLng',
+        caches: ['localStorage', 'cookie'],
       },
       backend: {
         loadPath: `${ROUTES.api.global.locales}?lng={{lng}}&ns={{ns}}`,
       },
+      debug: env.NODE_ENV === 'development',
     });
 
   startTransition(() => {
@@ -41,4 +45,4 @@ async function main() {
   });
 }
 
-main().catch((error) => console.error(error));
+main().catch(console.error);

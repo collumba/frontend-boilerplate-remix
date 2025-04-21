@@ -2,9 +2,12 @@ import { z } from 'zod';
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production']),
-  API_URL: z.string().url(),
-  LOCALE_RESOURCES: z.string().url(),
-  DOMAIN: z.string().url().default('http://localhost'),
+  API_URL: z.string().url().default('http://localhost:3000'),
+  LOCALE_RESOURCES: z
+    .string()
+    .url()
+    .default('https://purecatamphetamine.github.io/country-flag-icons/3x2/'),
+  DOMAIN: z.string().url().default('http://localhost:3000'),
 });
 
 const envVariables = {

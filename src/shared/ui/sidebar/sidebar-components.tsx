@@ -149,16 +149,16 @@ export function SidebarGroup({ className, ...props }: React.ComponentProps<'div'
 }
 
 // SidebarGroupLabel component
-export function SidebarGroupLabel({
-  className,
-  asChild = false,
-  ...props
-}: React.ComponentProps<'div'> & { asChild?: boolean }) {
+export const SidebarGroupLabel = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<'div'> & { asChild?: boolean }
+>(({ className, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'div';
   const { state } = useSidebar();
 
   return (
     <Comp
+      ref={ref}
       data-sidebar="group-label"
       data-slot="sidebar-group-label"
       className={cn(
@@ -169,19 +169,21 @@ export function SidebarGroupLabel({
       {...props}
     />
   );
-}
+});
+
+SidebarGroupLabel.displayName = 'SidebarGroupLabel';
 
 // SidebarGroupAction component
-export function SidebarGroupAction({
-  className,
-  asChild = false,
-  ...props
-}: React.ComponentProps<'button'> & { asChild?: boolean }) {
+export const SidebarGroupAction = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<'button'> & { asChild?: boolean }
+>(({ className, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'button';
   const { state } = useSidebar();
 
   return (
     <Comp
+      ref={ref}
       data-sidebar="group-action"
       data-slot="sidebar-group-action"
       className={cn(
@@ -192,7 +194,9 @@ export function SidebarGroupAction({
       {...props}
     />
   );
-}
+});
+
+SidebarGroupAction.displayName = 'SidebarGroupAction';
 
 // SidebarGroupContent component
 export function SidebarGroupContent({ className, ...props }: React.ComponentProps<'div'>) {
@@ -264,47 +268,56 @@ export interface SidebarMenuButtonProps
   isActive?: boolean;
 }
 
-export function SidebarMenuButton({
-  asChild = false,
-  className,
-  tooltip,
-  isActive = false,
-  size,
-  collapsed,
-  ...props
-}: SidebarMenuButtonProps) {
-  const Comp = asChild ? Slot : 'a';
-  const { state } = useSidebar();
+export const SidebarMenuButton = React.forwardRef<HTMLAnchorElement, SidebarMenuButtonProps>(
+  (
+    {
+      asChild = false,
+      className,
+      tooltip,
+      isActive = false,
+      size,
+      collapsed,
+      ...props
+    }: SidebarMenuButtonProps,
+    ref
+  ) => {
+    const Comp = asChild ? Slot : 'a';
+    const { state } = useSidebar();
 
-  const isTooltipRequired = state === 'collapsed' && tooltip && collapsed !== false;
+    const isTooltipRequired = state === 'collapsed' && tooltip && collapsed !== false;
 
-  if (isTooltipRequired) {
+    if (isTooltipRequired) {
+      return (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Comp
+              ref={ref}
+              data-sidebar="menu-button"
+              data-slot="sidebar-menu-button"
+              data-state={isActive ? 'active' : 'inactive'}
+              className={cn(sidebarMenuButtonVariants({ size, collapsed, className }))}
+              {...props}
+            />
+          </TooltipTrigger>
+          <TooltipContent side="right">{tooltip}</TooltipContent>
+        </Tooltip>
+      );
+    }
+
     return (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Comp
-            data-sidebar="menu-button"
-            data-slot="sidebar-menu-button"
-            data-state={isActive ? 'active' : 'inactive'}
-            className={cn(sidebarMenuButtonVariants({ size, collapsed, className }))}
-            {...props}
-          />
-        </TooltipTrigger>
-        <TooltipContent side="right">{tooltip}</TooltipContent>
-      </Tooltip>
+      <Comp
+        ref={ref}
+        data-sidebar="menu-button"
+        data-slot="sidebar-menu-button"
+        data-state={isActive ? 'active' : 'inactive'}
+        className={cn(sidebarMenuButtonVariants({ size, collapsed, className }))}
+        {...props}
+      />
     );
   }
+);
 
-  return (
-    <Comp
-      data-sidebar="menu-button"
-      data-slot="sidebar-menu-button"
-      data-state={isActive ? 'active' : 'inactive'}
-      className={cn(sidebarMenuButtonVariants({ size, collapsed, className }))}
-      {...props}
-    />
-  );
-}
+SidebarMenuButton.displayName = 'SidebarMenuButton';
 
 // SidebarMenuSkeleton component
 export function SidebarMenuSkeleton({
@@ -358,21 +371,19 @@ export function SidebarMenuSubItem({ className, ...props }: React.ComponentProps
 }
 
 // SidebarMenuSubButton component
-export function SidebarMenuSubButton({
-  asChild = false,
-  size = 'md',
-  isActive = false,
-  className,
-  ...props
-}: React.ComponentProps<'a'> & {
-  asChild?: boolean;
-  size?: 'sm' | 'md';
-  isActive?: boolean;
-}) {
+export const SidebarMenuSubButton = React.forwardRef<
+  HTMLAnchorElement,
+  React.ComponentProps<'a'> & {
+    asChild?: boolean;
+    size?: 'sm' | 'md';
+    isActive?: boolean;
+  }
+>(({ asChild = false, size = 'md', isActive = false, className, ...props }, ref) => {
   const Comp = asChild ? Slot : 'a';
 
   return (
     <Comp
+      ref={ref}
       data-sidebar="menu-sub-button"
       data-slot="sidebar-menu-sub-button"
       data-state={isActive ? 'active' : 'inactive'}
@@ -385,4 +396,6 @@ export function SidebarMenuSubButton({
       {...props}
     />
   );
-}
+});
+
+SidebarMenuSubButton.displayName = 'SidebarMenuSubButton';

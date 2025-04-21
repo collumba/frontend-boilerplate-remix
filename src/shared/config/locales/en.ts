@@ -76,11 +76,12 @@ export default {
     dark: 'Dark',
   },
   locale: {
-    toggle: 'Toggle locale',
+    toggle: 'Toggle language',
     languages: {
       en: 'English',
       es: 'Spanish',
       'pt-BR': 'Portuguese (Brazil)',
+      changed: 'Language changed to {{language}}',
     },
   },
   common: {

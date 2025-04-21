@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { vitePlugin as remix } from '@remix-run/dev';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
@@ -33,5 +34,18 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['react', 'react-dom'],
+  },
+  define: {
+    'process.env': {},
+    'process.platform': JSON.stringify(''),
+    'process.version': JSON.stringify(''),
+    'process.versions': JSON.stringify({}),
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/app/config/test-setup.ts'],
+    include: ['./src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
   },
 });

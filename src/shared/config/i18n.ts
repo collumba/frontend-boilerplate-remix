@@ -1,7 +1,9 @@
-import * as enTranslation from '@shared/config/locales/en';
-import * as esTranslation from '@shared/config/locales/es';
-import * as ptBRTranslation from '@shared/config/locales/pt-BR';
-import { serverOnly$ } from 'vite-env-only/macros';
+import enTranslation from '@shared/config/locales/en';
+import esTranslation from '@shared/config/locales/es';
+import ptBRTranslation from '@shared/config/locales/pt-BR';
+// Remove the serverOnly macro which is preventing client access
+// import { serverOnly$ } from 'vite-env-only/macros';
+
 // This is the list of languages your application supports, the last one is your
 // fallback language
 export const supportedLngsConfig = [
@@ -28,8 +30,9 @@ export const fallbackLng = 'en';
 // The default namespace of i18next is "translation", but you can customize it
 export const defaultNS = 'translation';
 
-export const resources = serverOnly$({
+// Make resources available on both client and server
+export const resources = {
   en: { translation: enTranslation },
   es: { translation: esTranslation },
   'pt-BR': { translation: ptBRTranslation },
-});
+};

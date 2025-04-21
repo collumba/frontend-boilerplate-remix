@@ -46,11 +46,12 @@ export default {
     dark: 'Dark',
   },
   locale: {
-    toggle: 'Toggle locale',
+    toggle: 'Cambiar idioma',
     languages: {
-      en: 'English',
-      es: 'Spanish',
-      'pt-BR': 'Portuguese (Brazil)',
+      en: 'Inglés',
+      es: 'Español',
+      'pt-BR': 'Portugués (Brasil)',
+      changed: 'Idioma cambiado a {{language}}',
     },
   },
   common: {

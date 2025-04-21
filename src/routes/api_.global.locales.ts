@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  const languages = resources!;
+  const languages = resources;
   const lng = z
     .string()
     .refine((lng): lng is keyof typeof languages => Object.keys(languages).includes(lng))
@@ -29,6 +29,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
         staleIfError: '7d',
       })
     );
+  } else {
+    // Disable cache in development
+    headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    headers.set('Pragma', 'no-cache');
+    headers.set('Expires', '0');
   }
 
   return json(namespaces[ns], { headers });

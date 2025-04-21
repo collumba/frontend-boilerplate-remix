@@ -72,6 +72,7 @@ export default {
       en: 'Inglês',
       es: 'Espanhol',
       'pt-BR': 'Português (Brasil)',
+      changed: 'Idioma alterado para {{language}}',
     },
   },
   common: {

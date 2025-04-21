@@ -81,8 +81,9 @@ export default {
       en: 'English',
       es: 'Spanish',
       'pt-BR': 'Portuguese (Brazil)',
-      changed: 'Language changed to {{language}}',
+      pt: 'Portuguese',
     },
+    changed: 'Language changed to {{language}}',
   },
   common: {
     action: {

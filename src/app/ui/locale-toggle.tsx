@@ -1,8 +1,6 @@
 import { useToastI18n } from '@features/toast/model/context';
-import { env } from '@shared/config/env';
 import { supportedLngsConfig } from '@shared/config/i18n';
 import { Button } from '@shared/ui/button';
-import { cn } from '@shared/ui/cn';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@shared/ui/dropdown-menu';
 import { Typography } from '@shared/ui/typography';
+import { Check, Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export function LocaleToggle() {
@@ -35,17 +34,9 @@ export function LocaleToggle() {
 
   const currentLocale = getLocales().find((locale) => locale.label === i18n.language);
 
-  const buttonContent = (
-    <img
-      src={`${env.LOCALE_RESOURCES}/${currentLocale?.flag}.svg`}
-      alt={currentLocale?.label}
-      className="h-6 w-6"
-    />
-  );
-
   const button = (
-    <Button variant="ghost" size="icon" className={cn('rounded-md', 'h-10 w-10')}>
-      {buttonContent}
+    <Button variant="outline" size="icon">
+      <Languages />
     </Button>
   );
 
@@ -59,11 +50,7 @@ export function LocaleToggle() {
             onClick={() => changeLanguage(locale.label)}
             className="flex items-center gap-2 px-2 py-1.5"
           >
-            <img
-              src={`${env.LOCALE_RESOURCES}/${locale.flag}.svg`}
-              alt={locale.label}
-              className="h-4 w-4"
-            />
+            {currentLocale?.label === locale.label && <Check className="size-4" />}
             <Typography variant="muted">{t(`locale.languages.${locale.label}`)}</Typography>
           </DropdownMenuItem>
         ))}

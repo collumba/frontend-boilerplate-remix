@@ -19,6 +19,10 @@ export const supportedLngsConfig = [
     language: 'pt-BR',
     flag: 'BR',
   },
+  {
+    language: 'pt',
+    flag: 'PT',
+  },
 ];
 
 export const supportedLngs = supportedLngsConfig.map((lng) => lng.language);
@@ -35,4 +39,5 @@ export const resources = {
   en: { translation: enTranslation },
   es: { translation: esTranslation },
   'pt-BR': { translation: ptBRTranslation },
+  pt: { translation: ptBRTranslation },
 };

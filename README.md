@@ -1,198 +1,232 @@
 # Remix Boilerplate
 
-Um projeto boilerplate para aplicações web frontend utilizando Remix.run e TypeScript.
+A frontend web application boilerplate project using Remix.run and TypeScript.
 
-## Tecnologias Utilizadas
+## Technologies Used
 
-- **Remix.run** - Framework web fullstack baseado em React
-- **TypeScript** - Superset tipado de JavaScript
-- **Tailwind CSS** - Framework CSS utilitário
-- **React** - Biblioteca JavaScript para construção de interfaces
+- **Remix.run** (v2.5.0) - Full-stack web framework based on React
+- **React** (v18.2.0) - JavaScript library for building user interfaces
+- **TypeScript** (v5.8.2) - Typed superset of JavaScript
+- **Tailwind CSS** (v4.0.14) - Utility-first CSS framework
+- **Vite** (v5.4.14) - Fast build tool for modern web development
+- **shadcn/ui** - Reusable UI components built with Radix UI and Tailwind CSS
+- **Radix UI** (v1.1.6) - Unstyled, accessible UI components for React
+- **React Router** (v6.26.0) - Routing library for React
+- **React Hook Form** (v7.55.0) - Form library for React
+- **Zod** (v3.23.8) - TypeScript-first schema validation
+- **Tanstack Query** (v5.59.1) - Data fetching and state management library
+- **Tanstack Table** (v8.10.0) - Headless UI for building powerful tables
+- **i18next** (v23.12.2) - Internationalization framework
+- **Axios** (v1.7.7) - Promise-based HTTP client
+- **date-fns** (v4.1.0) - JavaScript date utility library
+- **Lucide React** (v0.482.0) - Icon library for React
+- **ESLint** (v8.57.1) - Static code analysis tool
+- **Vitest** (v3.0.8) - Fast Vite-based testing framework
 
-## Project Structure
+## Architecture
 
-This project follows the Feature Slice Design architecture pattern and uses:
+This project follows the Feature Slice Design (FSD) architecture pattern, which organizes code by business domains and technical layers.
 
-1. "src" as the root directory instead of traditional "app"
-2. "pages" directory instead of "routes" for Remix routes
+### Project Structure
 
-## Estrutura do Projeto
+- `src/` - Main source directory
+  - `app/` - Application layer: global configuration, providers, styles
+  - `routes/` - Routing layer: route components and layouts
+  - `widgets/` - Composite UI blocks used on pages
+  - `features/` - Business logic and UI for specific use cases
+  - `entities/` - Business entities with their data models and basic UI
+  - `shared/` - Reusable code, UI kit, utilities
 
-O projeto segue uma estrutura organizada para facilitar o desenvolvimento:
+### Layer Dependencies
 
-- `app/components` - Componentes React reutilizáveis
-- `app/hooks` - Hooks personalizados do React
-- `app/routes` - Rotas da aplicação Remix
-- `app/styles` - Estilos e configurações do Tailwind
-- `app/utils` - Funções utilitárias
-- `app/types` - Definições de tipos TypeScript
+The project follows a strict dependency rule where each layer can only import from layers below it:
 
-## Funcionalidades
+- `app` can import from `shared`, `entities`, `features`, `widgets`
+- `routes` can import from `app`, `widgets`, `features`, `entities`, `shared`
+- `widgets` can import from `features`, `entities`, `shared`
+- `features` can import from `entities`, `shared`
+- `entities` can import from `shared`
+- `shared` has no dependencies on other layers
 
-Este boilerplate inclui:
+## Features
 
-- Configuração completa do Remix com TypeScript
-- Integração com Tailwind CSS para estilização
-- Layout responsivo com suporte a tema claro/escuro
-- Componente de exemplo (Todo) com gerenciamento de estado
-- Hooks personalizados para lógica reutilizável
-- Funções utilitárias para tarefas comuns
-
-## Implementações Detalhadas
-
-O boilerplate contém as seguintes implementações:
+This boilerplate includes:
 
 1. **Core Framework**:
 
-   - Remix.run setup com TypeScript
-   - Integração com React 18
-   - React Query para busca e cache de dados
+   - Remix.run setup with TypeScript
+   - React 18 integration
+   - React Query for data fetching and caching
 
-2. **Sistema de Componentes UI**:
+2. **UI Component System**:
 
-   - Biblioteca abrangente com mais de 35 componentes:
-     - Básicos: Button, Input, Textarea, Select
-     - Avançados: DataTable, MultiSelect, MaskedInput
-     - Layout: Card, Dialog, Popover, Sidebar
-     - Feedback: Toast, Skeleton, EmptyState
-     - Componentes de formulário com suporte a validação
-   - Componentes responsivos
-   - Alternância de temas (modo claro/escuro)
+   - Comprehensive component library with 35+ components
+   - Basic components: Button, Input, Textarea, Select
+   - Advanced components: DataTable, Popover, Dialog
+   - Form components with validation support
+   - Responsive components
+   - Theme switching (light/dark mode)
 
-3. **Autenticação & Autorização**:
+3. **Authentication & Authorization**:
 
-   - Sistema de autenticação com formulários de login/registro
-   - Contexto e hooks de autenticação
-   - Rotas protegidas
+   - Authentication system with login/register forms
+   - Authentication context and hooks
+   - Protected routes
 
-4. **Internacionalização (i18n)**:
+4. **Internationalization (i18n)**:
 
-   - Suporte para múltiplos idiomas
-   - Componente de troca de idioma
-   - Conteúdo localizado
+   - Support for multiple languages
+   - Language switching component
+   - Localized content
 
-5. **Formulários & Validação**:
+5. **Forms & Validation**:
 
-   - Componentes de formulário com validação
-   - Formulário de entidade com manipulação de dados complexos
-   - Suporte a input com máscara
+   - Form components with validation
+   - Entity forms with complex data handling
+   - Support for masked inputs
 
-6. **Gerenciamento de Dados**:
+6. **Data Management**:
 
-   - Camada de serviço API
-   - Hooks para busca de dados (useTable, useDataTable)
+   - API service layer
+   - Data fetching hooks (useTable, useDataTable)
 
-7. **Navegação & Layout**:
+7. **Navigation & Layout**:
 
-   - Sidebar da aplicação
-   - Componentes de navegação (NavMain, NavUser, NavProjects)
-   - Layouts de página
-   - Navegação por breadcrumb
+   - Application sidebar
+   - Navigation components
+   - Page layouts
+   - Breadcrumb navigation
 
-8. **Roteamento**:
+8. **Routing**:
 
-   - Estrutura de rotas aninhadas
-   - Roteamento baseado em layout
-   - Rotas de API para funcionalidades de backend
+   - Nested route structure
+   - Layout-based routing
+   - API routes for backend functionality
 
-9. **Gerenciamento de Estado**:
+9. **State Management**:
 
-   - Implementação da Context API
-   - React Query para estado do servidor
-   - Hooks personalizados para gerenciamento de estado
+   - Context API implementation
+   - React Query for server state
+   - Custom hooks for state management
 
-10. **Estilização & Sistema de Design**:
+10. **Styling & Design System**:
 
-    - Integração com Tailwind CSS
-    - Padrões consistentes de UI/UX
-    - Sistema de tipografia
-    - Tematização personalizada
+    - Tailwind CSS integration
+    - Consistent UI/UX patterns
+    - Typography system
+    - Custom theming
 
-11. **Utilitários**:
+11. **Utilities**:
 
-    - Sistema de notificações toast
-    - Gerenciamento de cookies
-    - Formatação de datas
-    - Componentes apenas para cliente
-    - Tratamento de erros
+    - Toast notification system
+    - Cookie management
+    - Date formatting
+    - Client-only components
+    - Error handling
 
-12. **Experiência do Desenvolvedor**:
+12. **Developer Experience**:
 
-    - Configuração TypeScript
-    - Configuração ESLint
-    - Integração com VS Code
-    - Documentação
+    - TypeScript configuration
+    - ESLint setup
+    - VS Code integration
+    - Documentation
+    - Component generation scripts
 
-13. **Integração com API**:
+13. **API Integration**:
 
-    - Wrapper Fetch
-    - Manipulação de requisições/respostas
-    - Tratamento de erros
+    - Axios wrapper
+    - Request/response handling
+    - Error handling
 
-14. **Configuração de Testes**:
-    - Configuração Vitest para testes
+14. **Testing Configuration**:
+    - Vitest setup for testing
 
-## Começando
+## Getting Started
 
-### Pré-requisitos
+### Prerequisites
 
-- Node.js (versão 20.0.0 ou superior)
-- npm (incluído com Node.js)
+- Node.js (version 20.0.0 or higher)
+- npm or yarn
 
-### Instalação
+### Installation
 
-1. Clone o repositório:
+1. Clone the repository:
 
    ```bash
-   git clone https://github.com/seu-usuario/frontend-boilerplate-remix.git
+   git clone https://github.com/your-username/frontend-boilerplate-remix.git
    cd frontend-boilerplate-remix
    ```
 
-2. Instale as dependências:
+2. Install dependencies:
 
    ```bash
    rm -rf .vite .cache node_modules build && npm install
+   # or
+   rm -rf .vite .cache node_modules build && yarn
    ```
 
-3. Inicie o servidor de desenvolvimento:
+3. Start the development server:
 
    ```bash
-   rm -rf .vite .cache node_modules build
-   npm install
    npm run dev
+   # or
+   yarn dev
    ```
 
-4. Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver a aplicação.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-## Scripts Disponíveis
+## Available Scripts
 
-- `npm run dev` - Inicia o servidor de desenvolvimento
-- `npm run build` - Compila o projeto para produção
-- `npm start` - Inicia o servidor de produção
-- `npm run typecheck` - Verifica os tipos TypeScript
-- `npm run lint` - Executa o linter para verificar o código
+- `npm run dev` - Start the development server
+- `npm run build` - Build the project for production
+- `npm run start` - Start the production server
+- `npm run typecheck` - Check TypeScript types
+- `npm run lint` - Run the linter to check code
+- `npm run lint:fix` - Run the linter and fix issues
+- `npm run format` - Format code with Prettier
+- `npm run test` - Run tests
+- `npm run test:ui` - Run tests with UI
+- `npm run test:coverage` - Run tests with coverage
+- `npm run test:watch` - Run tests in watch mode
+- `npm run gen:feature` - Generate a new feature
+- `npm run gen:entity` - Generate a new entity
+- `npm run gen:shared` - Generate a new shared module
+- `npm run gen:component` - Generate a new component
 
-## Implantação
+## Code Generation
 
-Para implantar a aplicação em produção:
+This boilerplate includes scripts to generate new features, entities, shared modules, and components according to the Feature Slice Design architecture:
 
-1. Execute o comando de build:
+- `npm run gen:feature` - Generate a new feature
+- `npm run gen:entity` - Generate a new entity
+- `npm run gen:shared` - Generate a new shared module
+- `npm run gen:component` - Generate a new component
+
+## Deployment
+
+To deploy the application to production:
+
+1. Build the project:
 
    ```bash
    npm run build
+   # or
+   yarn build
    ```
 
-2. Inicie o servidor de produção:
+2. Start the production server:
    ```bash
-   npm start
+   npm run start
+   # or
+   yarn start
    ```
 
-Para mais informações sobre implantação, consulte a [documentação do Remix](https://remix.run/docs/en/main/guides/deployment).
+For more information about deployment, see the [Remix documentation](https://remix.run/docs/en/main/guides/deployment).
 
-## Contribuindo
+## Contributing
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
-## Licença
+## License
 
-Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para mais detalhes.
+This project is licensed under the MIT License - see the LICENSE file for details.

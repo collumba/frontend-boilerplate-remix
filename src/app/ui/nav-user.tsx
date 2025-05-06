@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthContext } from '@features/auth/contexts/auth-context';
+import { useAuthContext } from '@features/auth';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { cn } from '@shared/ui/cn';

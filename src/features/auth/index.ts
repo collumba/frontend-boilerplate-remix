@@ -7,7 +7,10 @@
  * - Internal implementation details stay within the feature
  */
 
-// Public API - Components
+// Public API - UI Components
 export * from './ui';
+
+// Public API - Model (types, hooks, context)
+export * from './model';
 
 // No direct export of lib and config as they are internal implementation details

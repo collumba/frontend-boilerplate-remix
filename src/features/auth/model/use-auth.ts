@@ -4,21 +4,7 @@ import { ROUTES } from '@shared/config/routes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  confirmed: boolean;
-  blocked: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface AuthData {
-  isAuthenticated: boolean;
-  user: User | null;
-}
+import { AuthData, User } from './types';
 
 // Custom hook to check authentication status
 function useAuthCheck(setAuthState: (data: AuthData) => void) {

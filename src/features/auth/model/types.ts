@@ -1,8 +1,6 @@
-import { useAuth } from '@features/auth/hooks/useAuth';
 import { QueryObserverResult, RefetchOptions, UseMutateFunction } from '@tanstack/react-query';
-import { createContext, ReactNode, useContext } from 'react';
 
-interface User {
+export interface User {
   id: number;
   username: string;
   email: string;
@@ -18,7 +16,7 @@ export interface AuthResponse {
   user: User;
 }
 
-interface AuthContextType {
+export interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   isLoading: boolean;
@@ -44,21 +42,7 @@ interface AuthContextType {
   >;
 }
 
-// Criar contexto com um valor padrão vazio
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// Hook personalizado para usar o contexto
-export function useAuthContext() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuthContext deve ser usado dentro de um AuthProvider');
-  }
-  return context;
-}
-
-// Provider do contexto de autenticação
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const auth = useAuth();
-
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+export interface AuthData {
+  isAuthenticated: boolean;
+  user: User | null;
 }

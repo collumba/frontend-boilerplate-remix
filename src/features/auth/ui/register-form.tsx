@@ -3,7 +3,7 @@
 // App layer imports (allowed in features)
 // Shared layer imports
 import { authService } from '@features/auth/api/auth';
-import { useAuthContext } from '@features/auth/contexts/auth-context';
+import { useAuthContext } from '@features/auth';
 // Feature layer imports
 import { useToast } from '@features/toast';
 import { useNavigate } from '@remix-run/react';

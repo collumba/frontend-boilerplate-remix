@@ -1,11 +1,18 @@
-// API exports
-export { jsonWithToastNotification, redirectWithToastNotification } from './api/server';
-export type { ToastMessage } from './api/session';
-export { clearToastMessages, getToastMessages, setToastMessage } from './api/session';
+/**
+ * Toast Feature
+ *
+ * Public API for the toast feature according to Feature-Sliced Design pattern.
+ * Each layer is explicitly exported through its public API.
+ */
 
-// Model exports
-export { ToastProvider, useToast, useToastI18n } from './model/context';
+// Entities layer
+// (No entity exports for this feature)
 
-// UI exports
-export { ToastContainer } from './ui/toast-container';
-export { Toast, ToastDescription, ToastTitle } from './ui/toast-primitive';
+// Export API layer
+export * from './api/public';
+
+// Export Model layer
+export * from './model/public';
+
+// Export UI layer
+export * from './ui/public';

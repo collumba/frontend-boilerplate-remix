@@ -1,9 +1,11 @@
 import { createCookieSessionStorage, Session } from '@remix-run/node';
 import { env } from '@shared/config/env';
+import { TOAST_COOKIE_NAME, TOAST_COOKIE_PATH, TOAST_COOKIE_SECRET } from '../config';
+import { ToastType } from '../constants';
 
 export type ToastMessage = {
   id: string;
-  type: 'success' | 'error' | 'warning' | 'info' | 'default';
+  type: ToastType;
   title: string;
   description?: string;
   createdAt: number;
@@ -15,11 +17,11 @@ const domain = env.DOMAIN;
 // Create session storage for toasts
 const toastSessionStorage = createCookieSessionStorage({
   cookie: {
-    name: 'toast_messages',
-    path: '/',
+    name: TOAST_COOKIE_NAME,
+    path: TOAST_COOKIE_PATH,
     httpOnly: true,
     sameSite: 'lax',
-    secrets: ['toast_secret'],
+    secrets: [TOAST_COOKIE_SECRET],
     // only domain and secure in production
     ...(isProduction ? { domain, secure: true } : {}),
   },

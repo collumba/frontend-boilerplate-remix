@@ -2,7 +2,8 @@ import { useMatches } from '@remix-run/react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import type { ToastMessage } from '@/features/toast/api/session';
+import type { ToastMessage } from '../api/session';
+import { ToastType } from '../constants';
 
 export type ToastAction = {
   addToast: (toast: Omit<ToastMessage, 'id' | 'createdAt'>) => void;
@@ -40,7 +41,7 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: 'success',
+        type: ToastType.SUCCESS,
         title: customTitle || t('component.toast.success.title'),
         description: t(key, options),
       });
@@ -51,7 +52,7 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: 'error',
+        type: ToastType.ERROR,
         title: customTitle || t('component.toast.error.title'),
         description: t(key, options),
       });
@@ -62,7 +63,7 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: 'warning',
+        type: ToastType.WARNING,
         title: customTitle || t('component.toast.warning.title'),
         description: t(key, options),
       });
@@ -73,7 +74,7 @@ export function useToastI18n() {
       customTitle?: string
     ) => {
       actions.addToast({
-        type: 'info',
+        type: ToastType.INFO,
         title: customTitle || t('component.toast.info.title'),
         description: t(key, options),
       });

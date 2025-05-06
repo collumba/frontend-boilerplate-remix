@@ -1,9 +1,8 @@
 import * as React from 'react';
 
+import { TOAST_TIMEOUT } from '../config';
 import { ToastMessage, useToast } from './internal';
 import { Toast, ToastDescription, ToastTitle } from './toast-primitive';
-
-const TOAST_TIMEOUT = 5000; // 5 seconds
 
 interface ToastItemProps {
   toast: ToastMessage;

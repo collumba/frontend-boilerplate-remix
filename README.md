@@ -225,7 +225,7 @@ For more information about deployment, see the [Remix documentation](https://rem
 
 ## Contributing
 
-Contributions are welcome! Feel free to open issues or submit pull requests.
+Contributions are welcome! Feel free to open issues or submit pull requests. For more details about contributing, please check the [TODO.md](./TODO.md) file.
 
 ## License
 

@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@shared/ui/sidebar';
-import { AlertOctagon, Languages } from 'lucide-react';
+import { AlertOctagon, Book, Languages } from 'lucide-react';
 
 export function NavResources() {
   const navigate = useNavigate();
@@ -21,15 +21,9 @@ export function NavResources() {
 
   const items = [
     {
-      title: 'Toasts',
-      url: ROUTES.app.root + '/resources/toasts',
-      icon: AlertOctagon,
-      isActive: false,
-    },
-    {
-      title: 'Translation',
-      url: ROUTES.app.root + '/resources/translation',
-      icon: Languages,
+      title: 'Exemple',
+      url: ROUTES.app.root + '/',
+      icon: Book,
       isActive: false,
     },
   ];
